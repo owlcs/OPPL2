@@ -36,32 +36,37 @@ import org.semanticweb.owlapi.model.OWLAxiomChange;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.RemoveAxiom;
 
-/** Adapts actions to appropriate changes
+/**
+ * Adapts actions to appropriate changes
  * 
- * @author Luigi Iannone */
+ * @author Luigi Iannone
+ */
 public class ActionFactory {
-    /** @param actionType
-     *            actionType
+
+    /**
+     * @param actionType
+     *        actionType
      * @param axiom
-     *            axiom
+     *        axiom
      * @param cs
-     *            cs
+     *        cs
      * @param ontology
-     *            ontology
+     *        ontology
      * @param runtimeExcpetionHandler
-     *            runtimeExcpetionHandler
-     * @return list of changes */
+     *        runtimeExcpetionHandler
+     * @return list of changes
+     */
     public static List<OWLAxiomChange> createChanges(ActionType actionType,
-            OWLAxiom axiom, ConstraintSystem cs, OWLOntology ontology,
-            RuntimeExceptionHandler runtimeExcpetionHandler) {
-        Set<OWLAxiomChange> toReturn = new HashSet<OWLAxiomChange>();
+        OWLAxiom axiom, ConstraintSystem cs, OWLOntology ontology,
+        RuntimeExceptionHandler runtimeExcpetionHandler) {
+        Set<OWLAxiomChange> toReturn = new HashSet<>();
         Set<BindingNode> leaves = cs.getLeaves();
         if (leaves != null) {
             for (BindingNode bindingNode : leaves) {
                 SimpleValueComputationParameters parameters = new SimpleValueComputationParameters(
-                        cs, bindingNode, runtimeExcpetionHandler);
+                    cs, bindingNode, runtimeExcpetionHandler);
                 PartialOWLObjectInstantiator instatiator = new PartialOWLObjectInstantiator(
-                        parameters);
+                    parameters);
                 OWLAxiom instantiatedAxiom = (OWLAxiom) axiom.accept(instatiator);
                 switch (actionType) {
                     case ADD:
@@ -86,27 +91,29 @@ public class ActionFactory {
                     break;
             }
         }
-        return new ArrayList<OWLAxiomChange>(toReturn);
+        return new ArrayList<>(toReturn);
     }
 
-    /** @param actionType
-     *            actionType
+    /**
+     * @param actionType
+     *        actionType
      * @param axiom
-     *            axiom
+     *        axiom
      * @param cs
-     *            cs
+     *        cs
      * @param ontologies
-     *            ontologies
+     *        ontologies
      * @param runtimeExceptionHandler
-     *            runtimeExceptionHandler
-     * @return the List of OWLAxiomChange */
+     *        runtimeExceptionHandler
+     * @return the List of OWLAxiomChange
+     */
     public static List<OWLAxiomChange> createChanges(ActionType actionType,
-            OWLAxiom axiom, ConstraintSystem cs, Set<OWLOntology> ontologies,
-            RuntimeExceptionHandler runtimeExceptionHandler) {
-        List<OWLAxiomChange> toReturn = new ArrayList<OWLAxiomChange>();
+        OWLAxiom axiom, ConstraintSystem cs, Set<OWLOntology> ontologies,
+        RuntimeExceptionHandler runtimeExceptionHandler) {
+        List<OWLAxiomChange> toReturn = new ArrayList<>();
         for (OWLOntology ontology : ontologies) {
             toReturn.addAll(createChanges(actionType, axiom, cs, ontology,
-                    runtimeExceptionHandler));
+                runtimeExceptionHandler));
         }
         return toReturn;
     }

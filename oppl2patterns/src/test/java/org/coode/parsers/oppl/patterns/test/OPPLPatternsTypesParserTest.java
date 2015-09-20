@@ -5,12 +5,7 @@ import static org.junit.Assert.*;
 
 import java.util.List;
 
-import org.antlr.runtime.ANTLRStringStream;
-import org.antlr.runtime.RecognitionException;
-import org.antlr.runtime.RuleReturnScope;
-import org.antlr.runtime.Token;
-import org.antlr.runtime.TokenRewriteStream;
-import org.antlr.runtime.TokenStream;
+import org.antlr.runtime.*;
 import org.antlr.runtime.tree.CommonErrorNode;
 import org.antlr.runtime.tree.CommonTree;
 import org.antlr.runtime.tree.CommonTreeAdaptor;
@@ -31,12 +26,7 @@ import org.coode.parsers.oppl.OPPLDefine;
 import org.coode.parsers.oppl.OPPLSyntaxTree;
 import org.coode.parsers.oppl.OPPLTypeEnforcement;
 import org.coode.parsers.oppl.OPPLTypes;
-import org.coode.parsers.oppl.patterns.OPPLPatternLexer;
-import org.coode.parsers.oppl.patterns.OPPLPatternScriptParser;
-import org.coode.parsers.oppl.patterns.OPPLPatternsDefine;
-import org.coode.parsers.oppl.patterns.OPPLPatternsReferenceDefine;
-import org.coode.parsers.oppl.patterns.OPPLPatternsSymbolTable;
-import org.coode.parsers.oppl.patterns.OPPLPatternsTypes;
+import org.coode.parsers.oppl.patterns.*;
 import org.coode.parsers.oppl.patterns.factory.SimpleSymbolTableFactory;
 import org.coode.patterns.OPPLPatternParser.PatternReferenceResolver;
 import org.coode.patterns.PatternConstraintSystem;
@@ -52,12 +42,16 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 import uk.ac.manchester.cs.jfact.JFactFactory;
 
-/** Test for the AST generation for OPPL
+/**
+ * Test for the AST generation for OPPL
  * 
- * @author Luigi Iannone */
+ * @author Luigi Iannone
+ */
 @SuppressWarnings("javadoc")
 public class OPPLPatternsTypesParserTest {
+
     private static TreeAdaptor adaptor = new CommonTreeAdaptor() {
+
         @Override
         public Object create(Token token) {
             return new OPPLSyntaxTree(token);
@@ -73,22 +67,25 @@ public class OPPLPatternsTypesParserTest {
 
         @Override
         public Object errorNode(TokenStream input, Token start, Token stop,
-                RecognitionException e) {
+            RecognitionException e) {
             return new CommonErrorNode(input, start, stop, e);
         }
     };
     private final ErrorListener listener = new SystemErrorEcho();
     JFactFactory factory = new JFactFactory();
 
-    /** @return reference resolver */
+    /**
+     * @return reference resolver
+     */
     public static PatternReferenceResolver getSimplePatternReferenceResolver() {
         return new PatternReferenceResolver() {
+
             @Override
             public void resolvePattern(OPPLSyntaxTree reference, String patternName,
-                    PatternConstraintSystem constraintSystem,
-                    OPPLPatternsSymbolTable symbolTable, List<Object>... args) {
+                PatternConstraintSystem constraintSystem,
+                OPPLPatternsSymbolTable symbolTable, List<Object>... args) {
                 symbolTable
-                        .resolvePattern(reference, patternName, constraintSystem, args);
+                    .resolvePattern(reference, patternName, constraintSystem, args);
             }
         };
     }
@@ -101,9 +98,10 @@ public class OPPLPatternsTypesParserTest {
         assertNotNull(parsed.getOPPLContent());
         PatternModel patternModel = (PatternModel) parsed.getOPPLContent();
         Variable<?> variable = patternModel.getConstraintSystem().getVariable(
-                "?forbiddenContent");
+            "?forbiddenContent");
         assertNotNull(variable);
         boolean isGenerated = variable.accept(new VariableVisitorEx<Boolean>() {
+
             @Override
             public <P extends OWLObject> Boolean visit(GeneratedVariable<P> v) {
                 return true;
@@ -116,7 +114,7 @@ public class OPPLPatternsTypesParserTest {
 
             @Override
             public <P extends OWLObject> Boolean visit(
-                    RegexpGeneratedVariable<P> regExpGenerated) {
+                RegexpGeneratedVariable<P> regExpGenerated) {
                 return false;
             }
         });
@@ -149,11 +147,11 @@ public class OPPLPatternsTypesParserTest {
 
     @Test
     public void shouldTestComplexExpressionConjuntionGeneratedVariablePattern()
-            throws OWLOntologyCreationException {
+        throws OWLOntologyCreationException {
         OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
         OWLOntologyManager m = ontology.getOWLOntologyManager();
         m.addAxiom(ontology, df.getOWLDeclarationAxiom(df.getOWLObjectProperty(IRI
-                .create(" http://www.co-ode.org/ontologies/ont.owl#part_of"))));
+            .create(" http://www.co-ode.org/ontologies/ont.owl#part_of"))));
         String patternString = "?cell:CLASS, ?anatomyPart:CLASS, ?partOfRestriction:CLASS = part_of some ?anatomyPart, ?anatomyIntersection:CLASS = createIntersection(?partOfRestriction.VALUES) BEGIN ADD ?cell equivalentTo ?anatomyIntersection END;";
         OPPLSyntaxTree parsed = parse(patternString, ontology);
         assertNotNull(parsed);
@@ -178,17 +176,17 @@ public class OPPLPatternsTypesParserTest {
 
     protected OPPLSyntaxTree parse(String input, OWLOntology o) {
         OPPLPatternsSymbolTable symtab = new SimpleSymbolTableFactory(
-                o.getOWLOntologyManager()).createSymbolTable();
+            o.getOWLOntologyManager()).createSymbolTable();
         symtab.setErrorListener(getListener());
         ANTLRStringStream antlrStringStream = new ANTLRStringStream(input);
         OPPLPatternLexer lexer = new OPPLPatternLexer(antlrStringStream);
         PatternModelFactory patternModelFactory = new PatternModelFactory(o,
-                o.getOWLOntologyManager(), factory.createReasoner(o));
+            o.getOWLOntologyManager(), factory.createReasoner(o));
         PatternConstraintSystem constraintSystem = patternModelFactory
-                .createConstraintSystem();
+            .createConstraintSystem();
         final TokenRewriteStream tokens = new TokenRewriteStream(lexer);
         OPPLPatternScriptParser parser = new OPPLPatternScriptParser(tokens,
-                getListener());
+            getListener());
         parser.setTreeAdaptor(adaptor);
         RuleReturnScope r = parser.pattern();
         CommonTree tree = (CommonTree) r.getTree();
@@ -203,35 +201,35 @@ public class OPPLPatternsTypesParserTest {
             simplify.downup(tree);
             nodes.reset();
             OPPLDefine define = new OPPLDefine(nodes, symtab, getListener(),
-                    constraintSystem);
+                constraintSystem);
             define.setTreeAdaptor(adaptor);
             define.downup(tree);
             nodes.reset();
             OPPLPatternsDefine patternsDefine = new OPPLPatternsDefine(nodes, symtab,
-                    getListener(), getSimplePatternReferenceResolver(), constraintSystem);
+                getListener(), getSimplePatternReferenceResolver(), constraintSystem);
             patternsDefine.setTreeAdaptor(adaptor);
             patternsDefine.downup(tree);
             nodes.reset();
             ErrorListener silentErrorListener = new SilentListener();
             symtab.setErrorListener(silentErrorListener);
             ManchesterOWLSyntaxTypes mOWLTypes = new ManchesterOWLSyntaxTypes(nodes,
-                    symtab, silentErrorListener);
+                symtab, silentErrorListener);
             mOWLTypes.downup(tree);
             nodes.reset();
             OPPLTypeEnforcement typeEnforcement = new OPPLTypeEnforcement(nodes, symtab,
-                    new DefaultTypeEnforcer(symtab, patternModelFactory.getOPPLFactory()
-                            .getOWLEntityFactory(), getListener()), getListener());
+                new DefaultTypeEnforcer(symtab, patternModelFactory.getOPPLFactory()
+                    .getOWLEntityFactory(), getListener()), getListener());
             typeEnforcement.downup(tree);
             nodes.reset();
             mOWLTypes.downup(tree);
             nodes.reset();
             OPPLTypes opplTypes = new OPPLTypes(nodes, symtab, silentErrorListener,
-                    constraintSystem, patternModelFactory.getOPPLFactory());
+                constraintSystem, patternModelFactory.getOPPLFactory());
             opplTypes.downup(tree);
             nodes.reset();
             OPPLPatternsReferenceDefine patternReferenceDefine = new OPPLPatternsReferenceDefine(
-                    nodes, symtab, getListener(), getSimplePatternReferenceResolver(),
-                    constraintSystem);
+                nodes, symtab, getListener(), getSimplePatternReferenceResolver(),
+                constraintSystem);
             patternReferenceDefine.setTreeAdaptor(adaptor);
             patternReferenceDefine.downup(tree);
             nodes.reset();
@@ -242,13 +240,15 @@ public class OPPLPatternsTypesParserTest {
             opplTypes.downup(tree);
             nodes.reset();
             OPPLPatternsTypes opplPatternsTypes = new OPPLPatternsTypes(nodes, symtab,
-                    getListener(), constraintSystem, patternModelFactory);
+                getListener(), constraintSystem, patternModelFactory);
             opplPatternsTypes.downup(tree);
         }
         return (OPPLSyntaxTree) tree;
     }
 
-    /** @return the listener */
+    /**
+     * @return the listener
+     */
     public ErrorListener getListener() {
         return listener;
     }

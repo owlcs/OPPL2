@@ -17,6 +17,7 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 @SuppressWarnings("javadoc")
 public class TestRuntimeFailureQueries {
+
     @Test(expected = PatternSyntaxException.class)
     public void shouldTestIllegalPattern() throws OWLOntologyCreationException {
         OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
@@ -24,16 +25,16 @@ public class TestRuntimeFailureQueries {
         // Add an axiom so the query results will be matched against the
         // constraint
         manager.addAxiom(
-                ontology,
-                manager.getOWLDataFactory().getOWLSubClassOfAxiom(
-                        manager.getOWLDataFactory().getOWLClass(IRI.create("blah#A")),
-                        manager.getOWLDataFactory().getOWLThing()));
+            ontology,
+            manager.getOWLDataFactory().getOWLSubClassOfAxiom(
+                manager.getOWLDataFactory().getOWLClass(IRI.create("blah#A")),
+                manager.getOWLDataFactory().getOWLThing()));
         String script = "?x:CLASS SELECT ?x subClassOf Thing WHERE ?x MATCH (\"+\") BEGIN ADD ?x subClassOf Thing END;";
         ParserFactory parserFactory = new ParserFactory(manager, ontology, null);
         OPPLParser parser = parserFactory.build(new JUnitTestErrorListener());
         OPPLScript parsed = parser.parse(script);
         ChangeExtractor changeExtractor = new ChangeExtractor(
-                new QuickFailRuntimeExceptionHandler(), false);
+            new QuickFailRuntimeExceptionHandler(), false);
         changeExtractor.visit(parsed);
     }
 }

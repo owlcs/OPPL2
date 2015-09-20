@@ -13,15 +13,19 @@ import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.semanticweb.owlapi.model.OWLRuntimeException;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 
-/** Abstract component that executes the test case. It runs the query then checks
+/**
+ * Abstract component that executes the test case. It runs the query then checks
  * each test. It will fail after the first test fails
  * 
- * @author Luigi Iannone */
+ * @author Luigi Iannone
+ */
 public abstract class TestCaseRunner {
+
     private final OPPLTestCase opplTestCase;
     private final boolean ignoreConfigurationFailure;
     private final ExecutionMonitor executionMonitor;
     private final RuntimeExceptionHandler handler = new RuntimeExceptionHandler() {
+
         @Override
         public void handlePatternSyntaxExcpetion(PatternSyntaxException e) {
             TestCaseRunner.this.fail(e);
@@ -38,26 +42,32 @@ public abstract class TestCaseRunner {
         }
     };
 
-    /** @param opplTestCase
-     *            opplTestCase */
+    /**
+     * @param opplTestCase
+     *        opplTestCase
+     */
     public TestCaseRunner(OPPLTestCase opplTestCase) {
         this(opplTestCase, ExecutionMonitor.NON_CANCELLABLE, false);
     }
 
-    /** @param opplTestCase
-     *            opplTestCase
+    /**
+     * @param opplTestCase
+     *        opplTestCase
      * @param executionMonitor
-     *            executionMonitor
+     *        executionMonitor
      * @param ignoreConfigurationFailure
-     *            ignoreConfigurationFailure */
+     *        ignoreConfigurationFailure
+     */
     public TestCaseRunner(OPPLTestCase opplTestCase, ExecutionMonitor executionMonitor,
-            boolean ignoreConfigurationFailure) {
+        boolean ignoreConfigurationFailure) {
         this.opplTestCase = checkNotNull(opplTestCase, "opplTestCase");
         this.executionMonitor = checkNotNull(executionMonitor, "executionMonitor");
         this.ignoreConfigurationFailure = ignoreConfigurationFailure;
     }
 
-    /** @return the opplTestCase */
+    /**
+     * @return the opplTestCase
+     */
     public OPPLTestCase getOPPLTestCase() {
         return opplTestCase;
     }
@@ -75,7 +85,7 @@ public abstract class TestCaseRunner {
 
     protected boolean checkConfiguration() {
         OWLReasoner scriptReasoner = getOPPLTestCase().getOPPLScript()
-                .getConstraintSystem().getReasoner();
+            .getConstraintSystem().getReasoner();
         boolean check = !getOPPLTestCase().requiresInference() || scriptReasoner != null;
         if (!check) {
             configurationFailed("The Test case requires inference, but no reasoner is available to run query");
@@ -93,7 +103,7 @@ public abstract class TestCaseRunner {
 
     protected void runTest(OPPLTest test, Set<? extends BindingNode> bindings) {
         boolean success = test.getAssertion().holds(bindings,
-                getOPPLTestCase().getOPPLScript().getConstraintSystem());
+            getOPPLTestCase().getOPPLScript().getConstraintSystem());
         if (success) {
             success(test);
         } else {
@@ -117,17 +127,23 @@ public abstract class TestCaseRunner {
 
     protected abstract void fail(Throwable e);
 
-    /** @return the ignoreConfigurationFailure */
+    /**
+     * @return the ignoreConfigurationFailure
+     */
     public boolean ignoresConfigurationFailure() {
         return ignoreConfigurationFailure;
     }
 
-    /** @return the handler */
+    /**
+     * @return the handler
+     */
     public RuntimeExceptionHandler getHandler() {
         return handler;
     }
 
-    /** @return the executionMonitor */
+    /**
+     * @return the executionMonitor
+     */
     public ExecutionMonitor getExecutionMonitor() {
         return executionMonitor;
     }

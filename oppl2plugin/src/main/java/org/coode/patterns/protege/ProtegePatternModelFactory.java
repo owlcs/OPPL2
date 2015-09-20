@@ -34,49 +34,46 @@ import org.coode.oppl.Variable;
 import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.coode.parsers.ErrorListener;
-import org.coode.patterns.AbstractPatternModelFactory;
-import org.coode.patterns.EmptyActionListException;
-import org.coode.patterns.EmptyVariableListException;
-import org.coode.patterns.InstantiatedPatternModel;
-import org.coode.patterns.PatternConstraintSystem;
-import org.coode.patterns.PatternExtractor;
-import org.coode.patterns.PatternModel;
-import org.coode.patterns.PatternModelFactory;
-import org.coode.patterns.UnsuitableOPPLScriptException;
+import org.coode.patterns.*;
 import org.protege.editor.owl.model.OWLModelManager;
 import org.semanticweb.owlapi.model.OWLAnnotation;
 import org.semanticweb.owlapi.model.OWLAxiomChange;
 
-/** @author Luigi Iannone Jun 16, 2008 */
+/**
+ * @author Luigi Iannone Jun 16, 2008
+ */
 public class ProtegePatternModelFactory implements AbstractPatternModelFactory {
+
     private final AbstractPatternModelFactory delegate;
 
-    /** @param modelManager
-     *            modelManager */
+    /**
+     * @param modelManager
+     *        modelManager
+     */
     public ProtegePatternModelFactory(OWLModelManager modelManager) {
         checkNotNull(modelManager, "modelManager");
         delegate = new PatternModelFactory(modelManager.getActiveOntology(),
-                modelManager.getOWLOntologyManager(), modelManager.getReasoner());
+            modelManager.getOWLOntologyManager(), modelManager.getReasoner());
     }
 
     @Override
     public PatternModel createPatternModel(String name, List<Variable<?>> variables,
-            List<OWLAxiomChange> actions, Variable<?> returnClause, String rendering,
-            ConstraintSystem constraintSystem) throws EmptyVariableListException,
+        List<OWLAxiomChange> actions, Variable<?> returnClause, String rendering,
+        ConstraintSystem constraintSystem) throws EmptyVariableListException,
             EmptyActionListException, UnsuitableOPPLScriptException {
         return delegate.createPatternModel(name, variables, actions, returnClause,
-                rendering, constraintSystem);
+            rendering, constraintSystem);
     }
 
     @Override
     public PatternModel createPatternModel(OPPLScript opplScript)
-            throws UnsuitableOPPLScriptException {
+        throws UnsuitableOPPLScriptException {
         return delegate.createPatternModel(opplScript);
     }
 
     @Override
     public InstantiatedPatternModel createInstantiatedPatternModel(
-            PatternModel patternModel, RuntimeExceptionHandler handler) {
+        PatternModel patternModel, RuntimeExceptionHandler handler) {
         return delegate.createInstantiatedPatternModel(patternModel, handler);
     }
 
@@ -87,7 +84,7 @@ public class ProtegePatternModelFactory implements AbstractPatternModelFactory {
 
     @Override
     public PatternExtractor getPatternExtractor(Set<OWLAnnotation> visitedAnnotations,
-            ErrorListener errorListener) {
+        ErrorListener errorListener) {
         return delegate.getPatternExtractor(visitedAnnotations, errorListener);
     }
 
@@ -98,7 +95,7 @@ public class ProtegePatternModelFactory implements AbstractPatternModelFactory {
 
     @Override
     public ManchesterSyntaxRenderer getRenderer(
-            PatternConstraintSystem patternConstraintSystem) {
+        PatternConstraintSystem patternConstraintSystem) {
         return delegate.getRenderer(patternConstraintSystem);
     }
 

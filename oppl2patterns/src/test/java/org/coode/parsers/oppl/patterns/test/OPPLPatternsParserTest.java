@@ -2,12 +2,7 @@ package org.coode.parsers.oppl.patterns.test;
 
 import static org.junit.Assert.assertNotNull;
 
-import org.antlr.runtime.ANTLRStringStream;
-import org.antlr.runtime.RecognitionException;
-import org.antlr.runtime.RuleReturnScope;
-import org.antlr.runtime.Token;
-import org.antlr.runtime.TokenRewriteStream;
-import org.antlr.runtime.TokenStream;
+import org.antlr.runtime.*;
 import org.antlr.runtime.tree.CommonErrorNode;
 import org.antlr.runtime.tree.CommonTree;
 import org.antlr.runtime.tree.CommonTreeAdaptor;
@@ -19,12 +14,16 @@ import org.coode.parsers.oppl.patterns.OPPLPatternLexer;
 import org.coode.parsers.oppl.patterns.OPPLPatternScriptParser;
 import org.junit.Test;
 
-/** Test for the AST generation for OPPL
+/**
+ * Test for the AST generation for OPPL
  * 
- * @author Luigi Iannone */
+ * @author Luigi Iannone
+ */
 @SuppressWarnings({ "javadoc", "unused" })
 public class OPPLPatternsParserTest {
+
     private static TreeAdaptor adaptor = new CommonTreeAdaptor() {
+
         @Override
         public Object create(Token token) {
             return new OPPLSyntaxTree(token);
@@ -40,7 +39,7 @@ public class OPPLPatternsParserTest {
 
         @Override
         public Object errorNode(TokenStream input, Token start, Token stop,
-                RecognitionException e) {
+            RecognitionException e) {
             return new CommonErrorNode(input, start, stop, e);
         }
     };

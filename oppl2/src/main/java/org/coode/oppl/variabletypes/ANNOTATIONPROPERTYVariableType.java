@@ -14,20 +14,25 @@ import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.util.OWLObjectVisitorExAdapter;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class ANNOTATIONPROPERTYVariableType extends
-        AbstractVariableType<OWLAnnotationProperty> implements
-        VariableType<OWLAnnotationProperty> {
-    /** @param name
-     *            name */
+    AbstractVariableType<OWLAnnotationProperty>implements
+    VariableType<OWLAnnotationProperty> {
+
+    /**
+     * @param name
+     *        name
+     */
     public ANNOTATIONPROPERTYVariableType(VariableTypeName name) {
         super(name, EnumSet.noneOf(Direction.class));
     }
 
     @Override
     public Set<OWLAnnotationProperty> getReferencedOWLObjects(
-            Collection<? extends OWLOntology> ontologies) {
-        Set<OWLAnnotationProperty> toReturn = new HashSet<OWLAnnotationProperty>();
+        Collection<? extends OWLOntology> ontologies) {
+        Set<OWLAnnotationProperty> toReturn = new HashSet<>();
         for (OWLOntology ontology : ontologies) {
             toReturn.addAll(ontology.getAnnotationPropertiesInSignature());
         }
@@ -37,6 +42,7 @@ public class ANNOTATIONPROPERTYVariableType extends
     @Override
     public boolean isCompatibleWith(OWLObject o) {
         return o.accept(new OWLObjectVisitorExAdapter<Boolean>(false) {
+
             @Override
             public Boolean visit(OWLAnnotationProperty property) {
                 return true;
@@ -45,11 +51,10 @@ public class ANNOTATIONPROPERTYVariableType extends
     }
 
     @Override
-    public RegexpGeneratedVariable<? extends OWLAnnotationProperty>
-            getRegexpGeneratedVariable(String name,
-                    OPPLFunction<Pattern> patternGeneratingOPPLFunction) {
+    public RegexpGeneratedVariable<? extends OWLAnnotationProperty> getRegexpGeneratedVariable(String name,
+        OPPLFunction<Pattern> patternGeneratingOPPLFunction) {
         return VariableFactory.getRegexpGeneratedVariable(name, this,
-                patternGeneratingOPPLFunction);
+            patternGeneratingOPPLFunction);
     }
 
     @Override

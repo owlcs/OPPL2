@@ -8,26 +8,32 @@ import java.util.List;
 
 import org.coode.oppl.template.ReplacementStrategy;
 
-/** Use this Strategy to combine several ones that use different place-holders.
+/**
+ * Use this Strategy to combine several ones that use different place-holders.
  * The replacement will happen in the order specified by the user in the
  * constructor
  * 
  * @author Luigi Iannone
  * @param <I>
- *            type
- * @param <P>
- *            replacement type */
+ *        type
+ * @param
+ *        <P>
+ *        replacement type
+ */
 public class CombinedReplacementStrategy<I, P extends I> implements
-        ReplacementStrategy<I, P> {
-    private final List<ReplacementStrategy<I, P>> strategies = new ArrayList<ReplacementStrategy<I, P>>();
+    ReplacementStrategy<I, P> {
 
-    /** @param strategies
-     *            strategies */
+    private final List<ReplacementStrategy<I, P>> strategies = new ArrayList<>();
+
+    /**
+     * @param strategies
+     *        strategies
+     */
     public CombinedReplacementStrategy(List<ReplacementStrategy<I, P>> strategies) {
         this.strategies.addAll(checkNotNull(strategies, "strategies"));
         if (strategies.isEmpty()) {
             throw new IllegalArgumentException(
-                    "The list of the combined strategies cannot be empty");
+                "The list of the combined strategies cannot be empty");
         }
     }
 
@@ -43,8 +49,10 @@ public class CombinedReplacementStrategy<I, P extends I> implements
         return replaced;
     }
 
-    /** @return the strategies */
+    /**
+     * @return the strategies
+     */
     public final List<ReplacementStrategy<I, P>> getStrategies() {
-        return new ArrayList<ReplacementStrategy<I, P>>(this.strategies);
+        return new ArrayList<>(this.strategies);
     }
 }

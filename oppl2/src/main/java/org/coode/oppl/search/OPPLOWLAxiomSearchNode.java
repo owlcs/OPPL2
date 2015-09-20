@@ -5,21 +5,28 @@ import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 import org.coode.oppl.bindingtree.BindingNode;
 import org.semanticweb.owlapi.model.OWLAxiom;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class OPPLOWLAxiomSearchNode {
+
     private final BindingNode binding;
     private final OWLAxiom axiom;
 
-    /** @param axiom
-     *            axiom
+    /**
+     * @param axiom
+     *        axiom
      * @param bindingNode
-     *            bindingNode */
+     *        bindingNode
+     */
     public OPPLOWLAxiomSearchNode(OWLAxiom axiom, BindingNode bindingNode) {
         this.axiom = checkNotNull(axiom, "axiom");
         binding = checkNotNull(bindingNode, "bindingNode");
     }
 
-    /** @return the axiom */
+    /**
+     * @return the axiom
+     */
     public OWLAxiom getAxiom() {
         return axiom;
     }
@@ -29,7 +36,9 @@ public class OPPLOWLAxiomSearchNode {
         return axiom + " " + binding;
     }
 
-    /** @return the binding */
+    /**
+     * @return the binding
+     */
     public BindingNode getBinding() {
         return binding;
     }

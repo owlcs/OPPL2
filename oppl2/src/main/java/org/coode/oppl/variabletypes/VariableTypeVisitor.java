@@ -1,30 +1,45 @@
 package org.coode.oppl.variabletypes;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public interface VariableTypeVisitor {
-    /** @param classVariableType
-     *            classVariableType */
+
+    /**
+     * @param classVariableType
+     *        classVariableType
+     */
     void visitCLASSVariableType(CLASSVariableType classVariableType);
 
-    /** @param objectpropertyVariableType
-     *            objectpropertyVariableType */
+    /**
+     * @param objectpropertyVariableType
+     *        objectpropertyVariableType
+     */
     void visitOBJECTPROPERTYVariableType(
-            OBJECTPROPERTYVariableType objectpropertyVariableType);
+        OBJECTPROPERTYVariableType objectpropertyVariableType);
 
-    /** @param datapropertyVariableType
-     *            datapropertyVariableType */
+    /**
+     * @param datapropertyVariableType
+     *        datapropertyVariableType
+     */
     void visitDATAPROPERTYVariableType(DATAPROPERTYVariableType datapropertyVariableType);
 
-    /** @param individualVariableType
-     *            individualVariableType */
+    /**
+     * @param individualVariableType
+     *        individualVariableType
+     */
     void visitINDIVIDUALVariableType(INDIVIDUALVariableType individualVariableType);
 
-    /** @param constantVariableType
-     *            constantVariableType */
+    /**
+     * @param constantVariableType
+     *        constantVariableType
+     */
     void visitCONSTANTVariableType(CONSTANTVariableType constantVariableType);
 
-    /** @param annotationpropertyVariableType
-     *            annotationpropertyVariableType */
+    /**
+     * @param annotationpropertyVariableType
+     *        annotationpropertyVariableType
+     */
     void visitANNOTATIONPROPERTYVariableType(
-            ANNOTATIONPROPERTYVariableType annotationpropertyVariableType);
+        ANNOTATIONPROPERTYVariableType annotationpropertyVariableType);
 }

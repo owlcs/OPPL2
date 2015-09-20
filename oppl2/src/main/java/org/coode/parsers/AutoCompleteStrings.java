@@ -6,11 +6,14 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-/** Helper class providing Strings for the autocompletion
+/**
+ * Helper class providing Strings for the autocompletion
  * 
- * @author Luigi Iannone */
+ * @author Luigi Iannone
+ */
 @SuppressWarnings("javadoc")
 public class AutoCompleteStrings {
+
     // XXX enumeration
     public final static String SUBCLASS_OF = "subClassOf";
     public final static String EQUIVALENT_TO = "equivalentTo";
@@ -42,23 +45,25 @@ public class AutoCompleteStrings {
     public final static String TRANSITIVE = "Transitive";
 
     public static List<String> getStandaloneClassExpressionCompletions() {
-        List<String> toReturn = new ArrayList<String>(Arrays.asList(SUBCLASS_OF,
-                EQUIVALENT_TO, DISJOINT_WITH));
+        List<String> toReturn = new ArrayList<>(Arrays.asList(SUBCLASS_OF,
+            EQUIVALENT_TO, DISJOINT_WITH));
         toReturn.addAll(getClassExpressionCompletions());
         return toReturn;
     }
 
     public static List<String> getIncompleteClassExpressionCompletions(
-            String incompleteText) {
-        List<String> toReturn = new ArrayList<String>(Arrays.asList(SUBCLASS_OF,
-                EQUIVALENT_TO, DISJOINT_WITH));
+        String incompleteText) {
+        List<String> toReturn = new ArrayList<>(Arrays.asList(SUBCLASS_OF,
+            EQUIVALENT_TO, DISJOINT_WITH));
         toReturn.addAll(getClassExpressionCompletions());
         filter(incompleteText, toReturn);
         return toReturn;
     }
 
-    /** @param incompleteText
-     * @param c */
+    /**
+     * @param incompleteText
+     * @param c
+     */
     private static void filter(String incompleteText, Collection<? extends String> c) {
         Iterator<? extends String> iterator = c.iterator();
         while (iterator.hasNext()) {
@@ -70,48 +75,49 @@ public class AutoCompleteStrings {
     }
 
     public static List<String> getStandalonePropertyCompletions() {
-        List<String> toReturn = new ArrayList<String>(Arrays.asList(SUB_PROPERTY_OF,
-                EQUIVALENT_TO, DISJOINT_WITH, INVERSE_OF));
+        List<String> toReturn = new ArrayList<>(Arrays.asList(SUB_PROPERTY_OF,
+            EQUIVALENT_TO, DISJOINT_WITH, INVERSE_OF));
         toReturn.addAll(getPropertyCompletions());
         return toReturn;
     }
 
     public static List<String> getIncompletePropertyCompletions(String incompleteText) {
-        List<String> toReturn = new ArrayList<String>(Arrays.asList(SUB_PROPERTY_OF,
-                EQUIVALENT_TO, DISJOINT_WITH, INVERSE_OF));
+        List<String> toReturn = new ArrayList<>(Arrays.asList(SUB_PROPERTY_OF,
+            EQUIVALENT_TO, DISJOINT_WITH, INVERSE_OF));
         toReturn.addAll(getPropertyCompletions());
         filter(incompleteText, toReturn);
         return toReturn;
     }
 
     public static List<String> getPropertyCompletions() {
-        List<String> toReturn = new ArrayList<String>(Arrays.asList(SOME, ONLY, MIN, MAX,
-                EXACTLY, VALUE));
+        List<String> toReturn = new ArrayList<>(Arrays.asList(SOME, ONLY, MIN, MAX,
+            EXACTLY, VALUE));
         return toReturn;
     }
 
     public static List<String> getClassExpressionCompletions() {
-        List<String> toReturn = new ArrayList<String>(Arrays.asList(AND, OR));
+        List<String> toReturn = new ArrayList<>(Arrays.asList(AND, OR));
         return toReturn;
     }
 
     public static List<String> getStandaloneIndividualCompletions() {
-        List<String> toReturn = new ArrayList<String>(Arrays.asList(DIFFERENT_FROM,
-                SAME_AS));
+        List<String> toReturn = new ArrayList<>(Arrays.asList(DIFFERENT_FROM,
+            SAME_AS));
         return toReturn;
     }
 
     public static List<String> getIncompleteIndividualCompletions(String incompleteText) {
-        List<String> toReturn = new ArrayList<String>(Arrays.asList(DIFFERENT_FROM,
-                SAME_AS));
+        List<String> toReturn = new ArrayList<>(Arrays.asList(DIFFERENT_FROM,
+            SAME_AS));
         filter(incompleteText, toReturn);
         return toReturn;
     }
 
     public static List<String> getStandaloneExpressionCompletions(Type type) {
-        final List<String> toReturn = new ArrayList<String>();
+        final List<String> toReturn = new ArrayList<>();
         if (type != null) {
             type.accept(new TypeVisitor() {
+
                 @Override
                 public void visitOWLType(OWLType owlType) {
                     if (OWLType.isClassExpression(owlType)) {
@@ -136,10 +142,11 @@ public class AutoCompleteStrings {
     }
 
     public static List<String> getIncompleteExpressionCompletions(
-            final String incompleteText, Type type) {
-        final List<String> toReturn = new ArrayList<String>();
+        final String incompleteText, Type type) {
+        final List<String> toReturn = new ArrayList<>();
         if (type != null) {
             type.accept(new TypeVisitor() {
+
                 @Override
                 public void visitOWLType(OWLType owlType) {
                     if (OWLType.isClassExpression(owlType)) {
@@ -164,9 +171,10 @@ public class AutoCompleteStrings {
     }
 
     public static List<String> getExpressionCompletions(Type type) {
-        final List<String> toReturn = new ArrayList<String>();
+        final List<String> toReturn = new ArrayList<>();
         if (type != null) {
             type.accept(new TypeVisitor() {
+
                 @Override
                 public void visitOWLType(OWLType owlType) {
                     if (OWLType.isClassExpression(owlType)) {

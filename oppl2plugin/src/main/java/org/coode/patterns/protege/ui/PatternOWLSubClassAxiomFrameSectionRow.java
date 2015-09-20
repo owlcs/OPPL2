@@ -29,27 +29,32 @@ import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 
-/** @author Luigi Iannone Jul 24, 2008 */
+/**
+ * @author Luigi Iannone Jul 24, 2008
+ */
 public class PatternOWLSubClassAxiomFrameSectionRow extends
-        OWLSubClassAxiomFrameSectionRow {
+    OWLSubClassAxiomFrameSectionRow {
+
     private final PatternModel generatingPatternModel;
 
-    /** @param owlEditorKit
-     *            owlEditorKit
+    /**
+     * @param owlEditorKit
+     *        owlEditorKit
      * @param section
-     *            section
+     *        section
      * @param ontology
-     *            ontology
+     *        ontology
      * @param rootObject
-     *            rootObject
+     *        rootObject
      * @param axiom
-     *            axiom
+     *        axiom
      * @param generatingPatternModel
-     *            generatingPatternModel */
+     *        generatingPatternModel
+     */
     public PatternOWLSubClassAxiomFrameSectionRow(OWLEditorKit owlEditorKit,
-            PatternOWLSubCLassAxiomFrameSection section, OWLOntology ontology,
-            OWLClass rootObject, OWLSubClassOfAxiom axiom,
-            PatternModel generatingPatternModel) {
+        PatternOWLSubCLassAxiomFrameSection section, OWLOntology ontology,
+        OWLClass rootObject, OWLSubClassOfAxiom axiom,
+        PatternModel generatingPatternModel) {
         super(owlEditorKit, section, ontology, rootObject, axiom);
         this.generatingPatternModel = generatingPatternModel;
     }
@@ -64,7 +69,9 @@ public class PatternOWLSubClassAxiomFrameSectionRow extends
         return false;
     }
 
-    /** @return the generatingPatternModel */
+    /**
+     * @return the generatingPatternModel
+     */
     public final PatternModel getGeneratingPatternModel() {
         return generatingPatternModel;
     }

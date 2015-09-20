@@ -9,17 +9,21 @@ import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 abstract class CreateOWLEntity<I extends OPPLFunction<? extends String>, O extends OWLEntity>
-        extends Create<I, O> {
-    /** @param input
-     *            input */
+    extends Create<I, O> {
+
+    /**
+     * @param input
+     *        input
+     */
     public CreateOWLEntity(I input) {
         super(input);
     }
 
     @Override
     public ValueComputation<O> getValueComputation(
-            final ValueComputationParameters parameters) {
+        final ValueComputationParameters parameters) {
         return new ValueComputation<O>() {
+
             @Override
             public O compute(OPPLFunction<? extends O> opplFunction) {
                 O toReturn = null;
@@ -32,8 +36,8 @@ abstract class CreateOWLEntity<I extends OPPLFunction<? extends String>, O exten
                     OWLEntityFactory entityFactory = factory.getOWLEntityFactory();
                     try {
                         toReturn = CreateOWLEntity.this.createEntity(value,
-                                entityFactory, parameters.getConstraintSystem()
-                                        .getOntologyManager());
+                            entityFactory, parameters.getConstraintSystem()
+                                .getOntologyManager());
                     } catch (OWLEntityCreationException e) {
                         throw new RuntimeException(e);
                     }
@@ -44,9 +48,9 @@ abstract class CreateOWLEntity<I extends OPPLFunction<? extends String>, O exten
     }
 
     protected abstract O getExistingEntity(String entityRendering,
-            OWLEntityChecker entityChecker);
+        OWLEntityChecker entityChecker);
 
     protected abstract O createEntity(String entityRendering,
-            OWLEntityFactory entityFactory, OWLOntologyManager manager)
+        OWLEntityFactory entityFactory, OWLOntologyManager manager)
             throws OWLEntityCreationException;
 }

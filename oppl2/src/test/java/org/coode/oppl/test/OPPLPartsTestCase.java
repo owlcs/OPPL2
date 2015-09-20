@@ -10,14 +10,7 @@ import java.util.regex.PatternSyntaxException;
 
 import org.antlr.runtime.CharStream;
 import org.antlr.runtime.Token;
-import org.coode.oppl.AbstractConstraint;
-import org.coode.oppl.ConstraintSystem;
-import org.coode.oppl.ManchesterVariableSyntax;
-import org.coode.oppl.OPPLParser;
-import org.coode.oppl.ParserFactory;
-import org.coode.oppl.Variable;
-import org.coode.oppl.VariableVisitor;
-import org.coode.oppl.VariableVisitorEx;
+import org.coode.oppl.*;
 import org.coode.oppl.bindingtree.Assignment;
 import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.exceptions.RuntimeExceptionHandler;
@@ -42,8 +35,10 @@ import org.semanticweb.owlapi.model.OWLRuntimeException;
 
 @SuppressWarnings("javadoc")
 public class OPPLPartsTestCase {
+
     ErrorListener errorListener = new SilentListener();
     private final RuntimeExceptionHandler handler = new RuntimeExceptionHandler() {
+
         @Override
         public void handlePatternSyntaxExcpetion(PatternSyntaxException e) {
             errorListener.reportThrowable(e, 0, 0, 0);
@@ -62,7 +57,7 @@ public class OPPLPartsTestCase {
 
     protected OPPLParser getParser(OWLOntology ontology) {
         OPPLParser parser = new ParserFactory(ontology.getOWLOntologyManager(), ontology,
-                null).build(errorListener);
+            null).build(errorListener);
         return parser;
     }
 
@@ -70,21 +65,21 @@ public class OPPLPartsTestCase {
     public void shouldTestParseInSetConstraint() {
         OPPLParser parser = getParser(test);
         ConstraintSystem constraintSystem = parser.getOPPLAbstractFactory()
-                .createConstraintSystem();
+            .createConstraintSystem();
         OPPLSymbolTable symbolTable = parser.getSymbolTableFactory().createSymbolTable();
         symbolTable.defineVariable(createImaginaryTreeNode(createImaginaryToken("?x")),
-                createImaginaryTreeNode(createImaginaryToken("CLASS")), constraintSystem);
+            createImaginaryTreeNode(createImaginaryToken("CLASS")), constraintSystem);
         symbolTable.defineVariable(createImaginaryTreeNode(createImaginaryToken("?y")),
-                createImaginaryTreeNode(createImaginaryToken("CLASS")), constraintSystem);
+            createImaginaryTreeNode(createImaginaryToken("CLASS")), constraintSystem);
         AbstractConstraint constraint = parser.parseConstraint("?x!= Thing", symbolTable,
-                constraintSystem);
+            constraintSystem);
         assertNotNull("The constraint cannot be null", constraint);
         constraint = parser.parseConstraint("?x IN {?y, Thing}", symbolTable,
-                constraintSystem);
+            constraintSystem);
         assertNotNull("The constraint cannot be null", constraint);
         Logging.getParseTestLogging().info(constraint);
         constraint = parser.parseConstraint("?Thing and ?y", symbolTable,
-                constraintSystem);
+            constraintSystem);
         assertNull("The constraint should be null", constraint);
     }
 
@@ -92,20 +87,20 @@ public class OPPLPartsTestCase {
     public void shouldTestParseInequalityConstraint() {
         OPPLParser parser = getParser(test);
         ConstraintSystem constraintSystem = parser.getOPPLAbstractFactory()
-                .createConstraintSystem();
+            .createConstraintSystem();
         OPPLSymbolTable symbolTable = parser.getSymbolTableFactory().createSymbolTable();
         symbolTable.defineVariable(createImaginaryTreeNode(createImaginaryToken("?x")),
-                createImaginaryTreeNode(createImaginaryToken("CLASS")), constraintSystem);
+            createImaginaryTreeNode(createImaginaryToken("CLASS")), constraintSystem);
         symbolTable.defineVariable(createImaginaryTreeNode(createImaginaryToken("?y")),
-                createImaginaryTreeNode(createImaginaryToken("CLASS")), constraintSystem);
+            createImaginaryTreeNode(createImaginaryToken("CLASS")), constraintSystem);
         AbstractConstraint constraint = parser.parseConstraint("?x!= Thing", symbolTable,
-                constraintSystem);
+            constraintSystem);
         assertNotNull("The constraint cannot be null", constraint);
         constraint = parser.parseConstraint("?x!= ?y", symbolTable, constraintSystem);
         Logging.getParseTestLogging().info(constraint);
         assertNotNull("The constraint cannot be null", constraint);
         constraint = parser.parseConstraint("?x!= Thing and ?y", symbolTable,
-                constraintSystem);
+            constraintSystem);
         Logging.getParseTestLogging().info(constraint);
         assertNotNull("The constraint cannot be null", constraint);
     }
@@ -114,17 +109,17 @@ public class OPPLPartsTestCase {
     public void shouldTestParseOPPLFunction() {
         OPPLParser parser = getParser(test);
         ConstraintSystem constraintSystem = parser.getOPPLAbstractFactory()
-                .createConstraintSystem();
+            .createConstraintSystem();
         OPPLSymbolTable symbolTable = parser.getSymbolTableFactory().createSymbolTable();
         symbolTable.defineVariable(createImaginaryTreeNode(createImaginaryToken("?x")),
-                createImaginaryTreeNode(createImaginaryToken("CLASS")), constraintSystem);
+            createImaginaryTreeNode(createImaginaryToken("CLASS")), constraintSystem);
         symbolTable.defineVariable(createImaginaryTreeNode(createImaginaryToken("?y")),
-                createImaginaryTreeNode(createImaginaryToken("CLASS")), constraintSystem);
+            createImaginaryTreeNode(createImaginaryToken("CLASS")), constraintSystem);
         Variable<?> tempVariable = this.createTempVariable("?z",
-                VariableTypeFactory.getCLASSVariableType());
+            VariableTypeFactory.getCLASSVariableType());
         Variable<?> opplFunction = parser.parseOPPLFunction(
-                "CreateIntersection(?x.VALUES)", tempVariable, symbolTable,
-                constraintSystem);
+            "CreateIntersection(?x.VALUES)", tempVariable, symbolTable,
+            constraintSystem);
         assertNotNull("The oppl function cannot be null", opplFunction);
         Logging.getParseTestLogging().info(opplFunction, constraintSystem);
     }
@@ -133,35 +128,36 @@ public class OPPLPartsTestCase {
     public void shouldTestParseOPPLFunctionAggregatingLooseObjectAndVariableValues() {
         OPPLParser parser = getParser(test);
         ConstraintSystem constraintSystem = parser.getOPPLAbstractFactory()
-                .createConstraintSystem();
+            .createConstraintSystem();
         OPPLSymbolTable symbolTable = parser.getSymbolTableFactory().createSymbolTable();
         symbolTable.defineVariable(createImaginaryTreeNode(createImaginaryToken("?x")),
-                createImaginaryTreeNode(createImaginaryToken("CLASS")), constraintSystem);
+            createImaginaryTreeNode(createImaginaryToken("CLASS")), constraintSystem);
         symbolTable.defineVariable(createImaginaryTreeNode(createImaginaryToken("?y")),
-                createImaginaryTreeNode(createImaginaryToken("CLASS")), constraintSystem);
+            createImaginaryTreeNode(createImaginaryToken("CLASS")), constraintSystem);
         Variable<?> tempVariable = this.createTempVariable("?z",
-                VariableTypeFactory.getCLASSVariableType());
+            VariableTypeFactory.getCLASSVariableType());
         Variable<?> opplFunction = parser.parseOPPLFunction(
-                "CreateIntersection(?x.VALUES, Thing)", tempVariable, symbolTable,
-                constraintSystem);
+            "CreateIntersection(?x.VALUES, Thing)", tempVariable, symbolTable,
+            constraintSystem);
         assertNotNull("The oppl function cannot be null", opplFunction);
         BindingNode bindingNode = BindingNode.createNewEmptyBindingNode();
         bindingNode.addAssignment(new Assignment(constraintSystem.getVariable("?x"),
-                constraintSystem.getOntologyManager().getOWLDataFactory()
-                        .getOWLClass(IRI.create("blah#Luigi"))));
+            constraintSystem.getOntologyManager().getOWLDataFactory()
+                .getOWLClass(IRI.create("blah#Luigi"))));
         BindingNode anotherBindingNode = BindingNode.createNewEmptyBindingNode();
         anotherBindingNode.addAssignment(new Assignment(constraintSystem
-                .getVariable("?x"), constraintSystem.getOntologyManager()
+            .getVariable("?x"), constraintSystem.getOntologyManager()
                 .getOWLDataFactory().getOWLClass(IRI.create("blah#Monica"))));
-        constraintSystem.setLeaves(new HashSet<BindingNode>(Arrays.asList(bindingNode,
-                anotherBindingNode)));
+        constraintSystem.setLeaves(new HashSet<>(Arrays.asList(bindingNode,
+            anotherBindingNode)));
         final ValueComputationParameters parameters = new SimpleValueComputationParameters(
-                constraintSystem, BindingNode.createNewEmptyBindingNode(), handler);
+            constraintSystem, BindingNode.createNewEmptyBindingNode(), handler);
         Logging.getParseTestLogging().info(opplFunction, constraintSystem);
         opplFunction.accept(new VariableVisitor() {
+
             @Override
             public <P extends OWLObject> void visit(
-                    RegexpGeneratedVariable<P> regExpGenerated) {
+                RegexpGeneratedVariable<P> regExpGenerated) {
                 fail("Wrong kind of variable expected generated variable found regexp ");
             }
 
@@ -182,12 +178,12 @@ public class OPPLPartsTestCase {
     public void shouldTestParseAxiom() {
         OPPLParser parser = getParser(test);
         ConstraintSystem constraintSystem = parser.getOPPLAbstractFactory()
-                .createConstraintSystem();
+            .createConstraintSystem();
         OPPLSymbolTable symbolTable = parser.getSymbolTableFactory().createSymbolTable();
         symbolTable.defineVariable(createImaginaryTreeNode(createImaginaryToken("?x")),
-                createImaginaryTreeNode(createImaginaryToken("CLASS")), constraintSystem);
+            createImaginaryTreeNode(createImaginaryToken("CLASS")), constraintSystem);
         symbolTable.defineVariable(createImaginaryTreeNode(createImaginaryToken("?y")),
-                createImaginaryTreeNode(createImaginaryToken("CLASS")), constraintSystem);
+            createImaginaryTreeNode(createImaginaryToken("CLASS")), constraintSystem);
         OWLAxiom axiom = parser.parseAxiom("?x subClassOf !hasP some ?y", symbolTable);
         assertNotNull("The axiom cannot be null", axiom);
     }
@@ -196,14 +192,14 @@ public class OPPLPartsTestCase {
     public void shouldTestParseNAFConstraint() {
         OPPLParser parser = getParser(naf);
         ConstraintSystem constraintSystem = parser.getOPPLAbstractFactory()
-                .createConstraintSystem();
+            .createConstraintSystem();
         OPPLSymbolTable symbolTable = parser.getSymbolTableFactory().createSymbolTable();
         symbolTable.defineVariable(createImaginaryTreeNode(createImaginaryToken("?x")),
-                createImaginaryTreeNode(createImaginaryToken("CLASS")), constraintSystem);
+            createImaginaryTreeNode(createImaginaryToken("CLASS")), constraintSystem);
         symbolTable.defineVariable(createImaginaryTreeNode(createImaginaryToken("?y")),
-                createImaginaryTreeNode(createImaginaryToken("CLASS")), constraintSystem);
+            createImaginaryTreeNode(createImaginaryToken("CLASS")), constraintSystem);
         AbstractConstraint constraint = parser.parseConstraint(
-                "FAIL ?x subClassOf hasP some ?y", symbolTable, constraintSystem);
+            "FAIL ?x subClassOf hasP some ?y", symbolTable, constraintSystem);
         assertNotNull("The constraint cannot be null", constraint);
         Logging.getParseTestLogging().info(constraint);
     }
@@ -212,20 +208,21 @@ public class OPPLPartsTestCase {
     public void shouldTestParseRegExpConstraint() {
         OPPLParser parser = getParser(test);
         ConstraintSystem constraintSystem = parser.getOPPLAbstractFactory()
-                .createConstraintSystem();
+            .createConstraintSystem();
         OPPLSymbolTable symbolTable = parser.getSymbolTableFactory().createSymbolTable();
         symbolTable.defineVariable(createImaginaryTreeNode(createImaginaryToken("?x")),
-                createImaginaryTreeNode(createImaginaryToken("CLASS")), constraintSystem);
+            createImaginaryTreeNode(createImaginaryToken("CLASS")), constraintSystem);
         symbolTable.defineVariable(createImaginaryTreeNode(createImaginaryToken("?y")),
-                createImaginaryTreeNode(createImaginaryToken("CLASS")), constraintSystem);
+            createImaginaryTreeNode(createImaginaryToken("CLASS")), constraintSystem);
         AbstractConstraint constraint = parser.parseConstraint("?x Match(\"Island\")",
-                symbolTable, constraintSystem);
+            symbolTable, constraintSystem);
         assertNotNull("The constraint cannot be null", constraint);
         Logging.getParseTestLogging().info(constraint);
     }
 
     private Token createImaginaryToken(final String text) {
         return new Token() {
+
             @Override
             public void setType(int ttype) {}
 
@@ -289,12 +286,13 @@ public class OPPLPartsTestCase {
     }
 
     private <O extends OWLObject> Variable<O> createTempVariable(final String name,
-            final VariableType<O> type) {
+        final VariableType<O> type) {
         return new Variable<O>() {
+
             @Override
             public IRI getIRI() {
                 return IRI.create(URI.create(ManchesterVariableSyntax.NAMESPACE
-                        + getName()));
+                    + getName()));
             }
 
             @Override

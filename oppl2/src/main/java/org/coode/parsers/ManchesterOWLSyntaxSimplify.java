@@ -6,45 +6,40 @@ import org.antlr.runtime.NoViableAltException;
 import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.RecognizerSharedState;
 import org.antlr.runtime.Token;
-import org.antlr.runtime.tree.CommonTreeAdaptor;
-import org.antlr.runtime.tree.RewriteRuleNodeStream;
-import org.antlr.runtime.tree.RewriteRuleSubtreeStream;
-import org.antlr.runtime.tree.TreeAdaptor;
-import org.antlr.runtime.tree.TreeNodeStream;
-import org.antlr.runtime.tree.TreeRewriter;
-import org.antlr.runtime.tree.TreeRuleReturnScope;
+import org.antlr.runtime.tree.*;
 
 @SuppressWarnings({ "javadoc", "incomplete-switch" })
 public class ManchesterOWLSyntaxSimplify extends TreeRewriter {
+
     public static final String[] tokenNames = new String[] { "<invalid>", "<EOR>",
-            "<DOWN>", "<UP>", "COMPOSITION", "OPEN_PARENTHESYS", "OPEN_CURLY_BRACES",
-            "CLOSED_CURLY_BRACES", "CLOSED_PARENTHESYS", "WHITESPACE", "AND", "OR",
-            "NOT", "SOME", "ONLY", "MIN", "MAX", "EXACTLY", "VALUE", "INVERSE",
-            "SUBCLASS_OF", "SUB_PROPERTY_OF", "EQUIVALENT_TO", "SAME_AS",
-            "DIFFERENT_FROM", "INVERSE_OF", "DISJOINT_WITH", "DOMAIN", "RANGE",
-            "FUNCTIONAL", "SYMMETRIC", "ANTI_SYMMETRIC", "REFLEXIVE", "IRREFLEXIVE",
-            "TRANSITIVE", "INVERSE_FUNCTIONAL", "POW", "COMMA", "INSTANCE_OF", "TYPES",
-            "DBLQUOTE", "DIGIT", "INTEGER", "LETTER", "IDENTIFIER", "ENTITY_REFERENCE",
-            "QUESTION_MARK", "Tokens", "SUB_CLASS_AXIOM", "EQUIVALENT_TO_AXIOM",
-            "DISJOINT_WITH_AXIOM", "SUB_PROPERTY_AXIOM", "SAME_AS_AXIOM",
-            "DIFFERENT_FROM_AXIOM", "UNARY_AXIOM", "DISJUNCTION", "CONJUNCTION",
-            "PROPERTY_CHAIN", "NEGATED_EXPRESSION", "NEGATED_ASSERTION",
-            "INVERSE_PROPERTY", "SOME_RESTRICTION", "ALL_RESTRICTION",
-            "VALUE_RESTRICTION", "CARDINALITY_RESTRICTION", "ONE_OF", "TYPE_ASSERTION",
-            "ROLE_ASSERTION", "INVERSE_OBJECT_PROPERTY_EXPRESSION", "EXPRESSION",
-            "CONSTANT", "WHERE", "NOT_EQUAL", "EQUAL", "IN", "SELECT", "ASSERTED",
-            "COLON", "DOT", "PLUS", "CREATE", "CREATE_INTERSECTION",
-            "CREATE_DISJUNCTION", "BEGIN", "END", "OPEN_SQUARE_BRACKET",
-            "CLOSED_SQUARE_BRACKET", "SUPER_CLASS_OF", "SUPER_PROPERTY_OF",
-            "VARIABLE_TYPE", "ADD", "REMOVE", "ASSERTED_CLAUSE", "PLAIN_CLAUSE",
-            "INEQUALITY_CONSTRAINT", "IN_SET_CONSTRAINT", "INPUT_VARIABLE_DEFINITION",
-            "GENERATED_VARIABLE_DEFINITION", "CREATE_OPPL_FUNCTION",
-            "VARIABLE_ATTRIBUTE", "OPPL_FUNCTION", "ACTIONS", "VARIABLE_DEFINITIONS",
-            "QUERY", "VARIABLE_SCOPE", "SUBPROPERTY_OF", "VARIABLE_IDENTIFIER",
-            "OPPL_STATEMENT", "DATA_RANGE", "HAS_KEY", "IRI", "ANNOTATION_ASSERTION",
-            "AT", "ESCLAMATION_MARK", "CREATE_IDENTIFIER", "PLAIN_IDENTIFIER", "MATCH",
-            "ATTRIBUTE_SELECTOR", "LESS_THAN", "LESS_THAN_EQUAL", "GREATER_THAN",
-            "GREATER_THAN_EQUAL" };
+        "<DOWN>", "<UP>", "COMPOSITION", "OPEN_PARENTHESYS", "OPEN_CURLY_BRACES",
+        "CLOSED_CURLY_BRACES", "CLOSED_PARENTHESYS", "WHITESPACE", "AND", "OR",
+        "NOT", "SOME", "ONLY", "MIN", "MAX", "EXACTLY", "VALUE", "INVERSE",
+        "SUBCLASS_OF", "SUB_PROPERTY_OF", "EQUIVALENT_TO", "SAME_AS",
+        "DIFFERENT_FROM", "INVERSE_OF", "DISJOINT_WITH", "DOMAIN", "RANGE",
+        "FUNCTIONAL", "SYMMETRIC", "ANTI_SYMMETRIC", "REFLEXIVE", "IRREFLEXIVE",
+        "TRANSITIVE", "INVERSE_FUNCTIONAL", "POW", "COMMA", "INSTANCE_OF", "TYPES",
+        "DBLQUOTE", "DIGIT", "INTEGER", "LETTER", "IDENTIFIER", "ENTITY_REFERENCE",
+        "QUESTION_MARK", "Tokens", "SUB_CLASS_AXIOM", "EQUIVALENT_TO_AXIOM",
+        "DISJOINT_WITH_AXIOM", "SUB_PROPERTY_AXIOM", "SAME_AS_AXIOM",
+        "DIFFERENT_FROM_AXIOM", "UNARY_AXIOM", "DISJUNCTION", "CONJUNCTION",
+        "PROPERTY_CHAIN", "NEGATED_EXPRESSION", "NEGATED_ASSERTION",
+        "INVERSE_PROPERTY", "SOME_RESTRICTION", "ALL_RESTRICTION",
+        "VALUE_RESTRICTION", "CARDINALITY_RESTRICTION", "ONE_OF", "TYPE_ASSERTION",
+        "ROLE_ASSERTION", "INVERSE_OBJECT_PROPERTY_EXPRESSION", "EXPRESSION",
+        "CONSTANT", "WHERE", "NOT_EQUAL", "EQUAL", "IN", "SELECT", "ASSERTED",
+        "COLON", "DOT", "PLUS", "CREATE", "CREATE_INTERSECTION",
+        "CREATE_DISJUNCTION", "BEGIN", "END", "OPEN_SQUARE_BRACKET",
+        "CLOSED_SQUARE_BRACKET", "SUPER_CLASS_OF", "SUPER_PROPERTY_OF",
+        "VARIABLE_TYPE", "ADD", "REMOVE", "ASSERTED_CLAUSE", "PLAIN_CLAUSE",
+        "INEQUALITY_CONSTRAINT", "IN_SET_CONSTRAINT", "INPUT_VARIABLE_DEFINITION",
+        "GENERATED_VARIABLE_DEFINITION", "CREATE_OPPL_FUNCTION",
+        "VARIABLE_ATTRIBUTE", "OPPL_FUNCTION", "ACTIONS", "VARIABLE_DEFINITIONS",
+        "QUERY", "VARIABLE_SCOPE", "SUBPROPERTY_OF", "VARIABLE_IDENTIFIER",
+        "OPPL_STATEMENT", "DATA_RANGE", "HAS_KEY", "IRI", "ANNOTATION_ASSERTION",
+        "AT", "ESCLAMATION_MARK", "CREATE_IDENTIFIER", "PLAIN_IDENTIFIER", "MATCH",
+        "ATTRIBUTE_SELECTOR", "LESS_THAN", "LESS_THAN_EQUAL", "GREATER_THAN",
+        "GREATER_THAN_EQUAL" };
     public static final int HAS_KEY = 109;
     public static final int VALUE_RESTRICTION = 63;
     public static final int LETTER = 43;
@@ -196,6 +191,7 @@ public class ManchesterOWLSyntaxSimplify extends TreeRewriter {
     }
 
     public static class bottomup_return extends TreeRuleReturnScope {
+
         ManchesterOWLSyntaxTree tree;
 
         @Override
@@ -208,8 +204,7 @@ public class ManchesterOWLSyntaxSimplify extends TreeRewriter {
     // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxSimplify.g:15:1:
     // bottomup : ( conjunction | disjunction );
     @Override
-    public final ManchesterOWLSyntaxSimplify.bottomup_return bottomup()
-            throws RecognitionException {
+    public final ManchesterOWLSyntaxSimplify.bottomup_return bottomup() {
         ManchesterOWLSyntaxSimplify.bottomup_return retval = new ManchesterOWLSyntaxSimplify.bottomup_return();
         retval.start = input.LT(1);
         ManchesterOWLSyntaxTree _first_0 = null;
@@ -250,9 +245,9 @@ public class ManchesterOWLSyntaxSimplify extends TreeRewriter {
                     if (state.backtracking == 1) {
                         retval.tree = _first_0;
                         if (adaptor.getParent(retval.tree) != null
-                                && adaptor.isNil(adaptor.getParent(retval.tree))) {
+                            && adaptor.isNil(adaptor.getParent(retval.tree))) {
                             retval.tree = (ManchesterOWLSyntaxTree) adaptor
-                                    .getParent(retval.tree);
+                                .getParent(retval.tree);
                         }
                     }
                 }
@@ -274,9 +269,9 @@ public class ManchesterOWLSyntaxSimplify extends TreeRewriter {
                     if (state.backtracking == 1) {
                         retval.tree = _first_0;
                         if (adaptor.getParent(retval.tree) != null
-                                && adaptor.isNil(adaptor.getParent(retval.tree))) {
+                            && adaptor.isNil(adaptor.getParent(retval.tree))) {
                             retval.tree = (ManchesterOWLSyntaxTree) adaptor
-                                    .getParent(retval.tree);
+                                .getParent(retval.tree);
                         }
                     }
                 }
@@ -285,12 +280,13 @@ public class ManchesterOWLSyntaxSimplify extends TreeRewriter {
         } catch (RecognitionException re) {
             reportError(re);
             recover(input, re);
-        } finally {}
+        }
         return retval;
     }
 
     // $ANTLR end "bottomup"
     public static class conjunction_return extends TreeRuleReturnScope {
+
         ManchesterOWLSyntaxTree tree;
 
         @Override
@@ -310,7 +306,7 @@ public class ManchesterOWLSyntaxSimplify extends TreeRewriter {
         ManchesterOWLSyntaxTree CONJUNCTION3 = null;
         ManchesterOWLSyntaxTree single = null;
         RewriteRuleNodeStream stream_CONJUNCTION = new RewriteRuleNodeStream(adaptor,
-                "token CONJUNCTION");
+            "token CONJUNCTION");
         try {
             // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxSimplify.g:21:13:
             // ( ^( CONJUNCTION single= . ) -> $single)
@@ -322,7 +318,7 @@ public class ManchesterOWLSyntaxSimplify extends TreeRewriter {
                     ManchesterOWLSyntaxTree _save_last_1 = _last;
                     _last = (ManchesterOWLSyntaxTree) input.LT(1);
                     CONJUNCTION3 = (ManchesterOWLSyntaxTree) match(input, CONJUNCTION,
-                            FOLLOW_CONJUNCTION_in_conjunction101);
+                        FOLLOW_CONJUNCTION_in_conjunction101);
                     if (state.failed) {
                         return retval;
                     }
@@ -355,28 +351,29 @@ public class ManchesterOWLSyntaxSimplify extends TreeRewriter {
                 if (state.backtracking == 1) {
                     retval.tree = root_0;
                     RewriteRuleSubtreeStream stream_single = new RewriteRuleSubtreeStream(
-                            adaptor, "wildcard single", single);
+                        adaptor, "wildcard single", single);
                     root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                     // 22:28: -> $single
                     {
                         adaptor.addChild(root_0, stream_single.nextTree());
                     }
                     retval.tree = (ManchesterOWLSyntaxTree) adaptor
-                            .rulePostProcessing(root_0);
+                        .rulePostProcessing(root_0);
                     input.replaceChildren(adaptor.getParent(retval.start),
-                            adaptor.getChildIndex(retval.start),
-                            adaptor.getChildIndex(_last), retval.tree);
+                        adaptor.getChildIndex(retval.start),
+                        adaptor.getChildIndex(_last), retval.tree);
                 }
             }
         } catch (RecognitionException re) {
             reportError(re);
             recover(input, re);
-        } finally {}
+        }
         return retval;
     }
 
     // $ANTLR end "conjunction"
     public static class disjunction_return extends TreeRuleReturnScope {
+
         ManchesterOWLSyntaxTree tree;
 
         @Override
@@ -396,7 +393,7 @@ public class ManchesterOWLSyntaxSimplify extends TreeRewriter {
         ManchesterOWLSyntaxTree DISJUNCTION4 = null;
         ManchesterOWLSyntaxTree single = null;
         RewriteRuleNodeStream stream_DISJUNCTION = new RewriteRuleNodeStream(adaptor,
-                "token DISJUNCTION");
+            "token DISJUNCTION");
         try {
             // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxSimplify.g:25:14:
             // ( ^( DISJUNCTION single= . ) -> $single)
@@ -408,7 +405,7 @@ public class ManchesterOWLSyntaxSimplify extends TreeRewriter {
                     ManchesterOWLSyntaxTree _save_last_1 = _last;
                     _last = (ManchesterOWLSyntaxTree) input.LT(1);
                     DISJUNCTION4 = (ManchesterOWLSyntaxTree) match(input, DISJUNCTION,
-                            FOLLOW_DISJUNCTION_in_disjunction127);
+                        FOLLOW_DISJUNCTION_in_disjunction127);
                     if (state.failed) {
                         return retval;
                     }
@@ -441,34 +438,34 @@ public class ManchesterOWLSyntaxSimplify extends TreeRewriter {
                 if (state.backtracking == 1) {
                     retval.tree = root_0;
                     RewriteRuleSubtreeStream stream_single = new RewriteRuleSubtreeStream(
-                            adaptor, "wildcard single", single);
+                        adaptor, "wildcard single", single);
                     root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                     // 26:27: -> $single
                     {
                         adaptor.addChild(root_0, stream_single.nextTree());
                     }
                     retval.tree = (ManchesterOWLSyntaxTree) adaptor
-                            .rulePostProcessing(root_0);
+                        .rulePostProcessing(root_0);
                     input.replaceChildren(adaptor.getParent(retval.start),
-                            adaptor.getChildIndex(retval.start),
-                            adaptor.getChildIndex(_last), retval.tree);
+                        adaptor.getChildIndex(retval.start),
+                        adaptor.getChildIndex(_last), retval.tree);
                 }
             }
         } catch (RecognitionException re) {
             reportError(re);
             recover(input, re);
-        } finally {}
+        }
         return retval;
     }
 
     // $ANTLR end "disjunction"
     // Delegated rules
     public static final BitSet FOLLOW_conjunction_in_bottomup72 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_disjunction_in_bottomup81 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_CONJUNCTION_in_conjunction101 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_DISJUNCTION_in_disjunction127 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
 }

@@ -30,54 +30,79 @@ import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public interface OPPLQuery extends Renderable {
-    /** @param axiom
-     *            axiom */
+
+    /**
+     * @param axiom
+     *        axiom
+     */
     void addAssertedAxiom(OWLAxiom axiom);
 
-    /** @param axiom
-     *            axiom */
+    /**
+     * @param axiom
+     *        axiom
+     */
     void addAxiom(OWLAxiom axiom);
 
-    /** @param constraint
-     *            constraint */
+    /**
+     * @param constraint
+     *        constraint
+     */
     void addConstraint(AbstractConstraint constraint);
 
-    /** @return axioms */
+    /**
+     * @return axioms
+     */
     List<OWLAxiom> getAxioms();
 
-    /** @return asserted axioms */
+    /**
+     * @return asserted axioms
+     */
     List<OWLAxiom> getAssertedAxioms();
 
-    /** @return constraints */
+    /**
+     * @return constraints
+     */
     List<AbstractConstraint> getConstraints();
 
-    /** @return rendering */
+    /**
+     * @return rendering
+     */
     String render();
 
-    /** @return constraint system */
+    /**
+     * @return constraint system
+     */
     ConstraintSystem getConstraintSystem();
 
-    /** @param runtimeExceptionHandler
-     *            runtimeExceptionHandler
-     * @param executionMonitor
-     *            executionMonitor */
-    void execute(RuntimeExceptionHandler runtimeExceptionHandler,
-            ExecutionMonitor executionMonitor);
-
-    /** @param leaves
-     *            leaves
+    /**
      * @param runtimeExceptionHandler
-     *            runtimeExceptionHandler
+     *        runtimeExceptionHandler
      * @param executionMonitor
-     *            executionMonitor */
-    void execute(Collection<? extends BindingNode> leaves,
-            RuntimeExceptionHandler runtimeExceptionHandler,
-            ExecutionMonitor executionMonitor);
+     *        executionMonitor
+     */
+    void execute(RuntimeExceptionHandler runtimeExceptionHandler,
+        ExecutionMonitor executionMonitor);
 
-    /** @param shortFormProvider
-     *            shortFormProvider
-     * @return rendering */
+    /**
+     * @param leaves
+     *        leaves
+     * @param runtimeExceptionHandler
+     *        runtimeExceptionHandler
+     * @param executionMonitor
+     *        executionMonitor
+     */
+    void execute(Collection<? extends BindingNode> leaves,
+        RuntimeExceptionHandler runtimeExceptionHandler,
+        ExecutionMonitor executionMonitor);
+
+    /**
+     * @param shortFormProvider
+     *        shortFormProvider
+     * @return rendering
+     */
     String render(ShortFormProvider shortFormProvider);
 }

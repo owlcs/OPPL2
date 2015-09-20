@@ -24,19 +24,26 @@ package org.coode.oppl.validation;
 
 import org.coode.oppl.OPPLScript;
 
-/** Abstract mechanism for validating OPPLScript flavours. Implementing this
+/**
+ * Abstract mechanism for validating OPPLScript flavours. Implementing this
  * interface adds custom checks to impose further constraints thank one of the
  * OPPL parser for valid scripts.
  * 
- * @author Luigi Iannone */
+ * @author Luigi Iannone
+ */
 public interface OPPLScriptValidator {
-    /** @param script
-     *            The script to validate. Cannot be {@code null}.
+
+    /**
+     * @param script
+     *        The script to validate. Cannot be {@code null}.
      * @return true if the input script is valid according to this
-     *         OPPLScriptValidator. */
+     *         OPPLScriptValidator.
+     */
     boolean accept(OPPLScript script);
 
-    /** @return a natural language explanation of the validation rule(s) for this
-     *         OPPLScriptValidator. */
+    /**
+     * @return a natural language explanation of the validation rule(s) for this
+     *         OPPLScriptValidator.
+     */
     String getValidationRuleDescription();
 }

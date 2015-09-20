@@ -34,12 +34,17 @@ import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class ProtegeOPPLQuery implements OPPLQuery {
+
     private final OPPLQuery opplQuery;
 
-    /** @param opplQuery
-     *            opplQuery */
+    /**
+     * @param opplQuery
+     *        opplQuery
+     */
     public ProtegeOPPLQuery(OPPLQuery opplQuery) {
         this.opplQuery = opplQuery;
     }
@@ -131,14 +136,14 @@ public class ProtegeOPPLQuery implements OPPLQuery {
 
     @Override
     public void execute(RuntimeExceptionHandler runtimeExceptionHandler,
-            ExecutionMonitor executionMonitor) {
+        ExecutionMonitor executionMonitor) {
         opplQuery.execute(runtimeExceptionHandler, executionMonitor);
     }
 
     @Override
     public void execute(Collection<? extends BindingNode> leaves,
-            RuntimeExceptionHandler runtimeExceptionHandler,
-            ExecutionMonitor executionMonitor) {
+        RuntimeExceptionHandler runtimeExceptionHandler,
+        ExecutionMonitor executionMonitor) {
         opplQuery.execute(leaves, runtimeExceptionHandler, executionMonitor);
     }
 }

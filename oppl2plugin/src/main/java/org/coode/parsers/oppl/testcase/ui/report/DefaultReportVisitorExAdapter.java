@@ -1,9 +1,12 @@
 package org.coode.parsers.oppl.testcase.ui.report;
 
-/** @author Luigi Iannone
+/**
+ * @author Luigi Iannone
  * @param <O>
- *            type */
+ *        type
+ */
 public abstract class DefaultReportVisitorExAdapter<O> implements ReportVisitorEx<O> {
+
     private final O defaultValue;
 
     /** default returned value is null */
@@ -11,35 +14,35 @@ public abstract class DefaultReportVisitorExAdapter<O> implements ReportVisitorE
         this(null);
     }
 
-    /** @param defaultValue
-     *            defaultValue */
+    /**
+     * @param defaultValue
+     *        defaultValue
+     */
     public DefaultReportVisitorExAdapter(O defaultValue) {
         this.defaultValue = defaultValue;
     }
 
     @Override
     public O visitSuccessfulExecutionReport(
-            SuccessfulExecutionReport successfulExecutionReport) {
+        SuccessfulExecutionReport successfulExecutionReport) {
         return this.getDefaultValue(successfulExecutionReport);
     }
 
     @Override
     public O visitConfigurationFailedExecutionReport(
-            ConfigurationFailedExecutionReport configurationFailedExecutionReport) {
+        ConfigurationFailedExecutionReport configurationFailedExecutionReport) {
         return this.getDefaultValue(configurationFailedExecutionReport);
     }
 
     @Override
-    public
-            O
-            visitRuntimeErrorEncounteredExecutionReport(
-                    RuntimeErrorEncounteredExecutionReport runtimeErrorEncounteredExecutionReport) {
+    public O visitRuntimeErrorEncounteredExecutionReport(
+        RuntimeErrorEncounteredExecutionReport runtimeErrorEncounteredExecutionReport) {
         return this.getDefaultValue(runtimeErrorEncounteredExecutionReport);
     }
 
     @Override
     public O visitAssertionFailedExecutionReport(
-            AssertionFailedExecutionReport assertionFailedExecutionReport) {
+        AssertionFailedExecutionReport assertionFailedExecutionReport) {
         return this.getDefaultValue(assertionFailedExecutionReport);
     }
 
@@ -48,9 +51,11 @@ public abstract class DefaultReportVisitorExAdapter<O> implements ReportVisitorE
         return this.getDefaultValue(unexecutedTestReport);
     }
 
-    /** @param report
-     *            report
-     * @return the defaultValue */
+    /**
+     * @param report
+     *        report
+     * @return the defaultValue
+     */
     protected O getDefaultValue(@SuppressWarnings("unused") Report report) {
         return this.defaultValue;
     }

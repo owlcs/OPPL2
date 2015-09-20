@@ -22,29 +22,40 @@
  */
 package org.coode.oppl;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public interface ConstraintVisitor {
-    /** Visitor pattern required method
+
+    /**
+     * Visitor pattern required method
      * 
      * @param c
-     *            c */
+     *        c
+     */
     void visitInequalityConstraint(InequalityConstraint c);
 
-    /** Visitor pattern required method
+    /**
+     * Visitor pattern required method
      * 
      * @param c
-     *            c */
+     *        c
+     */
     void visitInCollectionConstraint(InCollectionConstraint<?> c);
 
-    /** Visitor pattern required method
+    /**
+     * Visitor pattern required method
      * 
      * @param c
-     *            c */
+     *        c
+     */
     void visitInCollectionConstraint(RegExpConstraint c);
 
-    /** Visitor pattern required method
+    /**
+     * Visitor pattern required method
      * 
      * @param nafConstraint
-     *            nafConstraint */
+     *        nafConstraint
+     */
     void visit(NAFConstraint nafConstraint);
 }

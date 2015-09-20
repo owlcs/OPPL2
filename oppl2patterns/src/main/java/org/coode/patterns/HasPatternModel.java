@@ -1,9 +1,14 @@
 package org.coode.patterns;
 
-/** Functional interface for classes allowing access to a pattern model.
+/**
+ * Functional interface for classes allowing access to a pattern model.
  * 
- * @author ignazio */
+ * @author ignazio
+ */
 public interface HasPatternModel {
-    /** @return the patternModel */
+
+    /**
+     * @return the patternModel
+     */
     PatternModel getPatternModel();
 }

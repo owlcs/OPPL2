@@ -24,14 +24,7 @@ package org.coode.oppl.querymatching;
 
 import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.*;
 
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.Variable;
@@ -43,17 +36,22 @@ import org.coode.oppl.utils.PositionBasedVariableComparator;
 import org.coode.oppl.utils.VariableExtractor;
 import org.semanticweb.owlapi.model.OWLAxiom;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class InferredTreeSearchAxiomQuery extends AbstractAxiomQuery {
-    private final ConstraintSystem constraintSystem;
-    private final Map<BindingNode, Set<OWLAxiom>> instantiations = new HashMap<BindingNode, Set<OWLAxiom>>();
 
-    /** @param constraintSystem
-     *            constraintSystem
+    private final ConstraintSystem constraintSystem;
+    private final Map<BindingNode, Set<OWLAxiom>> instantiations = new HashMap<>();
+
+    /**
+     * @param constraintSystem
+     *        constraintSystem
      * @param runtimeExceptionHandler
-     *            runtimeExceptionHandler */
+     *        runtimeExceptionHandler
+     */
     public InferredTreeSearchAxiomQuery(ConstraintSystem constraintSystem,
-            RuntimeExceptionHandler runtimeExceptionHandler) {
+        RuntimeExceptionHandler runtimeExceptionHandler) {
         super(runtimeExceptionHandler);
         this.constraintSystem = checkNotNull(constraintSystem, "constraintSystem");
     }
@@ -61,30 +59,30 @@ public class InferredTreeSearchAxiomQuery extends AbstractAxiomQuery {
     @Override
     protected Set<BindingNode> match(OWLAxiom axiom) {
         clearInstantions();
-        List<List<OPPLOWLAxiomSearchNode>> solutions = new ArrayList<List<OPPLOWLAxiomSearchNode>>();
+        List<List<OPPLOWLAxiomSearchNode>> solutions = new ArrayList<>();
         VariableExtractor variableExtractor = new VariableExtractor(
-                getConstraintSystem(), false);
+            getConstraintSystem(), false);
         Set<Variable<?>> extractedVariables = variableExtractor.extractVariables(axiom);
-        SortedSet<Variable<?>> sortedVariables = new TreeSet<Variable<?>>(
-                new PositionBasedVariableComparator(axiom, getConstraintSystem()
-                        .getOntologyManager().getOWLDataFactory()));
+        SortedSet<Variable<?>> sortedVariables = new TreeSet<>(
+            new PositionBasedVariableComparator(axiom, getConstraintSystem()
+                .getOntologyManager().getOWLDataFactory()));
         sortedVariables.addAll(extractedVariables);
         OPPLOWLAxiomSearchNode start = new OPPLOWLAxiomSearchNode(axiom, new BindingNode(
-                sortedVariables));
+            sortedVariables));
         solutions.addAll(doMatch(start));
         return extractLeaves(solutions);
     }
 
     private List<List<OPPLOWLAxiomSearchNode>> doMatch(OPPLOWLAxiomSearchNode start) {
         OPPLInferredOWLAxiomSearchTree searchTree = new OPPLInferredOWLAxiomSearchTree(
-                getConstraintSystem(), getRuntimeExceptionHandler());
-        List<List<OPPLOWLAxiomSearchNode>> solutions = new ArrayList<List<OPPLOWLAxiomSearchNode>>();
+            getConstraintSystem(), getRuntimeExceptionHandler());
+        List<List<OPPLOWLAxiomSearchNode>> solutions = new ArrayList<>();
         searchTree.exhaustiveSearchTree(start, solutions);
         return solutions;
     }
 
     private Set<BindingNode> extractLeaves(List<List<OPPLOWLAxiomSearchNode>> solutions) {
-        Set<BindingNode> toReturn = new HashSet<BindingNode>();
+        Set<BindingNode> toReturn = new HashSet<>();
         for (List<OPPLOWLAxiomSearchNode> path : solutions) {
             OPPLOWLAxiomSearchNode searchLeaf = path.get(path.size() - 1);
             BindingNode leaf = searchLeaf.getBinding();
@@ -97,12 +95,16 @@ public class InferredTreeSearchAxiomQuery extends AbstractAxiomQuery {
         instantiations.clear();
     }
 
-    /** @return instantiations */
+    /**
+     * @return instantiations
+     */
     public Map<BindingNode, Set<OWLAxiom>> getInstantiations() {
-        return new HashMap<BindingNode, Set<OWLAxiom>>(instantiations);
+        return new HashMap<>(instantiations);
     }
 
-    /** @return the constraintSystem */
+    /**
+     * @return the constraintSystem
+     */
     public ConstraintSystem getConstraintSystem() {
         return constraintSystem;
     }

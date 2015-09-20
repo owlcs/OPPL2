@@ -26,31 +26,40 @@ import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class InequalityConstraint implements AbstractConstraint {
+
     private final Variable<?> variable;
     private final OWLObject expression;
     private final ConstraintSystem constraintSystem;
 
-    /** @param variable
-     *            variable
+    /**
+     * @param variable
+     *        variable
      * @param expression
-     *            expression
+     *        expression
      * @param constraintSystem
-     *            constraintSystem */
+     *        constraintSystem
+     */
     public InequalityConstraint(Variable<?> variable, OWLObject expression,
-            ConstraintSystem constraintSystem) {
+        ConstraintSystem constraintSystem) {
         this.variable = variable;
         this.expression = expression;
         this.constraintSystem = constraintSystem;
     }
 
-    /** @return the variable */
+    /**
+     * @return the variable
+     */
     public Variable<?> getVariable() {
         return variable;
     }
 
-    /** @return the expression */
+    /**
+     * @return the expression
+     */
     public OWLObject getExpression() {
         return expression;
     }
@@ -65,7 +74,9 @@ public class InequalityConstraint implements AbstractConstraint {
         return this.render(getConstraintSystem());
     }
 
-    /** @return the constraintSystem */
+    /**
+     * @return the constraintSystem
+     */
     public ConstraintSystem getConstraintSystem() {
         return constraintSystem;
     }
@@ -73,7 +84,7 @@ public class InequalityConstraint implements AbstractConstraint {
     @Override
     public String render(ShortFormProvider shortFormProvider) {
         ManchesterSyntaxRenderer renderer = new ManchesterSyntaxRenderer(
-                shortFormProvider);
+            shortFormProvider);
         expression.accept(renderer);
         return variable.getName() + " != " + renderer.toString();
     }
@@ -81,7 +92,7 @@ public class InequalityConstraint implements AbstractConstraint {
     @Override
     public String render(ConstraintSystem cs) {
         ManchesterSyntaxRenderer renderer = cs.getOPPLFactory()
-                .getManchesterSyntaxRenderer(cs);
+            .getManchesterSyntaxRenderer(cs);
         expression.accept(renderer);
         return variable.getName() + " != " + renderer.toString();
     }

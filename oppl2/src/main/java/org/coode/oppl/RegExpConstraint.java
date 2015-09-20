@@ -31,23 +31,28 @@ import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 
-/** Constraint that verifies whether a variable values are contained in a
+/**
+ * Constraint that verifies whether a variable values are contained in a
  * collection
  * 
- * @author Luigi Iannone */
+ * @author Luigi Iannone
+ */
 public class RegExpConstraint implements AbstractConstraint {
+
     private final Variable<?> variable;
     private final OPPLFunction<Pattern> expression;
     private final ConstraintSystem constraintSystem;
 
-    /** @param variable
-     *            variable
+    /**
+     * @param variable
+     *        variable
      * @param exp
-     *            exp
+     *        exp
      * @param cs
-     *            cs */
+     *        cs
+     */
     public RegExpConstraint(Variable<?> variable, OPPLFunction<Pattern> exp,
-            ConstraintSystem cs) {
+        ConstraintSystem cs) {
         this.variable = variable;
         constraintSystem = cs;
         expression = exp;
@@ -58,22 +63,26 @@ public class RegExpConstraint implements AbstractConstraint {
         return visitor.visit(this);
     }
 
-    /** @return the variable */
+    /**
+     * @return the variable
+     */
     public Variable<?> getVariable() {
         return variable;
     }
 
-    /** @param parameters
-     *            parameters
-     * @return true if matched */
+    /**
+     * @param parameters
+     *        parameters
+     * @return true if matched
+     */
     public boolean matches(ValueComputationParameters parameters) {
         OWLObject assignmentValue = parameters.getBindingNode().getAssignmentValue(
-                getVariable(), parameters);
+            getVariable(), parameters);
         boolean found = false;
         if (assignmentValue != null) {
             Pattern p = getExpression().compute(parameters);
             ManchesterSyntaxRenderer renderer = parameters.getConstraintSystem()
-                    .getOPPLFactory().getManchesterSyntaxRenderer(getConstraintSystem());
+                .getOPPLFactory().getManchesterSyntaxRenderer(getConstraintSystem());
             assignmentValue.accept(renderer);
             Matcher matcher = p.matcher(renderer.toString());
             found = matcher.matches();
@@ -84,13 +93,13 @@ public class RegExpConstraint implements AbstractConstraint {
     @Override
     public String render(ShortFormProvider shortFormProvider) {
         return variable.getName() + " Match(" + getExpression().render(shortFormProvider)
-                + ")";
+            + ")";
     }
 
     @Override
     public String toString() {
         return variable.getName() + " Match("
-                + getExpression().render(getConstraintSystem()) + ")";
+            + getExpression().render(getConstraintSystem()) + ")";
     }
 
     @Override
@@ -103,7 +112,9 @@ public class RegExpConstraint implements AbstractConstraint {
         visitor.visitInCollectionConstraint(this);
     }
 
-    /** @return the constraintSystem */
+    /**
+     * @return the constraintSystem
+     */
     public ConstraintSystem getConstraintSystem() {
         return constraintSystem;
     }
@@ -146,7 +157,9 @@ public class RegExpConstraint implements AbstractConstraint {
         return true;
     }
 
-    /** @return the expression */
+    /**
+     * @return the expression
+     */
     public OPPLFunction<Pattern> getExpression() {
         return expression;
     }

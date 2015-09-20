@@ -5,19 +5,28 @@ package org.coode.parsers.oppl.testcase.ui.report;
 
 import org.coode.parsers.oppl.testcase.OPPLTestCase;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public interface Report {
-    /** Retrieves the OPPLTestCase this report is about
+
+    /**
+     * Retrieves the OPPLTestCase this report is about
      * 
-     * @return an OPPLTestCase. */
+     * @return an OPPLTestCase.
+     */
     OPPLTestCase getOPPLTestCase();
 
-    /** @param visitor
-     *            visitor */
+    /**
+     * @param visitor
+     *        visitor
+     */
     void accept(ReportVisitor visitor);
 
-    /** @param visitor
-     *            visitor
-     * @return visitor result */
+    /**
+     * @param visitor
+     *        visitor
+     * @return visitor result
+     */
     <O> O accept(ReportVisitorEx<O> visitor);
 }

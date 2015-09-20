@@ -41,23 +41,30 @@ import org.coode.parsers.ui.VerifiedInputEditor;
 import org.protege.editor.core.ui.util.ComponentFactory;
 import org.protege.editor.owl.OWLEditorKit;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class OPPLConstraintEditor extends JPanel implements VerifiedInputEditor {
+
     private static final long serialVersionUID = 20100L;
-    private final Set<InputVerificationStatusChangedListener> listeners = new HashSet<InputVerificationStatusChangedListener>();
+    private final Set<InputVerificationStatusChangedListener> listeners = new HashSet<>();
     private final ExpressionEditor<AbstractConstraint> constraintEditor;
     private AbstractConstraint constraint;
     private final OWLEditorKit owlEditorKit;
     private final ConstraintSystem constraintSystem;
     private final OPPLExpressionChecker<AbstractConstraint> constraintExpressionChecker;
 
-    /** @return the constraint */
+    /**
+     * @return the constraint
+     */
     public AbstractConstraint getConstraint() {
         return constraint;
     }
 
-    /** @param constraint
-     *            the constraint to set */
+    /**
+     * @param constraint
+     *        the constraint to set
+     */
     public void setConstraint(AbstractConstraint constraint) {
         constraintEditor.setText(constraint.toString());
     }
@@ -75,8 +82,10 @@ public class OPPLConstraintEditor extends JPanel implements VerifiedInputEditor 
         return toReturn;
     }
 
-    /** @param isValid
-     *            isValid */
+    /**
+     * @param isValid
+     *        isValid
+     */
     private void notifyListeners(boolean isValid) {
         for (InputVerificationStatusChangedListener listener : listeners) {
             listener.verifiedStatusChanged(isValid);
@@ -85,7 +94,7 @@ public class OPPLConstraintEditor extends JPanel implements VerifiedInputEditor 
 
     @Override
     public void removeStatusChangedListener(
-            InputVerificationStatusChangedListener listener) {
+        InputVerificationStatusChangedListener listener) {
         listeners.remove(listener);
     }
 
@@ -95,35 +104,38 @@ public class OPPLConstraintEditor extends JPanel implements VerifiedInputEditor 
         notifyListeners(isValid);
     }
 
-    /** @param owlEditorKit
-     *            owlEditorKit
+    /**
+     * @param owlEditorKit
+     *        owlEditorKit
      * @param constraintSystem
-     *            constraintSystem */
+     *        constraintSystem
+     */
     public OPPLConstraintEditor(OWLEditorKit owlEditorKit,
-            ConstraintSystem constraintSystem) {
+        ConstraintSystem constraintSystem) {
         setLayout(new BorderLayout());
         this.owlEditorKit = owlEditorKit;
         this.constraintSystem = constraintSystem;
         constraintExpressionChecker = new OPPLExpressionChecker<AbstractConstraint>(
-                getOWLEditorKit()) {
+            getOWLEditorKit()) {
+
             @Override
             protected AbstractConstraint parse(String text) {
                 AbstractParserFactory factory = ProtegeParserFactory
-                        .getInstance(getOWLEditorKit());
+                    .getInstance(getOWLEditorKit());
                 OPPLParser parser = factory.build(getListener());
                 OPPLSymbolTable symbolTable = parser.getSymbolTableFactory()
-                        .createSymbolTable();
+                    .createSymbolTable();
                 symbolTable.importConstraintSystem(OPPLConstraintEditor.this
-                        .getConstraintSystem());
+                    .getConstraintSystem());
                 AbstractConstraint toReturn = parser.parseConstraint(text, symbolTable,
-                        OPPLConstraintEditor.this.getConstraintSystem());
+                    OPPLConstraintEditor.this.getConstraintSystem());
                 return toReturn;
             }
         };
         // Setup the constraint editor
-        constraintEditor = new ExpressionEditor<AbstractConstraint>(getOWLEditorKit()
-                .getOWLModelManager().getOWLOntologyManager(),
-                constraintExpressionChecker);
+        constraintEditor = new ExpressionEditor<>(getOWLEditorKit()
+            .getOWLModelManager().getOWLOntologyManager(),
+            constraintExpressionChecker);
         JPanel constraintEditorPanel = new JPanel(new BorderLayout());
         constraintEditorPanel.add(ComponentFactory.createScrollPane(constraintEditor));
         // remove listeners
@@ -132,24 +144,29 @@ public class OPPLConstraintEditor extends JPanel implements VerifiedInputEditor 
             constraintEditor.removeKeyListener(keyListener);
         }
         constraintEditor
-                .addStatusChangedListener(new InputVerificationStatusChangedListener() {
-                    @Override
-                    public void verifiedStatusChanged(boolean newState) {
-                        OPPLConstraintEditor.this.handleChange();
-                    }
-                });
+            .addStatusChangedListener(new InputVerificationStatusChangedListener() {
+
+                @Override
+                public void verifiedStatusChanged(boolean newState) {
+                    OPPLConstraintEditor.this.handleChange();
+                }
+            });
         this.add(constraintEditorPanel, BorderLayout.CENTER);
     }
 
     /** dispose */
     public void dispose() {}
 
-    /** @return the owlEditorKit */
+    /**
+     * @return the owlEditorKit
+     */
     public OWLEditorKit getOWLEditorKit() {
         return owlEditorKit;
     }
 
-    /** @return the constraintSystem */
+    /**
+     * @return the constraintSystem
+     */
     public ConstraintSystem getConstraintSystem() {
         return constraintSystem;
     }

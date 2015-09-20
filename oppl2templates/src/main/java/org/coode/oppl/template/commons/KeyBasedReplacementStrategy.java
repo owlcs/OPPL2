@@ -8,18 +8,23 @@ import java.util.regex.Pattern;
 
 import org.coode.oppl.template.ReplacementStrategy;
 
-/** This strategy assumes that place-holders are also keys in a
+/**
+ * This strategy assumes that place-holders are also keys in a
  * {@link Properties} instance. It replaces them with their corresponding
  * values. The property names are the place-holders name <b>without</b> the
  * {@literal %} prefix
  * 
- * @author Luigi Iannone */
+ * @author Luigi Iannone
+ */
 public final class KeyBasedReplacementStrategy implements
-        ReplacementStrategy<String, String> {
+    ReplacementStrategy<String, String> {
+
     private final Properties properties;
 
-    /** @param properties
-     *            properties */
+    /**
+     * @param properties
+     *        properties
+     */
     public KeyBasedReplacementStrategy(Properties properties) {
         this.properties = checkNotNull(properties, "properties");
     }
@@ -34,7 +39,7 @@ public final class KeyBasedReplacementStrategy implements
             String placeholder = matcher.group();
             String key = matcher.group(1);
             replacedString = replacedString.replaceAll(encode(placeholder),
-                    getReplacement(key));
+                getReplacement(key));
             matcher = pattern.matcher(replacedString);
         }
         return replacedString;
@@ -42,14 +47,14 @@ public final class KeyBasedReplacementStrategy implements
 
     private String encode(String placeholder) {
         return placeholder.replaceAll("(\\$)", "\\\\$1").replaceAll("(\\{)", "\\\\$1")
-                .replaceAll("(\\})", "\\\\$1");
+            .replaceAll("(\\})", "\\\\$1");
     }
 
     private String getReplacement(String placeholder) {
         String replacement = properties.getProperty(placeholder);
         if (replacement == null) {
             throw new NullPointerException("Missing value for place-holder "
-                    + placeholder);
+                + placeholder);
         }
         return replacement;
     }

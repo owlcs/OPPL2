@@ -5,17 +5,22 @@ import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 import org.coode.parsers.oppl.testcase.OPPLTest;
 import org.coode.parsers.oppl.testcase.OPPLTestCase;
 
-/** Represents an entirely successful execution execution of test inside an
+/**
+ * Represents an entirely successful execution execution of test inside an
  * OPPLTestCase
  * 
- * @author Luigi Iannone */
+ * @author Luigi Iannone
+ */
 public final class SuccessfulExecutionReport extends AbstractReport {
+
     private final OPPLTest successfulTest;
 
-    /** @param opplTestCase
-     *            opplTestCase
+    /**
+     * @param opplTestCase
+     *        opplTestCase
      * @param test
-     *            test */
+     *        test
+     */
     public SuccessfulExecutionReport(OPPLTestCase opplTestCase, OPPLTest test) {
         super(opplTestCase);
         successfulTest = checkNotNull(test, "test");
@@ -31,7 +36,9 @@ public final class SuccessfulExecutionReport extends AbstractReport {
         return visitor.visitSuccessfulExecutionReport(this);
     }
 
-    /** @return the successfulTest */
+    /**
+     * @return the successfulTest
+     */
     public OPPLTest getSuccessfulTest() {
         return successfulTest;
     }

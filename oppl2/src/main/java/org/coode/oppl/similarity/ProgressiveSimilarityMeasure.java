@@ -6,14 +6,19 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-/** @author Luigi Iannone
+/**
+ * @author Luigi Iannone
  * @param <O>
- *            type */
+ *        type
+ */
 public class ProgressiveSimilarityMeasure<O> implements SimilarityMeasure<O> {
-    private final List<SimilarityMeasure<O>> measureList = new ArrayList<SimilarityMeasure<O>>();
 
-    /** @param measures
-     *            measures */
+    private final List<SimilarityMeasure<O>> measureList = new ArrayList<>();
+
+    /**
+     * @param measures
+     *        measures
+     */
     public ProgressiveSimilarityMeasure(List<? extends SimilarityMeasure<O>> measures) {
         this.measureList.addAll(checkNotNull(measures, "measures"));
         if (measures.isEmpty()) {
@@ -45,8 +50,10 @@ public class ProgressiveSimilarityMeasure<O> implements SimilarityMeasure<O> {
         return toReturn;
     }
 
-    /** @return the measureList */
+    /**
+     * @return the measureList
+     */
     public final List<SimilarityMeasure<O>> getMeasureList() {
-        return new ArrayList<SimilarityMeasure<O>>(this.measureList);
+        return new ArrayList<>(this.measureList);
     }
 }

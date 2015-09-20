@@ -40,8 +40,8 @@ public class OWLObjectAbstractor extends OWLObjectVisitorExAdapter<OWLObject>imp
     OWLObjectVisitorEx<OWLObject> {
 
     private final ValueComputationParameters parameters;
-    private final Set<Variable<?>> variables = new HashSet<Variable<?>>();
-    private final Set<BindingNode> bindingNodes = new HashSet<BindingNode>();
+    private final Set<Variable<?>> variables = new HashSet<>();
+    private final Set<BindingNode> bindingNodes = new HashSet<>();
     private final OWLDataFactory df;
 
     /**
@@ -85,7 +85,7 @@ public class OWLObjectAbstractor extends OWLObjectVisitorExAdapter<OWLObject>imp
     }
 
     private <T extends OWLObject> Set<T> abs(Collection<T> c) {
-        Set<T> values = new HashSet<T>();
+        Set<T> values = new HashSet<>();
         for (T v : c) {
             values.add(abs(v));
         }
@@ -380,7 +380,7 @@ public class OWLObjectAbstractor extends OWLObjectVisitorExAdapter<OWLObject>imp
     @Override
     public OWLObject visit(OWLSubPropertyChainOfAxiom axiom) {
         List<OWLObjectPropertyExpression> propertyChain = axiom.getPropertyChain();
-        List<OWLObjectPropertyExpression> values = new ArrayList<OWLObjectPropertyExpression>();
+        List<OWLObjectPropertyExpression> values = new ArrayList<>();
         for (OWLObjectPropertyExpression v : propertyChain) {
             values.add(abs(v));
         }

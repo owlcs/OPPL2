@@ -13,41 +13,30 @@ import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.coode.parsers.common.SilentListener;
 import org.semanticweb.owlapi.apibinding.OWLManager;
-import org.semanticweb.owlapi.model.AddAxiom;
-import org.semanticweb.owlapi.model.AddImport;
-import org.semanticweb.owlapi.model.AddOntologyAnnotation;
-import org.semanticweb.owlapi.model.OWLAxiom;
-import org.semanticweb.owlapi.model.OWLAxiomChange;
-import org.semanticweb.owlapi.model.OWLOntology;
-import org.semanticweb.owlapi.model.OWLOntologyChangeVisitor;
-import org.semanticweb.owlapi.model.OWLOntologyCreationException;
-import org.semanticweb.owlapi.model.OWLOntologyManager;
-import org.semanticweb.owlapi.model.OWLRuntimeException;
-import org.semanticweb.owlapi.model.RemoveAxiom;
-import org.semanticweb.owlapi.model.RemoveImport;
-import org.semanticweb.owlapi.model.RemoveOntologyAnnotation;
-import org.semanticweb.owlapi.model.SetOntologyID;
+import org.semanticweb.owlapi.model.*;
 
 @SuppressWarnings("javadoc")
 public class RunOPPL {
+
     public void feedOPPL(String script, String ontologyName)
-            throws OWLOntologyCreationException {
+        throws OWLOntologyCreationException {
         OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
         String opplScriptString = script;
         OWLOntology ontology = ontologyManager.loadOntologyFromOntologyDocument(this
-                .getClass().getResourceAsStream(ontologyName));
+            .getClass().getResourceAsStream(ontologyName));
         ParserFactory parserFactory = new ParserFactory(ontologyManager, ontology, null);
         // OPPLParser parser = parserFactory.build(new SystemErrorEcho());
         AnnotationBasedSymbolTableFactory annotationBasedSymbolTableFactory = new AnnotationBasedSymbolTableFactory(
-                ontologyManager, Arrays.asList(ontologyManager.getOWLDataFactory()
-                        .getRDFSLabel().getIRI()));
+            ontologyManager, Arrays.asList(ontologyManager.getOWLDataFactory()
+                .getRDFSLabel().getIRI()));
         OPPLParser parser = parserFactory.build(new SilentListener(),
-                annotationBasedSymbolTableFactory);
+            annotationBasedSymbolTableFactory);
         // OPPLParser parser = parserFactory.build(new SystemErrorEcho(), new
         // AnnotationBasedSymbolTableFactory(ontologyManager,
         // Arrays.asList(ontologyManager.getOWLDataFactory().getRDFSLabel().getIRI())));
         OPPLScript parsed = parser.parse(opplScriptString);
         ChangeExtractor extractor = new ChangeExtractor(new RuntimeExceptionHandler() {
+
             @Override
             public void handlePatternSyntaxExcpetion(PatternSyntaxException e) {
                 e.printStackTrace();
@@ -66,8 +55,9 @@ public class RunOPPL {
         List<OWLAxiomChange> changes = extractor.visit(parsed);
         for (OWLAxiomChange owlAxiomChange : changes) {
             final ManchesterSyntaxRenderer renderer = parserFactory.getOPPLFactory()
-                    .getManchesterSyntaxRenderer(parsed.getConstraintSystem());
+                .getManchesterSyntaxRenderer(parsed.getConstraintSystem());
             owlAxiomChange.accept(new OWLOntologyChangeVisitor() {
+
                 @Override
                 public void visit(RemoveOntologyAnnotation change) {
                     System.out.println(change);

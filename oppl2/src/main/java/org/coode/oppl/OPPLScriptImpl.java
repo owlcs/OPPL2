@@ -31,44 +31,51 @@ import org.coode.oppl.variabletypes.InputVariable;
 import org.semanticweb.owlapi.model.OWLAxiomChange;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class OPPLScriptImpl implements OPPLScript {
+
     private final ConstraintSystem constraintSystem;
-    private final List<Variable<?>> variables = new ArrayList<Variable<?>>();
+    private final List<Variable<?>> variables = new ArrayList<>();
     private final OPPLQuery query;
     private final List<OWLAxiomChange> actions;
     private final OPPLAbstractFactory factory;
 
-    /** @param constraintSystem
-     *            constraintSystem
+    /**
+     * @param constraintSystem
+     *        constraintSystem
      * @param variables
-     *            variables
+     *        variables
      * @param query
-     *            query
+     *        query
      * @param actions
-     *            actions
+     *        actions
      * @param factory
-     *            factory */
+     *        factory
+     */
     public OPPLScriptImpl(ConstraintSystem constraintSystem, List<Variable<?>> variables,
-            OPPLQuery query, List<OWLAxiomChange> actions, OPPLAbstractFactory factory) {
+        OPPLQuery query, List<OWLAxiomChange> actions, OPPLAbstractFactory factory) {
         this(constraintSystem, variables, query, actions, factory, false);
     }
 
-    /** @param constraintSystem
-     *            constraintSystem
+    /**
+     * @param constraintSystem
+     *        constraintSystem
      * @param variables
-     *            variables
+     *        variables
      * @param query
-     *            query
+     *        query
      * @param actions
-     *            actions
+     *        actions
      * @param factory
-     *            factory
+     *        factory
      * @param resetExecution
-     *            resetExecution */
+     *        resetExecution
+     */
     public OPPLScriptImpl(ConstraintSystem constraintSystem, List<Variable<?>> variables,
-            OPPLQuery query, List<OWLAxiomChange> actions, OPPLAbstractFactory factory,
-            boolean resetExecution) {
+        OPPLQuery query, List<OWLAxiomChange> actions, OPPLAbstractFactory factory,
+        boolean resetExecution) {
         this.constraintSystem = constraintSystem;
         this.variables.addAll(variables);
         if (!resetExecution) {
@@ -76,7 +83,7 @@ public class OPPLScriptImpl implements OPPLScript {
         } else {
             this.query = query == null ? null : new OPPLQueryImpl(query, factory);
         }
-        this.actions = new ArrayList<OWLAxiomChange>(actions);
+        this.actions = new ArrayList<>(actions);
         this.factory = factory;
     }
 
@@ -87,8 +94,8 @@ public class OPPLScriptImpl implements OPPLScript {
 
     @Override
     public List<InputVariable<?>> getInputVariables() {
-        List<InputVariable<?>> toReturn = new ArrayList<InputVariable<?>>(
-                variables.size());
+        List<InputVariable<?>> toReturn = new ArrayList<>(
+            variables.size());
         for (Variable<?> v : variables) {
             if (VariableRecogniser.INPUT_VARIABLE_RECOGNISER.recognise(v)) {
                 toReturn.add((InputVariable<?>) v);
@@ -99,16 +106,20 @@ public class OPPLScriptImpl implements OPPLScript {
 
     @Override
     public List<Variable<?>> getVariables() {
-        return new ArrayList<Variable<?>>(variables);
+        return new ArrayList<>(variables);
     }
 
-    /** @return the query */
+    /**
+     * @return the query
+     */
     @Override
     public OPPLQuery getQuery() {
         return query;
     }
 
-    /** @return the actions */
+    /**
+     * @return the actions
+     */
     @Override
     public List<OWLAxiomChange> getActions() {
         return actions;
@@ -157,7 +168,7 @@ public class OPPLScriptImpl implements OPPLScript {
             for (OWLAxiomChange action : getActions()) {
                 String commaString = first ? "" : ", ";
                 ManchesterSyntaxRenderer renderer = factory
-                        .getManchesterSyntaxRenderer(constraintSystem);
+                    .getManchesterSyntaxRenderer(constraintSystem);
                 String actionString = action.isAddAxiom() ? "ADD " : "REMOVE ";
                 first = false;
                 buffer.append(commaString);
@@ -203,7 +214,7 @@ public class OPPLScriptImpl implements OPPLScript {
             for (OWLAxiomChange action : getActions()) {
                 String commaString = first ? "" : ", ";
                 ManchesterSyntaxRenderer renderer = new ManchesterSyntaxRenderer(
-                        shortFormProvider);
+                    shortFormProvider);
                 String actionString = action.isAddAxiom() ? "ADD " : "REMOVE ";
                 first = false;
                 buffer.append(commaString);

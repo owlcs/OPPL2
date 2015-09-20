@@ -22,14 +22,17 @@
  */
 package org.coode.patterns;
 
-/** @author Luigi Iannone Jun 25, 2008 */
+/**
+ * @author Luigi Iannone Jun 25, 2008
+ */
 @SuppressWarnings("javadoc")
 public class InvalidNumebrOfArgumentException extends PatternException {
+
     private static final long serialVersionUID = 20100L;
 
     public InvalidNumebrOfArgumentException(String patternName, int actualArgumentCount,
-            int expectedArgumentCount) {
+        int expectedArgumentCount) {
         super("Invalid argument count " + actualArgumentCount + " for pattern "
-                + patternName + " expected " + expectedArgumentCount);
+            + patternName + " expected " + expectedArgumentCount);
     }
 }

@@ -11,30 +11,36 @@ import org.protege.editor.owl.model.event.OWLModelManagerChangeEvent;
 import org.protege.editor.owl.model.event.OWLModelManagerListener;
 import org.semanticweb.owlapi.model.OWLOntology;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public abstract class AbstractOWLActiveOntologyAction extends DisposableAction {
+
     private static final long serialVersionUID = 20100L;
     private final OWLModelManagerListener owlModelManagerListener;
     private final OWLEditorKit owlEditorKit;
 
-    /** @param name
-     *            name
+    /**
+     * @param name
+     *        name
      * @param icon
-     *            icon
+     *        icon
      * @param owlEditorKit
-     *            owlEditorKit */
+     *        owlEditorKit
+     */
     public AbstractOWLActiveOntologyAction(String name, Icon icon,
-            OWLEditorKit owlEditorKit) {
+        OWLEditorKit owlEditorKit) {
         super(name, icon);
         this.owlEditorKit = checkNotNull(owlEditorKit, "owlEditorKit");
         owlModelManagerListener = new OWLModelManagerListener() {
+
             @Override
             public void handleChange(OWLModelManagerChangeEvent event) {
                 if (event.isType(EventType.ACTIVE_ONTOLOGY_CHANGED)) {
                     AbstractOWLActiveOntologyAction.this
-                            .updateAction(AbstractOWLActiveOntologyAction.this
-                                    .getOWLEditorKit().getOWLModelManager()
-                                    .getActiveOntology());
+                        .updateAction(AbstractOWLActiveOntologyAction.this
+                            .getOWLEditorKit().getOWLModelManager()
+                            .getActiveOntology());
                 }
             }
         };
@@ -46,7 +52,9 @@ public abstract class AbstractOWLActiveOntologyAction extends DisposableAction {
 
     protected abstract void updateAction(OWLOntology ontology);
 
-    /** @return the owlEditorKit */
+    /**
+     * @return the owlEditorKit
+     */
     public OWLEditorKit getOWLEditorKit() {
         return owlEditorKit;
     }

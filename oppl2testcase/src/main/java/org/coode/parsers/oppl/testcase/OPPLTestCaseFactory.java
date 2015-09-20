@@ -11,20 +11,25 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class OPPLTestCaseFactory implements AbstractOPPLTestCaseFactory {
+
     private final OWLOntology ontology;
     private final OWLOntologyManager ontologyManager;
     private final OWLReasoner reasoner;
 
-    /** @param ontology
-     *            ontology
+    /**
+     * @param ontology
+     *        ontology
      * @param ontologyManager
-     *            ontologyManager
+     *        ontologyManager
      * @param reasoner
-     *            reasoner */
+     *        reasoner
+     */
     public OPPLTestCaseFactory(OWLOntology ontology, OWLOntologyManager ontologyManager,
-            OWLReasoner reasoner) {
+        OWLReasoner reasoner) {
         this.ontologyManager = checkNotNull(ontologyManager, "ontologyManager");
         this.ontology = checkNotNull(ontology, "ontology");
         this.reasoner = reasoner;
@@ -32,7 +37,7 @@ public class OPPLTestCaseFactory implements AbstractOPPLTestCaseFactory {
 
     @Override
     public OPPLTestCase buildOPPLTestCase(String name, OPPLScript opplContent,
-            List<? extends OPPLTest> tests, boolean requiresInference) {
+        List<? extends OPPLTest> tests, boolean requiresInference) {
         return new OPPLTestCaseImpl(name, opplContent, tests, requiresInference);
     }
 
@@ -41,17 +46,23 @@ public class OPPLTestCaseFactory implements AbstractOPPLTestCaseFactory {
         return new OPPLFactory(getOntologyManager(), getOntology(), getReasoner());
     }
 
-    /** @return the ontology */
+    /**
+     * @return the ontology
+     */
     public OWLOntology getOntology() {
         return ontology;
     }
 
-    /** @return the ontologyManager */
+    /**
+     * @return the ontologyManager
+     */
     public OWLOntologyManager getOntologyManager() {
         return ontologyManager;
     }
 
-    /** @return the reasoner */
+    /**
+     * @return the reasoner
+     */
     public OWLReasoner getReasoner() {
         return reasoner;
     }

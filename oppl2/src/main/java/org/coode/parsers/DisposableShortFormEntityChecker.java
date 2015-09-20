@@ -5,33 +5,35 @@ import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 import org.coode.oppl.OPPLShortFormProvider;
 import org.semanticweb.owlapi.expression.OWLEntityChecker;
 import org.semanticweb.owlapi.expression.ShortFormEntityChecker;
-import org.semanticweb.owlapi.model.OWLAnnotationProperty;
-import org.semanticweb.owlapi.model.OWLClass;
-import org.semanticweb.owlapi.model.OWLDataProperty;
-import org.semanticweb.owlapi.model.OWLDatatype;
-import org.semanticweb.owlapi.model.OWLNamedIndividual;
-import org.semanticweb.owlapi.model.OWLObjectProperty;
+import org.semanticweb.owlapi.model.*;
 import org.semanticweb.owlapi.util.SimpleShortFormProvider;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class DisposableShortFormEntityChecker implements DisposableOWLEntityChecker {
+
     private final BidirectionalShortFormProviderAdapter shrotFormProviderAdaptor;
     private final OWLEntityChecker delegate;
 
-    /** @param shrotFormProviderAdaptor
-     *            shrotFormProviderAdaptor */
+    /**
+     * @param shrotFormProviderAdaptor
+     *        shrotFormProviderAdaptor
+     */
     public DisposableShortFormEntityChecker(
-            BidirectionalShortFormProviderAdapter shrotFormProviderAdaptor) {
+        BidirectionalShortFormProviderAdapter shrotFormProviderAdaptor) {
         this.shrotFormProviderAdaptor = shrotFormProviderAdaptor;
         delegate = new ShortFormEntityChecker(shrotFormProviderAdaptor);
     }
 
-    /** @param owlEntityChecker
-     *            owlEntityChecker */
+    /**
+     * @param owlEntityChecker
+     *        owlEntityChecker
+     */
     public DisposableShortFormEntityChecker(OWLEntityChecker owlEntityChecker) {
         delegate = checkNotNull(owlEntityChecker, "owlEntityChecker");
         shrotFormProviderAdaptor = new BidirectionalShortFormProviderAdapter(
-                new OPPLShortFormProvider(new SimpleShortFormProvider()));
+            new OPPLShortFormProvider(new SimpleShortFormProvider()));
     }
 
     @Override

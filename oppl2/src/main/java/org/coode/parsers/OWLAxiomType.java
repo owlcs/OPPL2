@@ -2,7 +2,9 @@ package org.coode.parsers;
 
 import java.util.EnumSet;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public enum OWLAxiomType implements Type {
     /** CLASS */
     CLASS_ASSERTION,
@@ -78,6 +80,7 @@ public enum OWLAxiomType implements Type {
     HAS_KEY,
     /** ANNOTATION */
     ANNOTATION_ASSERTION;
+
     @Override
     public void accept(TypeVisitor visitor) {
         visitor.visitOWLAxiomType(this);
@@ -90,13 +93,15 @@ public enum OWLAxiomType implements Type {
 
     private static EnumSet<OWLAxiomType> getAssertionOWLAxiomTypes() {
         return EnumSet.of(DATA_PROPERTY_ASSERTION, OBJECT_PROPERTY_ASSERTION,
-                CLASS_ASSERTION, NEGATIVE_DATA_PROPERTY_ASSERTION,
-                NEGATIVE_OBJECT_PROPERTY_ASSERTION);
+            CLASS_ASSERTION, NEGATIVE_DATA_PROPERTY_ASSERTION,
+            NEGATIVE_OBJECT_PROPERTY_ASSERTION);
     }
 
-    /** @param type
-     *            type
-     * @return true if abox axiom */
+    /**
+     * @param type
+     *        type
+     * @return true if abox axiom
+     */
     public static boolean isAssertion(OWLAxiomType type) {
         return getAssertionOWLAxiomTypes().contains(type);
     }

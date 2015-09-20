@@ -16,29 +16,34 @@ import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.coode.parsers.oppl.testcase.AbstractOPPLTestCaseFactory;
 import org.semanticweb.owlapi.model.OWLObject;
 
-/** Asserts that the bindings of a Variable contain a specified value.
+/**
+ * Asserts that the bindings of a Variable contain a specified value.
  * 
- * @author Luigi Iannone */
+ * @author Luigi Iannone
+ */
 public class AssertContains implements Assertion {
+
     private final Variable<?> variable;
     private final ConstraintSystem constraintSystem;
-    private final Set<OWLObject> values = new HashSet<OWLObject>();
+    private final Set<OWLObject> values = new HashSet<>();
     private final AbstractOPPLTestCaseFactory testCaseFactory;
     private final RuntimeExceptionHandler handler;
 
-    /** @param variable
-     *            variable
+    /**
+     * @param variable
+     *        variable
      * @param values
-     *            values
+     *        values
      * @param constraintSystem
-     *            constraintSystem
+     *        constraintSystem
      * @param testCaseFactory
-     *            testCaseFactory
+     *        testCaseFactory
      * @param handler
-     *            handler */
+     *        handler
+     */
     public AssertContains(Variable<?> variable, Collection<? extends OWLObject> values,
-            ConstraintSystem constraintSystem,
-            AbstractOPPLTestCaseFactory testCaseFactory, RuntimeExceptionHandler handler) {
+        ConstraintSystem constraintSystem,
+        AbstractOPPLTestCaseFactory testCaseFactory, RuntimeExceptionHandler handler) {
         this.variable = checkNotNull(variable, "variable");
         this.values.addAll(checkNotNull(values, "values"));
         if (values.isEmpty()) {
@@ -49,7 +54,9 @@ public class AssertContains implements Assertion {
         this.handler = checkNotNull(handler, "handler");
     }
 
-    /** @return the variable */
+    /**
+     * @return the variable
+     */
     public Variable<?> getVariable() {
         return variable;
     }
@@ -73,29 +80,33 @@ public class AssertContains implements Assertion {
             String comma = first ? "" : ", ";
             first = false;
             ManchesterSyntaxRenderer renderer = getTestCaseFactory().getOPPLFactory()
-                    .getManchesterSyntaxRenderer(getConstraintSystem());
+                .getManchesterSyntaxRenderer(getConstraintSystem());
             v.accept(renderer);
             b.append(String.format("%s%s", comma, renderer));
         }
         return b.toString();
     }
 
-    /** @return the constraintSystem */
+    /**
+     * @return the constraintSystem
+     */
     public ConstraintSystem getConstraintSystem() {
         return constraintSystem;
     }
 
-    /** @return the testCaseFactory */
+    /**
+     * @return the testCaseFactory
+     */
     public AbstractOPPLTestCaseFactory getTestCaseFactory() {
         return testCaseFactory;
     }
 
     @Override
     public boolean holds(Set<? extends BindingNode> bindings, ConstraintSystem cs) {
-        Set<OWLObject> containerValues = new HashSet<OWLObject>(bindings.size());
+        Set<OWLObject> containerValues = new HashSet<>(bindings.size());
         for (BindingNode bindingNode : bindings) {
             ValueComputationParameters parameters = new SimpleValueComputationParameters(
-                    cs, bindingNode, getHandler());
+                cs, bindingNode, getHandler());
             OWLObject value = bindingNode.getAssignmentValue(getVariable(), parameters);
             if (value != null) {
                 containerValues.add(value);
@@ -104,9 +115,11 @@ public class AssertContains implements Assertion {
         return containerValues.containsAll(getValues());
     }
 
-    /** @return the values */
+    /**
+     * @return the values
+     */
     public Set<OWLObject> getValues() {
-        return new HashSet<OWLObject>(values);
+        return new HashSet<>(values);
     }
 
     @Override
@@ -147,7 +160,9 @@ public class AssertContains implements Assertion {
         return true;
     }
 
-    /** @return the handler */
+    /**
+     * @return the handler
+     */
     public RuntimeExceptionHandler getHandler() {
         return handler;
     }

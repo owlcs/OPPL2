@@ -14,19 +14,24 @@ import org.coode.parsers.ui.InputVerificationStatusChangedListener;
 import org.coode.parsers.ui.VerifiedInputEditor;
 import org.protege.editor.owl.ui.clsdescriptioneditor.ExpressionEditor;
 
-/** @author Luigi Iannone
+/**
+ * @author Luigi Iannone
  * @param <O>
- *            type */
+ *        type
+ */
 public abstract class AbstractVariableEditor<O extends Variable<?>> extends JPanel
-        implements VerifiedInputEditor {
+    implements VerifiedInputEditor {
+
     private static final long serialVersionUID = 20100L;
-    private final Set<InputVerificationStatusChangedListener> listeners = new HashSet<InputVerificationStatusChangedListener>();
+    private final Set<InputVerificationStatusChangedListener> listeners = new HashSet<>();
     private O variable = null;
     protected ExpressionEditor<String> variableNameExpressionEditor;
     protected ButtonGroup variableTypeButtonGroup;
 
-    /** @param variable
-     *            variable */
+    /**
+     * @param variable
+     *        variable
+     */
     public void setVariable(O variable) {
         this.variable = variable;
     }
@@ -35,14 +40,14 @@ public abstract class AbstractVariableEditor<O extends Variable<?>> extends JPan
 
     @Override
     public void addStatusChangedListener(
-            final InputVerificationStatusChangedListener listener) {
+        final InputVerificationStatusChangedListener listener) {
         // listener.verifiedStatusChanged(check());
         this.listeners.add(listener);
     }
 
     @Override
     public void removeStatusChangedListener(
-            final InputVerificationStatusChangedListener listener) {
+        final InputVerificationStatusChangedListener listener) {
         this.listeners.remove(listener);
     }
 
@@ -52,12 +57,16 @@ public abstract class AbstractVariableEditor<O extends Variable<?>> extends JPan
         }
     }
 
-    /** @return variable */
+    /**
+     * @return variable
+     */
     public Variable<?> getVariable() {
         return this.variable;
     }
 
-    /** @return editor name */
+    /**
+     * @return editor name
+     */
     public abstract String getEditorName();
 
     /** dispose */
@@ -74,7 +83,7 @@ public abstract class AbstractVariableEditor<O extends Variable<?>> extends JPan
     protected JRadioButton findSelectedButton() {
         JRadioButton button = null;
         Enumeration<AbstractButton> directions = this.variableTypeButtonGroup
-                .getElements();
+            .getElements();
         boolean found = false;
         while (!found && directions.hasMoreElements()) {
             button = (JRadioButton) directions.nextElement();

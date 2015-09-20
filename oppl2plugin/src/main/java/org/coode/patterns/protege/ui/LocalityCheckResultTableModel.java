@@ -18,8 +18,10 @@ import org.semanticweb.owlapi.model.OWLEntity;
 
 /** table model for locality checker */
 public class LocalityCheckResultTableModel implements TableModel {
+
     private static enum values {
         PRESENT("X", 'X'), ABSENT(" ", ' ');
+
         private char v;
         private String val;
 
@@ -44,18 +46,22 @@ public class LocalityCheckResultTableModel implements TableModel {
     }
 
     private final String[][] dataArray;
-    private final List<TableModelListener> listeners = new ArrayList<TableModelListener>();
+    private final List<TableModelListener> listeners = new ArrayList<>();
 
-    /** @return data array */
+    /**
+     * @return data array
+     */
     public String[][] getDataArray() {
         return dataArray;
     }
 
-    /** @param checker
-     *            checker */
+    /**
+     * @param checker
+     *        checker
+     */
     public LocalityCheckResultTableModel(LocalityChecker checker) {
-        List<InputVariable<?>> toAssign = new ArrayList<InputVariable<?>>(checker
-                .getInstantiatedPatternModel().getInputVariables());
+        List<InputVariable<?>> toAssign = new ArrayList<>(checker
+            .getInstantiatedPatternModel().getInputVariables());
         List<Boolean> bindingsLocality = checker.getExploredNodesLocality();
         List<BindingNode> bindings = checker.getExploredNodes();
         dataArray = new String[bindings.size() + 1][toAssign.size() + 1];
@@ -70,8 +76,8 @@ public class LocalityCheckResultTableModel implements TableModel {
                 setValueAt(bindingsLocality.get(i), i, 0);
                 BindingNode node = bindings.get(i);
                 ValueComputationParameters parameters = new SimpleValueComputationParameters(
-                        checker.getInstantiatedPatternModel().getConstraintSystem(),
-                        node, checker.getHandler());
+                    checker.getInstantiatedPatternModel().getConstraintSystem(),
+                    node, checker.getHandler());
                 for (int j = 0; j < toAssign.size(); j++) {
                     Variable<?> v = toAssign.get(j);
                     if (sigmaMinus.contains(node.getAssignmentValue(v, parameters))) {
@@ -86,8 +92,8 @@ public class LocalityCheckResultTableModel implements TableModel {
     }
 
     private void sort() {
-        List<String> trues = new ArrayList<String>();
-        List<String> falses = new ArrayList<String>();
+        List<String> trues = new ArrayList<>();
+        List<String> falses = new ArrayList<>();
         for (int i = 1; i < dataArray.length; i++) {
             StringBuilder b = new StringBuilder();
             for (int j = 1; j < dataArray[i].length; j++) {

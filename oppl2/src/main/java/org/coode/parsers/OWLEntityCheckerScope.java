@@ -8,24 +8,29 @@ import java.util.Set;
 
 import org.semanticweb.owlapi.model.OWLEntity;
 
-/** Scope based on an OWLEntityChecker instance. All the symbols are derived from
+/**
+ * Scope based on an OWLEntityChecker instance. All the symbols are derived from
  * the entities recognised by the OWLEntityChecker.
  * 
- * @author Luigi Iannone */
+ * @author Luigi Iannone
+ */
 @SuppressWarnings("incomplete-switch")
 public class OWLEntityCheckerScope implements Scope {
+
     private final DisposableOWLEntityChecker owlEntityChecker;
     private final EntityFinder entityFinder;
     private final OWLEntityRenderer owlEntityRenderer;
 
-    /** @param owlEntityChecker
-     *            owlEntityChecker
+    /**
+     * @param owlEntityChecker
+     *        owlEntityChecker
      * @param entityFinder
-     *            entityFinder
+     *        entityFinder
      * @param owlEntityRenderer
-     *            owlEntityRenderer */
+     *        owlEntityRenderer
+     */
     public OWLEntityCheckerScope(DisposableOWLEntityChecker owlEntityChecker,
-            EntityFinder entityFinder, OWLEntityRenderer owlEntityRenderer) {
+        EntityFinder entityFinder, OWLEntityRenderer owlEntityRenderer) {
         this.owlEntityChecker = checkNotNull(owlEntityChecker, "owlEntityChecker");
         this.entityFinder = checkNotNull(entityFinder, "entityFinder");
         this.owlEntityRenderer = checkNotNull(owlEntityRenderer, "owlEntityRenderer");
@@ -70,7 +75,7 @@ public class OWLEntityCheckerScope implements Scope {
                             toReturn = new OWLEntitySymbol(name, owlEntity);
                         } else {
                             owlEntity = getOWLEntityChecker().getOWLAnnotationProperty(
-                                    name);
+                                name);
                             if (owlEntity != null) {
                                 toReturn = new OWLEntitySymbol(name, owlEntity);
                             }
@@ -84,27 +89,33 @@ public class OWLEntityCheckerScope implements Scope {
 
     @Override
     public Set<Symbol> match(String prefix) {
-        Set<Symbol> toReturn = new HashSet<Symbol>();
+        Set<Symbol> toReturn = new HashSet<>();
         Set<OWLEntity> entities = getEntityFinder().getEntities(
-                checkNotNull(prefix, "prefix"));
+            checkNotNull(prefix, "prefix"));
         for (OWLEntity owlEntity : entities) {
             toReturn.add(new OWLEntitySymbol(getOWLEntityRenderer().render(owlEntity),
-                    owlEntity));
+                owlEntity));
         }
         return toReturn;
     }
 
-    /** @return the owlEntityChecker */
+    /**
+     * @return the owlEntityChecker
+     */
     public DisposableOWLEntityChecker getOWLEntityChecker() {
         return owlEntityChecker;
     }
 
-    /** @return the entityFinder */
+    /**
+     * @return the entityFinder
+     */
     public EntityFinder getEntityFinder() {
         return entityFinder;
     }
 
-    /** @return the owlEntityRenderer */
+    /**
+     * @return the owlEntityRenderer
+     */
     public OWLEntityRenderer getOWLEntityRenderer() {
         return owlEntityRenderer;
     }
@@ -112,10 +123,10 @@ public class OWLEntityCheckerScope implements Scope {
     @Override
     public Set<Symbol> getAllSymbols() {
         Set<OWLEntity> entities = getEntityFinder().getEntities("");
-        Set<Symbol> toReturn = new HashSet<Symbol>(entities.size());
+        Set<Symbol> toReturn = new HashSet<>(entities.size());
         for (OWLEntity owlEntity : entities) {
             toReturn.add(new OWLEntitySymbol(getOWLEntityRenderer().render(owlEntity),
-                    owlEntity));
+                owlEntity));
         }
         return toReturn;
     }
@@ -123,6 +134,7 @@ public class OWLEntityCheckerScope implements Scope {
     @Override
     public Set<Symbol> getAllSymbols(Type type) {
         Set<OWLEntity> entities = type.accept(new TypeVisitorEx<Set<OWLEntity>>() {
+
             @Override
             public Set<OWLEntity> visitOWLAxiomType(OWLAxiomType owlAxiomType) {
                 return Collections.emptySet();
@@ -135,23 +147,23 @@ public class OWLEntityCheckerScope implements Scope {
 
             @Override
             public Set<OWLEntity> visitOWLType(OWLType owlType) {
-                Set<OWLEntity> toReturn = new HashSet<OWLEntity>();
+                Set<OWLEntity> toReturn = new HashSet<>();
                 switch (owlType) {
                     case OWL_CLASS:
                         toReturn.addAll(OWLEntityCheckerScope.this.getEntityFinder()
-                                .getMatchingOWLClasses("*"));
+                            .getMatchingOWLClasses("*"));
                         break;
                     case OWL_DATA_PROPERTY:
                         toReturn.addAll(OWLEntityCheckerScope.this.getEntityFinder()
-                                .getMatchingOWLDataProperties("*"));
+                            .getMatchingOWLDataProperties("*"));
                         break;
                     case OWL_OBJECT_PROPERTY:
                         toReturn.addAll(OWLEntityCheckerScope.this.getEntityFinder()
-                                .getMatchingOWLObjectProperties("*"));
+                            .getMatchingOWLObjectProperties("*"));
                         break;
                     case OWL_INDIVIDUAL:
                         toReturn.addAll(OWLEntityCheckerScope.this.getEntityFinder()
-                                .getMatchingOWLIndividuals("*"));
+                            .getMatchingOWLIndividuals("*"));
                         break;
                     default:
                         break;
@@ -159,10 +171,10 @@ public class OWLEntityCheckerScope implements Scope {
                 return toReturn;
             }
         });
-        Set<Symbol> toReturn = new HashSet<Symbol>(entities.size());
+        Set<Symbol> toReturn = new HashSet<>(entities.size());
         for (OWLEntity owlEntity : entities) {
             toReturn.add(new OWLEntitySymbol(getOWLEntityRenderer().render(owlEntity),
-                    owlEntity));
+                owlEntity));
         }
         return toReturn;
     }

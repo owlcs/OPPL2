@@ -7,27 +7,28 @@ import java.util.Set;
 import org.protege.editor.owl.OWLEditorKit;
 import org.protege.editor.owl.model.find.OWLEntityFinder;
 import org.semanticweb.owlapi.expression.OWLEntityChecker;
-import org.semanticweb.owlapi.model.OWLAnnotationProperty;
-import org.semanticweb.owlapi.model.OWLClass;
-import org.semanticweb.owlapi.model.OWLDataProperty;
-import org.semanticweb.owlapi.model.OWLDatatype;
-import org.semanticweb.owlapi.model.OWLEntity;
-import org.semanticweb.owlapi.model.OWLNamedIndividual;
-import org.semanticweb.owlapi.model.OWLObjectProperty;
+import org.semanticweb.owlapi.model.*;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public final class ProtegeOWLEntityChecker implements OWLEntityChecker {
+
     private final OWLEditorKit owlEditorKit;
     private final OWLEntityFinder delegate;
 
-    /** @param owlEditorKit
-     *            owlEditorKit */
+    /**
+     * @param owlEditorKit
+     *        owlEditorKit
+     */
     public ProtegeOWLEntityChecker(OWLEditorKit owlEditorKit) {
         this.owlEditorKit = checkNotNull(owlEditorKit, "owlEditorKit");
         delegate = getOWLEditorKit().getOWLModelManager().getOWLEntityFinder();
     }
 
-    /** @return the owlEditorKit */
+    /**
+     * @return the owlEditorKit
+     */
     public OWLEditorKit getOWLEditorKit() {
         return owlEditorKit;
     }
@@ -52,14 +53,18 @@ public final class ProtegeOWLEntityChecker implements OWLEntityChecker {
         return delegate.getOWLDatatype(rendering);
     }
 
-    /** @param rendering
-     *            rendering
-     * @return entity */
+    /**
+     * @param rendering
+     *        rendering
+     * @return entity
+     */
     public OWLEntity getOWLEntity(String rendering) {
         return delegate.getOWLEntity(rendering);
     }
 
-    /** @return renderings */
+    /**
+     * @return renderings
+     */
     public Set<String> getOWLEntityRenderings() {
         return delegate.getOWLEntityRenderings();
     }

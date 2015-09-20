@@ -4,31 +4,30 @@ import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
 import java.util.Set;
 
-import org.coode.parsers.DisposableOWLEntityChecker;
-import org.coode.parsers.EntityFinder;
-import org.coode.parsers.OWLEntityCheckerScope;
-import org.coode.parsers.OWLEntityRenderer;
-import org.coode.parsers.Scope;
-import org.coode.parsers.Symbol;
-import org.coode.parsers.Type;
+import org.coode.parsers.*;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class OPPLScope implements Scope {
+
     private final OWLEntityCheckerScope owlEntityCheckerScope;
 
-    /** @param owlEntityChecker
-     *            owlEntityChecker
+    /**
+     * @param owlEntityChecker
+     *        owlEntityChecker
      * @param entityFinder
-     *            entityFinder
+     *        entityFinder
      * @param owlEntityRenderer
-     *            owlEntityRenderer */
+     *        owlEntityRenderer
+     */
     public OPPLScope(DisposableOWLEntityChecker owlEntityChecker,
-            EntityFinder entityFinder, OWLEntityRenderer owlEntityRenderer) {
+        EntityFinder entityFinder, OWLEntityRenderer owlEntityRenderer) {
         checkNotNull(owlEntityChecker, "owlEntityChecker");
         checkNotNull(entityFinder, "entityFinder");
         checkNotNull(owlEntityRenderer, "owlEntityRenderer");
         owlEntityCheckerScope = new OWLEntityCheckerScope(owlEntityChecker, entityFinder,
-                owlEntityRenderer);
+            owlEntityRenderer);
     }
 
     @Override

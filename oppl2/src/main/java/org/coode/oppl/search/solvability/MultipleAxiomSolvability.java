@@ -18,7 +18,7 @@ import org.semanticweb.owlapi.model.OWLAxiom;
  */
 public class MultipleAxiomSolvability implements AxiomSolvability {
 
-    private final Set<AxiomSolvability> delegates = new HashSet<AxiomSolvability>();
+    private final Set<AxiomSolvability> delegates = new HashSet<>();
 
     /**
      * @param delegates
@@ -76,6 +76,6 @@ public class MultipleAxiomSolvability implements AxiomSolvability {
      * @return the delegates
      */
     public Set<AxiomSolvability> getDelegates() {
-        return new HashSet<AxiomSolvability>(delegates);
+        return new HashSet<>(delegates);
     }
 }

@@ -3,14 +3,7 @@ package org.coode.parsers.ui;
 import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
@@ -19,34 +12,39 @@ import javax.swing.table.TableModel;
 import org.antlr.runtime.Token;
 import org.coode.parsers.utils.TokenFileSorter;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class TokenTableModel implements TableModel {
+
     /**
      * 
      */
     public static final String TOKEN_NAME = "TOKEN NAME";
-    private final Set<TokenFileSorter> tokenFileSorters = new HashSet<TokenFileSorter>();
-    private final List<String> anomalies = new ArrayList<String>();
+    private final Set<TokenFileSorter> tokenFileSorters = new HashSet<>();
+    private final List<String> anomalies = new ArrayList<>();
     private final DefaultTableModel delegate;
     private int maxUsedTokenIndex = 0;
 
-    /** @param tokenFileSorters
-     *            tokenFileSorters */
+    /**
+     * @param tokenFileSorters
+     *        tokenFileSorters
+     */
     public TokenTableModel(Collection<? extends TokenFileSorter> tokenFileSorters) {
         this.tokenFileSorters.addAll(checkNotNull(tokenFileSorters, "tokenFileSorters"));
         delegate = new DefaultTableModel();
-        Set<String> tokenNames = new TreeSet<String>();
+        Set<String> tokenNames = new TreeSet<>();
         for (TokenFileSorter tokenFileSorter : tokenFileSorters) {
             for (Token token : tokenFileSorter.getTokens()) {
                 tokenNames.add(token.getText());
             }
         }
         delegate.addColumn(TokenTableModel.TOKEN_NAME);
-        List<TokenFileSorter> sorterList = new ArrayList<TokenFileSorter>(
-                tokenFileSorters);
+        List<TokenFileSorter> sorterList = new ArrayList<>(
+            tokenFileSorters);
         for (TokenFileSorter tokenFileSorter : sorterList) {
             delegate.addColumn(tokenFileSorter.getPath().substring(
-                    tokenFileSorter.getPath().lastIndexOf(File.separatorChar) + 1));
+                tokenFileSorter.getPath().lastIndexOf(File.separatorChar) + 1));
         }
         for (String string : tokenNames) {
             delegate.addRow(getRow(string, sorterList));
@@ -54,7 +52,7 @@ public class TokenTableModel implements TableModel {
     }
 
     private String[] getRow(String tokenName, List<TokenFileSorter> sorters) {
-        List<String> row = new ArrayList<String>();
+        List<String> row = new ArrayList<>();
         row.add(tokenName);
         for (TokenFileSorter tokenFileSorter : sorters) {
             Iterator<Token> iterator = tokenFileSorter.getTokens().iterator();
@@ -73,7 +71,7 @@ public class TokenTableModel implements TableModel {
         }
         // If there's more than one value in the row (excluding the token name
         // this is anomalous
-        Set<String> distinctValues = new HashSet<String>(row);
+        Set<String> distinctValues = new HashSet<>(row);
         distinctValues.remove("-");
         if (distinctValues.size() > 2) {
             anomalies.add(tokenName);
@@ -126,19 +124,25 @@ public class TokenTableModel implements TableModel {
         delegate.setValueAt(aValue, rowIndex, columnIndex);
     }
 
-    /** @return the anomalies */
+    /**
+     * @return the anomalies
+     */
     public List<String> getAnomalies() {
-        return new ArrayList<String>(anomalies);
+        return new ArrayList<>(anomalies);
     }
 
-    /** @return the maxUsedTokenIndex */
+    /**
+     * @return the maxUsedTokenIndex
+     */
     public int getMaxUsedTokenIndex() {
         return maxUsedTokenIndex;
     }
 
-    /** @return min index */
+    /**
+     * @return min index
+     */
     public int getMinUnusedTokenIndex() {
-        List<Integer> unused = new ArrayList<Integer>();
+        List<Integer> unused = new ArrayList<>();
         for (int i = 4; i < getMaxUsedTokenIndex(); i++) {
             Iterator<TokenFileSorter> iterator = tokenFileSorters.iterator();
             boolean found = false;

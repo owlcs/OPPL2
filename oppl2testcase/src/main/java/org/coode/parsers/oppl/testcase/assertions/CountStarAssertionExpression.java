@@ -1,4 +1,3 @@
-
 package org.coode.parsers.oppl.testcase.assertions;
 
 import java.util.Set;
@@ -6,10 +5,13 @@ import java.util.Set;
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.bindingtree.BindingNode;
 
-/** Represents the count of the number of binding tuples for the OPPL query.
+/**
+ * Represents the count of the number of binding tuples for the OPPL query.
  * 
- * @author Luigi Iannone */
+ * @author Luigi Iannone
+ */
 public class CountStarAssertionExpression implements AssertionExpression<Integer> {
+
     private final static CountStarAssertionExpression instance = new CountStarAssertionExpression();
 
     private CountStarAssertionExpression() {}
@@ -26,7 +28,7 @@ public class CountStarAssertionExpression implements AssertionExpression<Integer
 
     @Override
     public Integer resolve(Set<? extends BindingNode> bindings,
-            ConstraintSystem constraintSystem) {
+        ConstraintSystem constraintSystem) {
         return bindings.size();
     }
 
@@ -35,7 +37,9 @@ public class CountStarAssertionExpression implements AssertionExpression<Integer
         return "count(*)";
     }
 
-    /** @return the instance */
+    /**
+     * @return the instance
+     */
     public static CountStarAssertionExpression getInstance() {
         return instance;
     }

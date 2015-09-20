@@ -12,6 +12,7 @@ import org.coode.parsers.Type;
 
 @SuppressWarnings("javadoc")
 public final class JUnitTestErrorListener implements ErrorListener {
+
     @Override
     public void unrecognisedSymbol(CommonTree t) {
         fail("Unrecognised symbol " + t);
@@ -25,7 +26,7 @@ public final class JUnitTestErrorListener implements ErrorListener {
     @Override
     public void reportThrowable(Throwable t, int line, int charPosInLine, int length) {
         fail(t.getMessage() + " at line " + line + " position " + charPosInLine
-                + " length " + length);
+            + " length " + length);
     }
 
     @Override
@@ -42,7 +43,7 @@ public final class JUnitTestErrorListener implements ErrorListener {
     public void incompatibleSymbols(CommonTree parentExpression, CommonTree... trees) {
         StringBuilder out = new StringBuilder();
         out.append(String.format("Incompatible symbols in %s ",
-                parentExpression.getText()));
+            parentExpression.getText()));
         for (CommonTree commonTree : trees) {
             out.append(String.format("%s ", commonTree.getText()));
         }
@@ -52,7 +53,7 @@ public final class JUnitTestErrorListener implements ErrorListener {
     @Override
     public void incompatibleSymbolType(CommonTree t, Type type, CommonTree expression) {
         fail(String.format("Incompatible symbols type [%s] for %s  in %s ", type,
-                t.getText(), expression.getText()));
+            t.getText(), expression.getText()));
     }
 
     @Override

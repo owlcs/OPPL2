@@ -1,34 +1,47 @@
 package org.coode.parsers.oppl.testcase.ui.report;
 
-/** Visitor pattern with return value for {@link Report}
+/**
+ * Visitor pattern with return value for {@link Report}
  * 
  * @author Luigi Iannone
  * @param <O>
- *            the type of the values returned by this visitor. */
+ *        the type of the values returned by this visitor.
+ */
 public interface ReportVisitorEx<O> {
-    /** @param report
-     *            report
-     * @return visitor result */
+
+    /**
+     * @param report
+     *        report
+     * @return visitor result
+     */
     O visitSuccessfulExecutionReport(SuccessfulExecutionReport report);
 
-    /** @param report
-     *            report
-     * @return visitor result */
+    /**
+     * @param report
+     *        report
+     * @return visitor result
+     */
     O visitConfigurationFailedExecutionReport(ConfigurationFailedExecutionReport report);
 
-    /** @param report
-     *            report
-     * @return visitor result */
+    /**
+     * @param report
+     *        report
+     * @return visitor result
+     */
     O visitRuntimeErrorEncounteredExecutionReport(
-            RuntimeErrorEncounteredExecutionReport report);
+        RuntimeErrorEncounteredExecutionReport report);
 
-    /** @param report
-     *            report
-     * @return visitor result */
+    /**
+     * @param report
+     *        report
+     * @return visitor result
+     */
     O visitAssertionFailedExecutionReport(AssertionFailedExecutionReport report);
 
-    /** @param report
-     *            report
-     * @return visitor result */
+    /**
+     * @param report
+     *        report
+     * @return visitor result
+     */
     O visitUnexecutedTestReport(UnexecutedTestReport report);
 }

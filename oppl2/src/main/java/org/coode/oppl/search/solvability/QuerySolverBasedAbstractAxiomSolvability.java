@@ -4,22 +4,29 @@ import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
 import org.coode.oppl.ConstraintSystem;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public abstract class QuerySolverBasedAbstractAxiomSolvability extends
-        AbstractAxiomSolvability {
+    AbstractAxiomSolvability {
+
     private final QuerySolver querySolver;
 
-    /** @param constraintSystem
-     *            constraintSystem
+    /**
+     * @param constraintSystem
+     *        constraintSystem
      * @param querySolver
-     *            querySolver */
+     *        querySolver
+     */
     public QuerySolverBasedAbstractAxiomSolvability(ConstraintSystem constraintSystem,
-            QuerySolver querySolver) {
+        QuerySolver querySolver) {
         super(constraintSystem);
         this.querySolver = checkNotNull(querySolver, "querySolver");
     }
 
-    /** @return the querySolver */
+    /**
+     * @return the querySolver
+     */
     public QuerySolver getQuerySolver() {
         return querySolver;
     }

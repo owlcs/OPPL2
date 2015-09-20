@@ -4,24 +4,33 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-/** @author Luigi Iannone
+/**
+ * @author Luigi Iannone
  * @param <O>
- *            type */
+ *        type
+ */
 public class OrderedPair<O> extends Pair<O> {
-    /** @param first
-     *            first
+
+    /**
+     * @param first
+     *        first
      * @param second
-     *            second */
+     *        second
+     */
     public OrderedPair(O first, O second) {
         super(first, second);
     }
 
-    /** @return the first */
+    /**
+     * @return the first
+     */
     public O getFirst() {
         return o1;
     }
 
-    /** @return the second */
+    /**
+     * @return the second
+     */
     public O getSecond() {
         return o2;
     }
@@ -50,17 +59,19 @@ public class OrderedPair<O> extends Pair<O> {
         return o1.equals(other.o2) && o2.equals(other.o2);
     }
 
-    /** @param c
-     *            c
+    /**
+     * @param c
+     *        c
      * @param <T>
-     *            type
-     * @return all ordered pairs */
+     *        type
+     * @return all ordered pairs
+     */
     public static <T> Set<OrderedPair<T>> getAllPossibleOrderedPairs(
-            Collection<? extends T> c) {
-        Set<OrderedPair<T>> toReturn = new HashSet<OrderedPair<T>>();
+        Collection<? extends T> c) {
+        Set<OrderedPair<T>> toReturn = new HashSet<>();
         for (T t : c) {
             for (T anotherT : c) {
-                toReturn.add(new OrderedPair<T>(t, anotherT));
+                toReturn.add(new OrderedPair<>(t, anotherT));
             }
         }
         return toReturn;

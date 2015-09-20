@@ -35,54 +35,74 @@ import org.coode.oppl.generated.RegexpGeneratedVariable;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLOntology;
 
-/** @author Luigi Iannone
+/**
+ * @author Luigi Iannone
  * @param <O>
- *            type */
+ *        type
+ */
 public interface VariableType<O extends OWLObject> {
-    /** @param ontologies
-     *            ontologies
-     * @return referenced objects */
+
+    /**
+     * @param ontologies
+     *        ontologies
+     * @return referenced objects
+     */
     Set<O> getReferencedOWLObjects(Collection<? extends OWLOntology> ontologies);
 
-    /** @return allowed deirections */
+    /**
+     * @return allowed deirections
+     */
     EnumSet<Direction> getAllowedDirections();
 
-    /** @param o
-     *            o
-     * @return true if compatible */
+    /**
+     * @param o
+     *        o
+     * @return true if compatible
+     */
     boolean isCompatibleWith(OWLObject o);
 
-    /** @param name
-     *            name
+    /**
+     * @param name
+     *        name
      * @param patternGeneratingOPPLFunction
-     *            patternGeneratingOPPLFunction
-     * @return generated variable */
+     *        patternGeneratingOPPLFunction
+     * @return generated variable
+     */
     RegexpGeneratedVariable<? extends O> getRegexpGeneratedVariable(String name,
-            OPPLFunction<Pattern> patternGeneratingOPPLFunction);
+        OPPLFunction<Pattern> patternGeneratingOPPLFunction);
 
-    /** @param name
-     *            name
+    /**
+     * @param name
+     *        name
      * @param variableScope
-     *            variableScope
-     * @return input variable */
+     *        variableScope
+     * @return input variable
+     */
     InputVariable<O> getInputVariable(String name, VariableScope<?> variableScope);
 
-    /** @param name
-     *            name
+    /**
+     * @param name
+     *        name
      * @param opplFunction
-     *            opplFunction
-     * @return generated variable */
+     *        opplFunction
+     * @return generated variable
+     */
     GeneratedVariable<O> getGeneratedVariable(String name,
-            OPPLFunction<? extends O> opplFunction);
+        OPPLFunction<? extends O> opplFunction);
 
-    /** @param visitor
-     *            visitor */
+    /**
+     * @param visitor
+     *        visitor
+     */
     void accept(VariableTypeVisitor visitor);
 
-    /** @param visitor
-     *            visitor
-     * @param <P>
-     *            visitor return type
-     * @return visitor value */
+    /**
+     * @param visitor
+     *        visitor
+     * @param
+     *        <P>
+     *        visitor return type
+     * @return visitor value
+     */
     <P> P accept(VariableTypeVisitorEx<P> visitor);
 }

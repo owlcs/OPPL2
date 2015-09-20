@@ -7,12 +7,17 @@ import java.util.Set;
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.bindingtree.BindingNode;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class AssertionComplement implements Assertion {
+
     private final Assertion assertion;
 
-    /** @param assertion
-     *            assertion */
+    /**
+     * @param assertion
+     *        assertion
+     */
     public AssertionComplement(Assertion assertion) {
         this.assertion = checkNotNull(assertion, "assertion");
     }
@@ -27,14 +32,16 @@ public class AssertionComplement implements Assertion {
         return visitor.visitAssertionComplement(this);
     }
 
-    /** @return assertion */
+    /**
+     * @return assertion
+     */
     public Assertion getOperand() {
         return assertion;
     }
 
     @Override
     public boolean holds(Set<? extends BindingNode> bindings,
-            ConstraintSystem constraintSystem) {
+        ConstraintSystem constraintSystem) {
         return !getOperand().holds(bindings, constraintSystem);
     }
 

@@ -27,10 +27,15 @@ import java.util.Set;
 import org.coode.oppl.bindingtree.BindingNode;
 import org.semanticweb.owlapi.model.OWLAxiomVisitor;
 
-/** Verifies whether an axiom holds in the ontology
+/**
+ * Verifies whether an axiom holds in the ontology
  * 
- * @author Luigi Iannone */
+ * @author Luigi Iannone
+ */
 public interface AxiomQuery extends OWLAxiomVisitor {
-    /** @return leaves */
+
+    /**
+     * @return leaves
+     */
     Set<BindingNode> getLeaves();
 }

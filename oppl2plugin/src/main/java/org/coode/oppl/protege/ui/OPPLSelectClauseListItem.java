@@ -3,15 +3,20 @@ package org.coode.oppl.protege.ui;
 import org.protege.editor.core.ui.list.MListItem;
 import org.semanticweb.owlapi.model.OWLAxiom;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class OPPLSelectClauseListItem implements MListItem {
+
     private final boolean asserted;
     private final OWLAxiom axiom;
 
-    /** @param asserted
-     *            asserted
+    /**
+     * @param asserted
+     *        asserted
      * @param axiom
-     *            axiom */
+     *        axiom
+     */
     public OPPLSelectClauseListItem(boolean asserted, OWLAxiom axiom) {
         this.asserted = asserted;
         this.axiom = axiom;
@@ -33,12 +38,16 @@ public class OPPLSelectClauseListItem implements MListItem {
         return true;
     }
 
-    /** @return the asserted */
+    /**
+     * @return the asserted
+     */
     public boolean isAsserted() {
         return asserted;
     }
 
-    /** @return the axiom */
+    /**
+     * @return the axiom
+     */
     public OWLAxiom getAxiom() {
         return axiom;
     }

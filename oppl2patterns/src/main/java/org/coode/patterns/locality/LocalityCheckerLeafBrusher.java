@@ -2,13 +2,7 @@ package org.coode.patterns.locality;
 
 import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.PartialOWLObjectInstantiator;
@@ -26,45 +20,54 @@ import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLRuntimeException;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class LocalityCheckerLeafBrusher implements BindingVisitor {
+
     private final LocalityEvaluator evaluator;
     private final ConstraintSystem constraintSystem;
     private final PatternModel patternModel;
     private final RuntimeExceptionHandler handler;
-    private final Set<OWLEntity> signature = new HashSet<OWLEntity>();
-    private final Map<Variable<?>, SigmaPlusSigmaMinus> variableBindings = new HashMap<Variable<?>, SigmaPlusSigmaMinus>();
-    private final List<BindingNode> exploredBindings = new ArrayList<BindingNode>();
+    private final Set<OWLEntity> signature = new HashSet<>();
+    private final Map<Variable<?>, SigmaPlusSigmaMinus> variableBindings = new HashMap<>();
+    private final List<BindingNode> exploredBindings = new ArrayList<>();
 
-    /** @return explored bindings */
+    /**
+     * @return explored bindings
+     */
     public List<BindingNode> getExploredBindings() {
         return exploredBindings;
     }
 
-    /** @return locality explored bindings */
+    /**
+     * @return locality explored bindings
+     */
     public List<Boolean> getExploredBindingsLocality() {
         return exploredBindingsLocality;
     }
 
-    private final List<Boolean> exploredBindingsLocality = new ArrayList<Boolean>();
-    private final List<OWLAxiom> foundNonLocals = new ArrayList<OWLAxiom>();
+    private final List<Boolean> exploredBindingsLocality = new ArrayList<>();
+    private final List<OWLAxiom> foundNonLocals = new ArrayList<>();
 
-    /** @param evaluator
-     *            evaluator
+    /**
+     * @param evaluator
+     *        evaluator
      * @param constraintSystem
-     *            constraintSystem
+     *        constraintSystem
      * @param patternModel
-     *            patternModel
+     *        patternModel
      * @param variableBindings
-     *            variableBindings
+     *        variableBindings
      * @param signature
-     *            signature
+     *        signature
      * @param runtimeExceptionHandler
-     *            runtimeExceptionHandler */
+     *        runtimeExceptionHandler
+     */
     public LocalityCheckerLeafBrusher(LocalityEvaluator evaluator,
-            ConstraintSystem constraintSystem, PatternModel patternModel,
-            Map<Variable<?>, SigmaPlusSigmaMinus> variableBindings,
-            Set<OWLEntity> signature, RuntimeExceptionHandler runtimeExceptionHandler) {
+        ConstraintSystem constraintSystem, PatternModel patternModel,
+        Map<Variable<?>, SigmaPlusSigmaMinus> variableBindings,
+        Set<OWLEntity> signature, RuntimeExceptionHandler runtimeExceptionHandler) {
         this.evaluator = checkNotNull(evaluator, "evaluator");
         this.constraintSystem = checkNotNull(constraintSystem, "constraintSystem");
         this.patternModel = checkNotNull(patternModel, "patternModel");
@@ -76,8 +79,8 @@ public class LocalityCheckerLeafBrusher implements BindingVisitor {
     @Override
     public void visit(BindingNode bindingNode) {
         if (!bindingNode.isEmpty()) {
-            Set<BindingNode> allLeaves = new HashSet<BindingNode>();
-            List<BindingNode> nodes = new ArrayList<BindingNode>();
+            Set<BindingNode> allLeaves = new HashSet<>();
+            List<BindingNode> nodes = new ArrayList<>();
             nodes.add(bindingNode);
             while (nodes.size() > 0) {
                 BindingNode node = nodes.remove(0);
@@ -95,9 +98,9 @@ public class LocalityCheckerLeafBrusher implements BindingVisitor {
 
     private void checkLocal(BindingNode bindingNode) {
         ValueComputationParameters parameters = new SimpleValueComputationParameters(
-                getConstraintSystem(), bindingNode, getHandler());
+            getConstraintSystem(), bindingNode, getHandler());
         PartialOWLObjectInstantiator instantiator = new PartialOWLObjectInstantiator(
-                parameters);
+            parameters);
         exploredBindings.add(bindingNode);
         List<OWLAxiomChange> changes = patternModel.getActions();
         boolean safe = true;
@@ -105,7 +108,7 @@ public class LocalityCheckerLeafBrusher implements BindingVisitor {
             OWLAxiom axiom = changes.get(i).getAxiom();
             OWLAxiom instantiatedAxiom = (OWLAxiom) axiom.accept(instantiator);
             try {
-                Set<OWLEntity> actualSignature = new HashSet<OWLEntity>(signature);
+                Set<OWLEntity> actualSignature = new HashSet<>(signature);
                 for (SigmaPlusSigmaMinus s : variableBindings.values()) {
                     actualSignature.add(s.getPlus());
                 }
@@ -121,53 +124,65 @@ public class LocalityCheckerLeafBrusher implements BindingVisitor {
         exploredBindingsLocality.add(Boolean.valueOf(safe));
     }
 
-    /** @return the leaves */
+    /**
+     * @return the leaves
+     */
     public boolean isLocal() {
         return foundNonLocals.size() == 0;
     }
 
-    /** @return non local axioms */
+    /**
+     * @return non local axioms
+     */
     public List<OWLAxiom> getNonLocalAxioms() {
         return foundNonLocals;
     }
 
     private Set<BindingNode> generateChildren(BindingNode node) {
-        Set<BindingNode> toReturn = new HashSet<BindingNode>();
+        Set<BindingNode> toReturn = new HashSet<>();
         Set<Variable<?>> unassignedVariables = node.getUnassignedVariables();
         for (Variable<?> variable : unassignedVariables) {
             for (OWLObject owlObject : variableBindings.get(variable)) {
-                Set<Variable<?>> childUnassignedVariables = new HashSet<Variable<?>>(
-                        unassignedVariables);
+                Set<Variable<?>> childUnassignedVariables = new HashSet<>(
+                    unassignedVariables);
                 childUnassignedVariables.remove(variable);
-                Set<Assignment> childAssignements = new HashSet<Assignment>(
-                        node.getAssignments());
+                Set<Assignment> childAssignements = new HashSet<>(
+                    node.getAssignments());
                 childAssignements.add(new Assignment(variable, owlObject));
                 BindingNode newNode = new BindingNode(childAssignements,
-                        childUnassignedVariables);
+                    childUnassignedVariables);
                 toReturn.add(newNode);
             }
         }
         return toReturn;
     }
 
-    /** @return the signature */
+    /**
+     * @return the signature
+     */
     public Set<OWLEntity> getSignature() {
-        return new HashSet<OWLEntity>(signature);
+        return new HashSet<>(signature);
     }
 
-    /** @param signature
-     *            the signature to set */
+    /**
+     * @param signature
+     *        the signature to set
+     */
     public void setSignature(Collection<? extends OWLEntity> signature) {
         this.signature.clear();
         this.signature.addAll(signature);
     }
 
-    /** @return the constraintSystem */
+    /**
+     * @return the constraintSystem
+     */
     public ConstraintSystem getConstraintSystem() {
         return constraintSystem;
     }
 
-    /** @return the handler */
+    /**
+     * @return the handler
+     */
     public RuntimeExceptionHandler getHandler() {
         return handler;
     }

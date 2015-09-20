@@ -30,33 +30,40 @@ import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.coode.oppl.variabletypes.VariableType;
 import org.semanticweb.owlapi.model.OWLClassExpression;
 
-/** Represents a range limitations that could be added to a
+/**
+ * Represents a range limitations that could be added to a
  * {@link GeneratedVariable} instance with CLASS {@link VariableType}
  * 
- * @author Luigi Iannone */
+ * @author Luigi Iannone
+ */
 public abstract class ClassVariableScope extends
-        AbstractVariableScope<OWLClassExpression> implements
-        VariableScope<OWLClassExpression> {
-    private final OWLClassExpression description;
-    private static Map<OWLClassExpression, SuperClassVariableScope> superClassesScopes = new HashMap<OWLClassExpression, SuperClassVariableScope>();
-    private static Map<OWLClassExpression, SubClassVariableScope> subClassesScopes = new HashMap<OWLClassExpression, SubClassVariableScope>();
+    AbstractVariableScope<OWLClassExpression>implements
+    VariableScope<OWLClassExpression> {
 
-    /** @param description
-     *            description
+    private final OWLClassExpression description;
+    private static Map<OWLClassExpression, SuperClassVariableScope> superClassesScopes = new HashMap<>();
+    private static Map<OWLClassExpression, SubClassVariableScope> subClassesScopes = new HashMap<>();
+
+    /**
+     * @param description
+     *        description
      * @param checker
-     *            checker */
+     *        checker
+     */
     ClassVariableScope(OWLClassExpression description, VariableScopeChecker checker) {
         super(checker);
         this.description = description;
     }
 
-    /** @return the description */
+    /**
+     * @return the description
+     */
     public OWLClassExpression getClassExpression() {
         return description;
     }
 
     static SubClassVariableScope buildSubClassVariableScope(
-            OWLClassExpression description, VariableScopeChecker checker) {
+        OWLClassExpression description, VariableScopeChecker checker) {
         SubClassVariableScope toReturn = subClassesScopes.get(description);
         if (toReturn == null) {
             toReturn = new SubClassVariableScope(description, checker);
@@ -66,7 +73,7 @@ public abstract class ClassVariableScope extends
     }
 
     static SuperClassVariableScope buildSuperClassVariableScope(
-            OWLClassExpression description, VariableScopeChecker checker) {
+        OWLClassExpression description, VariableScopeChecker checker) {
         SuperClassVariableScope toReturn = superClassesScopes.get(description);
         if (toReturn == null) {
             toReturn = new SuperClassVariableScope(description, checker);
@@ -83,7 +90,7 @@ public abstract class ClassVariableScope extends
     @Override
     public String render(ConstraintSystem constraintSystem) {
         ManchesterSyntaxRenderer renderer = constraintSystem.getOPPLFactory()
-                .getManchesterSyntaxRenderer(constraintSystem);
+            .getManchesterSyntaxRenderer(constraintSystem);
         getScopingObject().accept(renderer);
         return String.format("[%s %s]", getDirection(), renderer);
     }

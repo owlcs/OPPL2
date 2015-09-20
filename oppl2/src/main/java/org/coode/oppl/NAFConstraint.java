@@ -6,15 +6,20 @@ import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class NAFConstraint implements AbstractConstraint {
+
     private final OWLAxiom axiom;
     private final ConstraintSystem constraintSystem;
 
-    /** @param axiom
-     *            axiom
+    /**
+     * @param axiom
+     *        axiom
      * @param constraintSystem
-     *            constraintSystem */
+     *        constraintSystem
+     */
     public NAFConstraint(OWLAxiom axiom, ConstraintSystem constraintSystem) {
         this.axiom = checkNotNull(axiom, "axiom");
         this.constraintSystem = checkNotNull(constraintSystem, "constraintSystem");
@@ -49,12 +54,16 @@ public class NAFConstraint implements AbstractConstraint {
         return this.render(getConstraintSystem());
     }
 
-    /** @return the axiom */
+    /**
+     * @return the axiom
+     */
     public OWLAxiom getAxiom() {
         return axiom;
     }
 
-    /** @return the constraintSystem */
+    /**
+     * @return the constraintSystem
+     */
     public ConstraintSystem getConstraintSystem() {
         return constraintSystem;
     }

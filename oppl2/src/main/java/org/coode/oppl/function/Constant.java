@@ -4,25 +4,33 @@ import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.Variable;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 
-/** @author Luigi Iannone
+/**
+ * @author Luigi Iannone
  * @param <O>
- *            type */
-public class Constant<O> extends AbstractOPPLFunction<O> implements OPPLFunction<O> {
+ *        type
+ */
+public class Constant<O> extends AbstractOPPLFunction<O>implements OPPLFunction<O> {
+
     private final O value;
     private final ValueComputation<O> valueComputation = new ValueComputation<O>() {
+
         @Override
         public O compute(OPPLFunction<? extends O> opplFunction) {
             return Constant.this.getValue();
         }
     };
 
-    /** @param value
-     *            value */
+    /**
+     * @param value
+     *        value
+     */
     public Constant(O value) {
         this.value = value;
     }
 
-    /** @return value */
+    /**
+     * @return value
+     */
     public O getValue() {
         return this.value;
     }
@@ -45,14 +53,14 @@ public class Constant<O> extends AbstractOPPLFunction<O> implements OPPLFunction
     @Override
     public String render(ConstraintSystem constraintSystem) {
         return this.getValue() instanceof Variable ? ((Variable<?>) this.getValue())
-                .getName() : this.getValue() instanceof String ? String.format("\"%s\"",
+            .getName() : this.getValue() instanceof String ? String.format("\"%s\"",
                 this.getValue()) : this.getValue().toString();
     }
 
     @Override
     public String render(ShortFormProvider shortFormProvider) {
         return this.getValue() instanceof Variable ? ((Variable<?>) this.getValue())
-                .getName() : this.getValue() instanceof String ? String.format("\"%s\"",
+            .getName() : this.getValue() instanceof String ? String.format("\"%s\"",
                 this.getValue()) : this.getValue().toString();
     }
 

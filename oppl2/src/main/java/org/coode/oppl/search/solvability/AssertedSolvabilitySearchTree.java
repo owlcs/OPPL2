@@ -14,20 +14,25 @@ import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class AssertedSolvabilitySearchTree extends
-        AbstractSolvabilityOPPLOWLAxiomSearchTree {
+    AbstractSolvabilityOPPLOWLAxiomSearchTree {
+
     private final OWLOntologyManager ontologyManager;
 
-    /** @param constraintSystem
-     *            constraintSystem
+    /**
+     * @param constraintSystem
+     *        constraintSystem
      * @param ontologyManager
-     *            ontologyManager
+     *        ontologyManager
      * @param runtimeExceptionHandler
-     *            runtimeExceptionHandler */
+     *        runtimeExceptionHandler
+     */
     public AssertedSolvabilitySearchTree(ConstraintSystem constraintSystem,
-            OWLOntologyManager ontologyManager,
-            RuntimeExceptionHandler runtimeExceptionHandler) {
+        OWLOntologyManager ontologyManager,
+        RuntimeExceptionHandler runtimeExceptionHandler) {
         super(constraintSystem, runtimeExceptionHandler);
         this.ontologyManager = checkNotNull(ontologyManager, "ontologyManager");
     }
@@ -35,31 +40,30 @@ public class AssertedSolvabilitySearchTree extends
     @Override
     protected AxiomSolvability getAxiomSolvability() {
         AssertedModelQuerySolver querySolver = new AssertedModelQuerySolver(
-                getOntologyManager());
+            getOntologyManager());
         return new MultipleAxiomSolvability(
-                Arrays.asList(
-                        new OWLClassSubClassOfAxiomSolvability(getConstraintSystem(),
-                                querySolver),
-                        new NoResultsAxiomSolvability(getConstraintSystem(), querySolver),
-                        new OWLObjectPropertyFillersAxiomSolvability(
-                                getConstraintSystem(), querySolver)));
+            Arrays.asList(
+                new OWLClassSubClassOfAxiomSolvability(getConstraintSystem(),
+                    querySolver),
+                new NoResultsAxiomSolvability(getConstraintSystem(), querySolver),
+                new OWLObjectPropertyFillersAxiomSolvability(
+                    getConstraintSystem(), querySolver)));
     }
 
     @Override
-    protected boolean
-            goalReachedUnsolvabelNode(UnsolvableSearchNode unsolvableSearchNode) {
+    protected boolean goalReachedUnsolvabelNode(UnsolvableSearchNode unsolvableSearchNode) {
         VariableExtractor variableExtractor = new VariableExtractor(
-                getConstraintSystem(), true);
+            getConstraintSystem(), true);
         Set<Variable<?>> extractVariables = variableExtractor
-                .extractVariables(unsolvableSearchNode.getAxiom());
+            .extractVariables(unsolvableSearchNode.getAxiom());
         return extractVariables.isEmpty() ? findAxiom(unsolvableSearchNode.getAxiom())
-                : false;
+            : false;
     }
 
     private boolean findAxiom(OWLAxiom axiom) {
         boolean found = false;
         Iterator<OWLOntology> iterator = getConstraintSystem().getOntologyManager()
-                .getOntologies().iterator();
+            .getOntologies().iterator();
         while (!found && iterator.hasNext()) {
             OWLOntology ontology = iterator.next();
             found = ontology.containsAxiom(axiom);
@@ -67,7 +71,9 @@ public class AssertedSolvabilitySearchTree extends
         return found;
     }
 
-    /** @return the ontologyManager */
+    /**
+     * @return the ontologyManager
+     */
     public OWLOntologyManager getOntologyManager() {
         return ontologyManager;
     }

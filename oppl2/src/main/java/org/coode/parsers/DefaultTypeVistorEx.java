@@ -1,9 +1,12 @@
 package org.coode.parsers;
 
-/** @author Luigi Iannone
+/**
+ * @author Luigi Iannone
  * @param <O>
- *            type */
+ *        type
+ */
 public abstract class DefaultTypeVistorEx<O> implements TypeVisitorEx<O> {
+
     protected abstract O doDefault(Type type);
 
     @Override

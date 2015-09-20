@@ -2,12 +2,7 @@ package org.coode.parsers.oppl.patterns;
 
 import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import org.coode.oppl.Variable;
 import org.coode.parsers.ErrorListener;
@@ -20,15 +15,20 @@ import org.coode.patterns.PatternException;
 import org.coode.patterns.PatternOPPLScript;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class OPPLPatternScope implements Scope {
+
     private final Scope delegate;
     private final OWLOntologyManager ontologyManager;
 
-    /** @param scope
-     *            scope
+    /**
+     * @param scope
+     *        scope
      * @param ontologyManager
-     *            ontologyManager */
+     *        ontologyManager
+     */
     public OPPLPatternScope(Scope scope, OWLOntologyManager ontologyManager) {
         delegate = checkNotNull(scope, "scope");
         this.ontologyManager = checkNotNull(ontologyManager, "ontologyManager");
@@ -70,62 +70,70 @@ public class OPPLPatternScope implements Scope {
         return toReturn;
     }
 
-    /** @return the delegate */
+    /**
+     * @return the delegate
+     */
     protected Scope getDelegate() {
         return delegate;
     }
 
-    /** @param reference
-     *            reference
+    /**
+     * @param reference
+     *        reference
      * @param patternName
-     *            patternName
+     *        patternName
      * @param constraintSystem
-     *            constraintSystem
+     *        constraintSystem
      * @param listener
-     *            listener
+     *        listener
      * @param args
-     *            args
-     * @return variable */
+     *        args
+     * @return variable
+     */
     public Variable<?> resolvePatternReference(OPPLSyntaxTree reference,
-            String patternName, PatternConstraintSystem constraintSystem,
-            ErrorListener listener, List<Object>... args) {
+        String patternName, PatternConstraintSystem constraintSystem,
+        ErrorListener listener, List<Object>... args) {
         return this.resolvePatternReference(reference, patternName, constraintSystem,
-                Collections.<String> emptySet(), listener, args);
+            Collections.<String> emptySet(), listener, args);
     }
 
-    /** @param reference
-     *            reference
+    /**
+     * @param reference
+     *        reference
      * @param patternName
-     *            patternName
+     *        patternName
      * @param constraintSystem
-     *            constraintSystem
+     *        constraintSystem
      * @param visited
-     *            visited
+     *        visited
      * @param listener
-     *            listener
+     *        listener
      * @param args
-     *            args
-     * @return variable */
+     *        args
+     * @return variable
+     */
     public Variable<?> resolvePatternReference(OPPLSyntaxTree reference,
-            String patternName, PatternConstraintSystem constraintSystem,
-            Collection<? extends String> visited, ErrorListener listener,
-            List<Object>... args) {
+        String patternName, PatternConstraintSystem constraintSystem,
+        Collection<? extends String> visited, ErrorListener listener,
+        List<Object>... args) {
         Variable<?> toReturn = null;
         try {
             String resolvedPattern = constraintSystem.resolvePattern(patternName,
-                    new HashSet<String>(visited), new ArrayList<PatternOPPLScript>(),
-                    listener, args);
+                new HashSet<>(visited), new ArrayList<PatternOPPLScript>(),
+                listener, args);
             toReturn = constraintSystem.getVariable(resolvedPattern);
         } catch (PatternException e) {
             if (listener != null) {
                 listener.illegalToken(reference,
-                        "Could not resolve the reference: " + e.getMessage());
+                    "Could not resolve the reference: " + e.getMessage());
             }
         }
         return toReturn;
     }
 
-    /** @return the ontologyManager */
+    /**
+     * @return the ontologyManager
+     */
     public OWLOntologyManager getOntologyManager() {
         return ontologyManager;
     }

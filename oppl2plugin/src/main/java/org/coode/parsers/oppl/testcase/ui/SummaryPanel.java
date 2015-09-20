@@ -9,21 +9,18 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.coode.parsers.oppl.testcase.OPPLTestCase;
-import org.coode.parsers.oppl.testcase.ui.report.AssertionFailedExecutionReport;
-import org.coode.parsers.oppl.testcase.ui.report.ConfigurationFailedExecutionReport;
-import org.coode.parsers.oppl.testcase.ui.report.Report;
-import org.coode.parsers.oppl.testcase.ui.report.ReportVisitorEx;
-import org.coode.parsers.oppl.testcase.ui.report.RuntimeErrorEncounteredExecutionReport;
-import org.coode.parsers.oppl.testcase.ui.report.SuccessfulExecutionReport;
-import org.coode.parsers.oppl.testcase.ui.report.UnexecutedTestReport;
+import org.coode.parsers.oppl.testcase.ui.report.*;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class SummaryPanel extends JPanel {
+
     private static final long serialVersionUID = 20100L;
     private final JLabel runTestSummary = new JLabel();
     private final JLabel okTestSummary = new JLabel();
     private final JLabel errorTestSummary = new JLabel();
-    private final Map<OPPLTestCase, List<Report>> reports = new HashMap<OPPLTestCase, List<Report>>();
+    private final Map<OPPLTestCase, List<Report>> reports = new HashMap<>();
 
     /** default constructor */
     public SummaryPanel() {
@@ -42,8 +39,10 @@ public class SummaryPanel extends JPanel {
         this.add(resultBreakDown, BorderLayout.EAST);
     }
 
-    /** @param reportList
-     *            reportList */
+    /**
+     * @param reportList
+     *        reportList
+     */
     public void addReports(Map<OPPLTestCase, List<Report>> reportList) {
         reports.putAll(reportList);
         refresh();
@@ -59,39 +58,34 @@ public class SummaryPanel extends JPanel {
                 count++;
                 for (Report report : testCaseReports) {
                     boolean isSuccesful = report.accept(new ReportVisitorEx<Boolean>() {
+
                         @Override
                         public Boolean visitSuccessfulExecutionReport(
-                                SuccessfulExecutionReport successfulExecutionReport) {
+                            SuccessfulExecutionReport successfulExecutionReport) {
                             return true;
                         }
 
                         @Override
-                        public
-                                Boolean
-                                visitAssertionFailedExecutionReport(
-                                        AssertionFailedExecutionReport assertionFailedExecutionReport) {
+                        public Boolean visitAssertionFailedExecutionReport(
+                            AssertionFailedExecutionReport assertionFailedExecutionReport) {
                             return false;
                         }
 
                         @Override
-                        public
-                                Boolean
-                                visitConfigurationFailedExecutionReport(
-                                        ConfigurationFailedExecutionReport configurationFailedExecutionReport) {
+                        public Boolean visitConfigurationFailedExecutionReport(
+                            ConfigurationFailedExecutionReport configurationFailedExecutionReport) {
                             return false;
                         }
 
                         @Override
-                        public
-                                Boolean
-                                visitRuntimeErrorEncounteredExecutionReport(
-                                        RuntimeErrorEncounteredExecutionReport runtimeErrorEncounteredExecutionReport) {
+                        public Boolean visitRuntimeErrorEncounteredExecutionReport(
+                            RuntimeErrorEncounteredExecutionReport runtimeErrorEncounteredExecutionReport) {
                             return false;
                         }
 
                         @Override
                         public Boolean visitUnexecutedTestReport(
-                                UnexecutedTestReport unexecutedTestReport) {
+                            UnexecutedTestReport unexecutedTestReport) {
                             return false;
                         }
                     });
@@ -104,7 +98,7 @@ public class SummaryPanel extends JPanel {
             }
         }
         runTestSummary.setText(String.format("Run %d of %d", count, reports.keySet()
-                .size()));
+            .size()));
         okTestSummary.setText(String.format("Succesful %d", okCount));
         errorTestSummary.setText(String.format("Failures %d", errorCount));
     }

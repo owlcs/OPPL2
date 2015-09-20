@@ -5,14 +5,19 @@ import java.util.Set;
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.bindingtree.BindingNode;
 
-/** Represents an Integer
+/**
+ * Represents an Integer
  * 
- * @author Luigi Iannone */
+ * @author Luigi Iannone
+ */
 public class IntegerAssertionExpression implements AssertionExpression<Integer> {
+
     private final int intValue;
 
-    /** @param intValue
-     *            intValue */
+    /**
+     * @param intValue
+     *        intValue
+     */
     public IntegerAssertionExpression(int intValue) {
         this.intValue = intValue;
     }
@@ -27,7 +32,9 @@ public class IntegerAssertionExpression implements AssertionExpression<Integer> 
         return assertionExpressionVisitor.visitIntegerAssertionExpressionVisitor(this);
     }
 
-    /** @return the intValue */
+    /**
+     * @return the intValue
+     */
     public int getIntValue() {
         return intValue;
     }
@@ -39,7 +46,7 @@ public class IntegerAssertionExpression implements AssertionExpression<Integer> 
 
     @Override
     public Integer resolve(Set<? extends BindingNode> bindings,
-            ConstraintSystem constraintSystem) {
+        ConstraintSystem constraintSystem) {
         return getIntValue();
     }
 

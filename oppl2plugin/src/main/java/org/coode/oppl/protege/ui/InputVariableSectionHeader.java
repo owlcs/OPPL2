@@ -24,8 +24,11 @@ package org.coode.oppl.protege.ui;
 
 import org.protege.editor.core.ui.list.MListSectionHeader;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class InputVariableSectionHeader implements MListSectionHeader {
+
     @Override
     public boolean canAdd() {
         return true;

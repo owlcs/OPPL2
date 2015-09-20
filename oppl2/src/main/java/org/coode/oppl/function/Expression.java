@@ -8,15 +8,20 @@ import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 
-/** @author Luigi Iannone
+/**
+ * @author Luigi Iannone
  * @param <O>
- *            type */
-public class Expression<O extends OWLObject> extends AbstractOPPLFunction<O> implements
-        OPPLFunction<O> {
+ *        type
+ */
+public class Expression<O extends OWLObject> extends AbstractOPPLFunction<O>implements
+    OPPLFunction<O> {
+
     private final O expression;
 
-    /** @param expression
-     *            expression */
+    /**
+     * @param expression
+     *        expression
+     */
     public Expression(O expression) {
         this.expression = checkNotNull(expression, "expression");
     }
@@ -33,15 +38,16 @@ public class Expression<O extends OWLObject> extends AbstractOPPLFunction<O> imp
 
     @Override
     public ValueComputation<O> getValueComputation(
-            final ValueComputationParameters parameters) {
+        final ValueComputationParameters parameters) {
         return new ValueComputation<O>() {
+
             @Override
             @SuppressWarnings("unchecked")
             public O compute(OPPLFunction<? extends O> opplFunction) {
                 PartialOWLObjectInstantiator instantiator = new PartialOWLObjectInstantiator(
-                        parameters);
+                    parameters);
                 OWLObject instantiation = Expression.this.getExpression().accept(
-                        instantiator);
+                    instantiator);
                 // I am sure the instantiator will return an object of the same
                 // kind.
                 return (O) instantiation;
@@ -49,7 +55,9 @@ public class Expression<O extends OWLObject> extends AbstractOPPLFunction<O> imp
         };
     }
 
-    /** @return the expression */
+    /**
+     * @return the expression
+     */
     public O getExpression() {
         return this.expression;
     }
@@ -57,7 +65,7 @@ public class Expression<O extends OWLObject> extends AbstractOPPLFunction<O> imp
     @Override
     public String render(ShortFormProvider shortFormProvider) {
         ManchesterSyntaxRenderer renderer = new ManchesterSyntaxRenderer(
-                shortFormProvider);
+            shortFormProvider);
         this.getExpression().accept(renderer);
         return renderer.toString();
     }
@@ -65,7 +73,7 @@ public class Expression<O extends OWLObject> extends AbstractOPPLFunction<O> imp
     @Override
     public String render(ConstraintSystem constraintSystem) {
         ManchesterSyntaxRenderer renderer = constraintSystem.getOPPLFactory()
-                .getManchesterSyntaxRenderer(constraintSystem);
+            .getManchesterSyntaxRenderer(constraintSystem);
         this.getExpression().accept(renderer);
         return renderer.toString();
     }

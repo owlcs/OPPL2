@@ -16,21 +16,26 @@ import org.coode.oppl.variabletypes.InputVariable;
 import org.coode.oppl.variabletypes.VariableTypeVisitorEx;
 import org.semanticweb.owlapi.model.OWLObject;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public final class AssignableValueExtractor implements
-        VariableVisitorEx<Set<? extends OWLObject>> {
+    VariableVisitorEx<Set<? extends OWLObject>> {
+
     private final VariableTypeVisitorEx<Set<? extends OWLObject>> assignableValuesVisitor;
     private final ValueComputationParameters parameters;
 
-    /** @param assignableValuesVisitor
-     *            assignableValuesVisitor
+    /**
+     * @param assignableValuesVisitor
+     *        assignableValuesVisitor
      * @param parameters
-     *            parameters */
+     *        parameters
+     */
     public AssignableValueExtractor(
-            VariableTypeVisitorEx<Set<? extends OWLObject>> assignableValuesVisitor,
-            ValueComputationParameters parameters) {
+        VariableTypeVisitorEx<Set<? extends OWLObject>> assignableValuesVisitor,
+        ValueComputationParameters parameters) {
         this.assignableValuesVisitor = checkNotNull(assignableValuesVisitor,
-                "assignableValuesVisitor");
+            "assignableValuesVisitor");
         this.parameters = checkNotNull(parameters, "parameters");
     }
 
@@ -41,17 +46,17 @@ public final class AssignableValueExtractor implements
 
     @Override
     public <O extends OWLObject> Set<? extends OWLObject> visit(
-            RegexpGeneratedVariable<O> v) {
+        RegexpGeneratedVariable<O> v) {
         Set<? extends OWLObject> toReturn = v.getType().accept(assignableValuesVisitor);
         Iterator<? extends OWLObject> iterator = toReturn.iterator();
         while (iterator.hasNext()) {
             OWLObject owlObject = iterator.next();
             ManchesterSyntaxRenderer renderer = getParameters().getConstraintSystem()
-                    .getOPPLFactory()
-                    .getManchesterSyntaxRenderer(getParameters().getConstraintSystem());
+                .getOPPLFactory()
+                .getManchesterSyntaxRenderer(getParameters().getConstraintSystem());
             owlObject.accept(renderer);
             Pattern pattern = v.getPatternGeneratingOPPLFunction().compute(
-                    getParameters());
+                getParameters());
             if (!pattern.matcher(renderer.toString()).matches()) {
                 iterator.remove();
             }
@@ -64,7 +69,9 @@ public final class AssignableValueExtractor implements
         return Collections.emptySet();
     }
 
-    /** @return the parameters */
+    /**
+     * @return the parameters
+     */
     public ValueComputationParameters getParameters() {
         return parameters;
     }

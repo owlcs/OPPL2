@@ -2,14 +2,7 @@ package org.coode.parsers.ui;
 
 import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.Stroke;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -17,12 +10,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.StringTokenizer;
 
-import javax.swing.AbstractAction;
-import javax.swing.BorderFactory;
-import javax.swing.JTextPane;
-import javax.swing.KeyStroke;
-import javax.swing.Timer;
-import javax.swing.ToolTipManager;
+import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -32,7 +20,8 @@ import javax.swing.text.StyleConstants;
 
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 
-/** Author: Matthew Horridge<br>
+/**
+ * Author: Matthew Horridge<br>
  * The University Of Manchester<br>
  * Medical Informatics Group<br>
  * Date: May 4, 2006<br>
@@ -47,9 +36,11 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
  * provides feedback if the text is not well formed.
  * 
  * @param <O>
- *            type */
+ *        type
+ */
 public class ExpressionEditor<O> extends JTextPane implements RefreshableComponent,
-        VerifiedInputEditor {
+    VerifiedInputEditor {
+
     private static final int CHECK_DELAY = 500;
     private static final long serialVersionUID = 20100L;
     protected final KeywordColourMap keywordColourMap = new KeywordColourMap();
@@ -63,30 +54,33 @@ public class ExpressionEditor<O> extends JTextPane implements RefreshableCompone
     private int errorEndIndex;
     private final Timer timer;
     private static final int DEFAULT_TOOL_TIP_INITIAL_DELAY = ToolTipManager
-            .sharedInstance().getInitialDelay();
+        .sharedInstance().getInitialDelay();
     private static final String DEFAULT_FONT_NAME = "Dialog";
     private static final int DEFAULT_TOOL_TIP_DISMISS_DELAY = ToolTipManager
-            .sharedInstance().getDismissDelay();
+        .sharedInstance().getDismissDelay();
     private static final int ERROR_TOOL_TIP_INITIAL_DELAY = 100;
     private static final int ERROR_TOOL_TIP_DISMISS_DELAY = 9000;
     private final ExpressionChecker<O> expressionChecker;
     private final OWLOntologyManager ontologyMmanager;
 
-    /** @param manager
-     *            manager
+    /**
+     * @param manager
+     *        manager
      * @param checker
-     *            checker */
+     *        checker
+     */
     public ExpressionEditor(OWLOntologyManager manager, ExpressionChecker<O> checker) {
         this.ontologyMmanager = checkNotNull(manager, "manager");
         this.outerBorder = null;
         this.expressionChecker = checkNotNull(checker, "checker");
         this.defaultBorder = BorderFactory
-                .createMatteBorder(1, 1, 1, 1, Color.LIGHT_GRAY);
+            .createMatteBorder(1, 1, 1, 1, Color.LIGHT_GRAY);
         this.setStateBorder(this.defaultBorder);
         this.errorBorder = BorderFactory.createMatteBorder(1, 1, 1, 1, Color.RED);
         this.errorStroke = new BasicStroke(3.0f, BasicStroke.CAP_BUTT,
-                BasicStroke.JOIN_ROUND, 3.0f, new float[] { 4.0f, 2.0f }, 0.0f);
+            BasicStroke.JOIN_ROUND, 3.0f, new float[] { 4.0f, 2.0f }, 0.0f);
         this.docListener = new DocumentListener() {
+
             @Override
             public void insertUpdate(DocumentEvent e) {
                 ExpressionEditor.this.handleDocumentUpdated();
@@ -102,14 +96,16 @@ public class ExpressionEditor<O> extends JTextPane implements RefreshableCompone
         };
         getDocument().addDocumentListener(this.docListener);
         this.timer = new Timer(ExpressionEditor.CHECK_DELAY, new ActionListener() {
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 ExpressionEditor.this.handleTimer();
             }
         });
         this.getInputMap().put(
-                KeyStroke.getKeyStroke(KeyEvent.VK_Z, Toolkit.getDefaultToolkit()
-                        .getMenuShortcutKeyMask()), new AbstractAction() {
+            KeyStroke.getKeyStroke(KeyEvent.VK_Z, Toolkit.getDefaultToolkit()
+                .getMenuShortcutKeyMask()), new AbstractAction() {
+
                     private static final long serialVersionUID = 20100L;
 
                     @Override
@@ -127,8 +123,10 @@ public class ExpressionEditor<O> extends JTextPane implements RefreshableCompone
         setFont(new Font(DEFAULT_FONT_NAME, Font.PLAIN, 14));
     }
 
-    /** @param desc
-     *            desc */
+    /**
+     * @param desc
+     *        desc
+     */
     public void setExpressionObject(O desc) {
         if (desc == null) {
             setText("");
@@ -137,22 +135,28 @@ public class ExpressionEditor<O> extends JTextPane implements RefreshableCompone
         }
     }
 
-    /** @return expression checker */
+    /**
+     * @return expression checker
+     */
     public ExpressionChecker<O> getExpressionChecker() {
         return this.expressionChecker;
     }
 
-    /** @return create object */
+    /**
+     * @return create object
+     */
     public O createObject() {
         return this.expressionChecker.createObject(this.getText());
     }
 
-    /** @param border
-     *            border */
+    /**
+     * @param border
+     *        border
+     */
     public void setStateBorder(Border border) {
         this.stateBorder = border;
         super.setBorder(BorderFactory.createCompoundBorder(this.outerBorder,
-                this.stateBorder));
+            this.stateBorder));
     }
 
     @Override
@@ -160,7 +164,7 @@ public class ExpressionEditor<O> extends JTextPane implements RefreshableCompone
         this.outerBorder = border;
         // Override to set the outer border
         super.setBorder(BorderFactory.createCompoundBorder(this.outerBorder,
-                this.stateBorder));
+            this.stateBorder));
     }
 
     private void clearError() {
@@ -220,7 +224,7 @@ public class ExpressionEditor<O> extends JTextPane implements RefreshableCompone
         try {
             // Paint in error range if there is one
             if (this.errorStartIndex != this.errorEndIndex && this.errorStartIndex > -1
-                    && this.errorStartIndex < getDocument().getLength()) {
+                && this.errorStartIndex < getDocument().getLength()) {
                 Rectangle start = modelToView(this.errorStartIndex);
                 Rectangle end = modelToView(this.errorEndIndex);
                 g.setColor(Color.RED);
@@ -236,19 +240,20 @@ public class ExpressionEditor<O> extends JTextPane implements RefreshableCompone
 
     private void performHighlighting() {
         Thread t = new Thread(new Runnable() {
+
             @Override
             public void run() {
                 try {
                     final int lineStartIndex = 0;
                     final int lineEndIndex = ExpressionEditor.this.getDocument()
-                            .getLength();
+                        .getLength();
                     if (lineEndIndex - lineStartIndex < 0) {
                         return;
                     }
                     StringTokenizer tokenizer = new StringTokenizer(ExpressionEditor.this
-                            .getDocument().getText(lineStartIndex,
-                                    lineEndIndex - lineStartIndex), " ()[]{},\n\t.'",
-                            true);
+                        .getDocument().getText(lineStartIndex,
+                            lineEndIndex - lineStartIndex), " ()[]{},\n\t.'",
+                        true);
                     int index = lineStartIndex;
                     boolean inEscapedName = false;
                     while (tokenizer.hasMoreTokens()) {
@@ -262,16 +267,16 @@ public class ExpressionEditor<O> extends JTextPane implements RefreshableCompone
                         }
                         if (!inEscapedName) {
                             Color color = ExpressionEditor.this.keywordColourMap
-                                    .get(curToken);
+                                .get(curToken);
                             if (color == null) {
                                 color = Color.BLACK;
                             }
                             ExpressionEditor.this.getStyledDocument()
-                                    .setCharacterAttributes(
-                                            index,
-                                            curToken.length(),
-                                            ExpressionEditor.this.getStyledDocument()
-                                                    .getStyle(color.toString()), true);
+                                .setCharacterAttributes(
+                                    index,
+                                    curToken.length(),
+                                    ExpressionEditor.this.getStyledDocument()
+                                        .getStyle(color.toString()), true);
                         }
                         index += curToken.length();
                     }
@@ -285,8 +290,8 @@ public class ExpressionEditor<O> extends JTextPane implements RefreshableCompone
 
     private static String getHTMLErrorMessage(String msg) {
         return "<html><body>"
-                + msg.replace("\n", "<br>").replace("\t", "&nbsp;&nbsp;&nbsp;&nbsp;")
-                + "</body></html>";
+            + msg.replace("\n", "<br>").replace("\t", "&nbsp;&nbsp;&nbsp;&nbsp;")
+            + "</body></html>";
     }
 
     private void createStyles() {
@@ -296,11 +301,11 @@ public class ExpressionEditor<O> extends JTextPane implements RefreshableCompone
             StyleConstants.setBold(style, true);
         }
         StyleConstants.setForeground(
-                getStyledDocument().addStyle(Color.BLACK.toString(), null), Color.BLACK);
+            getStyledDocument().addStyle(Color.BLACK.toString(), null), Color.BLACK);
     }
 
     // /////////////////////// content verification
-    private final Set<InputVerificationStatusChangedListener> listeners = new HashSet<InputVerificationStatusChangedListener>();
+    private final Set<InputVerificationStatusChangedListener> listeners = new HashSet<>();
     private boolean previousValue = true;
 
     @Override
@@ -310,7 +315,7 @@ public class ExpressionEditor<O> extends JTextPane implements RefreshableCompone
 
     @Override
     public void removeStatusChangedListener(
-            InputVerificationStatusChangedListener listener) {
+        InputVerificationStatusChangedListener listener) {
         this.listeners.remove(listener);
     }
 
@@ -323,7 +328,9 @@ public class ExpressionEditor<O> extends JTextPane implements RefreshableCompone
         }
     }
 
-    /** @return the ontologyMmanager */
+    /**
+     * @return the ontologyMmanager
+     */
     public OWLOntologyManager getOntologyManager() {
         return this.ontologyMmanager;
     }

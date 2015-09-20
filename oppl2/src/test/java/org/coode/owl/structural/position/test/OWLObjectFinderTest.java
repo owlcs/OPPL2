@@ -11,16 +11,11 @@ import org.coode.oppl.utils.Position;
 import org.coode.oppl.variabletypes.VariableFactory;
 import org.junit.Test;
 import org.semanticweb.owlapi.apibinding.OWLManager;
-import org.semanticweb.owlapi.model.IRI;
-import org.semanticweb.owlapi.model.OWLClass;
-import org.semanticweb.owlapi.model.OWLClassExpression;
-import org.semanticweb.owlapi.model.OWLDataFactory;
-import org.semanticweb.owlapi.model.OWLObjectIntersectionOf;
-import org.semanticweb.owlapi.model.OWLObjectProperty;
-import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.*;
 
 @SuppressWarnings("javadoc")
 public class OWLObjectFinderTest {
+
     @Test
     public void shouldTestFindAll() {
         OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
@@ -30,7 +25,7 @@ public class OWLObjectFinderTest {
         OWLObjectProperty p = dataFactory.getOWLObjectProperty(IRI.create("blah#p"));
         OWLObjectIntersectionOf aANDb = dataFactory.getOWLObjectIntersectionOf(a, b);
         OWLObjectIntersectionOf aANDpSOMEa = dataFactory.getOWLObjectIntersectionOf(a,
-                dataFactory.getOWLObjectSomeValuesFrom(p, a));
+            dataFactory.getOWLObjectSomeValuesFrom(p, a));
         List<List<Integer>> findAll = OWLObjectFinder.findAll(a, aANDb);
         assertTrue(findAll.size() == 1);
         for (List<Integer> position : findAll) {

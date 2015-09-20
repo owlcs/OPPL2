@@ -2,35 +2,37 @@ package org.coode.oppl.bindingtree;
 
 import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import org.coode.oppl.Variable;
 import org.semanticweb.owlapi.model.OWLObject;
 
-/** Convenience class to represents assignments indexed by variables.
+/**
+ * Convenience class to represents assignments indexed by variables.
  * 
- * @author Luigi Iannone */
+ * @author Luigi Iannone
+ */
 public class AssignmentMap implements Map<Variable<?>, Set<OWLObject>> {
-    private final Map<Variable<?>, Set<OWLObject>> delegate = new HashMap<Variable<?>, Set<OWLObject>>();
-    private final Set<BindingNode> bindingNodes = new HashSet<BindingNode>();
 
-    /** Copy constructor.
+    private final Map<Variable<?>, Set<OWLObject>> delegate = new HashMap<>();
+    private final Set<BindingNode> bindingNodes = new HashSet<>();
+
+    /**
+     * Copy constructor.
      * 
      * @param assignmentMap
-     *            . Cannot be {@code null}. */
+     *        . Cannot be {@code null}.
+     */
     public AssignmentMap(AssignmentMap assignmentMap) {
         checkNotNull(assignmentMap, "assignmentMap");
         bindingNodes.addAll(assignmentMap.bindingNodes);
         delegate.putAll(assignmentMap.delegate);
     }
 
-    /** @param bindingNodes
-     *            bindingNodes */
+    /**
+     * @param bindingNodes
+     *        bindingNodes
+     */
     public AssignmentMap(Collection<? extends BindingNode> bindingNodes) {
         if (bindingNodes == null || bindingNodes.isEmpty()) {
             return;
@@ -42,7 +44,7 @@ public class AssignmentMap implements Map<Variable<?>, Set<OWLObject>> {
                 OWLObject assignedValue = assignment.getAssignment();
                 Set<OWLObject> previousAssignements = get(assignedVariable);
                 if (previousAssignements == null) {
-                    previousAssignements = new HashSet<OWLObject>();
+                    previousAssignements = new HashSet<>();
                     put(assignedVariable, previousAssignements);
                 }
                 previousAssignements.add(assignedValue);
@@ -120,21 +122,27 @@ public class AssignmentMap implements Map<Variable<?>, Set<OWLObject>> {
         return delegate.hashCode();
     }
 
-    /** The set of Variables in this AssignementMap
+    /**
+     * The set of Variables in this AssignementMap
      * 
-     * @return a Set of Variable */
+     * @return a Set of Variable
+     */
     public Set<Variable<?>> getVariables() {
-        return new HashSet<Variable<?>>(keySet());
+        return new HashSet<>(keySet());
     }
 
-    /** @return the bindingNodes */
+    /**
+     * @return the bindingNodes
+     */
     public Set<BindingNode> getBindingNodes() {
-        return new HashSet<BindingNode>(bindingNodes);
+        return new HashSet<>(bindingNodes);
     }
 
-    /** @param anotherAssignmentMap
-     *            anotherAssignmentMap
-     * @return true if disjoint */
+    /**
+     * @param anotherAssignmentMap
+     *        anotherAssignmentMap
+     * @return true if disjoint
+     */
     public boolean isDisjointWith(AssignmentMap anotherAssignmentMap) {
         checkNotNull(anotherAssignmentMap, "anotherAssignmentMap");
         boolean found = false;
@@ -142,7 +150,7 @@ public class AssignmentMap implements Map<Variable<?>, Set<OWLObject>> {
         while (!found && iterator.hasNext()) {
             Variable<?> variable = iterator.next();
             if (anotherAssignmentMap.keySet().contains(variable)) {
-                Set<OWLObject> set = new HashSet<OWLObject>(get(variable));
+                Set<OWLObject> set = new HashSet<>(get(variable));
                 set.retainAll(anotherAssignmentMap.get(variable));
                 found = !set.isEmpty();
             }
@@ -150,14 +158,16 @@ public class AssignmentMap implements Map<Variable<?>, Set<OWLObject>> {
         return !found;
     }
 
-    /** @param assignmentMaps
-     *            assignmentMaps
-     * @return true if disjoint */
+    /**
+     * @param assignmentMaps
+     *        assignmentMaps
+     * @return true if disjoint
+     */
     public static boolean areDisjoint(Collection<? extends AssignmentMap> assignmentMaps) {
         checkNotNull(assignmentMaps, "assignmentMaps");
         if (assignmentMaps.isEmpty()) {
             throw new IllegalArgumentException(
-                    "The collection of AssignmentMap cannot be empty");
+                "The collection of AssignmentMap cannot be empty");
         }
         boolean found = false;
         Iterator<? extends AssignmentMap> iterator = assignmentMaps.iterator();

@@ -1,41 +1,41 @@
 package org.coode.oppl.similarity;
 
-import org.semanticweb.owlapi.model.OWLClass;
-import org.semanticweb.owlapi.model.OWLClassExpression;
-import org.semanticweb.owlapi.model.OWLClassExpressionVisitorEx;
-import org.semanticweb.owlapi.model.OWLDataAllValuesFrom;
-import org.semanticweb.owlapi.model.OWLDataComplementOf;
-import org.semanticweb.owlapi.model.OWLDataExactCardinality;
-import org.semanticweb.owlapi.model.OWLDataHasValue;
-import org.semanticweb.owlapi.model.OWLDataIntersectionOf;
-import org.semanticweb.owlapi.model.OWLDataMaxCardinality;
-import org.semanticweb.owlapi.model.OWLDataMinCardinality;
-import org.semanticweb.owlapi.model.OWLDataOneOf;
-import org.semanticweb.owlapi.model.OWLDataRange;
-import org.semanticweb.owlapi.model.OWLDataSomeValuesFrom;
-import org.semanticweb.owlapi.model.OWLDataUnionOf;
-import org.semanticweb.owlapi.model.OWLDataVisitorEx;
-import org.semanticweb.owlapi.model.OWLDatatype;
-import org.semanticweb.owlapi.model.OWLDatatypeRestriction;
-import org.semanticweb.owlapi.model.OWLFacetRestriction;
-import org.semanticweb.owlapi.model.OWLLiteral;
-import org.semanticweb.owlapi.model.OWLObjectAllValuesFrom;
-import org.semanticweb.owlapi.model.OWLObjectComplementOf;
-import org.semanticweb.owlapi.model.OWLObjectExactCardinality;
-import org.semanticweb.owlapi.model.OWLObjectHasSelf;
-import org.semanticweb.owlapi.model.OWLObjectHasValue;
-import org.semanticweb.owlapi.model.OWLObjectIntersectionOf;
-import org.semanticweb.owlapi.model.OWLObjectInverseOf;
-import org.semanticweb.owlapi.model.OWLObjectMaxCardinality;
-import org.semanticweb.owlapi.model.OWLObjectMinCardinality;
-import org.semanticweb.owlapi.model.OWLObjectOneOf;
-import org.semanticweb.owlapi.model.OWLObjectSomeValuesFrom;
-import org.semanticweb.owlapi.model.OWLObjectUnionOf;
+import org.semanticweb.owlapi.model.*;
 
 enum OWLConstruct {
-    AND, OR, OBJECT_NOT, DATA_NOT, OBJECT_ONE_OF, OBJECT_SOME, DATA_SOME, OBJECT_ALL, DATA_ALL, PRIMITIVE, OBJECT_HAS_VALUE, DATA_HAS_VALUE, DATA_MIN, DATA_EXACT, DATA_MAX, OBJECT_MIN, OBJECT_EXACT, OBJECT_MAX, OBJECT_SELF, DATA_ONE_OF, DATA_FACET, DATA_TYPE, DATA_RANGE_RESTRICTION, TYPED_CONSTANT, UNTYPED_CONSTANT, INVERSE, PROPERTY_CHAIN, DATA_INTERSECTION_OF, DATA_UNION_OF;
+    AND,
+    OR,
+    OBJECT_NOT,
+    DATA_NOT,
+    OBJECT_ONE_OF,
+    OBJECT_SOME,
+    DATA_SOME,
+    OBJECT_ALL,
+    DATA_ALL,
+    PRIMITIVE,
+    OBJECT_HAS_VALUE,
+    DATA_HAS_VALUE,
+    DATA_MIN,
+    DATA_EXACT,
+    DATA_MAX,
+    OBJECT_MIN,
+    OBJECT_EXACT,
+    OBJECT_MAX,
+    OBJECT_SELF,
+    DATA_ONE_OF,
+    DATA_FACET,
+    DATA_TYPE,
+    DATA_RANGE_RESTRICTION,
+    TYPED_CONSTANT,
+    UNTYPED_CONSTANT,
+    INVERSE,
+    PROPERTY_CHAIN,
+    DATA_INTERSECTION_OF,
+    DATA_UNION_OF;
+
     public static OWLConstruct getOWLConstruct(OWLClassExpression description) {
         return description.accept(new OWLClassExpressionVisitorEx<OWLConstruct>() {
+
             @Override
             public OWLConstruct visit(OWLClass owlClass) {
                 return PRIMITIVE;
@@ -130,6 +130,7 @@ enum OWLConstruct {
 
     public static OWLConstruct getOWLConstruct(OWLDataRange dataRange) {
         return dataRange.accept(new OWLDataVisitorEx<OWLConstruct>() {
+
             @Override
             public OWLConstruct visit(OWLDataComplementOf range) {
                 return DATA_NOT;
@@ -173,12 +174,12 @@ enum OWLConstruct {
     }
 
     public static OWLConstruct getOWLConstruct(
-            @SuppressWarnings("unused") OWLFacetRestriction facet) {
+        @SuppressWarnings("unused") OWLFacetRestriction facet) {
         return DATA_FACET;
     }
 
     public static OWLConstruct getOWLConstruct(
-            @SuppressWarnings("unused") OWLObjectInverseOf inverse) {
+        @SuppressWarnings("unused") OWLObjectInverseOf inverse) {
         return INVERSE;
     }
 }

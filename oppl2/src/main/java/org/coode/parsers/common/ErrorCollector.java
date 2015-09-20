@@ -10,45 +10,42 @@ import org.antlr.runtime.tree.CommonTree;
 import org.antlr.runtime.tree.RewriteEmptyStreamException;
 import org.coode.parsers.ErrorListener;
 import org.coode.parsers.Type;
-import org.coode.parsers.common.exception.IllegalTokenParsingException;
-import org.coode.parsers.common.exception.IncompatibleSymbolTypeParsingException;
-import org.coode.parsers.common.exception.IncompatibleSymbolsParsingException;
-import org.coode.parsers.common.exception.ParsingException;
-import org.coode.parsers.common.exception.RecognitionParsingException;
-import org.coode.parsers.common.exception.RewriteEmptyStreamParsingException;
-import org.coode.parsers.common.exception.UnrecognisedSymbolParsingException;
+import org.coode.parsers.common.exception.*;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class ErrorCollector implements ErrorListener {
-    private final Set<Throwable> errors = new HashSet<Throwable>();
+
+    private final Set<Throwable> errors = new HashSet<>();
 
     @Override
     public void unrecognisedSymbol(CommonTree t) {
         errors.add(new UnrecognisedSymbolParsingException(t.getText(), t.getLine(), t
-                .getCharPositionInLine()));
+            .getCharPositionInLine()));
     }
 
     @Override
     public void incompatibleSymbolType(CommonTree t, Type type, CommonTree expression) {
         errors.add(new IncompatibleSymbolTypeParsingException(t.getText(), type,
-                expression.getText(), t.getLine(), t.getCharPositionInLine()));
+            expression.getText(), t.getLine(), t.getCharPositionInLine()));
     }
 
     @Override
     public void incompatibleSymbols(CommonTree parentExpression, CommonTree... trees) {
-        List<String> symbols = new ArrayList<String>(trees.length);
+        List<String> symbols = new ArrayList<>(trees.length);
         for (CommonTree commonTree : trees) {
             symbols.add(commonTree.getText());
         }
         errors.add(new IncompatibleSymbolsParsingException(parentExpression.getText(),
-                parentExpression.getLine(), parentExpression.getCharPositionInLine(),
-                symbols.toArray(new String[symbols.size()])));
+            parentExpression.getLine(), parentExpression.getCharPositionInLine(),
+            symbols.toArray(new String[symbols.size()])));
     }
 
     @Override
     public void illegalToken(CommonTree t, String message) {
         errors.add(new IllegalTokenParsingException(t.getText(), t.getLine(), t
-                .getCharPositionInLine(), message));
+            .getCharPositionInLine(), message));
     }
 
     @Override
@@ -59,7 +56,7 @@ public class ErrorCollector implements ErrorListener {
     @Override
     public void recognitionException(RecognitionException e, String... tokenNames) {
         errors.add(new RecognitionParsingException(e.line, e.charPositionInLine,
-                tokenNames));
+            tokenNames));
     }
 
     @Override
@@ -72,8 +69,10 @@ public class ErrorCollector implements ErrorListener {
         errors.add(new ParsingException(line, charPosInLine, t));
     }
 
-    /** @return the errors */
+    /**
+     * @return the errors
+     */
     public Set<Throwable> getErrors() {
-        return new HashSet<Throwable>(errors);
+        return new HashSet<>(errors);
     }
 }

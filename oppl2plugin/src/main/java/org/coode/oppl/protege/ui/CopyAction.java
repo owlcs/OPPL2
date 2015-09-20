@@ -10,16 +10,21 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class CopyAction extends AbstractAction implements ClipboardOwner {
+
     private static final long serialVersionUID = 20100L;
     private String result;
 
-    /** @param toolTipText
-     *            toolTipText */
+    /**
+     * @param toolTipText
+     *        toolTipText
+     */
     public CopyAction(String toolTipText) {
         super("Copy Results", new ImageIcon(CopyAction.class.getClassLoader()
-                .getResource("copy2Cipboard.jpg")));
+            .getResource("copy2Cipboard.jpg")));
         putValue(SHORT_DESCRIPTION, toolTipText);
     }
 
@@ -30,13 +35,17 @@ public class CopyAction extends AbstractAction implements ClipboardOwner {
         c.setContents(selection, this);
     }
 
-    /** @return the result */
+    /**
+     * @return the result
+     */
     public String getResult() {
         return result;
     }
 
-    /** @param result
-     *            the result to set */
+    /**
+     * @param result
+     *        the result to set
+     */
     public void setResult(String result) {
         this.result = result;
     }

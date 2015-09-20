@@ -10,10 +10,13 @@ import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLObject;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class SymbolBasedHashFunction implements HashFunction {
-    private final Map<OWLEntity, Integer> entityHashCodes = new HashMap<OWLEntity, Integer>();
-    private final Map<OWLLiteral, Integer> owlConstantHashCodes = new HashMap<OWLLiteral, Integer>();
+
+    private final Map<OWLEntity, Integer> entityHashCodes = new HashMap<>();
+    private final Map<OWLLiteral, Integer> owlConstantHashCodes = new HashMap<>();
     private int maxPrime = 1;
 
     @Override
@@ -45,13 +48,17 @@ public class SymbolBasedHashFunction implements HashFunction {
         return toReturn;
     }
 
-    /** @return the maxPrime */
+    /**
+     * @return the maxPrime
+     */
     public int getMaxPrime() {
         return maxPrime;
     }
 
-    /** @param maxPrime
-     *            the maxPrime to set */
+    /**
+     * @param maxPrime
+     *        the maxPrime to set
+     */
     private void setMaxPrime(int maxPrime) {
         this.maxPrime = maxPrime;
     }

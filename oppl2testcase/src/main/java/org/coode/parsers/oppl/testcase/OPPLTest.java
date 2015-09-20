@@ -4,37 +4,48 @@ import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
 import org.coode.parsers.oppl.testcase.assertions.Assertion;
 
-/** A Test contains an Assertion and an optional message that should be displayed
+/**
+ * A Test contains an Assertion and an optional message that should be displayed
  * if the Assertion fails.
  * 
- * @author Luigi Iannone */
+ * @author Luigi Iannone
+ */
 public class OPPLTest {
+
     /** no message */
     public static final String NO_MESSAGE = "";
     private final String message;
     private final Assertion assertion;
 
-    /** @param assertion
-     *            assertion */
+    /**
+     * @param assertion
+     *        assertion
+     */
     public OPPLTest(Assertion assertion) {
         this(NO_MESSAGE, assertion);
     }
 
-    /** @param message
-     *            message
+    /**
+     * @param message
+     *        message
      * @param assertion
-     *            assertion */
+     *        assertion
+     */
     public OPPLTest(String message, Assertion assertion) {
         this.message = checkNotNull(message, "message");
         this.assertion = checkNotNull(assertion, "assertion");
     }
 
-    /** @return the message */
+    /**
+     * @return the message
+     */
     public String getMessage() {
         return message;
     }
 
-    /** @return the assertion */
+    /**
+     * @return the assertion
+     */
     public Assertion getAssertion() {
         return assertion;
     }
@@ -44,7 +55,7 @@ public class OPPLTest {
         // Grammar rule
         // ASSERT assertion (SEMICOLON message)?
         return String.format("ASSERT %s %s", getAssertion(),
-                getMessage().equals(NO_MESSAGE) ? NO_MESSAGE : "; " + getMessage());
+            getMessage().equals(NO_MESSAGE) ? NO_MESSAGE : "; " + getMessage());
     }
 
     @Override

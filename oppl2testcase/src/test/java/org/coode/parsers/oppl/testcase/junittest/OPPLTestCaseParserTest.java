@@ -2,18 +2,8 @@ package org.coode.parsers.oppl.testcase.junittest;
 
 import static org.junit.Assert.assertNotNull;
 
-import org.antlr.runtime.ANTLRStringStream;
-import org.antlr.runtime.RecognitionException;
-import org.antlr.runtime.RuleReturnScope;
-import org.antlr.runtime.Token;
-import org.antlr.runtime.TokenRewriteStream;
-import org.antlr.runtime.TokenStream;
-import org.antlr.runtime.tree.CommonErrorNode;
-import org.antlr.runtime.tree.CommonTree;
-import org.antlr.runtime.tree.CommonTreeAdaptor;
-import org.antlr.runtime.tree.CommonTreeNodeStream;
-import org.antlr.runtime.tree.RewriteEmptyStreamException;
-import org.antlr.runtime.tree.TreeAdaptor;
+import org.antlr.runtime.*;
+import org.antlr.runtime.tree.*;
 import org.coode.parsers.ErrorListener;
 import org.coode.parsers.ManchesterOWLSyntaxSimplify;
 import org.coode.parsers.Type;
@@ -24,7 +14,9 @@ import org.junit.Test;
 
 @SuppressWarnings("javadoc")
 public class OPPLTestCaseParserTest {
+
     private static TreeAdaptor adaptor = new CommonTreeAdaptor() {
+
         @Override
         public Object create(Token token) {
             return new OPPLSyntaxTree(token);
@@ -40,11 +32,12 @@ public class OPPLTestCaseParserTest {
 
         @Override
         public Object errorNode(TokenStream input, Token start, Token stop,
-                RecognitionException e) {
+            RecognitionException e) {
             return new CommonErrorNode(input, start, stop, e);
         }
     };
     private static final ErrorListener ERROR_LISTENER = new ErrorListener() {
+
         @Override
         public void unrecognisedSymbol(CommonTree t) {
             throw new RuntimeException(t.toString());
@@ -76,8 +69,7 @@ public class OPPLTestCaseParserTest {
         }
 
         @Override
-        public void
-                incompatibleSymbolType(CommonTree t, Type type, CommonTree expression) {
+        public void incompatibleSymbolType(CommonTree t, Type type, CommonTree expression) {
             throw new RuntimeException(t.toString());
         }
 
@@ -92,7 +84,7 @@ public class OPPLTestCaseParserTest {
         OPPLTestCaseLexer opplTestCaseLexer = new OPPLTestCaseLexer(antlrStringStream);
         final TokenRewriteStream tokens = new TokenRewriteStream(opplTestCaseLexer);
         OPPLTestCaseCombinedParser parser = new OPPLTestCaseCombinedParser(tokens,
-                ERROR_LISTENER);
+            ERROR_LISTENER);
         parser.setTreeAdaptor(adaptor);
         RuleReturnScope r = parser.testCase();
         CommonTree tree = (CommonTree) r.getTree();

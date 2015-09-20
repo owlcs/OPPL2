@@ -3,15 +3,18 @@ package org.coode.parsers.ui;
 import java.awt.Color;
 import java.util.HashMap;
 
-/** Author: drummond<br>
+/**
+ * Author: drummond<br>
  * http://www.cs.man.ac.uk/~drummond/<br>
  * <br>
  * <br>
  * The University Of Manchester<br>
  * Bio Health Informatics Group<br>
  * Date: Sep 23, 2008<br>
- * <br> */
+ * <br>
+ */
 public class KeywordColourMap extends HashMap<String, Color> {
+
     private static final long serialVersionUID = 20100L;
 
     /**

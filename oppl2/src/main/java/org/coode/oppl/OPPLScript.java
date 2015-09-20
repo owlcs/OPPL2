@@ -28,45 +28,69 @@ import org.coode.oppl.variabletypes.InputVariable;
 import org.semanticweb.owlapi.model.OWLAxiomChange;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 
-/** Generic interface representing an OPPL Script
+/**
+ * Generic interface representing an OPPL Script
  * 
- * @author Luigi Iannone */
+ * @author Luigi Iannone
+ */
 public interface OPPLScript extends Renderable {
-    /** @param variable
-     *            variable */
+
+    /**
+     * @param variable
+     *        variable
+     */
     void addVariable(Variable<?> variable);
 
-    /** @return the List of the variables declared in this OPPLScript */
+    /**
+     * @return the List of the variables declared in this OPPLScript
+     */
     List<Variable<?>> getVariables();
 
-    /** @return the List of the InputVariable elements */
+    /**
+     * @return the List of the InputVariable elements
+     */
     List<InputVariable<?>> getInputVariables();
 
-    /** @return the ConstraintSystem used by this OPPLScript */
+    /**
+     * @return the ConstraintSystem used by this OPPLScript
+     */
     ConstraintSystem getConstraintSystem();
 
-    /** @return the appropriate rendering of this OPPLScript */
+    /**
+     * @return the appropriate rendering of this OPPLScript
+     */
     String render();
 
-    /** @return actions */
+    /**
+     * @return actions
+     */
     List<OWLAxiomChange> getActions();
 
-    /** @return query */
+    /**
+     * @return query
+     */
     OPPLQuery getQuery();
 
-    /** @param visitor
-     *            visitor */
+    /**
+     * @param visitor
+     *        visitor
+     */
     void accept(OPPLScriptVisitor visitor);
 
-    /** @param visitor
-     *            visitor
-     * @param <P>
-     *            visitor value type
-     * @return visitor value */
+    /**
+     * @param visitor
+     *        visitor
+     * @param
+     *        <P>
+     *        visitor value type
+     * @return visitor value
+     */
     <P> P accept(OPPLScriptVisitorEx<P> visitor);
 
-    /** @param shortFormProvider
-     *            shortFormProvider
-     * @return rendering */
+    /**
+     * @param shortFormProvider
+     *        shortFormProvider
+     * @return rendering
+     */
     String render(ShortFormProvider shortFormProvider);
 }

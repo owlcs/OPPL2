@@ -4,17 +4,22 @@ import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
 import org.coode.parsers.oppl.testcase.OPPLTestCase;
 
-/** Represents an execution report about an OPPL Test Case whose execution was
+/**
+ * Represents an execution report about an OPPL Test Case whose execution was
  * abnormal because of an internal error/exception.
  * 
- * @author Luigi Iannone */
+ * @author Luigi Iannone
+ */
 public class RuntimeErrorEncounteredExecutionReport extends UnsuccessfulExecutionReport {
+
     private final Throwable cause;
 
-    /** @param opplTestCase
-     *            opplTestCase
+    /**
+     * @param opplTestCase
+     *        opplTestCase
      * @param t
-     *            t */
+     *        t
+     */
     public RuntimeErrorEncounteredExecutionReport(OPPLTestCase opplTestCase, Throwable t) {
         super(opplTestCase);
         cause = checkNotNull(t, "t");
@@ -30,7 +35,9 @@ public class RuntimeErrorEncounteredExecutionReport extends UnsuccessfulExecutio
         return visitor.visitRuntimeErrorEncounteredExecutionReport(this);
     }
 
-    /** @return the cause */
+    /**
+     * @return the cause
+     */
     public Throwable getCause() {
         return cause;
     }

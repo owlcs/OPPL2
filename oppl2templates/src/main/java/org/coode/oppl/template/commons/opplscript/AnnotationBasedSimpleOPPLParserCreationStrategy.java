@@ -14,31 +14,36 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 
-/** Builds a parser that recognises named entities based on the value for the
+/**
+ * Builds a parser that recognises named entities based on the value for the
  * annotation whose annotation properties are listed in a List provided to the
  * constructor for this class.
  * 
- * @author Luigi Iannone */
+ * @author Luigi Iannone
+ */
 public class AnnotationBasedSimpleOPPLParserCreationStrategy extends
-        SimpleOPPLParserCreationStrategy {
+    SimpleOPPLParserCreationStrategy {
+
     private final SymbolTableFactory<OPPLSymbolTable> symbolTableFactory;
 
-    /** @param iris
-     *            iris
+    /**
+     * @param iris
+     *        iris
      * @param ontologyManager
-     *            ontologyManager
+     *        ontologyManager
      * @param ontology
-     *            ontology
+     *        ontology
      * @param reasoner
-     *            reasoner
+     *        reasoner
      * @param errorListener
-     *            errorListener */
+     *        errorListener
+     */
     public AnnotationBasedSimpleOPPLParserCreationStrategy(List<IRI> iris,
-            OWLOntologyManager ontologyManager, OWLOntology ontology,
-            OWLReasoner reasoner, ErrorListener errorListener) {
+        OWLOntologyManager ontologyManager, OWLOntology ontology,
+        OWLReasoner reasoner, ErrorListener errorListener) {
         super(ontologyManager, ontology, reasoner, errorListener);
         symbolTableFactory = new AnnotationBasedSymbolTableFactory(ontologyManager,
-                checkNotNull(iris, "iris"));
+            checkNotNull(iris, "iris"));
     }
 
     @Override

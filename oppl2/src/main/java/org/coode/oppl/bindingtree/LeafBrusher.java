@@ -34,13 +34,18 @@ import org.coode.oppl.Variable;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLOntology;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class LeafBrusher implements BindingVisitor {
-    private final Set<BindingNode> leaves = new HashSet<BindingNode>();
-    private final Map<Variable<?>, Set<OWLObject>> bindings = new HashMap<Variable<?>, Set<OWLObject>>();
 
-    /** @param bindings
-     *            bindings */
+    private final Set<BindingNode> leaves = new HashSet<>();
+    private final Map<Variable<?>, Set<OWLObject>> bindings = new HashMap<>();
+
+    /**
+     * @param bindings
+     *        bindings
+     */
     public LeafBrusher(Map<Variable<?>, Set<OWLObject>> bindings) {
         this.bindings.putAll(checkNotNull(bindings, "bindings"));
     }
@@ -48,11 +53,11 @@ public class LeafBrusher implements BindingVisitor {
     @Override
     public void visit(BindingNode bindingNode) {
         if (!bindingNode.isEmpty()) {
-            Set<BindingNode> nodes = new HashSet<BindingNode>();
+            Set<BindingNode> nodes = new HashSet<>();
             nodes.add(bindingNode);
             boolean allLeaves = bindingNode.isLeaf();
             while (!allLeaves) {
-                for (BindingNode generatedChild : new HashSet<BindingNode>(nodes)) {
+                for (BindingNode generatedChild : new HashSet<>(nodes)) {
                     if (!generatedChild.isLeaf()) {
                         nodes.remove(generatedChild);
                         Set<BindingNode> generatedChildren = generateChildren(generatedChild);
@@ -65,9 +70,11 @@ public class LeafBrusher implements BindingVisitor {
         }
     }
 
-    /** @param nodes
-     *            nodes
-     * @return true if all nodes are leaves */
+    /**
+     * @param nodes
+     *        nodes
+     * @return true if all nodes are leaves
+     */
     private boolean allLeaves(Set<BindingNode> nodes) {
         Iterator<BindingNode> it = nodes.iterator();
         BindingNode generatedChild;
@@ -79,13 +86,15 @@ public class LeafBrusher implements BindingVisitor {
         return allLeaves;
     }
 
-    /** @return the leaves */
+    /**
+     * @return the leaves
+     */
     public Set<BindingNode> getLeaves() {
-        return new HashSet<BindingNode>(leaves);
+        return new HashSet<>(leaves);
     }
 
     private Set<BindingNode> generateChildren(BindingNode node) {
-        Set<BindingNode> toReturn = new HashSet<BindingNode>();
+        Set<BindingNode> toReturn = new HashSet<>();
         if (node.isLeaf()) {
             toReturn.add(node);
             return toReturn;
@@ -98,7 +107,7 @@ public class LeafBrusher implements BindingVisitor {
                     if (!(owlObject instanceof OWLOntology)) {
                         Assignment extraAssignment = new Assignment(variable, owlObject);
                         BindingNode newNode = new BindingNode(node.getAssignments(),
-                                unassignedVariables);
+                            unassignedVariables);
                         newNode.addAssignment(extraAssignment);
                         toReturn.add(newNode);
                     }
@@ -108,8 +117,10 @@ public class LeafBrusher implements BindingVisitor {
         return toReturn;
     }
 
-    /** @return the bindings */
+    /**
+     * @return the bindings
+     */
     public Map<Variable<?>, Set<OWLObject>> getBindings() {
-        return new HashMap<Variable<?>, Set<OWLObject>>(bindings);
+        return new HashMap<>(bindings);
     }
 }

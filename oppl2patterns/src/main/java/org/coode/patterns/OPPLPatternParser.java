@@ -5,12 +5,7 @@ import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 import java.util.Collection;
 import java.util.List;
 
-import org.antlr.runtime.ANTLRStringStream;
-import org.antlr.runtime.RecognitionException;
-import org.antlr.runtime.RuleReturnScope;
-import org.antlr.runtime.Token;
-import org.antlr.runtime.TokenRewriteStream;
-import org.antlr.runtime.TokenStream;
+import org.antlr.runtime.*;
 import org.antlr.runtime.tree.CommonErrorNode;
 import org.antlr.runtime.tree.CommonTree;
 import org.antlr.runtime.tree.CommonTreeAdaptor;
@@ -27,68 +22,78 @@ import org.coode.parsers.oppl.OPPLDefine;
 import org.coode.parsers.oppl.OPPLSyntaxTree;
 import org.coode.parsers.oppl.OPPLTypeEnforcement;
 import org.coode.parsers.oppl.OPPLTypes;
-import org.coode.parsers.oppl.patterns.OPPLPatternLexer;
-import org.coode.parsers.oppl.patterns.OPPLPatternScriptParser;
-import org.coode.parsers.oppl.patterns.OPPLPatternsDefine;
-import org.coode.parsers.oppl.patterns.OPPLPatternsReferenceDefine;
-import org.coode.parsers.oppl.patterns.OPPLPatternsSymbolTable;
-import org.coode.parsers.oppl.patterns.OPPLPatternsTypes;
+import org.coode.parsers.oppl.patterns.*;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class OPPLPatternParser implements AbstractOPPLParser {
-    /** Abstract factory for creating parsers
+
+    /**
+     * Abstract factory for creating parsers
      * 
-     * @author Luigi Iannone */
+     * @author Luigi Iannone
+     */
     public interface AbstractParserFactory {
-        /** Builds an OPPLPatternParser attaching an ErrorListener to it.
+
+        /**
+         * Builds an OPPLPatternParser attaching an ErrorListener to it.
          * 
          * @param errorListener
-         *            The ErrorListener. Cannot be {@code null}.
+         *        The ErrorListener. Cannot be {@code null}.
          * @return An OPPLParser.
          * @throws NullPointerException
-         *             when the input is {@code null}. */
+         *         when the input is {@code null}.
+         */
         OPPLPatternParser build(ErrorListener errorListener);
 
-        /** Builds an OPPLPatternParser attaching an ErrorListener to it. This
+        /**
+         * Builds an OPPLPatternParser attaching an ErrorListener to it. This
          * parser takes into account the already visited patterns in order to
          * detect cyclic references.
          * 
          * @param errorListener
-         *            The ErrorListener. Cannot be {@code null}.
+         *        The ErrorListener. Cannot be {@code null}.
          * @param visitedPatterns
-         *            The Collection of visited patterns. Cannot be {@code null}
-         *            .
+         *        The Collection of visited patterns. Cannot be {@code null} .
          * @return An OPPLParser.
          * @throws NullPointerException
-         *             when either input is {@code null}. */
+         *         when either input is {@code null}.
+         */
         OPPLPatternParser build(Collection<? extends String> visitedPatterns,
-                ErrorListener errorListener);
+            ErrorListener errorListener);
 
-        /** Retrieves an instance AbstractPatternModelFactory that this
+        /**
+         * Retrieves an instance AbstractPatternModelFactory that this
          * AbstractParserFactory provides.
          * 
-         * @return An OPPLAbstractFactory */
+         * @return An OPPLAbstractFactory
+         */
         AbstractPatternModelFactory getPatternFactory();
     }
 
     /** pattern reference resolver */
     public interface PatternReferenceResolver {
-        /** @param reference
-         *            reference
+
+        /**
+         * @param reference
+         *        reference
          * @param patternName
-         *            patternName
+         *        patternName
          * @param constraintSystem
-         *            constraintSystem
+         *        constraintSystem
          * @param symbolTable
-         *            symbolTable
+         *        symbolTable
          * @param args
-         *            args */
+         *        args
+         */
         void resolvePattern(OPPLSyntaxTree reference, String patternName,
-                PatternConstraintSystem constraintSystem,
-                OPPLPatternsSymbolTable symbolTable, List<Object>... args);
+            PatternConstraintSystem constraintSystem,
+            OPPLPatternsSymbolTable symbolTable, List<Object>... args);
     }
 
     private static final TreeAdaptor ADAPTOR = new CommonTreeAdaptor() {
+
         @Override
         public Object create(Token token) {
             return new OPPLSyntaxTree(token);
@@ -104,52 +109,59 @@ public class OPPLPatternParser implements AbstractOPPLParser {
 
         @Override
         public Object errorNode(TokenStream input, Token start, Token stop,
-                RecognitionException e) {
+            RecognitionException e) {
             return new CommonErrorNode(input, start, stop, e);
         }
     };
     private final SymbolTableFactory<OPPLPatternsSymbolTable> symbolTableFactory;
 
-    /** @param factory
-     *            factory
+    /**
+     * @param factory
+     *        factory
      * @param listener
-     *            listener
+     *        listener
      * @param symbolTableFactory
-     *            symbolTableFactory */
+     *        symbolTableFactory
+     */
     public OPPLPatternParser(AbstractPatternModelFactory factory, ErrorListener listener,
-            SymbolTableFactory<OPPLPatternsSymbolTable> symbolTableFactory) {
+        SymbolTableFactory<OPPLPatternsSymbolTable> symbolTableFactory) {
         this(factory, listener, symbolTableFactory, getSimplePatternReferenceResolver());
     }
 
-    /** @return a pattern reference resolver */
+    /**
+     * @return a pattern reference resolver
+     */
     public static PatternReferenceResolver getSimplePatternReferenceResolver() {
         return new PatternReferenceResolver() {
+
             @Override
             public void resolvePattern(OPPLSyntaxTree reference, String patternName,
-                    PatternConstraintSystem constraintSystem,
-                    OPPLPatternsSymbolTable symbolTable, List<Object>... args) {
+                PatternConstraintSystem constraintSystem,
+                OPPLPatternsSymbolTable symbolTable, List<Object>... args) {
                 symbolTable
-                        .resolvePattern(reference, patternName, constraintSystem, args);
+                    .resolvePattern(reference, patternName, constraintSystem, args);
             }
         };
     }
 
-    /** @param factory
-     *            factory
+    /**
+     * @param factory
+     *        factory
      * @param listener
-     *            listener
+     *        listener
      * @param symbolTableFactory
-     *            symbolTableFactory
+     *        symbolTableFactory
      * @param patternReferenceResolver
-     *            patternReferenceResolver */
+     *        patternReferenceResolver
+     */
     public OPPLPatternParser(AbstractPatternModelFactory factory, ErrorListener listener,
-            SymbolTableFactory<OPPLPatternsSymbolTable> symbolTableFactory,
-            PatternReferenceResolver patternReferenceResolver) {
+        SymbolTableFactory<OPPLPatternsSymbolTable> symbolTableFactory,
+        PatternReferenceResolver patternReferenceResolver) {
         patternModelFactory = checkNotNull(factory, "factory");
         this.listener = checkNotNull(listener, "listener");
         this.symbolTableFactory = checkNotNull(symbolTableFactory, "symbolTableFactory");
         this.patternReferenceResolver = checkNotNull(patternReferenceResolver,
-                "patternReferenceResolver");
+            "patternReferenceResolver");
     }
 
     private final ErrorListener listener;
@@ -163,10 +175,10 @@ public class OPPLPatternParser implements AbstractOPPLParser {
         ANTLRStringStream antlrStringStream = new ANTLRStringStream(input);
         OPPLPatternLexer lexer = new OPPLPatternLexer(antlrStringStream);
         PatternConstraintSystem constraintSystem = getOPPLPatternFactory()
-                .createConstraintSystem();
+            .createConstraintSystem();
         final TokenRewriteStream tokens = new TokenRewriteStream(lexer);
         OPPLPatternScriptParser parser = new OPPLPatternScriptParser(tokens,
-                getListener());
+            getListener());
         parser.setTreeAdaptor(ADAPTOR);
         RuleReturnScope r = parser.pattern();
         CommonTree tree = (CommonTree) r.getTree();
@@ -181,36 +193,36 @@ public class OPPLPatternParser implements AbstractOPPLParser {
             tree = (CommonTree) simplify.downup(tree);
             nodes.reset();
             OPPLDefine define = new OPPLDefine(nodes, symtab, getListener(),
-                    constraintSystem);
+                constraintSystem);
             define.setTreeAdaptor(ADAPTOR);
             define.downup(tree);
             nodes.reset();
             OPPLPatternsDefine patternsDefine = new OPPLPatternsDefine(nodes, symtab,
-                    getListener(), getPatternReferenceResolver(), constraintSystem);
+                getListener(), getPatternReferenceResolver(), constraintSystem);
             patternsDefine.setTreeAdaptor(ADAPTOR);
             patternsDefine.downup(tree);
             nodes.reset();
             SilentListener silentListener = new SilentListener();
             symtab.setErrorListener(silentListener);
             ManchesterOWLSyntaxTypes mOWLTypes = new ManchesterOWLSyntaxTypes(nodes,
-                    symtab, silentListener);
+                symtab, silentListener);
             mOWLTypes.downup(tree);
             nodes.reset();
             OPPLTypeEnforcement typeEnforcement = new OPPLTypeEnforcement(nodes, symtab,
-                    new DefaultTypeEnforcer(symtab, getOPPLPatternFactory()
-                            .getOPPLFactory().getOWLEntityFactory(), getListener()),
-                    getListener());
+                new DefaultTypeEnforcer(symtab, getOPPLPatternFactory()
+                    .getOPPLFactory().getOWLEntityFactory(), getListener()),
+                getListener());
             typeEnforcement.downup(tree);
             nodes.reset();
             mOWLTypes.downup(tree);
             nodes.reset();
             OPPLTypes opplTypes = new OPPLTypes(nodes, symtab, silentListener,
-                    constraintSystem, getOPPLPatternFactory().getOPPLFactory());
+                constraintSystem, getOPPLPatternFactory().getOPPLFactory());
             opplTypes.downup(tree);
             nodes.reset();
             OPPLPatternsReferenceDefine patternReferenceDefine = new OPPLPatternsReferenceDefine(
-                    nodes, symtab, getListener(), getPatternReferenceResolver(),
-                    constraintSystem);
+                nodes, symtab, getListener(), getPatternReferenceResolver(),
+                constraintSystem);
             patternReferenceDefine.setTreeAdaptor(ADAPTOR);
             patternReferenceDefine.downup(tree);
             nodes.reset();
@@ -219,33 +231,41 @@ public class OPPLPatternParser implements AbstractOPPLParser {
             mOWLTypes.downup(tree);
             nodes.reset();
             opplTypes = new OPPLTypes(nodes, symtab, getListener(), constraintSystem,
-                    getOPPLPatternFactory().getOPPLFactory());
+                getOPPLPatternFactory().getOPPLFactory());
             opplTypes.downup(tree);
             nodes.reset();
             OPPLPatternsTypes opplPatternsTypes = new OPPLPatternsTypes(nodes, symtab,
-                    getListener(), constraintSystem, getOPPLPatternFactory());
+                getListener(), constraintSystem, getOPPLPatternFactory());
             opplPatternsTypes.downup(tree);
         }
         return tree != null ? (PatternModel) ((OPPLSyntaxTree) tree).getOPPLContent()
-                : null;
+            : null;
     }
 
-    /** @return the symbolTableFactory */
+    /**
+     * @return the symbolTableFactory
+     */
     public SymbolTableFactory<OPPLPatternsSymbolTable> getSymbolTableFactory() {
         return symbolTableFactory;
     }
 
-    /** @return the listener */
+    /**
+     * @return the listener
+     */
     public ErrorListener getListener() {
         return listener;
     }
 
-    /** @return the factory */
+    /**
+     * @return the factory
+     */
     public AbstractPatternModelFactory getOPPLPatternFactory() {
         return patternModelFactory;
     }
 
-    /** @return the patternReferenceResolver */
+    /**
+     * @return the patternReferenceResolver
+     */
     public PatternReferenceResolver getPatternReferenceResolver() {
         return patternReferenceResolver;
     }

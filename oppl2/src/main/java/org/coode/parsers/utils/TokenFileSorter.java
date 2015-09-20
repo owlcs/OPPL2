@@ -2,12 +2,7 @@ package org.coode.parsers.utils;
 
 import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -20,13 +15,18 @@ import java.util.regex.Pattern;
 import org.antlr.runtime.CharStream;
 import org.antlr.runtime.Token;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class TokenFileSorter {
-    private final String path;
-    private final List<Token> tokens = new ArrayList<Token>();
 
-    /** @param path
-     *            path */
+    private final String path;
+    private final List<Token> tokens = new ArrayList<>();
+
+    /**
+     * @param path
+     *        path
+     */
     public TokenFileSorter(String path) {
         this.path = checkNotNull(path, "path");
         parse();
@@ -40,16 +40,20 @@ public class TokenFileSorter {
         writer.close();
     }
 
-    /** @throws FileNotFoundException
-     *             FileNotFoundException */
+    /**
+     * @throws FileNotFoundException
+     *         FileNotFoundException
+     */
     public void save() throws FileNotFoundException {
         write(getPath());
     }
 
-    /** @param outputPath
-     *            outputPath
+    /**
+     * @param outputPath
+     *        outputPath
      * @throws FileNotFoundException
-     *             FileNotFoundException */
+     *         FileNotFoundException
+     */
     public void save(String outputPath) throws FileNotFoundException {
         write(outputPath);
     }
@@ -63,13 +67,14 @@ public class TokenFileSorter {
             try {
                 while ((line = reader.readLine()) != null) {
                     Pattern pattern = Pattern.compile("(\\w*)\\s*=\\s*(\\w*)",
-                            Pattern.DOTALL);
+                        Pattern.DOTALL);
                     Matcher matcher = pattern.matcher(line);
                     boolean matches = matcher.matches();
                     if (matches) {
                         final String tokenName = matcher.group(1);
                         final int type = Integer.parseInt(matcher.group(2).trim());
                         tokens.add(new Token() {
+
                             @Override
                             public void setType(int arg0) {}
 
@@ -135,6 +140,7 @@ public class TokenFileSorter {
                     }
                 }
                 Collections.sort(tokens, new Comparator<Token>() {
+
                     @Override
                     public int compare(Token aToken, Token anotherToken) {
                         return aToken.getType() - anotherToken.getType();
@@ -143,16 +149,18 @@ public class TokenFileSorter {
                 reader.close();
             } catch (IOException e) {
                 Logger.getLogger(this.getClass().getName()).log(Level.WARNING,
-                        "Could not read line " + e.getMessage());
+                    "Could not read line " + e.getMessage());
             }
         } catch (FileNotFoundException e) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE,
-                    "The File could not be open " + e.getMessage());
+                "The File could not be open " + e.getMessage());
         }
     }
 
-    /** @param args
-     *            args */
+    /**
+     * @param args
+     *        args
+     */
     public static void main(String[] args) {
         if (args.length >= 1) {
             String tokenFileName = args[0];
@@ -165,18 +173,22 @@ public class TokenFileSorter {
                 }
             } catch (FileNotFoundException e) {
                 Logger.getLogger(TokenFileSorter.class.getName()).log(Level.SEVERE,
-                        "The output File could not be open " + e.getMessage());
+                    "The output File could not be open " + e.getMessage());
             }
         }
     }
 
-    /** @return the file */
+    /**
+     * @return the file
+     */
     public String getPath() {
         return path;
     }
 
-    /** @return the tokens */
+    /**
+     * @return the tokens
+     */
     public List<Token> getTokens() {
-        return new ArrayList<Token>(tokens);
+        return new ArrayList<>(tokens);
     }
 }

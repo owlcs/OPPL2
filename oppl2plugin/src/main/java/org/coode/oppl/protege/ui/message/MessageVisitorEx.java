@@ -1,18 +1,25 @@
 package org.coode.oppl.protege.ui.message;
 
-/** Visitor pattern for the Message hierarchy with a parametric return type
+/**
+ * Visitor pattern for the Message hierarchy with a parametric return type
  * 
  * @param <O>
- *            the return type of this visitor.
- * @author Luigi Iannone */
+ *        the return type of this visitor.
+ * @author Luigi Iannone
+ */
 public interface MessageVisitorEx<O> {
-    /** @param error
-     *            error
-     * @return visitor value */
+
+    /**
+     * @param error
+     *        error
+     * @return visitor value
+     */
     O visitError(Error error);
 
-    /** @param warning
-     *            warning
-     * @return visitor value */
+    /**
+     * @param warning
+     *        warning
+     * @return visitor value
+     */
     O visitWarning(Warning warning);
 }

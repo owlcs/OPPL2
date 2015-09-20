@@ -15,26 +15,30 @@ import org.protege.editor.core.ui.util.VerifyingOptionPane;
 
 /** option pane */
 public class JOptionPaneEx {
-    /** @param parent
-     *            parent
+
+    /**
+     * @param parent
+     *        parent
      * @param title
-     *            title
+     *        title
      * @param component
-     *            component
+     *        component
      * @param verifiedInputEditor
-     *            verifiedInputEditor
+     *        verifiedInputEditor
      * @param messageType
-     *            messageType
+     *        messageType
      * @param optionType
-     *            optionType
+     *        optionType
      * @param defaultFocusedComponent
-     *            defaultFocusedComponent
-     * @return return value from option box */
+     *        defaultFocusedComponent
+     * @return return value from option box
+     */
     public static int showValidatingConfirmDialog(Component parent, String title,
-            JComponent component, VerifiedInputEditor verifiedInputEditor,
-            int messageType, int optionType, final JComponent defaultFocusedComponent) {
+        JComponent component, VerifiedInputEditor verifiedInputEditor,
+        int messageType, int optionType, final JComponent defaultFocusedComponent) {
         final VerifyingOptionPane optionPane = new VerifyingOptionPane(component,
-                messageType, optionType) {
+            messageType, optionType) {
+
             private static final long serialVersionUID = 20100L;
 
             @Override
@@ -44,6 +48,7 @@ public class JOptionPaneEx {
             }
         };
         final InputVerificationStatusChangedListener verificationListener = new InputVerificationStatusChangedListener() {
+
             @Override
             public void verifiedStatusChanged(boolean verified) {
                 optionPane.setOKEnabled(verified);
@@ -51,16 +56,17 @@ public class JOptionPaneEx {
         };
         verifiedInputEditor.addStatusChangedListener(verificationListener);
         final JDialog dlg = createDialog(parent, title, optionPane,
-                defaultFocusedComponent);
+            defaultFocusedComponent);
         dlg.setModal(true);
         dlg.setVisible(true);
         return getReturnValue(optionPane);
     }
 
     private static JDialog createDialog(Component parent, String title,
-            JOptionPane optionPane, final JComponent defaultFocusedComponent) {
+        JOptionPane optionPane, final JComponent defaultFocusedComponent) {
         JDialog dlg = optionPane.createDialog(parent, title);
         dlg.addWindowListener(new WindowAdapter() {
+
             @Override
             public void windowOpened(WindowEvent e) {
                 if (defaultFocusedComponent != null) {

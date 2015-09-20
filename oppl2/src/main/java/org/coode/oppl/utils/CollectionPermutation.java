@@ -33,53 +33,65 @@ import java.util.Set;
 import org.coode.oppl.search.SearchTree;
 
 class PermutationState<N> {
+
     private final Collection<N> referenceCollection;
-    private final List<N> sequence = new ArrayList<N>();
+    private final List<N> sequence = new ArrayList<>();
     private final boolean isGoal;
 
-    /** @param referenceCollection
-     *            referenceCollection
+    /**
+     * @param referenceCollection
+     *        referenceCollection
      * @param sequence
-     *            sequence */
+     *        sequence
+     */
     PermutationState(Collection<N> referenceCollection, List<N> sequence) {
         this.referenceCollection = checkNotNull(referenceCollection,
-                "referenceCollection");
+            "referenceCollection");
         this.sequence.addAll(sequence);
         this.isGoal = referenceCollection.size() == this.getSequence().size();
     }
 
-    /** @return the referenceCollection */
+    /**
+     * @return the referenceCollection
+     */
     public Collection<N> getReferenceCollection() {
         return this.referenceCollection;
     }
 
-    /** @return the isGoal */
+    /**
+     * @return the isGoal
+     */
     public boolean isGoal() {
         return this.isGoal;
     }
 
-    /** @return the sequence */
+    /**
+     * @return the sequence
+     */
     public List<N> getSequence() {
         return this.sequence;
     }
 }
 
-/** @author Luigi Iannone
+/**
+ * @author Luigi Iannone
  * @param <N>
- *            type */
+ *        type
+ */
 public class CollectionPermutation<N> extends SearchTree<PermutationState<N>> {
+
     private CollectionPermutation() {}
 
     @Override
     protected List<PermutationState<N>> getChildren(PermutationState<N> node) {
-        List<PermutationState<N>> toReturn = new ArrayList<PermutationState<N>>();
-        Collection<N> remainder = new HashSet<N>(node.getReferenceCollection());
+        List<PermutationState<N>> toReturn = new ArrayList<>();
+        Collection<N> remainder = new HashSet<>(node.getReferenceCollection());
         remainder.removeAll(node.getSequence());
         for (N n : remainder) {
-            List<N> newSequence = new ArrayList<N>(node.getSequence());
+            List<N> newSequence = new ArrayList<>(node.getSequence());
             newSequence.add(n);
-            toReturn.add(new PermutationState<N>(node.getReferenceCollection(),
-                    newSequence));
+            toReturn.add(new PermutationState<>(node.getReferenceCollection(),
+                newSequence));
         }
         return toReturn;
     }
@@ -89,17 +101,19 @@ public class CollectionPermutation<N> extends SearchTree<PermutationState<N>> {
         return node.isGoal();
     }
 
-    /** @param collection
-     *            collection
+    /**
+     * @param collection
+     *        collection
      * @param <O>
-     *            collection type
-     * @return all permutations */
+     *        collection type
+     * @return all permutations
+     */
     public static <O> Set<List<O>> getAllPermutations(Collection<O> collection) {
-        CollectionPermutation<O> setPermutation = new CollectionPermutation<O>();
-        Set<List<O>> toReturn = new HashSet<List<O>>();
-        List<List<PermutationState<O>>> solutions = new ArrayList<List<PermutationState<O>>>();
-        setPermutation.exhaustiveSearchTree(new PermutationState<O>(collection,
-                new ArrayList<O>()), solutions);
+        CollectionPermutation<O> setPermutation = new CollectionPermutation<>();
+        Set<List<O>> toReturn = new HashSet<>();
+        List<List<PermutationState<O>>> solutions = new ArrayList<>();
+        setPermutation.exhaustiveSearchTree(new PermutationState<>(collection,
+            new ArrayList<O>()), solutions);
         for (List<PermutationState<O>> solution : solutions) {
             toReturn.add(solution.get(solution.size() - 1).getSequence());
         }

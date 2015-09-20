@@ -2,16 +2,21 @@ package org.coode.parsers.ui.autocompletionmatcher;
 
 import java.util.List;
 
-/** Represents a means to retrieve the completions matching a String.
+/**
+ * Represents a means to retrieve the completions matching a String.
  * 
- * @author Luigi Iannone */
+ * @author Luigi Iannone
+ */
 public interface AutoCompletionMatcher {
-    /** Gets all the matches for the input String.
+
+    /**
+     * Gets all the matches for the input String.
      * 
      * @param string2Complete
-     *            . Cannot be {@code null}.
+     *        . Cannot be {@code null}.
      * @return a List of matching String elements.
      * @throws NullPointerException
-     *             if the input string is {@code null}. */
+     *         if the input string is {@code null}.
+     */
     List<String> getMatches(String string2Complete);
 }

@@ -5,20 +5,17 @@ import java.util.Map;
 
 import org.coode.oppl.variabletypes.VariableType;
 import org.coode.oppl.variabletypes.VariableTypeFactory;
-import org.coode.parsers.OWLEntitySymbol;
-import org.coode.parsers.OWLLiteralSymbol;
-import org.coode.parsers.OWLType;
-import org.coode.parsers.Symbol;
-import org.coode.parsers.Type;
-import org.coode.parsers.TypeVisitor;
-import org.coode.parsers.TypeVisitorEx;
+import org.coode.parsers.*;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public enum VariableTypes implements Type {
     /** class type */
     CLASS {
+
         @Override
         public OWLType getOWLType() {
             return OWLType.OWL_CLASS;
@@ -36,6 +33,7 @@ public enum VariableTypes implements Type {
     },
     /** object property type */
     OBJECTPROPERTY {
+
         @Override
         public OWLType getOWLType() {
             return OWLType.OWL_OBJECT_PROPERTY;
@@ -44,7 +42,7 @@ public enum VariableTypes implements Type {
         @Override
         public OWLEntitySymbol getSymbol(OWLDataFactory dataFactory, String name) {
             return new OWLEntitySymbol(name,
-                    dataFactory.getOWLObjectProperty(createIRI(name)));
+                dataFactory.getOWLObjectProperty(createIRI(name)));
         }
 
         @Override
@@ -54,6 +52,7 @@ public enum VariableTypes implements Type {
     },
     /** data property type */
     DATAPROPERTY {
+
         @Override
         public OWLType getOWLType() {
             return OWLType.OWL_DATA_PROPERTY;
@@ -62,7 +61,7 @@ public enum VariableTypes implements Type {
         @Override
         public OWLEntitySymbol getSymbol(OWLDataFactory dataFactory, String name) {
             return new OWLEntitySymbol(name,
-                    dataFactory.getOWLDataProperty(createIRI(name)));
+                dataFactory.getOWLDataProperty(createIRI(name)));
         }
 
         @Override
@@ -72,6 +71,7 @@ public enum VariableTypes implements Type {
     },
     /** annotation property type */
     ANNOTATIONPROPERTY {
+
         @Override
         public OWLType getOWLType() {
             return OWLType.OWL_ANNOTATION_PROPERTY;
@@ -80,7 +80,7 @@ public enum VariableTypes implements Type {
         @Override
         public Symbol getSymbol(OWLDataFactory dataFactory, String name) {
             return new OWLEntitySymbol(name,
-                    dataFactory.getOWLAnnotationProperty(createIRI(name)));
+                dataFactory.getOWLAnnotationProperty(createIRI(name)));
         }
 
         @Override
@@ -90,6 +90,7 @@ public enum VariableTypes implements Type {
     },
     /** individual type */
     INDIVIDUAL {
+
         @Override
         public OWLType getOWLType() {
             return OWLType.OWL_INDIVIDUAL;
@@ -98,7 +99,7 @@ public enum VariableTypes implements Type {
         @Override
         public OWLEntitySymbol getSymbol(OWLDataFactory dataFactory, String name) {
             return new OWLEntitySymbol(name,
-                    dataFactory.getOWLNamedIndividual(createIRI(name)));
+                dataFactory.getOWLNamedIndividual(createIRI(name)));
         }
 
         @Override
@@ -108,6 +109,7 @@ public enum VariableTypes implements Type {
     },
     /** constant type */
     CONSTANT {
+
         @Override
         public OWLType getOWLType() {
             return OWLType.OWL_CONSTANT;
@@ -123,8 +125,9 @@ public enum VariableTypes implements Type {
             return VariableTypeFactory.getCONSTANTVariableType();
         }
     };
-    private final static Map<String, VariableTypes> map = new HashMap<String, VariableTypes>();
-    private final static Map<VariableType<?>, VariableTypes> typeMap = new HashMap<VariableType<?>, VariableTypes>();
+
+    private final static Map<String, VariableTypes> map = new HashMap<>();
+    private final static Map<VariableType<?>, VariableTypes> typeMap = new HashMap<>();
     private final String NAMESPACE = "http://www.coode.org/oppl/variablemansyntax#";
 
     protected IRI createIRI(String name) {
@@ -140,7 +143,7 @@ public enum VariableTypes implements Type {
         map.put("ANNOTATIONPROPERTY", ANNOTATIONPROPERTY);
         typeMap.put(VariableTypeFactory.getCLASSVariableType(), CLASS);
         typeMap.put(VariableTypeFactory.getOBJECTPROPERTYTypeVariableType(),
-                OBJECTPROPERTY);
+            OBJECTPROPERTY);
         typeMap.put(VariableTypeFactory.getDATAPROPERTYVariableType(), DATAPROPERTY);
         typeMap.put(VariableTypeFactory.getINDIVIDUALVariableType(), INDIVIDUAL);
         typeMap.put(VariableTypeFactory.getCONSTANTVariableType(), CONSTANT);
@@ -156,30 +159,40 @@ public enum VariableTypes implements Type {
         return visitor.visitNonOWLType(this);
     }
 
-    /** @param string
-     *            string
-     * @return matching type */
+    /**
+     * @param string
+     *        string
+     * @return matching type
+     */
     public static VariableTypes getVariableType(String string) {
         return map.get(string);
     }
 
-    /** @param variableType
-     *            variableType
-     * @return type for variable type */
+    /**
+     * @param variableType
+     *        variableType
+     * @return type for variable type
+     */
     public static VariableTypes getVariableType(VariableType<?> variableType) {
         return typeMap.get(variableType);
     }
 
-    /** @return owl type */
+    /**
+     * @return owl type
+     */
     public abstract OWLType getOWLType();
 
-    /** @param dataFactory
-     *            dataFactory
+    /**
+     * @param dataFactory
+     *        dataFactory
      * @param name
-     *            name
-     * @return symbol */
+     *        name
+     * @return symbol
+     */
     public abstract Symbol getSymbol(OWLDataFactory dataFactory, String name);
 
-    /** @return variable type */
+    /**
+     * @return variable type
+     */
     public abstract VariableType<?> getOPPLVariableType();
 }

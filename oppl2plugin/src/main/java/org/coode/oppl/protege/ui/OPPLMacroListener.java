@@ -25,28 +25,37 @@ package org.coode.oppl.protege.ui;
 import org.coode.oppl.Variable;
 import org.semanticweb.owlapi.model.OWLObject;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public interface OPPLMacroListener {
-    /** Handles the notification that an entity has been genearlised as a new
+
+    /**
+     * Handles the notification that an entity has been genearlised as a new
      * Variable
      * 
      * @param variable
-     *            variable */
+     *        variable
+     */
     void handleGeneralisedOWLObject(Variable<?> variable);
 
-    /** Handles the notification that an entity has been generalised and assigned
+    /**
+     * Handles the notification that an entity has been generalised and assigned
      * to an existing Variable
      * 
      * @param variable
-     *            variable
+     *        variable
      * @param owlObject
-     *            owlObject */
+     *        owlObject
+     */
     void handleGeneralisedOWLObject(Variable<?> variable, OWLObject owlObject);
 
-    /** Handles the notification that a Variable has been deleted from the
+    /**
+     * Handles the notification that a Variable has been deleted from the
      * OPPLMacro
      * 
      * @param variable
-     *            variable */
+     *        variable
+     */
     void handleDeletedVariable(Variable<?> variable);
 }

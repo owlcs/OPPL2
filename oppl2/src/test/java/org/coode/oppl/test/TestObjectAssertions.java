@@ -7,12 +7,7 @@ import java.net.URL;
 import java.util.Set;
 
 import org.semanticweb.owlapi.apibinding.OWLManager;
-import org.semanticweb.owlapi.model.IRI;
-import org.semanticweb.owlapi.model.OWLNamedIndividual;
-import org.semanticweb.owlapi.model.OWLObjectProperty;
-import org.semanticweb.owlapi.model.OWLOntology;
-import org.semanticweb.owlapi.model.OWLOntologyCreationException;
-import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.*;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import org.semanticweb.owlapi.util.AutoIRIMapper;
 
@@ -20,7 +15,10 @@ import uk.ac.manchester.cs.jfact.JFactFactory;
 
 @SuppressWarnings("javadoc")
 public class TestObjectAssertions {
-    /** @param args */
+
+    /**
+     * @param args
+     */
     public static void main(String[] args) {
         OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
         URL url;
@@ -35,14 +33,14 @@ public class TestObjectAssertions {
             JFactFactory factory = new JFactFactory();
             OWLReasoner reasoner = factory.createReasoner(ontology);
             Set<OWLNamedIndividual> individualsInSignature = ontology
-                    .getIndividualsInSignature();
+                .getIndividualsInSignature();
             Set<OWLObjectProperty> objectPropertiesInSignature = ontology
-                    .getObjectPropertiesInSignature();
+                .getObjectPropertiesInSignature();
             for (OWLNamedIndividual owlNamedIndividual : individualsInSignature) {
                 for (OWLObjectProperty owlObjectProperty : objectPropertiesInSignature) {
                     long start = System.currentTimeMillis();
                     reasoner.getObjectPropertyValues(owlNamedIndividual,
-                            owlObjectProperty);
+                        owlObjectProperty);
                     long elapsed = System.currentTimeMillis() - start;
                     System.out.println("TestObjectAssertions.main() " + elapsed);
                 }

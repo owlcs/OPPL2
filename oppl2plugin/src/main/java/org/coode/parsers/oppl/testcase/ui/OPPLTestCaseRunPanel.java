@@ -20,22 +20,28 @@ import org.coode.parsers.oppl.testcase.ui.report.Report;
 import org.protege.editor.core.ProtegeApplication;
 import org.protege.editor.core.ui.util.ComponentFactory;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class OPPLTestCaseRunPanel extends JPanel {
+
     private final class RunTest extends
-            SwingWorker<Map<OPPLTestCase, List<Report>>, Object> {
+        SwingWorker<Map<OPPLTestCase, List<Report>>, Object> {
+
         private final OPPLTestCase opplTestCase;
 
-        /** @param opplTestCase
-         *            opplTestCase */
+        /**
+         * @param opplTestCase
+         *        opplTestCase
+         */
         public RunTest(OPPLTestCase opplTestCase) {
             this.opplTestCase = opplTestCase;
         }
 
         @Override
-        protected Map<OPPLTestCase, List<Report>> doInBackground() throws Exception {
+        protected Map<OPPLTestCase, List<Report>> doInBackground() {
             ReportingTestRunner reportingTestRunner = new ReportingTestRunner(
-                    opplTestCase);
+                opplTestCase);
             return reportingTestRunner.run();
         }
 
@@ -60,6 +66,7 @@ public class OPPLTestCaseRunPanel extends JPanel {
     protected final JTree resultTree = new JTree(resultTreeModel);
     protected final SummaryPanel summaryPanel = new SummaryPanel();
     private final TreeModelListener treeModelLister = new TreeModelListener() {
+
         @Override
         public void treeStructureChanged(TreeModelEvent e) {
             expandUnsucessfulNodes();
@@ -97,19 +104,21 @@ public class OPPLTestCaseRunPanel extends JPanel {
         setLayout(new BorderLayout());
         JScrollPane resultTreeScrollPane = ComponentFactory.createScrollPane(resultTree);
         resultTreeScrollPane.setBorder(ComponentFactory
-                .createTitledBorder("Test cases results"));
+            .createTitledBorder("Test cases results"));
         resultTree.setCellRenderer(new ReportTreeCellRenderer());
         resultTreeModel.addTreeModelListener(treeModelLister);
         this.add(summaryPanel, BorderLayout.NORTH);
         this.add(resultTreeScrollPane, BorderLayout.CENTER);
     }
 
-    /** @param testCases
-     *            testCases */
+    /**
+     * @param testCases
+     *        testCases
+     */
     public void runTests(Collection<? extends OPPLTestCase> testCases) {
         resultTreeModel.clear();
         summaryPanel.clear();
-        Map<OPPLTestCase, List<Report>> emptyReports = new HashMap<OPPLTestCase, List<Report>>();
+        Map<OPPLTestCase, List<Report>> emptyReports = new HashMap<>();
         for (OPPLTestCase opplTestCase : testCases) {
             emptyReports.put(opplTestCase, null);
         }

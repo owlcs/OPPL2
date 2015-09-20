@@ -15,30 +15,35 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class AnnotationBasedSimpleOPPLTestCaseParserCreationStrategy extends
-        SimpleOPPLTestCaseParsingStrategy {
+    SimpleOPPLTestCaseParsingStrategy {
+
     private final SymbolTableFactory<OPPLTestCaseSymbolTable> symbolTableFactory;
 
-    /** @param iris
-     *            iris
+    /**
+     * @param iris
+     *        iris
      * @param ontologyManager
-     *            ontologyManager
+     *        ontologyManager
      * @param ontology
-     *            ontology
+     *        ontology
      * @param reasoner
-     *            reasoner
+     *        reasoner
      * @param errorListener
-     *            errorListener
+     *        errorListener
      * @param handler
-     *            handler */
+     *        handler
+     */
     public AnnotationBasedSimpleOPPLTestCaseParserCreationStrategy(List<IRI> iris,
-            OWLOntologyManager ontologyManager, OWLOntology ontology,
-            OWLReasoner reasoner, ErrorListener errorListener,
-            RuntimeExceptionHandler handler) {
+        OWLOntologyManager ontologyManager, OWLOntology ontology,
+        OWLReasoner reasoner, ErrorListener errorListener,
+        RuntimeExceptionHandler handler) {
         super(ontologyManager, ontology, reasoner, errorListener, handler);
         symbolTableFactory = new AnnotationBasedSymbolTableFactory(ontologyManager,
-                checkNotNull(iris, "iris"));
+            checkNotNull(iris, "iris"));
     }
 
     @Override

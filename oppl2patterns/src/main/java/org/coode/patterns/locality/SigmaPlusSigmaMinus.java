@@ -7,17 +7,22 @@ import java.util.Iterator;
 
 import org.semanticweb.owlapi.model.OWLEntity;
 
-/** holder for the extra symbols, one to be added to the signature, one to stay
- * outside the signature */
-public class SigmaPlusSigmaMinus extends AbstractCollection<OWLEntity> implements
-        Collection<OWLEntity> {
+/**
+ * holder for the extra symbols, one to be added to the signature, one to stay
+ * outside the signature
+ */
+public class SigmaPlusSigmaMinus extends AbstractCollection<OWLEntity>implements
+    Collection<OWLEntity> {
+
     private final OWLEntity plus;
     private final OWLEntity minus;
 
-    /** @param plus
-     *            the new value contained in the signature
+    /**
+     * @param plus
+     *        the new value contained in the signature
      * @param minus
-     *            the new value not contained in the signature */
+     *        the new value not contained in the signature
+     */
     public SigmaPlusSigmaMinus(OWLEntity plus, OWLEntity minus) {
         this.plus = plus;
         this.minus = minus;
@@ -33,12 +38,16 @@ public class SigmaPlusSigmaMinus extends AbstractCollection<OWLEntity> implement
         return 2;
     }
 
-    /** @return plus entity */
+    /**
+     * @return plus entity
+     */
     public OWLEntity getPlus() {
         return plus;
     }
 
-    /** @return minus entity */
+    /**
+     * @return minus entity
+     */
     public OWLEntity getMinus() {
         return minus;
     }

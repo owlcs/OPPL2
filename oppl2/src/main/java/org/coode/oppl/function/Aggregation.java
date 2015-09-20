@@ -2,43 +2,45 @@ package org.coode.oppl.function;
 
 import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import org.coode.oppl.ConstraintSystem;
 import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 
-/** @author Luigi Iannone
+/**
+ * @author Luigi Iannone
  * @param <O>
- *            function type
+ *        function type
  * @param <I>
- *            type */
-public abstract class Aggregation<O, I> extends AbstractOPPLFunction<O> implements
-        OPPLFunction<O> {
-    protected final List<Aggregandum<I>> toAggregate = new ArrayList<Aggregandum<I>>();
+ *        type
+ */
+public abstract class Aggregation<O, I> extends AbstractOPPLFunction<O>implements
+    OPPLFunction<O> {
 
-    /** @param toAggregate
-     *            toAggregate */
+    protected final List<Aggregandum<I>> toAggregate = new ArrayList<>();
+
+    /**
+     * @param toAggregate
+     *        toAggregate
+     */
     public Aggregation(Collection<? extends Aggregandum<I>> toAggregate) {
         this.toAggregate.addAll(checkNotNull(toAggregate, "toAggregate"));
         if (toAggregate.isEmpty()) {
             throw new IllegalArgumentException(
-                    "The collection of elements to aggregate cannot be null");
+                "The collection of elements to aggregate cannot be null");
         }
     }
 
     protected abstract O aggregate(ValueComputationParameters parameters);
 
-    /** @return the toAggreagte */
+    /**
+     * @return the toAggreagte
+     */
     public List<Aggregandum<I>> getToAggregate() {
         // Defensive copy
-        return new ArrayList<Aggregandum<I>>(this.toAggregate);
+        return new ArrayList<>(this.toAggregate);
     }
 
     @Override
@@ -53,8 +55,9 @@ public abstract class Aggregation<O, I> extends AbstractOPPLFunction<O> implemen
 
     @Override
     public ValueComputation<O> getValueComputation(
-            final ValueComputationParameters parameters) {
+        final ValueComputationParameters parameters) {
         return new ValueComputation<O>() {
+
             @Override
             public O compute(OPPLFunction<? extends O> opplFunction) {
                 return Aggregation.this.aggregate(parameters);
@@ -62,60 +65,64 @@ public abstract class Aggregation<O, I> extends AbstractOPPLFunction<O> implemen
         };
     }
 
-    /** @param a
-     *            a
-     * @return string concatenation aggregation */
+    /**
+     * @param a
+     *        a
+     * @return string concatenation aggregation
+     */
     public static Aggregation<String, String> buildStringConcatenation(
-            Collection<? extends Aggregandum<String>> a) {
+        Collection<? extends Aggregandum<String>> a) {
         return new StringConcatAggregation(a);
     }
 
-    /** @param a
-     *            a
+    /**
+     * @param a
+     *        a
      * @param dataFactory
-     *            dataFactory
-     * @return class expression intersection aggregation */
-    public static
-            Aggregation<OWLClassExpression, Collection<? extends OWLClassExpression>>
-            buildClassExpressionIntersection(
-                    Collection<? extends Aggregandum<Collection<? extends OWLClassExpression>>> a,
-                    OWLDataFactory dataFactory) {
+     *        dataFactory
+     * @return class expression intersection aggregation
+     */
+    public static Aggregation<OWLClassExpression, Collection<? extends OWLClassExpression>> buildClassExpressionIntersection(
+        Collection<? extends Aggregandum<Collection<? extends OWLClassExpression>>> a,
+        OWLDataFactory dataFactory) {
         return new ClassIntersectionAggregation(a, dataFactory);
     }
 
-    /** @param a
-     *            a
+    /**
+     * @param a
+     *        a
      * @param dataFactory
-     *            dataFactory
-     * @return class expression union aggregation */
-    public static
-            Aggregation<OWLClassExpression, Collection<? extends OWLClassExpression>>
-            buildClassExpressionUnion(
-                    Collection<? extends Aggregandum<Collection<? extends OWLClassExpression>>> a,
-                    OWLDataFactory dataFactory) {
+     *        dataFactory
+     * @return class expression union aggregation
+     */
+    public static Aggregation<OWLClassExpression, Collection<? extends OWLClassExpression>> buildClassExpressionUnion(
+        Collection<? extends Aggregandum<Collection<? extends OWLClassExpression>>> a,
+        OWLDataFactory dataFactory) {
         return new ClassUnionAggregation(a, dataFactory);
     }
 
-    /** @param constraintSystem
-     *            constraintSystem
+    /**
+     * @param constraintSystem
+     *        constraintSystem
      * @param prefix
-     *            prefix
+     *        prefix
      * @param openDelimiter
-     *            openDelimiter
+     *        openDelimiter
      * @param separator
-     *            separator
+     *        separator
      * @param closedDelimiter
-     *            closedDelimiter
-     * @return rendering */
+     *        closedDelimiter
+     * @return rendering
+     */
     protected String renderAggregation(ConstraintSystem constraintSystem, String prefix,
-            String openDelimiter, String separator, String closedDelimiter) {
+        String openDelimiter, String separator, String closedDelimiter) {
         Iterator<Aggregandum<I>> i = toAggregate.iterator();
         StringBuilder sb = new StringBuilder();
         sb.append(String.format("%s%s", prefix, openDelimiter));
         while (i.hasNext()) {
             Aggregandum<? extends I> aggregation = i.next();
             Iterator<? extends OPPLFunction<?>> iterator = aggregation.getOPPLFunctions()
-                    .iterator();
+                .iterator();
             while (iterator.hasNext()) {
                 OPPLFunction<?> opplFunction = iterator.next();
                 sb.append(opplFunction.render(constraintSystem));
@@ -131,16 +138,15 @@ public abstract class Aggregation<O, I> extends AbstractOPPLFunction<O> implemen
         return sb.toString();
     }
 
-    protected String
-            renderAggregation(ShortFormProvider shortFormProvider, String prefix,
-                    String openDelimiter, String separator, String closedDelimiter) {
+    protected String renderAggregation(ShortFormProvider shortFormProvider, String prefix,
+        String openDelimiter, String separator, String closedDelimiter) {
         Iterator<Aggregandum<I>> i = this.toAggregate.iterator();
         StringBuilder sb = new StringBuilder();
         sb.append(String.format("%s%s", prefix, openDelimiter));
         while (i.hasNext()) {
             Aggregandum<? extends I> aggregation = i.next();
             Iterator<? extends OPPLFunction<?>> iterator = aggregation.getOPPLFunctions()
-                    .iterator();
+                .iterator();
             while (iterator.hasNext()) {
                 OPPLFunction<?> opplFunction = iterator.next();
                 sb.append(opplFunction.render(shortFormProvider));
@@ -158,6 +164,7 @@ public abstract class Aggregation<O, I> extends AbstractOPPLFunction<O> implemen
 }
 
 class StringConcatAggregation extends Aggregation<String, String> {
+
     StringConcatAggregation(Collection<? extends Aggregandum<String>> toAggregate) {
         super(toAggregate);
     }
@@ -185,24 +192,25 @@ class StringConcatAggregation extends Aggregation<String, String> {
 }
 
 class ClassUnionAggregation extends
-        Aggregation<OWLClassExpression, Collection<? extends OWLClassExpression>> {
+    Aggregation<OWLClassExpression, Collection<? extends OWLClassExpression>> {
+
     private final OWLDataFactory dataFactory;
 
     ClassUnionAggregation(
-            Collection<? extends Aggregandum<Collection<? extends OWLClassExpression>>> toAggregate,
-            OWLDataFactory dataFactory) {
+        Collection<? extends Aggregandum<Collection<? extends OWLClassExpression>>> toAggregate,
+        OWLDataFactory dataFactory) {
         super(toAggregate);
         this.dataFactory = dataFactory;
     }
 
     @Override
     protected OWLClassExpression aggregate(ValueComputationParameters parameters) {
-        Set<OWLClassExpression> operands = new HashSet<OWLClassExpression>();
+        Set<OWLClassExpression> operands = new HashSet<>();
         for (Aggregandum<? extends Collection<? extends OWLClassExpression>> aggregandum : toAggregate) {
             for (OPPLFunction<? extends Collection<? extends OWLClassExpression>> opplFunction : aggregandum
-                    .getOPPLFunctions()) {
+                .getOPPLFunctions()) {
                 Collection<? extends OWLClassExpression> compute = opplFunction
-                        .compute(parameters);
+                    .compute(parameters);
                 if (compute != null) {
                     operands.addAll(compute);
                 }
@@ -223,42 +231,43 @@ class ClassUnionAggregation extends
 }
 
 class ClassIntersectionAggregation extends
-        Aggregation<OWLClassExpression, Collection<? extends OWLClassExpression>> {
+    Aggregation<OWLClassExpression, Collection<? extends OWLClassExpression>> {
+
     private final OWLDataFactory dataFactory;
 
     ClassIntersectionAggregation(
-            Collection<? extends Aggregandum<Collection<? extends OWLClassExpression>>> toAggregate,
-            OWLDataFactory dataFactory) {
+        Collection<? extends Aggregandum<Collection<? extends OWLClassExpression>>> toAggregate,
+        OWLDataFactory dataFactory) {
         super(toAggregate);
         this.dataFactory = dataFactory;
     }
 
     @Override
     protected OWLClassExpression aggregate(ValueComputationParameters parameters) {
-        Set<OWLClassExpression> operands = new HashSet<OWLClassExpression>();
+        Set<OWLClassExpression> operands = new HashSet<>();
         for (Aggregandum<Collection<? extends OWLClassExpression>> aggregandum : toAggregate) {
             for (OPPLFunction<Collection<? extends OWLClassExpression>> opplFunction : aggregandum
-                    .getOPPLFunctions()) {
+                .getOPPLFunctions()) {
                 Collection<? extends OWLClassExpression> compute = opplFunction
-                        .compute(parameters);
+                    .compute(parameters);
                 if (compute != null) {
                     operands.addAll(compute);
                 }
             }
         }
         return operands.isEmpty() ? null : dataFactory
-                .getOWLObjectIntersectionOf(operands);
+            .getOWLObjectIntersectionOf(operands);
     }
 
     @Override
     public String render(ConstraintSystem constraintSystem) {
         return this.renderAggregation(constraintSystem, "createIntersection", "(", ", ",
-                ")");
+            ")");
     }
 
     @Override
     public String render(ShortFormProvider shortFormProvider) {
         return this.renderAggregation(shortFormProvider, "createIntersection", "(", ", ",
-                ")");
+            ")");
     }
 }

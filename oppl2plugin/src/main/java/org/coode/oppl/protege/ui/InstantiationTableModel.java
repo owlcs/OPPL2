@@ -2,13 +2,7 @@ package org.coode.oppl.protege.ui;
 
 import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
@@ -22,9 +16,13 @@ import org.coode.oppl.function.ValueComputationParameters;
 import org.protege.editor.owl.OWLEditorKit;
 import org.semanticweb.owlapi.model.OWLObject;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class InstantiationTableModel implements TableModel {
+
     private final class LeavesComparator implements Comparator<BindingNode> {
+
         public LeavesComparator() {}
 
         @Override
@@ -33,32 +31,33 @@ public class InstantiationTableModel implements TableModel {
             Set<Variable<?>> assignedVariables = aBindingNode.getAssignedVariables();
             Iterator<Variable<?>> iterator = assignedVariables.iterator();
             ValueComputationParameters parameters = new SimpleValueComputationParameters(
-                    opplScript.getConstraintSystem(), BindingNode.getEmptyBindingNode(),
-                    getRuntimeExceptionHandler());
+                opplScript.getConstraintSystem(), BindingNode.getEmptyBindingNode(),
+                getRuntimeExceptionHandler());
             while (toReturn == 0 && iterator.hasNext()) {
                 Variable<?> variable = iterator.next();
                 OWLObject aValue = aBindingNode.getAssignmentValue(variable, parameters);
                 OWLObject anotherValue = anotherBindingNode.getAssignmentValue(variable,
-                        parameters);
+                    parameters);
                 toReturn = getOWLEditorKit()
-                        .getModelManager()
-                        .getRendering(aValue)
-                        .compareTo(
-                                getOWLEditorKit().getModelManager().getRendering(
-                                        anotherValue));
+                    .getModelManager()
+                    .getRendering(aValue)
+                    .compareTo(
+                        getOWLEditorKit().getModelManager().getRendering(
+                            anotherValue));
             }
             return toReturn;
         }
     }
 
     private static final NoOPPLScriptTableModel NO_OPPL_SCRIPT_TABLE_MODEL = new NoOPPLScriptTableModel();
-    private final Set<TableModelListener> listeners = new HashSet<TableModelListener>();
-    private final List<BindingNode> leaves = new ArrayList<BindingNode>();
+    private final Set<TableModelListener> listeners = new HashSet<>();
+    private final List<BindingNode> leaves = new ArrayList<>();
     private final RuntimeExceptionHandler runtimeExceptionHandler;
     protected final OPPLScript opplScript;
     private final OWLEditorKit owlEditorKit;
 
     private static final class NoOPPLScriptTableModel implements TableModel {
+
         NoOPPLScriptTableModel() {}
 
         @Override
@@ -101,15 +100,17 @@ public class InstantiationTableModel implements TableModel {
         public void setValueAt(Object aValue, int rowIndex, int columnIndex) {}
     }
 
-    /** @param opplScript
-     *            opplScript
+    /**
+     * @param opplScript
+     *        opplScript
      * @param owlEditorKit
-     *            owlEditorKit */
+     *        owlEditorKit
+     */
     public InstantiationTableModel(OPPLScript opplScript, OWLEditorKit owlEditorKit) {
         this.opplScript = checkNotNull(opplScript, "opplScript");
         this.owlEditorKit = checkNotNull(owlEditorKit, "owlEditorKit");
         runtimeExceptionHandler = new ShowMessageRuntimeExceptionHandler(
-                getOWLEditorKit().getOWLWorkspace());
+            getOWLEditorKit().getOWLWorkspace());
         Set<BindingNode> scriptLeaves = getOPPLScript().getConstraintSystem().getLeaves();
         if (scriptLeaves != null) {
             leaves.addAll(scriptLeaves);
@@ -136,9 +137,10 @@ public class InstantiationTableModel implements TableModel {
 
     @Override
     public String getColumnName(int columnIndex) {
-        List<Variable<?>> sortedVariables = new ArrayList<Variable<?>>(getOPPLScript()
-                .getVariables());
+        List<Variable<?>> sortedVariables = new ArrayList<>(getOPPLScript()
+            .getVariables());
         Collections.sort(sortedVariables, new Comparator<Variable<?>>() {
+
             @Override
             public int compare(Variable<?> variable, Variable<?> anotherVariable) {
                 return variable.getName().compareTo(anotherVariable.getName());
@@ -156,16 +158,17 @@ public class InstantiationTableModel implements TableModel {
     public Object getValueAt(int rowIndex, int columnIndex) {
         Object toReturn = null;
         BindingNode leaf = getLeaves().get(rowIndex);
-        List<Variable<?>> sortedVariables = new ArrayList<Variable<?>>(getOPPLScript()
-                .getVariables());
+        List<Variable<?>> sortedVariables = new ArrayList<>(getOPPLScript()
+            .getVariables());
         Collections.sort(sortedVariables, new Comparator<Variable<?>>() {
+
             @Override
             public int compare(Variable<?> variable, Variable<?> anotherVariable) {
                 return variable.getName().compareTo(anotherVariable.getName());
             }
         });
         ValueComputationParameters parameters = new SimpleValueComputationParameters(
-                opplScript.getConstraintSystem(), leaf, getRuntimeExceptionHandler());
+            opplScript.getConstraintSystem(), leaf, getRuntimeExceptionHandler());
         Variable<?> variable = sortedVariables.get(columnIndex);
         toReturn = leaf.getAssignmentValue(variable, parameters);
         return toReturn;
@@ -184,27 +187,37 @@ public class InstantiationTableModel implements TableModel {
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {}
 
-    /** @return leaves */
+    /**
+     * @return leaves
+     */
     public List<BindingNode> getLeaves() {
-        return new ArrayList<BindingNode>(leaves);
+        return new ArrayList<>(leaves);
     }
 
-    /** @return oppl script */
+    /**
+     * @return oppl script
+     */
     public OPPLScript getOPPLScript() {
         return opplScript;
     }
 
-    /** @return table model */
+    /**
+     * @return table model
+     */
     public static TableModel getNoOPPLScriptTableModel() {
         return InstantiationTableModel.NO_OPPL_SCRIPT_TABLE_MODEL;
     }
 
-    /** @return the owlEditorKit */
+    /**
+     * @return the owlEditorKit
+     */
     public OWLEditorKit getOWLEditorKit() {
         return owlEditorKit;
     }
 
-    /** @return the runtimeExceptionHandler */
+    /**
+     * @return the runtimeExceptionHandler
+     */
     public RuntimeExceptionHandler getRuntimeExceptionHandler() {
         return runtimeExceptionHandler;
     }

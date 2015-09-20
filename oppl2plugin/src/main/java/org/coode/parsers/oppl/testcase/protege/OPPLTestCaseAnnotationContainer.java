@@ -87,7 +87,7 @@ public class OPPLTestCaseAnnotationContainer implements AnnotationContainer {
      */
     public Set<OPPLTestCase> getOPPLTestCases() {
         Set<OWLAnnotation> annotations = getAnnotations();
-        Set<OPPLTestCase> toReturn = new HashSet<OPPLTestCase>(annotations.size());
+        Set<OPPLTestCase> toReturn = new HashSet<>(annotations.size());
         for (OWLAnnotation owlAnnotation : annotations) {
             toReturn.add(getOPPLTestCase(owlAnnotation));
         }

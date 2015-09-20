@@ -4,11 +4,16 @@ import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class ToLowerCaseStringManipulationOPPLFunction extends
-        StringManipulationOPPLFunction {
-    /** @param arg
-     *            arg */
+    StringManipulationOPPLFunction {
+
+    /**
+     * @param arg
+     *        arg
+     */
     public ToLowerCaseStringManipulationOPPLFunction(OPPLFunction<String> arg) {
         super(arg);
     }
@@ -26,21 +31,21 @@ public class ToLowerCaseStringManipulationOPPLFunction extends
     @Override
     public String render(ConstraintSystem constraintSystem) {
         return String.format("%s.%s", getArgument().render(constraintSystem),
-                "toLowerCase");
+            "toLowerCase");
     }
 
     @Override
     public String render(ShortFormProvider shortFormProvider) {
         return String.format("%s.%s", getArgument().render(shortFormProvider),
-                "toLowerCase");
+            "toLowerCase");
     }
 
     @Override
     protected String manipulate(String string,
-            RuntimeExceptionHandler runTimeExceptionHandler) {
+        RuntimeExceptionHandler runTimeExceptionHandler) {
         if (string == null) {
             runTimeExceptionHandler.handleException(new NullPointerException(
-                    "The string cannot be null"));
+                "The string cannot be null"));
             return "";
         }
         return string.toLowerCase();

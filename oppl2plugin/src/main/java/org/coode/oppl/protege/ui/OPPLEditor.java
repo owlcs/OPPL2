@@ -40,107 +40,124 @@ import org.protege.editor.core.ui.util.VerifiedInputEditor;
 import org.protege.editor.owl.OWLEditorKit;
 import org.protege.editor.owl.model.event.OWLModelManagerChangeEvent;
 import org.protege.editor.owl.model.event.OWLModelManagerListener;
-import org.semanticweb.owlapi.model.OWLException;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
 import org.semanticweb.owlapi.model.OWLOntologyChangeListener;
 
-/** Tabbed pane containing two editors for OPPL, namely the text based
+/**
+ * Tabbed pane containing two editors for OPPL, namely the text based
  * OPPLTextEditor and OPPLBuilder.
  * 
- * @author Luigi Iannone */
+ * @author Luigi Iannone
+ */
 public final class OPPLEditor extends JTabbedPane implements VerifiedInputEditor,
-        ChangeListener {
+    ChangeListener {
+
     private static final long serialVersionUID = 20100L;
-    private final Set<InputVerificationStatusChangedListener> listeners = new HashSet<InputVerificationStatusChangedListener>();
+    private final Set<InputVerificationStatusChangedListener> listeners = new HashSet<>();
     private final OWLEditorKit owlEditorKit;
     protected final OPPLBuilder opplBuilder;
     protected final OPPLTextEditor opplTextEditor;
     protected OPPLScript opplScript;
     private final OWLModelManagerListener modelManagerListener = new OWLModelManagerListener() {
+
         @Override
         public void handleChange(OWLModelManagerChangeEvent event) {
             OPPLEditor.this.setSelectedComponent(opplTextEditor);
         }
     };
     private final OWLOntologyChangeListener ontologyChangeListener = new OWLOntologyChangeListener() {
+
         @Override
-        public void ontologiesChanged(List<? extends OWLOntologyChange> changes)
-                throws OWLException {
+        public void ontologiesChanged(List<? extends OWLOntologyChange> changes) {
             OPPLEditor.this.setSelectedComponent(opplTextEditor);
         }
     };
 
-    /** @return the opplScript */
+    /**
+     * @return the opplScript
+     */
     public OPPLScript getOPPLScript() {
         return opplScript;
     }
 
-    /** @param opplScript
-     *            the opplScript to set */
+    /**
+     * @param opplScript
+     *        the opplScript to set
+     */
     public void setOPPLScript(OPPLScript opplScript) {
         opplTextEditor.setOPPLScript(opplScript);
         setSelectedComponent(opplTextEditor);
         fireStateChanged();
     }
 
-    /** @return the owlEditorKit */
+    /**
+     * @return the owlEditorKit
+     */
     public final OWLEditorKit getOwlEditorKit() {
         return owlEditorKit;
     }
 
-    /** @param owlEditor
-     *            owlEditor
+    /**
+     * @param owlEditor
+     *        owlEditor
      * @param builder
-     *            builder
+     *        builder
      * @param textEditor
-     *            textEditor */
+     *        textEditor
+     */
     public OPPLEditor(OWLEditorKit owlEditor, OPPLBuilder builder,
-            OPPLTextEditor textEditor) {
+        OPPLTextEditor textEditor) {
         owlEditorKit = owlEditor;
         opplBuilder = builder;
         opplTextEditor = textEditor;
         opplBuilder
-                .addStatusChangedListener(new org.coode.parsers.ui.InputVerificationStatusChangedListener() {
-                    @Override
-                    public void verifiedStatusChanged(boolean newState) {
-                        opplScript = null;
-                        if (newState) {
-                            opplScript = opplBuilder.getOPPLScript();
-                        }
-                        OPPLEditor.this.handleChange();
+            .addStatusChangedListener(new org.coode.parsers.ui.InputVerificationStatusChangedListener() {
+
+                @Override
+                public void verifiedStatusChanged(boolean newState) {
+                    opplScript = null;
+                    if (newState) {
+                        opplScript = opplBuilder.getOPPLScript();
                     }
-                });
+                    OPPLEditor.this.handleChange();
+                }
+            });
         opplTextEditor
-                .addStatusChangedListener(new org.coode.parsers.ui.InputVerificationStatusChangedListener() {
-                    @Override
-                    public void verifiedStatusChanged(boolean newState) {
-                        opplScript = null;
-                        if (newState) {
-                            opplScript = opplTextEditor.getOPPLScript();
-                        }
-                        OPPLEditor.this.handleChange();
+            .addStatusChangedListener(new org.coode.parsers.ui.InputVerificationStatusChangedListener() {
+
+                @Override
+                public void verifiedStatusChanged(boolean newState) {
+                    opplScript = null;
+                    if (newState) {
+                        opplScript = opplTextEditor.getOPPLScript();
                     }
-                });
+                    OPPLEditor.this.handleChange();
+                }
+            });
         getOwlEditorKit().getOWLModelManager().addListener(modelManagerListener);
         getOwlEditorKit().getOWLModelManager().getOWLOntologyManager()
-                .addOntologyChangeListener(ontologyChangeListener);
+            .addOntologyChangeListener(ontologyChangeListener);
         addChangeListener(this);
         initGUI();
     }
 
-    /** @param owlEditor
-     *            owlEditor */
+    /**
+     * @param owlEditor
+     *        owlEditor
+     */
     public OPPLEditor(OWLEditorKit owlEditor) {
         this(owlEditor, new OPPLBuilder(owlEditor), new OPPLTextEditor(owlEditor));
     }
 
-    /** @param owlEditor
-     *            owlEditor
+    /**
+     * @param owlEditor
+     *        owlEditor
      * @param validator
-     *            validator */
+     *        validator
+     */
     public OPPLEditor(OWLEditorKit owlEditor, OPPLScriptValidator validator) {
         this(owlEditor, new OPPLBuilder(owlEditor, validator), new OPPLTextEditor(
-                owlEditor, validator));
+            owlEditor, validator));
     }
 
     private void initGUI() {
@@ -153,7 +170,9 @@ public final class OPPLEditor extends JTabbedPane implements VerifiedInputEditor
         notifyListeners(newStatus);
     }
 
-    /** @return true if oppl script is not null */
+    /**
+     * @return true if oppl script is not null
+     */
     private boolean check() {
         return getOPPLScript() != null;
     }
@@ -165,7 +184,7 @@ public final class OPPLEditor extends JTabbedPane implements VerifiedInputEditor
 
     @Override
     public void removeStatusChangedListener(
-            InputVerificationStatusChangedListener listener) {
+        InputVerificationStatusChangedListener listener) {
         listeners.remove(listener);
     }
 
@@ -197,6 +216,6 @@ public final class OPPLEditor extends JTabbedPane implements VerifiedInputEditor
         opplTextEditor.dispose();
         getOwlEditorKit().getOWLModelManager().removeListener(modelManagerListener);
         getOwlEditorKit().getOWLModelManager().getOWLOntologyManager()
-                .removeOntologyChangeListener(ontologyChangeListener);
+            .removeOntologyChangeListener(ontologyChangeListener);
     }
 }

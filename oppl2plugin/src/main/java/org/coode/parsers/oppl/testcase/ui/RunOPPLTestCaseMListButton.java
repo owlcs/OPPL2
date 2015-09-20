@@ -8,10 +8,15 @@ import java.awt.event.ActionListener;
 
 import org.protege.editor.core.ui.list.MListButton;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class RunOPPLTestCaseMListButton extends MListButton {
-    /** @param actionListener
-     *            actionListener */
+
+    /**
+     * @param actionListener
+     *        actionListener
+     */
     public RunOPPLTestCaseMListButton(ActionListener actionListener) {
         super("Run OPPL TestCase ", Color.GREEN, actionListener);
     }
@@ -21,9 +26,9 @@ public class RunOPPLTestCaseMListButton extends MListButton {
         int inset = 5;
         Rectangle bounds = getBounds();
         Polygon triangle = new Polygon(new int[] { (int) bounds.getMinX() + inset,
-                (int) bounds.getMinX() + inset, (int) bounds.getMaxX() - inset },
-                new int[] { (int) bounds.getMinY() + inset,
-                        (int) bounds.getMaxY() - inset, (int) bounds.getCenterY() }, 3);
+            (int) bounds.getMinX() + inset, (int) bounds.getMaxX() - inset },
+            new int[] { (int) bounds.getMinY() + inset,
+                (int) bounds.getMaxY() - inset, (int) bounds.getCenterY() }, 3);
         g.draw(triangle);
         g.fill(triangle);
     }

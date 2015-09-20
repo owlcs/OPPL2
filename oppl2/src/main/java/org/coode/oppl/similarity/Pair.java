@@ -7,29 +7,36 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-/** @author Luigi Iannone
+/**
+ * @author Luigi Iannone
  * @param <O>
- *            type */
+ *        type
+ */
 public class Pair<O> {
+
     protected final O o1;
     protected final O o2;
 
-    /** @param anOWLObject
-     *            anOWLObject
+    /**
+     * @param anOWLObject
+     *        anOWLObject
      * @param anotherOWLObject
-     *            anotherOWLObject */
+     *        anotherOWLObject
+     */
     public Pair(O anOWLObject, O anotherOWLObject) {
         this.o1 = checkNotNull(anOWLObject, "anOWLObject");
         this.o2 = checkNotNull(anotherOWLObject, "anotherOWLObject");
         if (anotherOWLObject.equals(anOWLObject)) {
             throw new IllegalArgumentException(
-                    "The pair is meant to be made of two distic entities");
+                "The pair is meant to be made of two distic entities");
         }
     }
 
-    /** @return members */
+    /**
+     * @return members
+     */
     public Set<O> getMembers() {
-        return new HashSet<O>(Arrays.asList(o1, o2));
+        return new HashSet<>(Arrays.asList(o1, o2));
     }
 
     @Override
@@ -53,20 +60,22 @@ public class Pair<O> {
         }
         Pair<?> other = (Pair<?>) obj;
         return o1.equals(other.o1) && o2.equals(other.o2) || o1.equals(other.o2)
-                && o2.equals(other.o1);
+            && o2.equals(other.o1);
     }
 
-    /** @param c
-     *            c
+    /**
+     * @param c
+     *        c
      * @param <T>
-     *            type
-     * @return all pairs */
+     *        type
+     * @return all pairs
+     */
     public static <T> Set<Pair<T>> getAllPossiblePairs(Collection<? extends T> c) {
-        Set<Pair<T>> toReturn = new HashSet<Pair<T>>();
+        Set<Pair<T>> toReturn = new HashSet<>();
         for (T t : c) {
             for (T anotherT : c) {
                 if (!t.equals(anotherT)) {
-                    toReturn.add(new Pair<T>(t, anotherT));
+                    toReturn.add(new Pair<>(t, anotherT));
                 }
             }
         }

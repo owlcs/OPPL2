@@ -36,20 +36,27 @@ import org.protege.editor.owl.OWLEditorKit;
 import org.protege.editor.owl.ui.renderer.OWLCellRenderer;
 import org.semanticweb.owlapi.model.OWLObject;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class BindingTreeRenderer extends OWLCellRenderer {
+
     private final DefaultTreeCellRenderer defaultTreeCellRenderer = new DefaultTreeCellRenderer();
     private final ConstraintSystem constraintSystem;
 
-    /** @return the constraintSystem */
+    /**
+     * @return the constraintSystem
+     */
     public ConstraintSystem getConstraintSystem() {
         return constraintSystem;
     }
 
-    /** @param owlEditorKit
-     *            owlEditorKit
+    /**
+     * @param owlEditorKit
+     *        owlEditorKit
      * @param cs
-     *            cs */
+     *        cs
+     */
     public BindingTreeRenderer(OWLEditorKit owlEditorKit, ConstraintSystem cs) {
         super(owlEditorKit);
         constraintSystem = checkNotNull(cs, "constraint system");
@@ -57,20 +64,20 @@ public class BindingTreeRenderer extends OWLCellRenderer {
 
     @Override
     public Component getTreeCellRendererComponent(JTree tree, Object value,
-            boolean selected, boolean expanded, boolean leaf, int row, boolean hasFocus) {
+        boolean selected, boolean expanded, boolean leaf, int row, boolean hasFocus) {
         Component toReturn = super.getTreeCellRendererComponent(tree, value, selected,
-                expanded, leaf, row, hasFocus);
+            expanded, leaf, row, hasFocus);
         if (value instanceof DefaultMutableTreeNode) {
             Object userObject = ((DefaultMutableTreeNode) value).getUserObject();
             toReturn = defaultTreeCellRenderer.getTreeCellRendererComponent(tree, value,
-                    selected, expanded, leaf, row, hasFocus);
+                selected, expanded, leaf, row, hasFocus);
             if (userObject instanceof OWLObject) {
                 toReturn = super.getTreeCellRendererComponent(tree, userObject, selected,
-                        expanded, leaf, row, hasFocus);
+                    expanded, leaf, row, hasFocus);
             } else if (userObject instanceof BindingNode) {
                 toReturn = defaultTreeCellRenderer.getTreeCellRendererComponent(tree,
-                        ((BindingNode) userObject).render(getConstraintSystem()),
-                        selected, expanded, leaf, row, hasFocus);
+                    ((BindingNode) userObject).render(getConstraintSystem()),
+                    selected, expanded, leaf, row, hasFocus);
             }
         }
         return toReturn;

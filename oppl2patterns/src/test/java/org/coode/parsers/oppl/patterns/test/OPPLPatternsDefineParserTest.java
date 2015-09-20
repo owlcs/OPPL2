@@ -5,12 +5,7 @@ import static org.junit.Assert.*;
 
 import java.util.Set;
 
-import org.antlr.runtime.ANTLRStringStream;
-import org.antlr.runtime.RecognitionException;
-import org.antlr.runtime.RuleReturnScope;
-import org.antlr.runtime.Token;
-import org.antlr.runtime.TokenRewriteStream;
-import org.antlr.runtime.TokenStream;
+import org.antlr.runtime.*;
 import org.antlr.runtime.tree.CommonErrorNode;
 import org.antlr.runtime.tree.CommonTree;
 import org.antlr.runtime.tree.CommonTreeAdaptor;
@@ -32,12 +27,16 @@ import org.coode.patterns.PatternModelFactory;
 import org.junit.Test;
 import org.semanticweb.owlapi.model.OWLOntology;
 
-/** Test for the AST generation for OPPL
+/**
+ * Test for the AST generation for OPPL
  * 
- * @author Luigi Iannone */
+ * @author Luigi Iannone
+ */
 @SuppressWarnings("javadoc")
 public class OPPLPatternsDefineParserTest {
+
     private static TreeAdaptor adaptor = new CommonTreeAdaptor() {
+
         @Override
         public Object create(Token token) {
             return new OPPLSyntaxTree(token);
@@ -53,7 +52,7 @@ public class OPPLPatternsDefineParserTest {
 
         @Override
         public Object errorNode(TokenStream input, Token start, Token stop,
-                RecognitionException e) {
+            RecognitionException e) {
             return new CommonErrorNode(input, start, stop, e);
         }
     };
@@ -61,7 +60,7 @@ public class OPPLPatternsDefineParserTest {
 
     public static OPPLPatternsSymbolTable getOPPLPatternSymbolTable(OWLOntology o) {
         OPPLPatternsSymbolTable symtab = new org.coode.parsers.oppl.patterns.factory.SimpleSymbolTableFactory(
-                o.getOWLOntologyManager()).createSymbolTable();
+            o.getOWLOntologyManager()).createSymbolTable();
         symtab.setErrorListener(new SilentListener());
         return symtab;
     }
@@ -74,7 +73,7 @@ public class OPPLPatternsDefineParserTest {
         assertNotNull(parsed);
         Set<Symbol> definedSymbols = symtab.getDefinedSymbols();
         assertTrue("Exected 5 actual " + definedSymbols.size() + " " + definedSymbols,
-                definedSymbols.size() == 4);
+            definedSymbols.size() == 4);
     }
 
     @Test
@@ -85,7 +84,7 @@ public class OPPLPatternsDefineParserTest {
         assertNotNull(parsed);
         Set<Symbol> definedSymbols = symtab.getDefinedSymbols();
         assertTrue("Exected 3 actual " + definedSymbols.size() + " " + definedSymbols,
-                definedSymbols.size() == 2);
+            definedSymbols.size() == 2);
     }
 
     @Test
@@ -96,7 +95,7 @@ public class OPPLPatternsDefineParserTest {
         assertNotNull(parsed);
         Set<Symbol> definedSymbols = symtab.getDefinedSymbols();
         assertTrue("Exected 5 actual " + definedSymbols.size() + " " + definedSymbols,
-                definedSymbols.size() == 4);
+            definedSymbols.size() == 4);
     }
 
     @Test
@@ -107,7 +106,7 @@ public class OPPLPatternsDefineParserTest {
         assertNotNull(parsed);
         Set<Symbol> definedSymbols = symtab.getDefinedSymbols();
         assertTrue("Exected 3 actual " + definedSymbols.size() + " " + definedSymbols,
-                definedSymbols.size() == 3);
+            definedSymbols.size() == 3);
     }
 
     @Test
@@ -118,7 +117,7 @@ public class OPPLPatternsDefineParserTest {
         assertNotNull(parsed);
         Set<Symbol> definedSymbols = symtab.getDefinedSymbols();
         assertTrue("Exected 4 actual " + definedSymbols.size() + " " + definedSymbols,
-                definedSymbols.size() == 4);
+            definedSymbols.size() == 4);
     }
 
     protected OPPLSyntaxTree parse(String input, OWLOntology o) {
@@ -138,16 +137,16 @@ public class OPPLPatternsDefineParserTest {
         simplify.setTreeAdaptor(adaptor);
         simplify.downup(tree);
         AbstractPatternModelFactory factory = new PatternModelFactory(o,
-                o.getOWLOntologyManager());
+            o.getOWLOntologyManager());
         PatternConstraintSystem constraintSystem = factory.createConstraintSystem();
         OPPLDefine define = new OPPLDefine(nodes, symtab, new SilentListener(),
-                constraintSystem);
+            constraintSystem);
         define.setTreeAdaptor(adaptor);
         define.downup(tree);
         nodes.reset();
         OPPLPatternsDefine patternsDefine = new OPPLPatternsDefine(nodes, symtab,
-                new SilentListener(),
-                OPPLPatternParser.getSimplePatternReferenceResolver(), constraintSystem);
+            new SilentListener(),
+            OPPLPatternParser.getSimplePatternReferenceResolver(), constraintSystem);
         patternsDefine.setTreeAdaptor(adaptor);
         patternsDefine.downup(tree);
         return (OPPLSyntaxTree) r.getTree();

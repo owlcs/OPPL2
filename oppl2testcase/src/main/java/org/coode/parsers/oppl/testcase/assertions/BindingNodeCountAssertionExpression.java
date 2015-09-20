@@ -13,23 +13,28 @@ import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.coode.parsers.oppl.testcase.AbstractOPPLTestCaseFactory;
 
-/** Represents the count of the occurrences a particular set of assignments in
+/**
+ * Represents the count of the occurrences a particular set of assignments in
  * the results of the query.
  * 
- * @author Luigi Iannone */
+ * @author Luigi Iannone
+ */
 public class BindingNodeCountAssertionExpression implements AssertionExpression<Integer> {
+
     private final BindingNode bindingNode;
     private final AbstractOPPLTestCaseFactory testCaseFactory;
     private final ConstraintSystem constraintSystem;
 
-    /** @param bindingNode
-     *            bindingNode
+    /**
+     * @param bindingNode
+     *        bindingNode
      * @param constraintSystem
-     *            constraintSystem
+     *        constraintSystem
      * @param testCaseFactory
-     *            testCaseFactory */
+     *        testCaseFactory
+     */
     public BindingNodeCountAssertionExpression(BindingNode bindingNode,
-            ConstraintSystem constraintSystem, AbstractOPPLTestCaseFactory testCaseFactory) {
+        ConstraintSystem constraintSystem, AbstractOPPLTestCaseFactory testCaseFactory) {
         this.bindingNode = checkNotNull(bindingNode, "bindingNode");
         this.constraintSystem = checkNotNull(constraintSystem, "constraintSystem");
         this.testCaseFactory = checkNotNull(testCaseFactory, "testCaseFactory");
@@ -57,12 +62,16 @@ public class BindingNodeCountAssertionExpression implements AssertionExpression<
         return count;
     }
 
-    /** @return the bindingNode */
+    /**
+     * @return the bindingNode
+     */
     public BindingNode getBindingNode() {
         return bindingNode;
     }
 
-    /** @return the testCaseFactory */
+    /**
+     * @return the testCaseFactory
+     */
     public AbstractOPPLTestCaseFactory getTestCaseFactory() {
         return testCaseFactory;
     }
@@ -71,29 +80,32 @@ public class BindingNodeCountAssertionExpression implements AssertionExpression<
     public String toString() {
         StringBuilder b = new StringBuilder("count(");
         boolean first = true;
-        TreeSet<Assignment> sortedAssignment = new TreeSet<Assignment>(
-                new Comparator<Assignment>() {
-                    @Override
-                    public int compare(Assignment o1, Assignment o2) {
-                        return o1.getAssignedVariable().getName()
-                                .compareTo(o2.getAssignedVariable().getName());
-                    }
-                });
+        TreeSet<Assignment> sortedAssignment = new TreeSet<>(
+            new Comparator<Assignment>() {
+
+                @Override
+                public int compare(Assignment o1, Assignment o2) {
+                    return o1.getAssignedVariable().getName()
+                        .compareTo(o2.getAssignedVariable().getName());
+                }
+            });
         sortedAssignment.addAll(getBindingNode().getAssignments());
         for (Assignment a : sortedAssignment) {
             String comma = first ? "" : ", ";
             ManchesterSyntaxRenderer renderer = getTestCaseFactory().getOPPLFactory()
-                    .getManchesterSyntaxRenderer(getConstraintSystem());
+                .getManchesterSyntaxRenderer(getConstraintSystem());
             a.getAssignment().accept(renderer);
             b.append(String.format("%s%s = %s", comma, a.getAssignedVariable().getName(),
-                    renderer));
+                renderer));
             first = false;
         }
         b.append(")");
         return b.toString();
     }
 
-    /** @return the constraintSystem */
+    /**
+     * @return the constraintSystem
+     */
     public ConstraintSystem getConstraintSystem() {
         return constraintSystem;
     }

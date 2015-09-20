@@ -3,12 +3,17 @@ package org.coode.oppl.search.solvability;
 import org.coode.oppl.bindingtree.BindingNode;
 import org.semanticweb.owlapi.model.OWLAxiom;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class UnsolvableSearchNode extends SolvabilitySearchNode {
-    /** @param axiom
-     *            axiom
+
+    /**
+     * @param axiom
+     *        axiom
      * @param bindingNode
-     *            bindingNode */
+     *        bindingNode
+     */
     public UnsolvableSearchNode(OWLAxiom axiom, BindingNode bindingNode) {
         super(axiom, bindingNode);
     }

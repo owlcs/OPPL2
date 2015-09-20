@@ -13,16 +13,17 @@ import org.junit.Test;
 
 @SuppressWarnings("javadoc")
 public class ExhaustingTestCase extends AbstractTestCase {
+
     @Test
     public void shouldTestParseMissingVariableDeclaration() {
         OPPLScript result = this
-                .parse("SELECT Asinara InstanceOf Country BEGIN ADD Asinara InstanceOf Thing END;",
-                        test);
+            .parse("SELECT Asinara InstanceOf Country BEGIN ADD Asinara InstanceOf Thing END;",
+                test);
         expectedCorrect(result);
         execute(result, 1);
         result = this
-                .parse("SELECT Asinara InstanceOf Country BEGIN REMOVE Asinara InstanceOf Country END;",
-                        test);
+            .parse("SELECT Asinara InstanceOf Country BEGIN REMOVE Asinara InstanceOf Country END;",
+                test);
         expectedCorrect(result);
         execute(result, 1);
     }
@@ -30,8 +31,8 @@ public class ExhaustingTestCase extends AbstractTestCase {
     @Test
     public void shouldTestParseActionsError() {
         OPPLScript result = this
-                .parse("SELECT Asinara InstanceOf Country BEGIN ADD Asinara InstanceOf Country END;",
-                        test);
+            .parse("SELECT Asinara InstanceOf Country BEGIN ADD Asinara InstanceOf Country END;",
+                test);
         expectedCorrect(result);
         execute(result, 1);
         String correctPortion = "SELECT Asinara InstanceOf Country BEGIN ADD ";
@@ -58,12 +59,13 @@ public class ExhaustingTestCase extends AbstractTestCase {
         // correctPortion.length());
         correctPortion = "?someClass:INDIVIDUAL[";
         result = this
-                .parse(correctPortion
-                        + "subClassOf Country], ?island:CLASS=CreateIntersection(?someClass.VALUES);",
-                        test);
+            .parse(correctPortion
+                + "subClassOf Country], ?island:CLASS=CreateIntersection(?someClass.VALUES);",
+                test);
         assertNull(result);
         // checkProperStackTrace(
-        // "Type mismatch for variable ?someClass: type CLASS needed instead of the actual INDIVIDUAL",
+        // "Type mismatch for variable ?someClass: type CLASS needed instead of
+        // the actual INDIVIDUAL",
         // correctPortion.length());
         correctPortion = "?island:INDIVIDUAL=";
         script = correctPortion + "createe(\"TestIndividual\");";
@@ -73,7 +75,7 @@ public class ExhaustingTestCase extends AbstractTestCase {
         // correctPortion.length());
         correctPortion = "?someClass:CLASS[subClassOf ";
         script = correctPortion
-                + "__Country], ?island:CLASS=CreateUnion(?someClass.VALUES);";
+            + "__Country], ?island:CLASS=CreateUnion(?someClass.VALUES);";
         result = this.parse(script, test);
         assertNull(result);
         // checkProperStackTrace("Encountered __Country at line 1 column ",
@@ -93,13 +95,15 @@ public class ExhaustingTestCase extends AbstractTestCase {
     @Test
     public void shouldTestParseWhereClauses() {
         OPPLScript result = this
-                .parse("?island:INDIVIDUAL SELECT ?island InstanceOf Country WHERE ?island != Asinara BEGIN ADD ?island InstanceOf Country END;",
-                        test);
+            .parse(
+                "?island:INDIVIDUAL SELECT ?island InstanceOf Country WHERE ?island != Asinara BEGIN ADD ?island InstanceOf Country END;",
+                test);
         expectedCorrect(result);
         execute(result, 0);
         result = this
-                .parse("?island:INDIVIDUAL SELECT ?island InstanceOf Country WHERE ?island IN {Asinara} BEGIN ADD ?island InstanceOf Country END;",
-                        test);
+            .parse(
+                "?island:INDIVIDUAL SELECT ?island InstanceOf Country WHERE ?island IN {Asinara} BEGIN ADD ?island InstanceOf Country END;",
+                test);
         expectedCorrect(result);
         execute(result, 1);
     }
@@ -107,8 +111,9 @@ public class ExhaustingTestCase extends AbstractTestCase {
     @Test
     public void shouldTestAssembleVariables() {
         OPPLScript result = this
-                .parse("?y:CLASS, ?x:CLASS=create(\"Test\"+?y.RENDERING) SELECT ?y subClassOf Country  BEGIN ADD ?x subClassOf ?y END;",
-                        test);
+            .parse(
+                "?y:CLASS, ?x:CLASS=create(\"Test\"+?y.RENDERING) SELECT ?y subClassOf Country  BEGIN ADD ?x subClassOf ?y END;",
+                test);
         expectedCorrect(result);
         execute(result, 2);
     }
@@ -116,8 +121,9 @@ public class ExhaustingTestCase extends AbstractTestCase {
     @Test
     public void shouldTestAssembleConstantVariables() {
         OPPLScript result = this
-                .parse("?y:CLASS, ?x:CLASS=create(\"test \"+?y.RENDERING) SELECT ?y subClassOf Country  BEGIN ADD ?y subClassOf ?x END;",
-                        test);
+            .parse(
+                "?y:CLASS, ?x:CLASS=create(\"test \"+?y.RENDERING) SELECT ?y subClassOf Country  BEGIN ADD ?y subClassOf ?x END;",
+                test);
         expectedCorrect(result);
         execute(result, 2);
     }
@@ -125,8 +131,9 @@ public class ExhaustingTestCase extends AbstractTestCase {
     @Test
     public void shouldTestAssembleConstantAndVariables() {
         OPPLScript result = this
-                .parse("?y:CLASS, ?x:CLASS=create(\"'test and \"+?y.RENDERING+\"'\") SELECT ?y subClassOf Country  BEGIN ADD ?y subClassOf ?x END;",
-                        test);
+            .parse(
+                "?y:CLASS, ?x:CLASS=create(\"'test and \"+?y.RENDERING+\"'\") SELECT ?y subClassOf Country  BEGIN ADD ?y subClassOf ?x END;",
+                test);
         expectedCorrect(result);
         execute(result, 2);
     }
@@ -134,8 +141,9 @@ public class ExhaustingTestCase extends AbstractTestCase {
     @Test
     public void shouldTestReverseRegularExpressions() {
         OPPLScript result = this
-                .parse("?regexp:CLASS=Match(\"'test ([a-z]+)'\"), ?x:CLASS=create(?regexp.GROUPS(1)) SELECT ?regexp subClassOf Thing  BEGIN ADD ?x subClassOf Thing END;",
-                        test);
+            .parse(
+                "?regexp:CLASS=Match(\"'test ([a-z]+)'\"), ?x:CLASS=create(?regexp.GROUPS(1)) SELECT ?regexp subClassOf Thing  BEGIN ADD ?x subClassOf Thing END;",
+                test);
         expectedCorrect(result);
         execute(result, 0);
     }
@@ -143,8 +151,9 @@ public class ExhaustingTestCase extends AbstractTestCase {
     @Test
     public void shouldTestAssembleRegExpVariables() {
         OPPLScript result = this
-                .parse("?x:CLASS, ?y:CLASS=Match(\"'abc \"+?x.RENDERING+\"'\") SELECT ?y subClassOf Thing BEGIN ADD ?y subClassOf Thing END;",
-                        test);
+            .parse(
+                "?x:CLASS, ?y:CLASS=Match(\"'abc \"+?x.RENDERING+\"'\") SELECT ?y subClassOf Thing BEGIN ADD ?y subClassOf Thing END;",
+                test);
         expectedCorrect(result);
         execute(result, 0);
     }
@@ -179,9 +188,9 @@ public class ExhaustingTestCase extends AbstractTestCase {
     @Test
     public void shouldTestRobertsScripts1() {
         String script = "?island:INDIVIDUAL[instanceOf Country],\n"
-                + "?height:CONSTANT\n" + "SELECT ?island size ?height\n" + "BEGIN\n"
-                + " 	REMOVE ?island size ?height,\n"
-                + " 	ADD ?island !hasMaximumHeight ?height\n" + "END;";
+            + "?height:CONSTANT\n" + "SELECT ?island size ?height\n" + "BEGIN\n"
+            + " 	REMOVE ?island size ?height,\n"
+            + " 	ADD ?island !hasMaximumHeight ?height\n" + "END;";
         OPPLScript result = this.parse(script, test);
         expectedCorrect(result);
         execute(result, 0);
@@ -197,8 +206,8 @@ public class ExhaustingTestCase extends AbstractTestCase {
         for (Variable<?> variable : variables) {
             if (variable.getName().compareTo("?z") == 0) {
                 assertTrue(variable instanceof RegexpGeneratedVariable<?>
-                        && variable.getType() == VariableTypeFactory
-                                .getCLASSVariableType());
+                    && variable.getType() == VariableTypeFactory
+                        .getCLASSVariableType());
             }
         }
     }

@@ -26,28 +26,38 @@ import java.util.List;
 
 import org.semanticweb.owlapi.model.OWLAxiomChange;
 
-/** @author Luigi Iannone
- * @param <P>
- *            type */
+/**
+ * @author Luigi Iannone
+ * @param
+ *        <P>
+ *        type
+ */
 public interface OPPLScriptVisitorEx<P> {
-    /** @param q
-     *            q
+
+    /**
+     * @param q
+     *        q
      * @param p
-     *            p
-     * @return visitor value */
+     *        p
+     * @return visitor value
+     */
     P visit(OPPLQuery q, P p);
 
-    /** @param v
-     *            v
+    /**
+     * @param v
+     *        v
      * @param p
-     *            p
-     * @return visitor value */
+     *        p
+     * @return visitor value
+     */
     P visit(Variable<?> v, P p);
 
-    /** @param changes
-     *            changes
+    /**
+     * @param changes
+     *        changes
      * @param p
-     *            p
-     * @return visitor value */
+     *        p
+     * @return visitor value
+     */
     P visitActions(List<OWLAxiomChange> changes, P p);
 }

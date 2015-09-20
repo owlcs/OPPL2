@@ -6,62 +6,48 @@ import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.antlr.runtime.BaseRecognizer;
-import org.antlr.runtime.BitSet;
-import org.antlr.runtime.DFA;
-import org.antlr.runtime.EarlyExitException;
-import org.antlr.runtime.IntStream;
-import org.antlr.runtime.MismatchedTokenException;
-import org.antlr.runtime.NoViableAltException;
-import org.antlr.runtime.RecognitionException;
-import org.antlr.runtime.RecognizerSharedState;
-import org.antlr.runtime.RuleReturnScope;
-import org.antlr.runtime.Token;
+import org.antlr.runtime.*;
 import org.antlr.runtime.tree.RewriteEmptyStreamException;
 import org.antlr.runtime.tree.TreeFilter;
 import org.antlr.runtime.tree.TreeNodeStream;
 import org.antlr.runtime.tree.TreeRuleReturnScope;
-import org.coode.parsers.ErrorListener;
-import org.coode.parsers.ManchesterOWLSyntaxTree;
-import org.coode.parsers.OWLType;
-import org.coode.parsers.Symbol;
-import org.coode.parsers.SymbolTable;
-import org.coode.parsers.Type;
+import org.coode.parsers.*;
 
 @SuppressWarnings({ "javadoc", "incomplete-switch" })
 public class OPPLTypeEnforcement extends TreeFilter {
+
     public static final String[] tokenNames = new String[] { "<invalid>", "<EOR>",
-            "<DOWN>", "<UP>", "COMPOSITION", "OPEN_PARENTHESYS", "OPEN_CURLY_BRACES",
-            "CLOSED_CURLY_BRACES", "CLOSED_PARENTHESYS", "WHITESPACE", "AND", "OR",
-            "NOT", "SOME", "ONLY", "MIN", "MAX", "EXACTLY", "VALUE", "INVERSE",
-            "SUBCLASS_OF", "SUB_PROPERTY_OF", "EQUIVALENT_TO", "SAME_AS",
-            "DIFFERENT_FROM", "INVERSE_OF", "DISJOINT_WITH", "DOMAIN", "RANGE",
-            "FUNCTIONAL", "SYMMETRIC", "ANTI_SYMMETRIC", "REFLEXIVE", "IRREFLEXIVE",
-            "TRANSITIVE", "INVERSE_FUNCTIONAL", "POW", "COMMA", "INSTANCE_OF", "TYPES",
-            "DBLQUOTE", "DIGIT", "INTEGER", "LETTER", "IDENTIFIER", "ENTITY_REFERENCE",
-            "QUESTION_MARK", "Tokens", "SUB_CLASS_AXIOM", "EQUIVALENT_TO_AXIOM",
-            "DISJOINT_WITH_AXIOM", "SUB_PROPERTY_AXIOM", "SAME_AS_AXIOM",
-            "DIFFERENT_FROM_AXIOM", "UNARY_AXIOM", "DISJUNCTION", "CONJUNCTION",
-            "PROPERTY_CHAIN", "NEGATED_EXPRESSION", "NEGATED_ASSERTION",
-            "INVERSE_PROPERTY", "SOME_RESTRICTION", "ALL_RESTRICTION",
-            "VALUE_RESTRICTION", "CARDINALITY_RESTRICTION", "ONE_OF", "TYPE_ASSERTION",
-            "ROLE_ASSERTION", "INVERSE_OBJECT_PROPERTY_EXPRESSION", "EXPRESSION",
-            "CONSTANT", "WHERE", "NOT_EQUAL", "EQUAL", "IN", "SELECT", "ASSERTED",
-            "COLON", "DOT", "PLUS", "CREATE", "CREATE_INTERSECTION",
-            "CREATE_DISJUNCTION", "BEGIN", "END", "OPEN_SQUARE_BRACKET",
-            "CLOSED_SQUARE_BRACKET", "SUPER_CLASS_OF", "SUPER_PROPERTY_OF",
-            "VARIABLE_TYPE", "ADD", "REMOVE", "ASSERTED_CLAUSE", "PLAIN_CLAUSE",
-            "INEQUALITY_CONSTRAINT", "IN_SET_CONSTRAINT", "INPUT_VARIABLE_DEFINITION",
-            "GENERATED_VARIABLE_DEFINITION", "CREATE_OPPL_FUNCTION",
-            "VARIABLE_ATTRIBUTE", "OPPL_FUNCTION", "ACTIONS", "VARIABLE_DEFINITIONS",
-            "QUERY", "VARIABLE_SCOPE", "SUBPROPERTY_OF", "VARIABLE_IDENTIFIER",
-            "OPPL_STATEMENT", "HAS_KEY", "IRI", "ANNOTATION_ASSERTION",
-            "IRI_ATTRIBUTE_NAME", "AT", "SET", "DISJOINT_CLASSES", "DISJOINT_PROPERTIES",
-            "SAME_INDIVIDUAL", "DIFFERENT_INDIVIDUALS", "TO_LOWER_CASE", "TO_UPPER_CASE",
-            "ESCLAMATION_MARK", "MATCH", "ATTRIBUTE_SELECTOR", "VALUES", "RENDERING",
-            "GROUPS", "STRING_OPERATION", "VARIABLE_NAME", "REGEXP_CONSTRAINT", "FAIL",
-            "NAF_CONSTRAINT", "LESS_THAN", "LESS_THAN_EQUAL", "GREATER_THAN",
-            "GREATER_THAN_EQUAL" };
+        "<DOWN>", "<UP>", "COMPOSITION", "OPEN_PARENTHESYS", "OPEN_CURLY_BRACES",
+        "CLOSED_CURLY_BRACES", "CLOSED_PARENTHESYS", "WHITESPACE", "AND", "OR",
+        "NOT", "SOME", "ONLY", "MIN", "MAX", "EXACTLY", "VALUE", "INVERSE",
+        "SUBCLASS_OF", "SUB_PROPERTY_OF", "EQUIVALENT_TO", "SAME_AS",
+        "DIFFERENT_FROM", "INVERSE_OF", "DISJOINT_WITH", "DOMAIN", "RANGE",
+        "FUNCTIONAL", "SYMMETRIC", "ANTI_SYMMETRIC", "REFLEXIVE", "IRREFLEXIVE",
+        "TRANSITIVE", "INVERSE_FUNCTIONAL", "POW", "COMMA", "INSTANCE_OF", "TYPES",
+        "DBLQUOTE", "DIGIT", "INTEGER", "LETTER", "IDENTIFIER", "ENTITY_REFERENCE",
+        "QUESTION_MARK", "Tokens", "SUB_CLASS_AXIOM", "EQUIVALENT_TO_AXIOM",
+        "DISJOINT_WITH_AXIOM", "SUB_PROPERTY_AXIOM", "SAME_AS_AXIOM",
+        "DIFFERENT_FROM_AXIOM", "UNARY_AXIOM", "DISJUNCTION", "CONJUNCTION",
+        "PROPERTY_CHAIN", "NEGATED_EXPRESSION", "NEGATED_ASSERTION",
+        "INVERSE_PROPERTY", "SOME_RESTRICTION", "ALL_RESTRICTION",
+        "VALUE_RESTRICTION", "CARDINALITY_RESTRICTION", "ONE_OF", "TYPE_ASSERTION",
+        "ROLE_ASSERTION", "INVERSE_OBJECT_PROPERTY_EXPRESSION", "EXPRESSION",
+        "CONSTANT", "WHERE", "NOT_EQUAL", "EQUAL", "IN", "SELECT", "ASSERTED",
+        "COLON", "DOT", "PLUS", "CREATE", "CREATE_INTERSECTION",
+        "CREATE_DISJUNCTION", "BEGIN", "END", "OPEN_SQUARE_BRACKET",
+        "CLOSED_SQUARE_BRACKET", "SUPER_CLASS_OF", "SUPER_PROPERTY_OF",
+        "VARIABLE_TYPE", "ADD", "REMOVE", "ASSERTED_CLAUSE", "PLAIN_CLAUSE",
+        "INEQUALITY_CONSTRAINT", "IN_SET_CONSTRAINT", "INPUT_VARIABLE_DEFINITION",
+        "GENERATED_VARIABLE_DEFINITION", "CREATE_OPPL_FUNCTION",
+        "VARIABLE_ATTRIBUTE", "OPPL_FUNCTION", "ACTIONS", "VARIABLE_DEFINITIONS",
+        "QUERY", "VARIABLE_SCOPE", "SUBPROPERTY_OF", "VARIABLE_IDENTIFIER",
+        "OPPL_STATEMENT", "HAS_KEY", "IRI", "ANNOTATION_ASSERTION",
+        "IRI_ATTRIBUTE_NAME", "AT", "SET", "DISJOINT_CLASSES", "DISJOINT_PROPERTIES",
+        "SAME_INDIVIDUAL", "DIFFERENT_INDIVIDUALS", "TO_LOWER_CASE", "TO_UPPER_CASE",
+        "ESCLAMATION_MARK", "MATCH", "ATTRIBUTE_SELECTOR", "VALUES", "RENDERING",
+        "GROUPS", "STRING_OPERATION", "VARIABLE_NAME", "REGEXP_CONSTRAINT", "FAIL",
+        "NAF_CONSTRAINT", "LESS_THAN", "LESS_THAN_EQUAL", "GREATER_THAN",
+        "GREATER_THAN_EQUAL" };
     public static final int HAS_KEY = 109;
     public static final int VALUE_RESTRICTION = 63;
     public static final int LETTER = 43;
@@ -220,7 +206,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
     private ErrorListener errorListener;
 
     public OPPLTypeEnforcement(TreeNodeStream input, SymbolTable symtab,
-            TypesEnforcer typesEnforcer, ErrorListener errorListener) {
+        TypesEnforcer typesEnforcer, ErrorListener errorListener) {
         this(input);
         this.symtab = checkNotNull(symtab, "symtab");
         this.errorListener = checkNotNull(errorListener, "errorListener");
@@ -245,13 +231,13 @@ public class OPPLTypeEnforcement extends TreeFilter {
     }
 
     protected void mismatch(IntStream in, int ttype,
-            @SuppressWarnings("unused") BitSet follow) throws RecognitionException {
+        @SuppressWarnings("unused") BitSet follow) throws RecognitionException {
         throw new MismatchedTokenException(ttype, in);
     }
 
     @Override
     public Object recoverFromMismatchedSet(IntStream in, RecognitionException e,
-            BitSet follow) throws RecognitionException {
+        BitSet follow) throws RecognitionException {
         throw e;
     }
 
@@ -259,7 +245,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
     // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:91:1:
     // bottomup : ( expressionRoot | axiom );
     @Override
-    public final void bottomup() throws RecognitionException {
+    public final void bottomup() {
         try {
             // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:92:5:
             // ( expressionRoot | axiom )
@@ -268,8 +254,8 @@ public class OPPLTypeEnforcement extends TreeFilter {
             if (LA1_0 == EXPRESSION) {
                 alt1 = 1;
             } else if (LA1_0 == INVERSE_OF || LA1_0 >= DOMAIN && LA1_0 <= RANGE
-                    || LA1_0 >= SUB_CLASS_AXIOM && LA1_0 <= UNARY_AXIOM
-                    || LA1_0 == NEGATED_ASSERTION || LA1_0 >= TYPE_ASSERTION
+                || LA1_0 >= SUB_CLASS_AXIOM && LA1_0 <= UNARY_AXIOM
+                || LA1_0 == NEGATED_ASSERTION || LA1_0 >= TYPE_ASSERTION
                     && LA1_0 <= ROLE_ASSERTION) {
                 alt1 = 2;
             } else {
@@ -314,7 +300,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
             if (errorListener != null) {
                 errorListener.rewriteEmptyStreamException(exception);
             }
-        } finally {}
+        }
         return;
     }
 
@@ -332,7 +318,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
             // ^( EXPRESSION expression )
             {
                 EXPRESSION1 = (OPPLSyntaxTree) match(input, EXPRESSION,
-                        FOLLOW_EXPRESSION_in_expressionRoot118);
+                    FOLLOW_EXPRESSION_in_expressionRoot118);
                 if (state.failed) {
                     return;
                 }
@@ -352,7 +338,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                 }
                 if (state.backtracking == 1) {
                     EXPRESSION1
-                            .setEvalType(expression2 != null ? expression2.type : null);
+                        .setEvalType(expression2 != null ? expression2.type : null);
                 }
             }
         } catch (RecognitionException exception) {
@@ -363,12 +349,13 @@ public class OPPLTypeEnforcement extends TreeFilter {
             if (errorListener != null) {
                 errorListener.rewriteEmptyStreamException(exception);
             }
-        } finally {}
+        }
         return;
     }
 
     // $ANTLR end "expressionRoot"
     public static class axiom_return extends TreeRuleReturnScope {
+
         public Type type;
         public ManchesterOWLSyntaxTree node;
     }
@@ -503,11 +490,11 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     }
                     if (state.backtracking == 1) {
                         retval.type = getSymbolTable().getSubClassAxiomType(
-                                (OPPLSyntaxTree) retval.start, subClass.node,
-                                superClass.node);
+                            (OPPLSyntaxTree) retval.start, subClass.node,
+                            superClass.node);
                         getTypesEnforcer().enforceSubClassOfAxiomTypes(
-                                (OPPLSyntaxTree) retval.start, subClass.node,
-                                superClass.node);
+                            (OPPLSyntaxTree) retval.start, subClass.node,
+                            superClass.node);
                     }
                 }
                     break;
@@ -517,7 +504,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                 // EXPRESSION rhs= expression ) )
                 {
                     match(input, EQUIVALENT_TO_AXIOM,
-                            FOLLOW_EQUIVALENT_TO_AXIOM_in_axiom194);
+                        FOLLOW_EQUIVALENT_TO_AXIOM_in_axiom194);
                     if (state.failed) {
                         return retval;
                     }
@@ -567,9 +554,9 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     }
                     if (state.backtracking == 1) {
                         retval.type = getSymbolTable().getEquivalentAxiomType(
-                                (OPPLSyntaxTree) retval.start, lhs.node, rhs.node);
+                            (OPPLSyntaxTree) retval.start, lhs.node, rhs.node);
                         getTypesEnforcer().enforceEquivalentToAxiomTypes(
-                                (OPPLSyntaxTree) retval.start, lhs.node, rhs.node);
+                            (OPPLSyntaxTree) retval.start, lhs.node, rhs.node);
                     }
                 }
                     break;
@@ -595,7 +582,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                         return retval;
                     }
                     p = (OPPLSyntaxTree) match(input, IDENTIFIER,
-                            FOLLOW_IDENTIFIER_in_axiom238);
+                        FOLLOW_IDENTIFIER_in_axiom238);
                     if (state.failed) {
                         return retval;
                     }
@@ -612,7 +599,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                         return retval;
                     }
                     anotherProperty = (OPPLSyntaxTree) match(input, IDENTIFIER,
-                            FOLLOW_IDENTIFIER_in_axiom248);
+                        FOLLOW_IDENTIFIER_in_axiom248);
                     if (state.failed) {
                         return retval;
                     }
@@ -626,9 +613,9 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     }
                     if (state.backtracking == 1) {
                         retval.type = getSymbolTable().getInverseOfAxiomType(
-                                (OPPLSyntaxTree) retval.start, p, anotherProperty);
+                            (OPPLSyntaxTree) retval.start, p, anotherProperty);
                         getTypesEnforcer().enforceIverserOfAxiomTypes(
-                                (OPPLSyntaxTree) retval.start, p, anotherProperty);
+                            (OPPLSyntaxTree) retval.start, p, anotherProperty);
                     }
                 }
                     break;
@@ -638,7 +625,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                 // EXPRESSION rhs= expression ) )
                 {
                     match(input, DISJOINT_WITH_AXIOM,
-                            FOLLOW_DISJOINT_WITH_AXIOM_in_axiom260);
+                        FOLLOW_DISJOINT_WITH_AXIOM_in_axiom260);
                     if (state.failed) {
                         return retval;
                     }
@@ -688,9 +675,9 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     }
                     if (state.backtracking == 1) {
                         retval.type = getSymbolTable().getDisjointAxiomType(
-                                (OPPLSyntaxTree) retval.start, lhs.node, rhs.node);
+                            (OPPLSyntaxTree) retval.start, lhs.node, rhs.node);
                         getTypesEnforcer().enforceDisjointWithAxiomTypes(
-                                (OPPLSyntaxTree) retval.start, lhs.node, rhs.node);
+                            (OPPLSyntaxTree) retval.start, lhs.node, rhs.node);
                     }
                 }
                     break;
@@ -700,7 +687,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                 // ^( EXPRESSION superProperty= unary ) )
                 {
                     match(input, SUB_PROPERTY_AXIOM,
-                            FOLLOW_SUB_PROPERTY_AXIOM_in_axiom292);
+                        FOLLOW_SUB_PROPERTY_AXIOM_in_axiom292);
                     if (state.failed) {
                         return retval;
                     }
@@ -750,11 +737,11 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     }
                     if (state.backtracking == 1) {
                         retval.type = getSymbolTable().getSubPropertyAxiomType(
-                                (OPPLSyntaxTree) retval.start, subProperty.node,
-                                superProperty.node);
+                            (OPPLSyntaxTree) retval.start, subProperty.node,
+                            superProperty.node);
                         getTypesEnforcer().enforceSubPropertyAxiomTypes(
-                                (OPPLSyntaxTree) retval.start, subProperty.node,
-                                superProperty.node);
+                            (OPPLSyntaxTree) retval.start, subProperty.node,
+                            superProperty.node);
                     }
                 }
                     break;
@@ -781,7 +768,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                         return retval;
                     }
                     subject = (OPPLSyntaxTree) match(input, IDENTIFIER,
-                            FOLLOW_IDENTIFIER_in_axiom336);
+                        FOLLOW_IDENTIFIER_in_axiom336);
                     if (state.failed) {
                         return retval;
                     }
@@ -831,11 +818,11 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     }
                     if (state.backtracking == 1) {
                         retval.type = getSymbolTable().getRoleAssertionAxiomType(
-                                (OPPLSyntaxTree) retval.start, subject, predicate.node,
-                                object.node);
+                            (OPPLSyntaxTree) retval.start, subject, predicate.node,
+                            object.node);
                         getTypesEnforcer().enforceRoleAssertionAxiomTypes(
-                                (OPPLSyntaxTree) retval.start, subject, predicate.node,
-                                object.node);
+                            (OPPLSyntaxTree) retval.start, subject, predicate.node,
+                            object.node);
                     }
                 }
                     break;
@@ -879,7 +866,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                         return retval;
                     }
                     subject = (OPPLSyntaxTree) match(input, IDENTIFIER,
-                            FOLLOW_IDENTIFIER_in_axiom387);
+                        FOLLOW_IDENTIFIER_in_axiom387);
                     if (state.failed) {
                         return retval;
                     }
@@ -893,9 +880,9 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     }
                     if (state.backtracking == 1) {
                         retval.type = getSymbolTable().getClassAssertionAxiomType(
-                                (OPPLSyntaxTree) retval.start, description.node, subject);
+                            (OPPLSyntaxTree) retval.start, description.node, subject);
                         getTypesEnforcer().enforceTypeAssertionAxiomTypes(
-                                (OPPLSyntaxTree) retval.start, description.node, subject);
+                            (OPPLSyntaxTree) retval.start, description.node, subject);
                     }
                 }
                     break;
@@ -921,7 +908,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                         return retval;
                     }
                     p = (OPPLSyntaxTree) match(input, IDENTIFIER,
-                            FOLLOW_IDENTIFIER_in_axiom408);
+                        FOLLOW_IDENTIFIER_in_axiom408);
                     if (state.failed) {
                         return retval;
                     }
@@ -953,9 +940,9 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     }
                     if (state.backtracking == 1) {
                         retval.type = getSymbolTable().getDomainAxiomType(
-                                (OPPLSyntaxTree) retval.start, p, domain.node);
+                            (OPPLSyntaxTree) retval.start, p, domain.node);
                         getTypesEnforcer().enforceDomainAxiomTypes(
-                                (OPPLSyntaxTree) retval.start, p, domain.node);
+                            (OPPLSyntaxTree) retval.start, p, domain.node);
                     }
                 }
                     break;
@@ -981,7 +968,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                         return retval;
                     }
                     p = (OPPLSyntaxTree) match(input, IDENTIFIER,
-                            FOLLOW_IDENTIFIER_in_axiom440);
+                        FOLLOW_IDENTIFIER_in_axiom440);
                     if (state.failed) {
                         return retval;
                     }
@@ -1013,9 +1000,9 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     }
                     if (state.backtracking == 1) {
                         retval.type = getSymbolTable().getRangeAxiomType(
-                                (OPPLSyntaxTree) retval.start, p, range.node);
+                            (OPPLSyntaxTree) retval.start, p, range.node);
                         getTypesEnforcer().enforceRangeAxiomTypes(
-                                (OPPLSyntaxTree) retval.start, p, range.node);
+                            (OPPLSyntaxTree) retval.start, p, range.node);
                     }
                 }
                     break;
@@ -1041,7 +1028,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                         return retval;
                     }
                     anIndividual = (OPPLSyntaxTree) match(input, IDENTIFIER,
-                            FOLLOW_IDENTIFIER_in_axiom473);
+                        FOLLOW_IDENTIFIER_in_axiom473);
                     if (state.failed) {
                         return retval;
                     }
@@ -1058,7 +1045,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                         return retval;
                     }
                     anotherIndividual = (OPPLSyntaxTree) match(input, IDENTIFIER,
-                            FOLLOW_IDENTIFIER_in_axiom483);
+                        FOLLOW_IDENTIFIER_in_axiom483);
                     if (state.failed) {
                         return retval;
                     }
@@ -1072,11 +1059,11 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     }
                     if (state.backtracking == 1) {
                         retval.type = getSymbolTable().getSameIndividualsAxiomType(
-                                (OPPLSyntaxTree) retval.start, anIndividual,
-                                anotherIndividual);
+                            (OPPLSyntaxTree) retval.start, anIndividual,
+                            anotherIndividual);
                         getTypesEnforcer().enforceSameIndividualsAxiomTypes(
-                                (OPPLSyntaxTree) retval.start, anIndividual,
-                                anotherIndividual);
+                            (OPPLSyntaxTree) retval.start, anIndividual,
+                            anotherIndividual);
                     }
                 }
                     break;
@@ -1086,7 +1073,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                 // IDENTIFIER ) ^( EXPRESSION anotherIndividual= IDENTIFIER ) )
                 {
                     match(input, DIFFERENT_FROM_AXIOM,
-                            FOLLOW_DIFFERENT_FROM_AXIOM_in_axiom499);
+                        FOLLOW_DIFFERENT_FROM_AXIOM_in_axiom499);
                     if (state.failed) {
                         return retval;
                     }
@@ -1103,7 +1090,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                         return retval;
                     }
                     anIndividual = (OPPLSyntaxTree) match(input, IDENTIFIER,
-                            FOLLOW_IDENTIFIER_in_axiom507);
+                        FOLLOW_IDENTIFIER_in_axiom507);
                     if (state.failed) {
                         return retval;
                     }
@@ -1120,7 +1107,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                         return retval;
                     }
                     anotherIndividual = (OPPLSyntaxTree) match(input, IDENTIFIER,
-                            FOLLOW_IDENTIFIER_in_axiom517);
+                        FOLLOW_IDENTIFIER_in_axiom517);
                     if (state.failed) {
                         return retval;
                     }
@@ -1134,11 +1121,11 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     }
                     if (state.backtracking == 1) {
                         retval.type = getSymbolTable().getDifferentIndividualsAxiomType(
-                                (OPPLSyntaxTree) retval.start, anIndividual,
-                                anotherIndividual);
+                            (OPPLSyntaxTree) retval.start, anIndividual,
+                            anotherIndividual);
                         getTypesEnforcer().enforceDifferentIndividualsAxiomTypes(
-                                (OPPLSyntaxTree) retval.start, anIndividual,
-                                anotherIndividual);
+                            (OPPLSyntaxTree) retval.start, anIndividual,
+                            anotherIndividual);
                     }
                 }
                     break;
@@ -1167,7 +1154,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                         return retval;
                     }
                     p = (OPPLSyntaxTree) match(input, IDENTIFIER,
-                            FOLLOW_IDENTIFIER_in_axiom542);
+                        FOLLOW_IDENTIFIER_in_axiom542);
                     if (state.failed) {
                         return retval;
                     }
@@ -1181,9 +1168,9 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     }
                     if (state.backtracking == 1) {
                         retval.type = getSymbolTable().getFunctionalPropertyType(
-                                (OPPLSyntaxTree) retval.start, p);
+                            (OPPLSyntaxTree) retval.start, p);
                         getTypesEnforcer().enforceFunctionalPropertyAxiomTypes(
-                                (OPPLSyntaxTree) retval.start, p);
+                            (OPPLSyntaxTree) retval.start, p);
                     }
                 }
                     break;
@@ -1201,7 +1188,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                         return retval;
                     }
                     match(input, INVERSE_FUNCTIONAL,
-                            FOLLOW_INVERSE_FUNCTIONAL_in_axiom557);
+                        FOLLOW_INVERSE_FUNCTIONAL_in_axiom557);
                     if (state.failed) {
                         return retval;
                     }
@@ -1214,7 +1201,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                         return retval;
                     }
                     p = (OPPLSyntaxTree) match(input, IDENTIFIER,
-                            FOLLOW_IDENTIFIER_in_axiom566);
+                        FOLLOW_IDENTIFIER_in_axiom566);
                     if (state.failed) {
                         return retval;
                     }
@@ -1228,9 +1215,9 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     }
                     if (state.backtracking == 1) {
                         retval.type = getSymbolTable().getInverseFunctionalPropertyType(
-                                (OPPLSyntaxTree) retval.start, p);
+                            (OPPLSyntaxTree) retval.start, p);
                         getTypesEnforcer().enforceInverseFunctionalPropertyAxiomTypes(
-                                (OPPLSyntaxTree) retval.start, p);
+                            (OPPLSyntaxTree) retval.start, p);
                     }
                 }
                     break;
@@ -1259,7 +1246,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                         return retval;
                     }
                     p = (OPPLSyntaxTree) match(input, IDENTIFIER,
-                            FOLLOW_IDENTIFIER_in_axiom593);
+                        FOLLOW_IDENTIFIER_in_axiom593);
                     if (state.failed) {
                         return retval;
                     }
@@ -1273,9 +1260,9 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     }
                     if (state.backtracking == 1) {
                         retval.type = getSymbolTable().getIrreflexivePropertyType(
-                                (OPPLSyntaxTree) retval.start, p);
+                            (OPPLSyntaxTree) retval.start, p);
                         getTypesEnforcer().enforceIrreflexivePropertyAxiomTypes(
-                                (OPPLSyntaxTree) retval.start, p);
+                            (OPPLSyntaxTree) retval.start, p);
                     }
                 }
                     break;
@@ -1304,7 +1291,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                         return retval;
                     }
                     p = (OPPLSyntaxTree) match(input, IDENTIFIER,
-                            FOLLOW_IDENTIFIER_in_axiom619);
+                        FOLLOW_IDENTIFIER_in_axiom619);
                     if (state.failed) {
                         return retval;
                     }
@@ -1318,9 +1305,9 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     }
                     if (state.backtracking == 1) {
                         retval.type = getSymbolTable().getReflexivePropertyType(
-                                (OPPLSyntaxTree) retval.start, p);
+                            (OPPLSyntaxTree) retval.start, p);
                         getTypesEnforcer().enforceReflexivePropertyAxiomTypes(
-                                (OPPLSyntaxTree) retval.start, p);
+                            (OPPLSyntaxTree) retval.start, p);
                     }
                 }
                     break;
@@ -1349,7 +1336,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                         return retval;
                     }
                     p = (OPPLSyntaxTree) match(input, IDENTIFIER,
-                            FOLLOW_IDENTIFIER_in_axiom645);
+                        FOLLOW_IDENTIFIER_in_axiom645);
                     if (state.failed) {
                         return retval;
                     }
@@ -1363,9 +1350,9 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     }
                     if (state.backtracking == 1) {
                         retval.type = getSymbolTable().getSymmetricPropertyType(
-                                (OPPLSyntaxTree) retval.start, p);
+                            (OPPLSyntaxTree) retval.start, p);
                         getTypesEnforcer().enforceSymmetricPropertyAxiomTypes(
-                                (OPPLSyntaxTree) retval.start, p);
+                            (OPPLSyntaxTree) retval.start, p);
                     }
                 }
                     break;
@@ -1394,7 +1381,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                         return retval;
                     }
                     p = (OPPLSyntaxTree) match(input, IDENTIFIER,
-                            FOLLOW_IDENTIFIER_in_axiom673);
+                        FOLLOW_IDENTIFIER_in_axiom673);
                     if (state.failed) {
                         return retval;
                     }
@@ -1408,9 +1395,9 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     }
                     if (state.backtracking == 1) {
                         retval.type = getSymbolTable().getTransitivePropertyType(
-                                (OPPLSyntaxTree) retval.start, p);
+                            (OPPLSyntaxTree) retval.start, p);
                         getTypesEnforcer().enforceTransitivePropertyAxiomTypes(
-                                (OPPLSyntaxTree) retval.start, p);
+                            (OPPLSyntaxTree) retval.start, p);
                     }
                 }
                     break;
@@ -1438,9 +1425,9 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     }
                     if (state.backtracking == 1) {
                         retval.type = getSymbolTable().getNegatedAssertionType(
-                                (OPPLSyntaxTree) retval.start, a.node);
+                            (OPPLSyntaxTree) retval.start, a.node);
                         getTypesEnforcer().enforceNegatedAssertionTypes(
-                                (OPPLSyntaxTree) retval.start, a.node);
+                            (OPPLSyntaxTree) retval.start, a.node);
                     }
                 }
                     break;
@@ -1457,12 +1444,13 @@ public class OPPLTypeEnforcement extends TreeFilter {
             if (errorListener != null) {
                 errorListener.rewriteEmptyStreamException(exception);
             }
-        } finally {}
+        }
         return retval;
     }
 
     // $ANTLR end "axiom"
     public static class expression_return extends TreeRuleReturnScope {
+
         public Type type;
         public ManchesterOWLSyntaxTree node;
     }
@@ -1476,8 +1464,8 @@ public class OPPLTypeEnforcement extends TreeFilter {
     public final OPPLTypeEnforcement.expression_return expression() {
         OPPLTypeEnforcement.expression_return retval = new OPPLTypeEnforcement.expression_return();
         retval.start = input.LT(1);
-        List<Object> list_disjuncts = new ArrayList<Object>();
-        List<Object> list_chainItems = new ArrayList<Object>();
+        List<Object> list_disjuncts = new ArrayList<>();
+        List<Object> list_chainItems = new ArrayList<>();
         OPPLTypeEnforcement.conjunction_return conjunction3 = null;
         OPPLTypeEnforcement.complexPropertyExpression_return complexPropertyExpression4 = null;
         RuleReturnScope disjuncts = null;
@@ -1542,9 +1530,9 @@ public class OPPLTypeEnforcement extends TreeFilter {
                         int alt3 = 2;
                         int LA3_0 = input.LA(1);
                         if (LA3_0 >= IDENTIFIER && LA3_0 <= ENTITY_REFERENCE
-                                || LA3_0 == CONJUNCTION || LA3_0 == NEGATED_EXPRESSION
-                                || LA3_0 >= SOME_RESTRICTION && LA3_0 <= ONE_OF
-                                || LA3_0 == CONSTANT) {
+                            || LA3_0 == CONJUNCTION || LA3_0 == NEGATED_EXPRESSION
+                            || LA3_0 >= SOME_RESTRICTION && LA3_0 <= ONE_OF
+                            || LA3_0 == CONSTANT) {
                             alt3 = 1;
                         }
                         switch (alt3) {
@@ -1579,17 +1567,17 @@ public class OPPLTypeEnforcement extends TreeFilter {
                         return retval;
                     }
                     if (state.backtracking == 1) {
-                        List<ManchesterOWLSyntaxTree> nodes = new ArrayList<ManchesterOWLSyntaxTree>(
-                                list_disjuncts.size());
+                        List<ManchesterOWLSyntaxTree> nodes = new ArrayList<>(
+                            list_disjuncts.size());
                         for (Object node : list_disjuncts) {
                             nodes.add(((conjunction_return) node).node);
                         }
                         retval.type = getSymbolTable().getDisjunctionType(
-                                (OPPLSyntaxTree) retval.start,
-                                nodes.toArray(new ManchesterOWLSyntaxTree[nodes.size()]));
+                            (OPPLSyntaxTree) retval.start,
+                            nodes.toArray(new ManchesterOWLSyntaxTree[nodes.size()]));
                         getTypesEnforcer().enforceDisjunctionTypes(
-                                (OPPLSyntaxTree) retval.start,
-                                nodes.toArray(new ManchesterOWLSyntaxTree[nodes.size()]));
+                            (OPPLSyntaxTree) retval.start,
+                            nodes.toArray(new ManchesterOWLSyntaxTree[nodes.size()]));
                     }
                 }
                     break;
@@ -1612,10 +1600,10 @@ public class OPPLTypeEnforcement extends TreeFilter {
                         int alt4 = 2;
                         int LA4_0 = input.LA(1);
                         if (LA4_0 >= IDENTIFIER && LA4_0 <= ENTITY_REFERENCE
-                                || LA4_0 >= DISJUNCTION && LA4_0 <= NEGATED_EXPRESSION
-                                || LA4_0 >= SOME_RESTRICTION && LA4_0 <= ONE_OF
-                                || LA4_0 == INVERSE_OBJECT_PROPERTY_EXPRESSION
-                                || LA4_0 == CONSTANT) {
+                            || LA4_0 >= DISJUNCTION && LA4_0 <= NEGATED_EXPRESSION
+                            || LA4_0 >= SOME_RESTRICTION && LA4_0 <= ONE_OF
+                            || LA4_0 == INVERSE_OBJECT_PROPERTY_EXPRESSION
+                            || LA4_0 == CONSTANT) {
                             alt4 = 1;
                         }
                         switch (alt4) {
@@ -1650,17 +1638,17 @@ public class OPPLTypeEnforcement extends TreeFilter {
                         return retval;
                     }
                     if (state.backtracking == 1) {
-                        List<ManchesterOWLSyntaxTree> nodes = new ArrayList<ManchesterOWLSyntaxTree>(
-                                list_chainItems.size());
+                        List<ManchesterOWLSyntaxTree> nodes = new ArrayList<>(
+                            list_chainItems.size());
                         for (Object item : list_chainItems) {
                             nodes.add(((expression_return) item).node);
                         }
                         retval.type = getSymbolTable().getPropertyChainType(
-                                (OPPLSyntaxTree) retval.start,
-                                nodes.toArray(new ManchesterOWLSyntaxTree[nodes.size()]));
+                            (OPPLSyntaxTree) retval.start,
+                            nodes.toArray(new ManchesterOWLSyntaxTree[nodes.size()]));
                         getTypesEnforcer().enforcePropertyChainTypes(
-                                (OPPLSyntaxTree) retval.start,
-                                nodes.toArray(new ManchesterOWLSyntaxTree[nodes.size()]));
+                            (OPPLSyntaxTree) retval.start,
+                            nodes.toArray(new ManchesterOWLSyntaxTree[nodes.size()]));
                     }
                 }
                     break;
@@ -1691,7 +1679,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     }
                     if (state.backtracking == 1) {
                         retval.type = complexPropertyExpression4 != null ? complexPropertyExpression4.type
-                                : null;
+                            : null;
                     }
                 }
                     break;
@@ -1708,12 +1696,13 @@ public class OPPLTypeEnforcement extends TreeFilter {
             if (errorListener != null) {
                 errorListener.rewriteEmptyStreamException(exception);
             }
-        } finally {}
+        }
         return retval;
     }
 
     // $ANTLR end "expression"
     public static class conjunction_return extends TreeRuleReturnScope {
+
         public Type type;
         public ManchesterOWLSyntaxTree node;
     }
@@ -1725,7 +1714,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
     public final OPPLTypeEnforcement.conjunction_return conjunction() {
         OPPLTypeEnforcement.conjunction_return retval = new OPPLTypeEnforcement.conjunction_return();
         retval.start = input.LT(1);
-        List<Object> list_conjuncts = new ArrayList<Object>();
+        List<Object> list_conjuncts = new ArrayList<>();
         OPPLTypeEnforcement.unary_return unary5 = null;
         RuleReturnScope conjuncts = null;
         try {
@@ -1736,7 +1725,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
             if (LA7_0 == CONJUNCTION) {
                 alt7 = 1;
             } else if (LA7_0 >= IDENTIFIER && LA7_0 <= ENTITY_REFERENCE
-                    || LA7_0 == NEGATED_EXPRESSION || LA7_0 >= SOME_RESTRICTION
+                || LA7_0 == NEGATED_EXPRESSION || LA7_0 >= SOME_RESTRICTION
                     && LA7_0 <= ONE_OF || LA7_0 == CONSTANT) {
                 alt7 = 2;
             } else {
@@ -1767,9 +1756,9 @@ public class OPPLTypeEnforcement extends TreeFilter {
                         int alt6 = 2;
                         int LA6_0 = input.LA(1);
                         if (LA6_0 >= IDENTIFIER && LA6_0 <= ENTITY_REFERENCE
-                                || LA6_0 == NEGATED_EXPRESSION
-                                || LA6_0 >= SOME_RESTRICTION && LA6_0 <= ONE_OF
-                                || LA6_0 == CONSTANT) {
+                            || LA6_0 == NEGATED_EXPRESSION
+                            || LA6_0 >= SOME_RESTRICTION && LA6_0 <= ONE_OF
+                            || LA6_0 == CONSTANT) {
                             alt6 = 1;
                         }
                         switch (alt6) {
@@ -1804,17 +1793,17 @@ public class OPPLTypeEnforcement extends TreeFilter {
                         return retval;
                     }
                     if (state.backtracking == 1) {
-                        List<ManchesterOWLSyntaxTree> nodes = new ArrayList<ManchesterOWLSyntaxTree>(
-                                list_conjuncts.size());
+                        List<ManchesterOWLSyntaxTree> nodes = new ArrayList<>(
+                            list_conjuncts.size());
                         for (Object node : list_conjuncts) {
                             nodes.add(((unary_return) node).node);
                         }
                         retval.type = getSymbolTable().getConjunctionType(
-                                (OPPLSyntaxTree) retval.start,
-                                nodes.toArray(new ManchesterOWLSyntaxTree[nodes.size()]));
+                            (OPPLSyntaxTree) retval.start,
+                            nodes.toArray(new ManchesterOWLSyntaxTree[nodes.size()]));
                         getTypesEnforcer().enforceConjunctionTypes(
-                                (OPPLSyntaxTree) retval.start,
-                                nodes.toArray(new ManchesterOWLSyntaxTree[nodes.size()]));
+                            (OPPLSyntaxTree) retval.start,
+                            nodes.toArray(new ManchesterOWLSyntaxTree[nodes.size()]));
                     }
                 }
                     break;
@@ -1846,12 +1835,13 @@ public class OPPLTypeEnforcement extends TreeFilter {
             if (errorListener != null) {
                 errorListener.rewriteEmptyStreamException(exception);
             }
-        } finally {}
+        }
         return retval;
     }
 
     // $ANTLR end "conjunction"
     public static class unary_return extends TreeRuleReturnScope {
+
         public Type type;
         public ManchesterOWLSyntaxTree node;
     }
@@ -1913,7 +1903,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                 // IDENTIFIER
                 {
                     IDENTIFIER6 = (OPPLSyntaxTree) match(input, IDENTIFIER,
-                            FOLLOW_IDENTIFIER_in_unary862);
+                        FOLLOW_IDENTIFIER_in_unary862);
                     if (state.failed) {
                         return retval;
                     }
@@ -1928,7 +1918,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                 // ^( NEGATED_EXPRESSION e= expression )
                 {
                     match(input, NEGATED_EXPRESSION,
-                            FOLLOW_NEGATED_EXPRESSION_in_unary875);
+                        FOLLOW_NEGATED_EXPRESSION_in_unary875);
                     if (state.failed) {
                         return retval;
                     }
@@ -1948,9 +1938,9 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     }
                     if (state.backtracking == 1) {
                         retval.type = getSymbolTable().getNegatedClassExpressionType(
-                                (OPPLSyntaxTree) retval.start, e.node);
+                            (OPPLSyntaxTree) retval.start, e.node);
                         getTypesEnforcer().enforceNegatedClassExpression(
-                                (OPPLSyntaxTree) retval.start, e.node);
+                            (OPPLSyntaxTree) retval.start, e.node);
                     }
                 }
                     break;
@@ -1966,7 +1956,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     }
                     if (state.backtracking == 1) {
                         retval.type = qualifiedRestriction7 != null ? qualifiedRestriction7.type
-                                : null;
+                            : null;
                     }
                 }
                     break;
@@ -1975,7 +1965,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                 // ENTITY_REFERENCE
                 {
                     ENTITY_REFERENCE8 = (OPPLSyntaxTree) match(input, ENTITY_REFERENCE,
-                            FOLLOW_ENTITY_REFERENCE_in_unary909);
+                        FOLLOW_ENTITY_REFERENCE_in_unary909);
                     if (state.failed) {
                         return retval;
                     }
@@ -2043,12 +2033,13 @@ public class OPPLTypeEnforcement extends TreeFilter {
             if (errorListener != null) {
                 errorListener.rewriteEmptyStreamException(exception);
             }
-        } finally {}
+        }
         return retval;
     }
 
     // $ANTLR end "unary"
     public static class propertyExpression_return extends TreeRuleReturnScope {
+
         public Type type;
         public ManchesterOWLSyntaxTree node;
     }
@@ -2085,7 +2076,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                 // IDENTIFIER
                 {
                     IDENTIFIER9 = (OPPLSyntaxTree) match(input, IDENTIFIER,
-                            FOLLOW_IDENTIFIER_in_propertyExpression970);
+                        FOLLOW_IDENTIFIER_in_propertyExpression970);
                     if (state.failed) {
                         return retval;
                     }
@@ -2107,7 +2098,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     }
                     if (state.backtracking == 1) {
                         retval.type = complexPropertyExpression10 != null ? complexPropertyExpression10.type
-                                : null;
+                            : null;
                     }
                 }
                     break;
@@ -2124,12 +2115,13 @@ public class OPPLTypeEnforcement extends TreeFilter {
             if (errorListener != null) {
                 errorListener.rewriteEmptyStreamException(exception);
             }
-        } finally {}
+        }
         return retval;
     }
 
     // $ANTLR end "propertyExpression"
     public static class complexPropertyExpression_return extends TreeRuleReturnScope {
+
         public Type type;
         public ManchesterOWLSyntaxTree node;
     }
@@ -2140,8 +2132,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
     // node] : ( ^( INVERSE_OBJECT_PROPERTY_EXPRESSION p=
     // complexPropertyExpression ) | ^( INVERSE_OBJECT_PROPERTY_EXPRESSION
     // IDENTIFIER ) );
-    public final OPPLTypeEnforcement.complexPropertyExpression_return
-            complexPropertyExpression() {
+    public final OPPLTypeEnforcement.complexPropertyExpression_return complexPropertyExpression() {
         OPPLTypeEnforcement.complexPropertyExpression_return retval = new OPPLTypeEnforcement.complexPropertyExpression_return();
         retval.start = input.LT(1);
         OPPLSyntaxTree IDENTIFIER11 = null;
@@ -2167,7 +2158,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                             return retval;
                         }
                         NoViableAltException nvae = new NoViableAltException("", 11, 2,
-                                input);
+                            input);
                         throw nvae;
                     }
                 } else {
@@ -2193,7 +2184,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                 // complexPropertyExpression )
                 {
                     match(input, INVERSE_OBJECT_PROPERTY_EXPRESSION,
-                            FOLLOW_INVERSE_OBJECT_PROPERTY_EXPRESSION_in_complexPropertyExpression1019);
+                        FOLLOW_INVERSE_OBJECT_PROPERTY_EXPRESSION_in_complexPropertyExpression1019);
                     if (state.failed) {
                         return retval;
                     }
@@ -2213,9 +2204,9 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     }
                     if (state.backtracking == 1) {
                         retval.type = getSymbolTable().getInversePropertyType(
-                                (OPPLSyntaxTree) retval.start, p.node);
+                            (OPPLSyntaxTree) retval.start, p.node);
                         getTypesEnforcer().enforceInverseObjectPropertyTypes(
-                                (OPPLSyntaxTree) retval.start, p.node);
+                            (OPPLSyntaxTree) retval.start, p.node);
                     }
                 }
                     break;
@@ -2224,7 +2215,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                 // ^( INVERSE_OBJECT_PROPERTY_EXPRESSION IDENTIFIER )
                 {
                     match(input, INVERSE_OBJECT_PROPERTY_EXPRESSION,
-                            FOLLOW_INVERSE_OBJECT_PROPERTY_EXPRESSION_in_complexPropertyExpression1035);
+                        FOLLOW_INVERSE_OBJECT_PROPERTY_EXPRESSION_in_complexPropertyExpression1035);
                     if (state.failed) {
                         return retval;
                     }
@@ -2233,7 +2224,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                         return retval;
                     }
                     IDENTIFIER11 = (OPPLSyntaxTree) match(input, IDENTIFIER,
-                            FOLLOW_IDENTIFIER_in_complexPropertyExpression1037);
+                        FOLLOW_IDENTIFIER_in_complexPropertyExpression1037);
                     if (state.failed) {
                         return retval;
                     }
@@ -2244,9 +2235,9 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     if (state.backtracking == 1) {
                         getSymbolTable().resolve(IDENTIFIER11);
                         retval.type = getSymbolTable().getInversePropertyType(
-                                (OPPLSyntaxTree) retval.start, IDENTIFIER11);
+                            (OPPLSyntaxTree) retval.start, IDENTIFIER11);
                         getTypesEnforcer().enforceInverseObjectPropertyTypes(
-                                (OPPLSyntaxTree) retval.start, IDENTIFIER11);
+                            (OPPLSyntaxTree) retval.start, IDENTIFIER11);
                     }
                 }
                     break;
@@ -2263,12 +2254,13 @@ public class OPPLTypeEnforcement extends TreeFilter {
             if (errorListener != null) {
                 errorListener.rewriteEmptyStreamException(exception);
             }
-        } finally {}
+        }
         return retval;
     }
 
     // $ANTLR end "complexPropertyExpression"
     public static class qualifiedRestriction_return extends TreeRuleReturnScope {
+
         public Type type;
         public ManchesterOWLSyntaxTree node;
     }
@@ -2328,7 +2320,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                 // ^( SOME_RESTRICTION p= propertyExpression f= expression )
                 {
                     match(input, SOME_RESTRICTION,
-                            FOLLOW_SOME_RESTRICTION_in_qualifiedRestriction1068);
+                        FOLLOW_SOME_RESTRICTION_in_qualifiedRestriction1068);
                     if (state.failed) {
                         return retval;
                     }
@@ -2354,9 +2346,9 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     }
                     if (state.backtracking == 1) {
                         retval.type = getSymbolTable().getSomeValueRestrictionType(
-                                (OPPLSyntaxTree) retval.start, p.node, f.node);
+                            (OPPLSyntaxTree) retval.start, p.node, f.node);
                         getTypesEnforcer().enforceSomeValueRestrictionTypes(
-                                (OPPLSyntaxTree) retval.start, p.node, f.node);
+                            (OPPLSyntaxTree) retval.start, p.node, f.node);
                     }
                 }
                     break;
@@ -2365,7 +2357,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                 // ^( ALL_RESTRICTION p= propertyExpression f= expression )
                 {
                     match(input, ALL_RESTRICTION,
-                            FOLLOW_ALL_RESTRICTION_in_qualifiedRestriction1101);
+                        FOLLOW_ALL_RESTRICTION_in_qualifiedRestriction1101);
                     if (state.failed) {
                         return retval;
                     }
@@ -2391,9 +2383,9 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     }
                     if (state.backtracking == 1) {
                         retval.type = getSymbolTable().getAllValueRestrictionType(
-                                (OPPLSyntaxTree) retval.start, p.node, f.node);
+                            (OPPLSyntaxTree) retval.start, p.node, f.node);
                         getTypesEnforcer().enforceAllValueRestrictionTypes(
-                                (OPPLSyntaxTree) retval.start, p.node, f.node);
+                            (OPPLSyntaxTree) retval.start, p.node, f.node);
                     }
                 }
                     break;
@@ -2409,7 +2401,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     }
                     if (state.backtracking == 1) {
                         retval.type = cardinalityRestriction12 != null ? cardinalityRestriction12.type
-                                : null;
+                            : null;
                     }
                 }
                     break;
@@ -2440,7 +2432,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     }
                     if (state.backtracking == 1) {
                         retval.type = valueRestriction14 != null ? valueRestriction14.type
-                                : null;
+                            : null;
                     }
                 }
                     break;
@@ -2457,12 +2449,13 @@ public class OPPLTypeEnforcement extends TreeFilter {
             if (errorListener != null) {
                 errorListener.rewriteEmptyStreamException(exception);
             }
-        } finally {}
+        }
         return retval;
     }
 
     // $ANTLR end "qualifiedRestriction"
     public static class cardinalityRestriction_return extends TreeRuleReturnScope {
+
         public Type type;
         public ManchesterOWLSyntaxTree node;
     }
@@ -2474,8 +2467,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
     // expression )? ) | ^( CARDINALITY_RESTRICTION MAX i= INTEGER p= unary
     // (filler= expression )? ) | ^( CARDINALITY_RESTRICTION EXACTLY i= INTEGER
     // p= unary (filler= expression )? ) );
-    public final OPPLTypeEnforcement.cardinalityRestriction_return
-            cardinalityRestriction() {
+    public final OPPLTypeEnforcement.cardinalityRestriction_return cardinalityRestriction() {
         OPPLTypeEnforcement.cardinalityRestriction_return retval = new OPPLTypeEnforcement.cardinalityRestriction_return();
         retval.start = input.LT(1);
         OPPLSyntaxTree i = null;
@@ -2511,7 +2503,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                                 return retval;
                             }
                             NoViableAltException nvae = new NoViableAltException("", 16,
-                                    2, input);
+                                2, input);
                             throw nvae;
                     }
                 } else {
@@ -2537,7 +2529,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                 // expression )? )
                 {
                     match(input, CARDINALITY_RESTRICTION,
-                            FOLLOW_CARDINALITY_RESTRICTION_in_cardinalityRestriction1198);
+                        FOLLOW_CARDINALITY_RESTRICTION_in_cardinalityRestriction1198);
                     if (state.failed) {
                         return retval;
                     }
@@ -2550,7 +2542,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                         return retval;
                     }
                     i = (OPPLSyntaxTree) match(input, INTEGER,
-                            FOLLOW_INTEGER_in_cardinalityRestriction1206);
+                        FOLLOW_INTEGER_in_cardinalityRestriction1206);
                     if (state.failed) {
                         return retval;
                     }
@@ -2565,10 +2557,10 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     int alt13 = 2;
                     int LA13_0 = input.LA(1);
                     if (LA13_0 >= IDENTIFIER && LA13_0 <= ENTITY_REFERENCE
-                            || LA13_0 >= DISJUNCTION && LA13_0 <= NEGATED_EXPRESSION
-                            || LA13_0 >= SOME_RESTRICTION && LA13_0 <= ONE_OF
-                            || LA13_0 == INVERSE_OBJECT_PROPERTY_EXPRESSION
-                            || LA13_0 == CONSTANT) {
+                        || LA13_0 >= DISJUNCTION && LA13_0 <= NEGATED_EXPRESSION
+                        || LA13_0 >= SOME_RESTRICTION && LA13_0 <= ONE_OF
+                        || LA13_0 == INVERSE_OBJECT_PROPERTY_EXPRESSION
+                        || LA13_0 == CONSTANT) {
                         alt13 = 1;
                     }
                     switch (alt13) {
@@ -2591,12 +2583,12 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     }
                     if (state.backtracking == 1) {
                         retval.type = getSymbolTable().getMinCardinalityRestrictionType(
-                                (OPPLSyntaxTree) retval.start, p.node,
-                                filler == null ? null : filler.node);
+                            (OPPLSyntaxTree) retval.start, p.node,
+                            filler == null ? null : filler.node);
                         int cardinality = Integer.parseInt(i.token.getText());
                         getTypesEnforcer().enforceMinCardinalityRestrictionTypes(
-                                (OPPLSyntaxTree) retval.start, p.node,
-                                filler == null ? null : filler.node);
+                            (OPPLSyntaxTree) retval.start, p.node,
+                            filler == null ? null : filler.node);
                     }
                 }
                     break;
@@ -2606,7 +2598,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                 // expression )? )
                 {
                     match(input, CARDINALITY_RESTRICTION,
-                            FOLLOW_CARDINALITY_RESTRICTION_in_cardinalityRestriction1234);
+                        FOLLOW_CARDINALITY_RESTRICTION_in_cardinalityRestriction1234);
                     if (state.failed) {
                         return retval;
                     }
@@ -2619,7 +2611,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                         return retval;
                     }
                     i = (OPPLSyntaxTree) match(input, INTEGER,
-                            FOLLOW_INTEGER_in_cardinalityRestriction1241);
+                        FOLLOW_INTEGER_in_cardinalityRestriction1241);
                     if (state.failed) {
                         return retval;
                     }
@@ -2634,10 +2626,10 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     int alt14 = 2;
                     int LA14_0 = input.LA(1);
                     if (LA14_0 >= IDENTIFIER && LA14_0 <= ENTITY_REFERENCE
-                            || LA14_0 >= DISJUNCTION && LA14_0 <= NEGATED_EXPRESSION
-                            || LA14_0 >= SOME_RESTRICTION && LA14_0 <= ONE_OF
-                            || LA14_0 == INVERSE_OBJECT_PROPERTY_EXPRESSION
-                            || LA14_0 == CONSTANT) {
+                        || LA14_0 >= DISJUNCTION && LA14_0 <= NEGATED_EXPRESSION
+                        || LA14_0 >= SOME_RESTRICTION && LA14_0 <= ONE_OF
+                        || LA14_0 == INVERSE_OBJECT_PROPERTY_EXPRESSION
+                        || LA14_0 == CONSTANT) {
                         alt14 = 1;
                     }
                     switch (alt14) {
@@ -2660,12 +2652,12 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     }
                     if (state.backtracking == 1) {
                         retval.type = getSymbolTable().getMaxCardinalityRestrictionType(
-                                (OPPLSyntaxTree) retval.start, p.node,
-                                filler == null ? null : filler.node);
+                            (OPPLSyntaxTree) retval.start, p.node,
+                            filler == null ? null : filler.node);
                         int cardinality = Integer.parseInt(i.token.getText());
                         getTypesEnforcer().enforceMaxCardinalityRestrictionTypes(
-                                (OPPLSyntaxTree) retval.start, p.node,
-                                filler == null ? null : filler.node);
+                            (OPPLSyntaxTree) retval.start, p.node,
+                            filler == null ? null : filler.node);
                     }
                 }
                     break;
@@ -2675,7 +2667,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                 // (filler= expression )? )
                 {
                     match(input, CARDINALITY_RESTRICTION,
-                            FOLLOW_CARDINALITY_RESTRICTION_in_cardinalityRestriction1273);
+                        FOLLOW_CARDINALITY_RESTRICTION_in_cardinalityRestriction1273);
                     if (state.failed) {
                         return retval;
                     }
@@ -2688,7 +2680,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                         return retval;
                     }
                     i = (OPPLSyntaxTree) match(input, INTEGER,
-                            FOLLOW_INTEGER_in_cardinalityRestriction1281);
+                        FOLLOW_INTEGER_in_cardinalityRestriction1281);
                     if (state.failed) {
                         return retval;
                     }
@@ -2703,10 +2695,10 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     int alt15 = 2;
                     int LA15_0 = input.LA(1);
                     if (LA15_0 >= IDENTIFIER && LA15_0 <= ENTITY_REFERENCE
-                            || LA15_0 >= DISJUNCTION && LA15_0 <= NEGATED_EXPRESSION
-                            || LA15_0 >= SOME_RESTRICTION && LA15_0 <= ONE_OF
-                            || LA15_0 == INVERSE_OBJECT_PROPERTY_EXPRESSION
-                            || LA15_0 == CONSTANT) {
+                        || LA15_0 >= DISJUNCTION && LA15_0 <= NEGATED_EXPRESSION
+                        || LA15_0 >= SOME_RESTRICTION && LA15_0 <= ONE_OF
+                        || LA15_0 == INVERSE_OBJECT_PROPERTY_EXPRESSION
+                        || LA15_0 == CONSTANT) {
                         alt15 = 1;
                     }
                     switch (alt15) {
@@ -2729,13 +2721,13 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     }
                     if (state.backtracking == 1) {
                         retval.type = getSymbolTable()
-                                .getExactCardinalityRestrictionType(
-                                        (OPPLSyntaxTree) retval.start, p.node,
-                                        filler == null ? null : filler.node);
-                        int cardinality = Integer.parseInt(i.token.getText());
-                        getTypesEnforcer().enforceExactCardinalityRestrictionTypes(
+                            .getExactCardinalityRestrictionType(
                                 (OPPLSyntaxTree) retval.start, p.node,
                                 filler == null ? null : filler.node);
+                        int cardinality = Integer.parseInt(i.token.getText());
+                        getTypesEnforcer().enforceExactCardinalityRestrictionTypes(
+                            (OPPLSyntaxTree) retval.start, p.node,
+                            filler == null ? null : filler.node);
                     }
                 }
                     break;
@@ -2752,12 +2744,13 @@ public class OPPLTypeEnforcement extends TreeFilter {
             if (errorListener != null) {
                 errorListener.rewriteEmptyStreamException(exception);
             }
-        } finally {}
+        }
         return retval;
     }
 
     // $ANTLR end "cardinalityRestriction"
     public static class oneOf_return extends TreeRuleReturnScope {
+
         public Type type;
         public ManchesterOWLSyntaxTree node;
     }
@@ -2770,7 +2763,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
         OPPLTypeEnforcement.oneOf_return retval = new OPPLTypeEnforcement.oneOf_return();
         retval.start = input.LT(1);
         OPPLSyntaxTree individuals = null;
-        List<Object> list_individuals = new ArrayList<Object>();
+        List<Object> list_individuals = new ArrayList<>();
         try {
             // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:401:2:
             // ( ^( ONE_OF (individuals+= IDENTIFIER )+ ) )
@@ -2800,7 +2793,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                         // individuals+= IDENTIFIER
                         {
                             individuals = (OPPLSyntaxTree) match(input, IDENTIFIER,
-                                    FOLLOW_IDENTIFIER_in_oneOf1334);
+                                FOLLOW_IDENTIFIER_in_oneOf1334);
                             if (state.failed) {
                                 return retval;
                             }
@@ -2825,16 +2818,16 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     return retval;
                 }
                 if (state.backtracking == 1) {
-                    List<ManchesterOWLSyntaxTree> nodes = new ArrayList<ManchesterOWLSyntaxTree>(
-                            list_individuals.size());
+                    List<ManchesterOWLSyntaxTree> nodes = new ArrayList<>(
+                        list_individuals.size());
                     for (Object node : list_individuals) {
                         nodes.add((ManchesterOWLSyntaxTree) node);
                     }
                     retval.type = getSymbolTable().getOneOfType(
-                            (OPPLSyntaxTree) retval.start,
-                            nodes.toArray(new ManchesterOWLSyntaxTree[nodes.size()]));
+                        (OPPLSyntaxTree) retval.start,
+                        nodes.toArray(new ManchesterOWLSyntaxTree[nodes.size()]));
                     getTypesEnforcer().enforceOneOfTypes((OPPLSyntaxTree) retval.start,
-                            nodes.toArray(new ManchesterOWLSyntaxTree[nodes.size()]));
+                        nodes.toArray(new ManchesterOWLSyntaxTree[nodes.size()]));
                 }
             }
             if (state.backtracking == 1) {
@@ -2849,12 +2842,13 @@ public class OPPLTypeEnforcement extends TreeFilter {
             if (errorListener != null) {
                 errorListener.rewriteEmptyStreamException(exception);
             }
-        } finally {}
+        }
         return retval;
     }
 
     // $ANTLR end "oneOf"
     public static class valueRestriction_return extends TreeRuleReturnScope {
+
         public Type type;
         public ManchesterOWLSyntaxTree node;
     }
@@ -2875,7 +2869,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
             // ^( VALUE_RESTRICTION p= unary value= unary )
             {
                 match(input, VALUE_RESTRICTION,
-                        FOLLOW_VALUE_RESTRICTION_in_valueRestriction1367);
+                    FOLLOW_VALUE_RESTRICTION_in_valueRestriction1367);
                 if (state.failed) {
                     return retval;
                 }
@@ -2901,9 +2895,9 @@ public class OPPLTypeEnforcement extends TreeFilter {
                 }
                 if (state.backtracking == 1) {
                     retval.type = getSymbolTable().getValueRestrictionType(
-                            (OPPLSyntaxTree) retval.start, p.node, value.node);
+                        (OPPLSyntaxTree) retval.start, p.node, value.node);
                     getTypesEnforcer().enforceValueRestrictionTypes(
-                            (OPPLSyntaxTree) retval.start, p.node, value.node);
+                        (OPPLSyntaxTree) retval.start, p.node, value.node);
                 }
             }
             if (state.backtracking == 1) {
@@ -2918,7 +2912,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
             if (errorListener != null) {
                 errorListener.rewriteEmptyStreamException(exception);
             }
-        } finally {}
+        }
         return retval;
     }
 
@@ -2930,13 +2924,13 @@ public class OPPLTypeEnforcement extends TreeFilter {
     static final String DFA2_minS = "\1\31\13\uffff\1\2\1\uffff\1\35\6\uffff";
     static final String DFA2_maxS = "\1\103\13\uffff\1\2\1\uffff\1\43\6\uffff";
     static final String DFA2_acceptS = "\1\uffff\1\1\1\2\1\3\1\4\1\5\1\6\1\7\1\10\1\11\1\12\1\13\1\uffff"
-            + "\1\22\1\uffff\1\14\1\15\1\16\1\17\1\20\1\21";
+        + "\1\22\1\uffff\1\14\1\15\1\16\1\17\1\20\1\21";
     static final String DFA2_specialS = "\25\uffff}>";
     static final String[] DFA2_transitionS = {
-            "\1\3\1\uffff\1\10\1\11\23\uffff\1\1\1\2\1\4\1\5\1\12\1\13\1"
-                    + "\14\4\uffff\1\15\6\uffff\1\7\1\6", "", "", "", "", "", "", "", "",
-            "", "", "", "\1\16", "", "\1\17\1\23\1\uffff\1\22\1\21\1\24\1\20", "", "",
-            "", "", "", "" };
+        "\1\3\1\uffff\1\10\1\11\23\uffff\1\1\1\2\1\4\1\5\1\12\1\13\1"
+            + "\14\4\uffff\1\15\6\uffff\1\7\1\6", "", "", "", "", "", "", "", "",
+        "", "", "", "\1\16", "", "\1\17\1\23\1\uffff\1\22\1\21\1\24\1\20", "", "",
+        "", "", "", "" };
     static final short[] DFA2_eot = DFA.unpackEncodedString(DFA2_eotS);
     static final short[] DFA2_eof = DFA.unpackEncodedString(DFA2_eofS);
     static final char[] DFA2_min = DFA.unpackEncodedStringToUnsignedChars(DFA2_minS);
@@ -2944,6 +2938,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
     static final short[] DFA2_accept = DFA.unpackEncodedString(DFA2_acceptS);
     static final short[] DFA2_special = DFA.unpackEncodedString(DFA2_specialS);
     static final short[][] DFA2_transition;
+
     static {
         int numStates = DFA2_transitionS.length;
         DFA2_transition = new short[numStates][];
@@ -2953,6 +2948,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
     }
 
     class DFA2 extends DFA {
+
         public DFA2(BaseRecognizer recognizer) {
             this.recognizer = recognizer;
             decisionNumber = 2;
@@ -2972,279 +2968,279 @@ public class OPPLTypeEnforcement extends TreeFilter {
     }
 
     public static final BitSet FOLLOW_expressionRoot_in_bottomup81 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_axiom_in_bottomup91 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_EXPRESSION_in_expressionRoot118 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_expression_in_expressionRoot120 = new BitSet(
-            new long[] { 0x0000000000000008L });
+        new long[] { 0x0000000000000008L });
     public static final BitSet FOLLOW_SUB_CLASS_AXIOM_in_axiom158 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_EXPRESSION_in_axiom162 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_expression_in_axiom169 = new BitSet(
-            new long[] { 0x0000000000000008L });
+        new long[] { 0x0000000000000008L });
     public static final BitSet FOLLOW_EXPRESSION_in_axiom174 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_expression_in_axiom181 = new BitSet(
-            new long[] { 0x0000000000000008L });
+        new long[] { 0x0000000000000008L });
     public static final BitSet FOLLOW_EQUIVALENT_TO_AXIOM_in_axiom194 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_EXPRESSION_in_axiom197 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_expression_in_axiom203 = new BitSet(
-            new long[] { 0x0000000000000008L });
+        new long[] { 0x0000000000000008L });
     public static final BitSet FOLLOW_EXPRESSION_in_axiom207 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_expression_in_axiom214 = new BitSet(
-            new long[] { 0x0000000000000008L });
+        new long[] { 0x0000000000000008L });
     public static final BitSet FOLLOW_INVERSE_OF_in_axiom229 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_EXPRESSION_in_axiom232 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_IDENTIFIER_in_axiom238 = new BitSet(
-            new long[] { 0x0000000000000008L });
+        new long[] { 0x0000000000000008L });
     public static final BitSet FOLLOW_EXPRESSION_in_axiom242 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_IDENTIFIER_in_axiom248 = new BitSet(
-            new long[] { 0x0000000000000008L });
+        new long[] { 0x0000000000000008L });
     public static final BitSet FOLLOW_DISJOINT_WITH_AXIOM_in_axiom260 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_EXPRESSION_in_axiom263 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_expression_in_axiom270 = new BitSet(
-            new long[] { 0x0000000000000008L });
+        new long[] { 0x0000000000000008L });
     public static final BitSet FOLLOW_EXPRESSION_in_axiom274 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_expression_in_axiom280 = new BitSet(
-            new long[] { 0x0000000000000008L });
+        new long[] { 0x0000000000000008L });
     public static final BitSet FOLLOW_SUB_PROPERTY_AXIOM_in_axiom292 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_EXPRESSION_in_axiom295 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_expression_in_axiom302 = new BitSet(
-            new long[] { 0x0000000000000008L });
+        new long[] { 0x0000000000000008L });
     public static final BitSet FOLLOW_EXPRESSION_in_axiom306 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_unary_in_axiom312 = new BitSet(
-            new long[] { 0x0000000000000008L });
+        new long[] { 0x0000000000000008L });
     public static final BitSet FOLLOW_ROLE_ASSERTION_in_axiom326 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_EXPRESSION_in_axiom329 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_IDENTIFIER_in_axiom336 = new BitSet(
-            new long[] { 0x0000000000000008L });
+        new long[] { 0x0000000000000008L });
     public static final BitSet FOLLOW_EXPRESSION_in_axiom340 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_propertyExpression_in_axiom347 = new BitSet(
-            new long[] { 0x0000000000000008L });
+        new long[] { 0x0000000000000008L });
     public static final BitSet FOLLOW_EXPRESSION_in_axiom351 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_unary_in_axiom357 = new BitSet(
-            new long[] { 0x0000000000000008L });
+        new long[] { 0x0000000000000008L });
     public static final BitSet FOLLOW_TYPE_ASSERTION_in_axiom367 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_EXPRESSION_in_axiom370 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_expression_in_axiom377 = new BitSet(
-            new long[] { 0x0000000000000008L });
+        new long[] { 0x0000000000000008L });
     public static final BitSet FOLLOW_EXPRESSION_in_axiom381 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_IDENTIFIER_in_axiom387 = new BitSet(
-            new long[] { 0x0000000000000008L });
+        new long[] { 0x0000000000000008L });
     public static final BitSet FOLLOW_DOMAIN_in_axiom399 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_EXPRESSION_in_axiom402 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_IDENTIFIER_in_axiom408 = new BitSet(
-            new long[] { 0x0000000000000008L });
+        new long[] { 0x0000000000000008L });
     public static final BitSet FOLLOW_EXPRESSION_in_axiom412 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_expression_in_axiom418 = new BitSet(
-            new long[] { 0x0000000000000008L });
+        new long[] { 0x0000000000000008L });
     public static final BitSet FOLLOW_RANGE_in_axiom431 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_EXPRESSION_in_axiom434 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_IDENTIFIER_in_axiom440 = new BitSet(
-            new long[] { 0x0000000000000008L });
+        new long[] { 0x0000000000000008L });
     public static final BitSet FOLLOW_EXPRESSION_in_axiom444 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_expression_in_axiom450 = new BitSet(
-            new long[] { 0x0000000000000008L });
+        new long[] { 0x0000000000000008L });
     public static final BitSet FOLLOW_SAME_AS_AXIOM_in_axiom465 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_EXPRESSION_in_axiom468 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_IDENTIFIER_in_axiom473 = new BitSet(
-            new long[] { 0x0000000000000008L });
+        new long[] { 0x0000000000000008L });
     public static final BitSet FOLLOW_EXPRESSION_in_axiom477 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_IDENTIFIER_in_axiom483 = new BitSet(
-            new long[] { 0x0000000000000008L });
+        new long[] { 0x0000000000000008L });
     public static final BitSet FOLLOW_DIFFERENT_FROM_AXIOM_in_axiom499 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_EXPRESSION_in_axiom502 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_IDENTIFIER_in_axiom507 = new BitSet(
-            new long[] { 0x0000000000000008L });
+        new long[] { 0x0000000000000008L });
     public static final BitSet FOLLOW_EXPRESSION_in_axiom511 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_IDENTIFIER_in_axiom517 = new BitSet(
-            new long[] { 0x0000000000000008L });
+        new long[] { 0x0000000000000008L });
     public static final BitSet FOLLOW_UNARY_AXIOM_in_axiom531 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_FUNCTIONAL_in_axiom533 = new BitSet(new long[] {
-            0x0000000000000000L, 0x0000000000000020L });
+        0x0000000000000000L, 0x0000000000000020L });
     public static final BitSet FOLLOW_EXPRESSION_in_axiom536 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_IDENTIFIER_in_axiom542 = new BitSet(
-            new long[] { 0x0000000000000008L });
+        new long[] { 0x0000000000000008L });
     public static final BitSet FOLLOW_UNARY_AXIOM_in_axiom555 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_INVERSE_FUNCTIONAL_in_axiom557 = new BitSet(
-            new long[] { 0x0000000000000000L, 0x0000000000000020L });
+        new long[] { 0x0000000000000000L, 0x0000000000000020L });
     public static final BitSet FOLLOW_EXPRESSION_in_axiom560 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_IDENTIFIER_in_axiom566 = new BitSet(
-            new long[] { 0x0000000000000008L });
+        new long[] { 0x0000000000000008L });
     public static final BitSet FOLLOW_UNARY_AXIOM_in_axiom582 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_IRREFLEXIVE_in_axiom584 = new BitSet(new long[] {
-            0x0000000000000000L, 0x0000000000000020L });
+        0x0000000000000000L, 0x0000000000000020L });
     public static final BitSet FOLLOW_EXPRESSION_in_axiom587 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_IDENTIFIER_in_axiom593 = new BitSet(
-            new long[] { 0x0000000000000008L });
+        new long[] { 0x0000000000000008L });
     public static final BitSet FOLLOW_UNARY_AXIOM_in_axiom608 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_REFLEXIVE_in_axiom610 = new BitSet(new long[] {
-            0x0000000000000000L, 0x0000000000000020L });
+        0x0000000000000000L, 0x0000000000000020L });
     public static final BitSet FOLLOW_EXPRESSION_in_axiom613 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_IDENTIFIER_in_axiom619 = new BitSet(
-            new long[] { 0x0000000000000008L });
+        new long[] { 0x0000000000000008L });
     public static final BitSet FOLLOW_UNARY_AXIOM_in_axiom634 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_SYMMETRIC_in_axiom636 = new BitSet(new long[] {
-            0x0000000000000000L, 0x0000000000000020L });
+        0x0000000000000000L, 0x0000000000000020L });
     public static final BitSet FOLLOW_EXPRESSION_in_axiom639 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_IDENTIFIER_in_axiom645 = new BitSet(
-            new long[] { 0x0000000000000008L });
+        new long[] { 0x0000000000000008L });
     public static final BitSet FOLLOW_UNARY_AXIOM_in_axiom662 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_TRANSITIVE_in_axiom664 = new BitSet(new long[] {
-            0x0000000000000000L, 0x0000000000000020L });
+        0x0000000000000000L, 0x0000000000000020L });
     public static final BitSet FOLLOW_EXPRESSION_in_axiom667 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_IDENTIFIER_in_axiom673 = new BitSet(
-            new long[] { 0x0000000000000008L });
+        new long[] { 0x0000000000000008L });
     public static final BitSet FOLLOW_NEGATED_ASSERTION_in_axiom688 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_axiom_in_axiom693 = new BitSet(
-            new long[] { 0x0000000000000008L });
+        new long[] { 0x0000000000000008L });
     public static final BitSet FOLLOW_DISJUNCTION_in_expression729 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_conjunction_in_expression735 = new BitSet(
-            new long[] { 0xE500300000000008L, 0x0000000000000043L });
+        new long[] { 0xE500300000000008L, 0x0000000000000043L });
     public static final BitSet FOLLOW_PROPERTY_CHAIN_in_expression751 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_expression_in_expression756 = new BitSet(
-            new long[] { 0xE780300000000008L, 0x0000000000000053L });
+        new long[] { 0xE780300000000008L, 0x0000000000000053L });
     public static final BitSet FOLLOW_conjunction_in_expression770 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_complexPropertyExpression_in_expression782 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_CONJUNCTION_in_conjunction819 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_unary_in_conjunction824 = new BitSet(new long[] {
-            0xE500300000000008L, 0x0000000000000043L });
+        0xE500300000000008L, 0x0000000000000043L });
     public static final BitSet FOLLOW_unary_in_conjunction835 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_IDENTIFIER_in_unary862 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_NEGATED_EXPRESSION_in_unary875 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_expression_in_unary881 = new BitSet(
-            new long[] { 0x0000000000000008L });
+        new long[] { 0x0000000000000008L });
     public static final BitSet FOLLOW_qualifiedRestriction_in_unary895 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_ENTITY_REFERENCE_in_unary909 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_CONSTANT_in_unary922 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_IDENTIFIER_in_unary933 = new BitSet(
-            new long[] { 0x0000000000000008L });
+        new long[] { 0x0000000000000008L });
     public static final BitSet FOLLOW_IDENTIFIER_in_propertyExpression970 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_complexPropertyExpression_in_propertyExpression986 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_INVERSE_OBJECT_PROPERTY_EXPRESSION_in_complexPropertyExpression1019 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_complexPropertyExpression_in_complexPropertyExpression1025 = new BitSet(
-            new long[] { 0x0000000000000008L });
+        new long[] { 0x0000000000000008L });
     public static final BitSet FOLLOW_INVERSE_OBJECT_PROPERTY_EXPRESSION_in_complexPropertyExpression1035 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_IDENTIFIER_in_complexPropertyExpression1037 = new BitSet(
-            new long[] { 0x0000000000000008L });
+        new long[] { 0x0000000000000008L });
     public static final BitSet FOLLOW_SOME_RESTRICTION_in_qualifiedRestriction1068 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_propertyExpression_in_qualifiedRestriction1073 = new BitSet(
-            new long[] { 0xE780300000000008L, 0x0000000000000053L });
+        new long[] { 0xE780300000000008L, 0x0000000000000053L });
     public static final BitSet FOLLOW_expression_in_qualifiedRestriction1079 = new BitSet(
-            new long[] { 0x0000000000000008L });
+        new long[] { 0x0000000000000008L });
     public static final BitSet FOLLOW_ALL_RESTRICTION_in_qualifiedRestriction1101 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_propertyExpression_in_qualifiedRestriction1108 = new BitSet(
-            new long[] { 0xE780300000000008L, 0x0000000000000053L });
+        new long[] { 0xE780300000000008L, 0x0000000000000053L });
     public static final BitSet FOLLOW_expression_in_qualifiedRestriction1113 = new BitSet(
-            new long[] { 0x0000000000000008L });
+        new long[] { 0x0000000000000008L });
     public static final BitSet FOLLOW_cardinalityRestriction_in_qualifiedRestriction1129 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_oneOf_in_qualifiedRestriction1145 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_valueRestriction_in_qualifiedRestriction1161 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_CARDINALITY_RESTRICTION_in_cardinalityRestriction1198 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_MIN_in_cardinalityRestriction1201 = new BitSet(
-            new long[] { 0x0000040000000000L });
+        new long[] { 0x0000040000000000L });
     public static final BitSet FOLLOW_INTEGER_in_cardinalityRestriction1206 = new BitSet(
-            new long[] { 0xE500300000000008L, 0x0000000000000043L });
+        new long[] { 0xE500300000000008L, 0x0000000000000043L });
     public static final BitSet FOLLOW_unary_in_cardinalityRestriction1212 = new BitSet(
-            new long[] { 0xE780300000000008L, 0x0000000000000053L });
+        new long[] { 0xE780300000000008L, 0x0000000000000053L });
     public static final BitSet FOLLOW_expression_in_cardinalityRestriction1219 = new BitSet(
-            new long[] { 0x0000000000000008L });
+        new long[] { 0x0000000000000008L });
     public static final BitSet FOLLOW_CARDINALITY_RESTRICTION_in_cardinalityRestriction1234 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_MAX_in_cardinalityRestriction1237 = new BitSet(
-            new long[] { 0x0000040000000000L });
+        new long[] { 0x0000040000000000L });
     public static final BitSet FOLLOW_INTEGER_in_cardinalityRestriction1241 = new BitSet(
-            new long[] { 0xE500300000000008L, 0x0000000000000043L });
+        new long[] { 0xE500300000000008L, 0x0000000000000043L });
     public static final BitSet FOLLOW_unary_in_cardinalityRestriction1247 = new BitSet(
-            new long[] { 0xE780300000000008L, 0x0000000000000053L });
+        new long[] { 0xE780300000000008L, 0x0000000000000053L });
     public static final BitSet FOLLOW_expression_in_cardinalityRestriction1254 = new BitSet(
-            new long[] { 0x0000000000000008L });
+        new long[] { 0x0000000000000008L });
     public static final BitSet FOLLOW_CARDINALITY_RESTRICTION_in_cardinalityRestriction1273 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_EXACTLY_in_cardinalityRestriction1276 = new BitSet(
-            new long[] { 0x0000040000000000L });
+        new long[] { 0x0000040000000000L });
     public static final BitSet FOLLOW_INTEGER_in_cardinalityRestriction1281 = new BitSet(
-            new long[] { 0xE500300000000008L, 0x0000000000000043L });
+        new long[] { 0xE500300000000008L, 0x0000000000000043L });
     public static final BitSet FOLLOW_unary_in_cardinalityRestriction1288 = new BitSet(
-            new long[] { 0xE780300000000008L, 0x0000000000000053L });
+        new long[] { 0xE780300000000008L, 0x0000000000000053L });
     public static final BitSet FOLLOW_expression_in_cardinalityRestriction1295 = new BitSet(
-            new long[] { 0x0000000000000008L });
+        new long[] { 0x0000000000000008L });
     public static final BitSet FOLLOW_ONE_OF_in_oneOf1330 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_IDENTIFIER_in_oneOf1334 = new BitSet(
-            new long[] { 0x0000100000000008L });
+        new long[] { 0x0000100000000008L });
     public static final BitSet FOLLOW_VALUE_RESTRICTION_in_valueRestriction1367 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_unary_in_valueRestriction1374 = new BitSet(
-            new long[] { 0xE500300000000008L, 0x0000000000000043L });
+        new long[] { 0xE500300000000008L, 0x0000000000000043L });
     public static final BitSet FOLLOW_unary_in_valueRestriction1381 = new BitSet(
-            new long[] { 0x0000000000000008L });
+        new long[] { 0x0000000000000008L });
 }

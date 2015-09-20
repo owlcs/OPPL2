@@ -7,17 +7,22 @@ import java.util.List;
 
 import org.semanticweb.owlapi.model.OWLObject;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class Position {
+
     /** empty position */
     public final static List<Integer> EMPTY_POSITION = Collections.singletonList(-1);
     private final static OWLObjectDecomposer DECOMPOSER = new OWLObjectDecomposer();
 
-    /** @param owlObject
-     *            owlObject
+    /**
+     * @param owlObject
+     *        owlObject
      * @param position
-     *            position
-     * @return found object, or null */
+     *        position
+     * @return found object, or null
+     */
     public static Object get(OWLObject owlObject, List<Integer> position) {
         checkNotNull(owlObject, "owlObject");
         checkNotNull(position, "position");

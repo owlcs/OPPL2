@@ -28,10 +28,15 @@ import java.awt.event.ActionListener;
 
 import org.protege.editor.core.ui.list.MListButton;
 
-/** @author Luigi Iannone Sep 17, 2008 */
+/**
+ * @author Luigi Iannone Sep 17, 2008
+ */
 public class InstantiatePatternButton extends MListButton {
-    /** @param actionListener
-     *            actionListener */
+
+    /**
+     * @param actionListener
+     *        actionListener
+     */
     public InstantiatePatternButton(ActionListener actionListener) {
         super("Instantiate pattern", new Color(100, 40, 140), actionListener);
     }
@@ -42,7 +47,7 @@ public class InstantiatePatternButton extends MListButton {
         int w = getBounds().width;
         int h = getBounds().height;
         g.drawString("i", getBounds().x + w / 2 - stringWidth / 2, getBounds().y
-                + g.getFontMetrics().getAscent() / 2 + h / 2);
+            + g.getFontMetrics().getAscent() / 2 + h / 2);
     }
 
     @Override
@@ -55,7 +60,7 @@ public class InstantiatePatternButton extends MListButton {
         boolean toReturn = obj == this;
         if (!toReturn && obj instanceof InstantiatePatternButton) {
             toReturn = ((InstantiatePatternButton) obj).getActionListener().equals(
-                    getActionListener());
+                getActionListener());
         }
         return toReturn;
     }

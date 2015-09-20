@@ -29,21 +29,26 @@ import org.coode.oppl.variabletypes.VariableType;
 import org.coode.patterns.utils.Utils;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 
-/** @author Luigi Iannone Jul 15, 2008 */
+/**
+ * @author Luigi Iannone Jul 15, 2008
+ */
 public class PatternSignature {
+
     private final String name;
     private final PatternModel pattern;
 
-    /** @param name
-     *            name
+    /**
+     * @param name
+     *        name
      * @param ontologyManger
-     *            ontologyManger
+     *        ontologyManger
      * @param factory
-     *            factory
+     *        factory
      * @throws PatternException
-     *             PatternException */
+     *         PatternException
+     */
     public PatternSignature(String name, OWLOntologyManager ontologyManger,
-            AbstractPatternModelFactory factory) throws PatternException {
+        AbstractPatternModelFactory factory) throws PatternException {
         this.name = name;
         Set<String> existingPatternNames = Utils.getExistingPatternNames(ontologyManger);
         if (existingPatternNames.contains(name)) {
@@ -53,11 +58,13 @@ public class PatternSignature {
         }
     }
 
-    /** @param i
-     *            i
+    /**
+     * @param i
+     *        i
      * @return variable type
      * @throws PatternException
-     *             PatternException */
+     *         PatternException
+     */
     public VariableType<?> getIthVariableType(int i) throws PatternException {
         try {
             return pattern.getInputVariables().get(i).getType();
@@ -66,11 +73,13 @@ public class PatternSignature {
         }
     }
 
-    /** @param i
-     *            i
+    /**
+     * @param i
+     *        i
      * @return variable in position i
      * @throws PatternException
-     *             PatternException */
+     *         PatternException
+     */
     public Variable<?> getIthVariable(int i) throws PatternException {
         try {
             return pattern.getInputVariables().get(i);
@@ -79,12 +88,16 @@ public class PatternSignature {
         }
     }
 
-    /** @return number of input variables */
+    /**
+     * @return number of input variables
+     */
     public int size() {
         return pattern.getInputVariables().size();
     }
 
-    /** @return the pattern */
+    /**
+     * @return the pattern
+     */
     public PatternModel getPattern() {
         return pattern;
     }

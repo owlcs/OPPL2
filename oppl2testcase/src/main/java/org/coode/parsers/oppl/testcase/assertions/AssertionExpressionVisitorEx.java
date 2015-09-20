@@ -1,37 +1,50 @@
 package org.coode.parsers.oppl.testcase.assertions;
 
-/** Visitor pattern for AssertionExpression, with return values.
+/**
+ * Visitor pattern for AssertionExpression, with return values.
  * 
  * @author Luigi Iannone
  * @param <O>
- *            The type of the return value. */
+ *        The type of the return value.
+ */
 public interface AssertionExpressionVisitorEx<O> {
-    /** @param countAssertionExpression
-     *            countAssertionExpression
-     * @return visitor value */
+
+    /**
+     * @param countAssertionExpression
+     *        countAssertionExpression
+     * @return visitor value
+     */
     O visitCountAssertionExpression(CountAssertionExpression countAssertionExpression);
 
-    /** @param integerAssertionExpression
-     *            integerAssertionExpression
-     * @return visitor value */
+    /**
+     * @param integerAssertionExpression
+     *        integerAssertionExpression
+     * @return visitor value
+     */
     O visitIntegerAssertionExpressionVisitor(
-            IntegerAssertionExpression integerAssertionExpression);
+        IntegerAssertionExpression integerAssertionExpression);
 
-    /** @param owlExpressionAssertionExpression
-     *            owlExpressionAssertionExpression
-     * @return visitor value */
+    /**
+     * @param owlExpressionAssertionExpression
+     *        owlExpressionAssertionExpression
+     * @return visitor value
+     */
     O visitOWLExpressionAssertionExpression(
-            OWLExpressionAssertionExpression owlExpressionAssertionExpression);
+        OWLExpressionAssertionExpression owlExpressionAssertionExpression);
 
-    /** @param countStarAssertionExpression
-     *            countStarAssertionExpression
-     * @return visitor value */
+    /**
+     * @param countStarAssertionExpression
+     *        countStarAssertionExpression
+     * @return visitor value
+     */
     O visitCountStarAssertionExpression(
-            CountStarAssertionExpression countStarAssertionExpression);
+        CountStarAssertionExpression countStarAssertionExpression);
 
-    /** @param bindingNodeCountAssertionExpression
-     *            bindingNodeCountAssertionExpression
-     * @return visitor value */
+    /**
+     * @param bindingNodeCountAssertionExpression
+     *        bindingNodeCountAssertionExpression
+     * @return visitor value
+     */
     O visitBindingNodeCountAssertionExpression(
-            BindingNodeCountAssertionExpression bindingNodeCountAssertionExpression);
+        BindingNodeCountAssertionExpression bindingNodeCountAssertionExpression);
 }

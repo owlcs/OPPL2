@@ -38,19 +38,24 @@ import org.protege.editor.owl.model.classexpression.OWLExpressionParserException
 import org.protege.editor.owl.ui.clsdescriptioneditor.OWLExpressionChecker;
 import org.semanticweb.owlapi.model.OWLOntology;
 
-/** @author Luigi Iannone Nov 17, 2008 */
+/**
+ * @author Luigi Iannone Nov 17, 2008
+ */
 public class PatternReferenceExpressionChecker implements
-        OWLExpressionChecker<InstantiatedPatternModel> {
+    OWLExpressionChecker<InstantiatedPatternModel> {
+
     private final OWLEditorKit owlEditorKit;
     private InstantiatedPatternModel instantiatedPatternModel = null;
     private final RuntimeExceptionHandler handler;
 
-    /** @param owlEditorKit
-     *            owlEditorKit
+    /**
+     * @param owlEditorKit
+     *        owlEditorKit
      * @param handler
-     *            handler */
+     *        handler
+     */
     public PatternReferenceExpressionChecker(OWLEditorKit owlEditorKit,
-            RuntimeExceptionHandler handler) {
+        RuntimeExceptionHandler handler) {
         this.owlEditorKit = checkNotNull(owlEditorKit, "owlEditorKit");
         this.handler = checkNotNull(handler, "handler");
     }
@@ -58,12 +63,12 @@ public class PatternReferenceExpressionChecker implements
     @Override
     public void check(String text) throws OWLExpressionParserException {
         Iterator<OWLOntology> it = owlEditorKit.getModelManager().getOntologies()
-                .iterator();
+            .iterator();
         instantiatedPatternModel = null;
         boolean found = false;
         PatternModel patternModel = null;
         AbstractPatternModelFactory patternFactory = ProtegeParserFactory.getInstance(
-                owlEditorKit).getPatternFactory();
+            owlEditorKit).getPatternFactory();
         while (!found && it.hasNext()) {
             OWLOntology ontology = it.next();
             patternModel = Utils.find(text, ontology, patternFactory);
@@ -71,21 +76,23 @@ public class PatternReferenceExpressionChecker implements
         }
         if (found) {
             instantiatedPatternModel = patternFactory.createInstantiatedPatternModel(
-                    patternModel, getHandler());
+                patternModel, getHandler());
         } else {
             throw new OWLExpressionParserException(new PatternReferenceNotFoundException(
-                    "Invalid pattern name: " + text));
+                "Invalid pattern name: " + text));
         }
     }
 
     @Override
     public InstantiatedPatternModel createObject(String text)
-            throws OWLExpressionParserException {
+        throws OWLExpressionParserException {
         check(text);
         return instantiatedPatternModel;
     }
 
-    /** @return the handler */
+    /**
+     * @return the handler
+     */
     public RuntimeExceptionHandler getHandler() {
         return handler;
     }

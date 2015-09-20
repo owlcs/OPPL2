@@ -27,45 +27,45 @@ import java.util.Set;
 
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.Variable;
-import org.coode.oppl.variabletypes.ANNOTATIONPROPERTYVariableType;
-import org.coode.oppl.variabletypes.CLASSVariableType;
-import org.coode.oppl.variabletypes.CONSTANTVariableType;
-import org.coode.oppl.variabletypes.DATAPROPERTYVariableType;
-import org.coode.oppl.variabletypes.INDIVIDUALVariableType;
-import org.coode.oppl.variabletypes.OBJECTPROPERTYVariableType;
-import org.coode.oppl.variabletypes.VariableTypeVisitorEx;
+import org.coode.oppl.variabletypes.*;
 
-/** Contains some utility method for matching variable names
+/**
+ * Contains some utility method for matching variable names
  * 
- * @author Luigi Iannone */
+ * @author Luigi Iannone
+ */
 public class OPPLVariableMatcher {
-    /** @param name
-     *            name
+
+    /**
+     * @param name
+     *        name
      * @param constraintSystem
-     *            constraintSystem
+     *        constraintSystem
      * @param matchClasses
-     *            matchClasses
+     *        matchClasses
      * @param matchObjectProperties
-     *            matchObjectProperties
+     *        matchObjectProperties
      * @param matchDataProperties
-     *            matchDataProperties
+     *        matchDataProperties
      * @param matchIndividuals
-     *            matchIndividuals
+     *        matchIndividuals
      * @param matchConstants
-     *            matchConstants
+     *        matchConstants
      * @param matchAnnotationProperty
-     *            matchAnnotationProperty
+     *        matchAnnotationProperty
      * @return the Set of Variable instances whose names start with the input
      *         String from the input ConstraintSystem, provided their type has
-     *         to be included. */
+     *         to be included.
+     */
     public static Set<Variable<?>> matches(final String name,
-            ConstraintSystem constraintSystem, final boolean matchClasses,
-            final boolean matchObjectProperties, final boolean matchDataProperties,
-            final boolean matchIndividuals, final boolean matchConstants,
-            final boolean matchAnnotationProperty) {
+        ConstraintSystem constraintSystem, final boolean matchClasses,
+        final boolean matchObjectProperties, final boolean matchDataProperties,
+        final boolean matchIndividuals, final boolean matchConstants,
+        final boolean matchAnnotationProperty) {
         Set<Variable<?>> variables = constraintSystem.getVariables();
-        Set<Variable<?>> toReturn = new HashSet<Variable<?>>(variables.size());
+        Set<Variable<?>> toReturn = new HashSet<>(variables.size());
         VariableTypeVisitorEx<Boolean> visitor = new VariableTypeVisitorEx<Boolean>() {
+
             @Override
             public Boolean visitCLASSVariableType(CLASSVariableType classVariableType) {
                 return Boolean.valueOf(matchClasses);
@@ -73,37 +73,37 @@ public class OPPLVariableMatcher {
 
             @Override
             public Boolean visitOBJECTPROPERTYVariableType(
-                    OBJECTPROPERTYVariableType objectpropertyVariableType) {
+                OBJECTPROPERTYVariableType objectpropertyVariableType) {
                 return Boolean.valueOf(matchObjectProperties);
             }
 
             @Override
             public Boolean visitDATAPROPERTYVariableType(
-                    DATAPROPERTYVariableType datapropertyVariableType) {
+                DATAPROPERTYVariableType datapropertyVariableType) {
                 return Boolean.valueOf(matchDataProperties);
             }
 
             @Override
             public Boolean visitINDIVIDUALVariableType(
-                    INDIVIDUALVariableType individualVariableType) {
+                INDIVIDUALVariableType individualVariableType) {
                 return Boolean.valueOf(matchIndividuals);
             }
 
             @Override
             public Boolean visitCONSTANTVariableType(
-                    CONSTANTVariableType constantVariableType) {
+                CONSTANTVariableType constantVariableType) {
                 return Boolean.valueOf(matchConstants);
             }
 
             @Override
             public Boolean visitANNOTATIONPROPERTYVariableType(
-                    ANNOTATIONPROPERTYVariableType annotationpropertyVariableType) {
+                ANNOTATIONPROPERTYVariableType annotationpropertyVariableType) {
                 return Boolean.valueOf(matchAnnotationProperty);
             }
         };
         for (Variable<?> variable : variables) {
             if (variable != null && variable.getName().startsWith(name)
-                    && variable.getType().accept(visitor)) {
+                && variable.getType().accept(visitor)) {
                 toReturn.add(variable);
             }
         }

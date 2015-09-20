@@ -12,51 +12,65 @@ import org.coode.parsers.ui.ErrorReport;
 import org.coode.parsers.ui.ExpressionChecker;
 import org.protege.editor.owl.OWLEditorKit;
 
-/** @author Luigi Iannone
+/**
+ * @author Luigi Iannone
  * @param <O>
- *            type */
+ *        type
+ */
 public abstract class OPPLExpressionChecker<O> implements ExpressionChecker<O> {
+
     private final class ErrorReportImpl extends AbstractLinearisingErrorReport {
+
         private final String message;
         private final int charPositionInLine;
         private final int line;
         private final int length;
 
-        /** @param message
-         *            message
+        /**
+         * @param message
+         *        message
          * @param line
-         *            line
+         *        line
          * @param charPositionInline
-         *            charPositionInline
+         *        charPositionInline
          * @param length
-         *            length */
+         *        length
+         */
         public ErrorReportImpl(String message, int line, int charPositionInline,
-                int length) {
+            int length) {
             this.message = checkNotNull(message, "message");
             this.charPositionInLine = charPositionInline;
             this.line = line;
             this.length = length;
         }
 
-        /** @return the message */
+        /**
+         * @return the message
+         */
         @Override
         public String getMessage() {
             return this.message;
         }
 
-        /** @return the startIndex */
+        /**
+         * @return the startIndex
+         */
         @Override
         public int getCharPositionInLine() {
             return this.charPositionInLine;
         }
 
-        /** @return the line */
+        /**
+         * @return the line
+         */
         @Override
         public int getLine() {
             return this.line;
         }
 
-        /** @return the length */
+        /**
+         * @return the length
+         */
         @Override
         public int getLength() {
             return this.length;
@@ -64,6 +78,7 @@ public abstract class OPPLExpressionChecker<O> implements ExpressionChecker<O> {
     }
 
     private final class OPPLExpressionCheckerErrorListener implements ErrorListener {
+
         public OPPLExpressionCheckerErrorListener() {}
 
         public void clear() {
@@ -74,8 +89,8 @@ public abstract class OPPLExpressionChecker<O> implements ExpressionChecker<O> {
         public void reportThrowable(Throwable t, int line, int charPosInLine, int length) {
             if (OPPLExpressionChecker.this.lastReport == null) {
                 OPPLExpressionChecker.this.lastReport = new ErrorReportImpl(
-                        t.getMessage() == null ? "" : t.getMessage(), line,
-                        charPosInLine, length);
+                    t.getMessage() == null ? "" : t.getMessage(), line,
+                    charPosInLine, length);
             }
         }
 
@@ -83,8 +98,8 @@ public abstract class OPPLExpressionChecker<O> implements ExpressionChecker<O> {
         public void unrecognisedSymbol(CommonTree t) {
             if (OPPLExpressionChecker.this.lastReport == null) {
                 OPPLExpressionChecker.this.lastReport = new ErrorReportImpl(
-                        "Unrecognised token " + t.getText(), t.getLine(),
-                        t.getCharPositionInLine(), t.getText().length());
+                    "Unrecognised token " + t.getText(), t.getLine(),
+                    t.getCharPositionInLine(), t.getText().length());
             }
         }
 
@@ -92,12 +107,12 @@ public abstract class OPPLExpressionChecker<O> implements ExpressionChecker<O> {
         public void recognitionException(RecognitionException e) {
             if (OPPLExpressionChecker.this.lastReport == null) {
                 String message = e.getMessage() == null ? "Incomplete string" : e
-                        .getMessage();
+                    .getMessage();
                 int endIndex = e.token.getText() == null ? 0 : e.token.getText().length();
                 String onToken = e.token.getText() == null ? "" : " on token "
-                        + e.token.getText();
+                    + e.token.getText();
                 OPPLExpressionChecker.this.lastReport = new ErrorReportImpl(message
-                        + onToken, e.line, e.charPositionInLine, endIndex);
+                    + onToken, e.line, e.charPositionInLine, endIndex);
             }
         }
 
@@ -105,10 +120,10 @@ public abstract class OPPLExpressionChecker<O> implements ExpressionChecker<O> {
         public void recognitionException(RecognitionException e, String... tokenNames) {
             if (OPPLExpressionChecker.this.lastReport == null) {
                 String message = "Recognition exception on the token " + e.token
-                        + e.getClass().getSimpleName();
+                    + e.getClass().getSimpleName();
                 int endIndex = e.token.getText() == null ? 0 : e.token.getText().length();
                 OPPLExpressionChecker.this.lastReport = new ErrorReportImpl(message,
-                        e.line, e.charPositionInLine, endIndex);
+                    e.line, e.charPositionInLine, endIndex);
             }
         }
 
@@ -116,14 +131,14 @@ public abstract class OPPLExpressionChecker<O> implements ExpressionChecker<O> {
         public void rewriteEmptyStreamException(RewriteEmptyStreamException e) {
             if (OPPLExpressionChecker.this.lastReport == null) {
                 OPPLExpressionChecker.this.lastReport = new ErrorReportImpl(e
-                        .getMessage().replaceAll("rule", "Incomplete or missing "), 0, 0,
-                        0);
+                    .getMessage().replaceAll("rule", "Incomplete or missing "), 0, 0,
+                    0);
             }
         }
 
         @Override
         public void incompatibleSymbols(CommonTree parentExpression,
-                CommonTree... expressions) {
+            CommonTree... expressions) {
             if (OPPLExpressionChecker.this.lastReport == null) {
                 StringBuilder builder = new StringBuilder();
                 builder.append("[");
@@ -133,26 +148,25 @@ public abstract class OPPLExpressionChecker<O> implements ExpressionChecker<O> {
                     first = false;
                     builder.append(comma);
                     builder.append(expression.getText() == null ? "" : expression
-                            .getText());
+                        .getText());
                 }
                 builder.append("]");
                 OPPLExpressionChecker.this.lastReport = new ErrorReportImpl(
-                        "Incompatible children expressions: " + builder.toString()
-                                + " for the parent expression  "
-                                + parentExpression.getText(), parentExpression.getLine(),
-                        parentExpression.getCharPositionInLine(), parentExpression
-                                .getText().length());
+                    "Incompatible children expressions: " + builder.toString()
+                        + " for the parent expression  "
+                        + parentExpression.getText(), parentExpression.getLine(),
+                    parentExpression.getCharPositionInLine(), parentExpression
+                        .getText().length());
             }
         }
 
         @Override
-        public void
-                incompatibleSymbolType(CommonTree t, Type type, CommonTree expression) {
+        public void incompatibleSymbolType(CommonTree t, Type type, CommonTree expression) {
             if (OPPLExpressionChecker.this.lastReport == null) {
                 OPPLExpressionChecker.this.lastReport = new ErrorReportImpl(
-                        "Incompatible type: " + type + "  for token: " + t.getText()
-                                + " for the parent expression " + expression.getText(),
-                        t.getLine(), t.getCharPositionInLine(), t.getText().length());
+                    "Incompatible type: " + type + "  for token: " + t.getText()
+                        + " for the parent expression " + expression.getText(),
+                    t.getLine(), t.getCharPositionInLine(), t.getText().length());
             }
         }
 
@@ -160,8 +174,8 @@ public abstract class OPPLExpressionChecker<O> implements ExpressionChecker<O> {
         public void illegalToken(CommonTree t, String message) {
             if (OPPLExpressionChecker.this.lastReport == null) {
                 OPPLExpressionChecker.this.lastReport = new ErrorReportImpl(
-                        "Illegal token: " + t.getText() + " " + message, t.getLine(),
-                        t.getCharPositionInLine(), t.getText().length());
+                    "Illegal token: " + t.getText() + " " + message, t.getLine(),
+                    t.getCharPositionInLine(), t.getText().length());
             }
         }
     }
@@ -171,8 +185,10 @@ public abstract class OPPLExpressionChecker<O> implements ExpressionChecker<O> {
     private O lastObject = null;
     protected ErrorReport lastReport = null;
 
-    /** @param owlEditorKit
-     *            owlEditorKit */
+    /**
+     * @param owlEditorKit
+     *        owlEditorKit
+     */
     public OPPLExpressionChecker(OWLEditorKit owlEditorKit) {
         this.owlEditorKit = checkNotNull(owlEditorKit, "owlEditorKit");
     }
@@ -202,12 +218,16 @@ public abstract class OPPLExpressionChecker<O> implements ExpressionChecker<O> {
         this.listener.clear();
     }
 
-    /** @return the owlEditorKit */
+    /**
+     * @return the owlEditorKit
+     */
     public OWLEditorKit getOWLEditorKit() {
         return this.owlEditorKit;
     }
 
-    /** @return the listener */
+    /**
+     * @return the listener
+     */
     public ErrorListener getListener() {
         return this.listener;
     }

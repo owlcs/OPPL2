@@ -6,38 +6,45 @@ import org.coode.oppl.template.OPPLTemplate;
 import org.coode.oppl.template.ParsingStrategy;
 import org.coode.oppl.template.ReplacementStrategy;
 
-/** @author Luigi Iannone
+/**
+ * @author Luigi Iannone
  * @param <O>
- *            type */
+ *        type
+ */
 public class StringTemplate<O> implements OPPLTemplate<O> {
+
     private final String templateString;
     private final ReplacementStrategy<String, String> replacementStrategy;
     private final ParsingStrategy<String, O> parserCreationStrategy;
 
-    /** @param templateString
-     *            templateString
+    /**
+     * @param templateString
+     *        templateString
      * @param replacementStrategy
-     *            replacementStrategy
+     *        replacementStrategy
      * @param parserCreationStrategy
-     *            parserCreationStrategy */
+     *        parserCreationStrategy
+     */
     public StringTemplate(String templateString,
-            ReplacementStrategy<String, String> replacementStrategy,
-            ParsingStrategy<String, O> parserCreationStrategy) {
+        ReplacementStrategy<String, String> replacementStrategy,
+        ParsingStrategy<String, O> parserCreationStrategy) {
         this.templateString = checkNotNull(templateString, "templateString");
         this.replacementStrategy = checkNotNull(replacementStrategy,
-                "replacementStrategy");
+            "replacementStrategy");
         this.parserCreationStrategy = checkNotNull(parserCreationStrategy,
-                "parserCreationStrategy");
+            "parserCreationStrategy");
     }
 
     @Override
     public O replace() {
         String replacedString = this.getReplacementStrategy().replace(
-                this.getTemplateString());
+            this.getTemplateString());
         return this.getParserCreationStrategy().parse(replacedString);
     }
 
-    /** @return the replacementStrategy */
+    /**
+     * @return the replacementStrategy
+     */
     public ReplacementStrategy<String, String> getReplacementStrategy() {
         return this.replacementStrategy;
     }
@@ -47,7 +54,9 @@ public class StringTemplate<O> implements OPPLTemplate<O> {
         return this.templateString;
     }
 
-    /** @return the parserCreationStrategy */
+    /**
+     * @return the parserCreationStrategy
+     */
     public ParsingStrategy<String, O> getParserCreationStrategy() {
         return this.parserCreationStrategy;
     }

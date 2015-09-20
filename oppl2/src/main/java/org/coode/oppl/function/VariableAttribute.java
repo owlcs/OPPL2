@@ -6,29 +6,38 @@ import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.Variable;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 
-/** @author Luigi Iannone
+/**
+ * @author Luigi Iannone
  * @param <O>
- *            type */
-public abstract class VariableAttribute<O> extends AbstractOPPLFunction<O> implements
-        OPPLFunction<O> {
+ *        type
+ */
+public abstract class VariableAttribute<O> extends AbstractOPPLFunction<O>implements
+    OPPLFunction<O> {
+
     private final Variable<?> variable;
     private final AttributeName attribute;
 
-    /** @param variable
-     *            variable
+    /**
+     * @param variable
+     *        variable
      * @param attribute
-     *            attribute */
+     *        attribute
+     */
     public VariableAttribute(Variable<?> variable, AttributeName attribute) {
         this.variable = checkNotNull(variable, "variable");
         this.attribute = checkNotNull(attribute, "attribute");
     }
 
-    /** @return the variable */
+    /**
+     * @return the variable
+     */
     public Variable<?> getVariable() {
         return this.variable;
     }
 
-    /** @return the attribute */
+    /**
+     * @return the attribute
+     */
     public AttributeName getAttribute() {
         return this.attribute;
     }
@@ -53,7 +62,7 @@ public abstract class VariableAttribute<O> extends AbstractOPPLFunction<O> imple
         final int prime = 31;
         int result = 1;
         result = prime * result
-                + (this.attribute == null ? 0 : this.attribute.hashCode());
+            + (this.attribute == null ? 0 : this.attribute.hashCode());
         result = prime * result + (this.variable == null ? 0 : this.variable.hashCode());
         return result;
     }

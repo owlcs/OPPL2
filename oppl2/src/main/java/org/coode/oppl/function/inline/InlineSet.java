@@ -9,101 +9,97 @@ import java.util.Set;
 
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.ManchesterVariableSyntax;
-import org.coode.oppl.function.Adapter;
-import org.coode.oppl.function.Aggregandum;
-import org.coode.oppl.function.OPPLFunction;
-import org.coode.oppl.function.OPPLFunctionVisitor;
-import org.coode.oppl.function.OPPLFunctionVisitorEx;
-import org.coode.oppl.function.ValueComputationParameters;
-import org.coode.oppl.variabletypes.ANNOTATIONPROPERTYVariableType;
-import org.coode.oppl.variabletypes.CLASSVariableType;
-import org.coode.oppl.variabletypes.CONSTANTVariableType;
-import org.coode.oppl.variabletypes.DATAPROPERTYVariableType;
-import org.coode.oppl.variabletypes.INDIVIDUALVariableType;
-import org.coode.oppl.variabletypes.OBJECTPROPERTYVariableType;
-import org.coode.oppl.variabletypes.VariableType;
-import org.coode.oppl.variabletypes.VariableTypeVisitorEx;
+import org.coode.oppl.function.*;
+import org.coode.oppl.variabletypes.*;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 
-/** @author Luigi Iannone
+/**
+ * @author Luigi Iannone
  * @param <O>
- *            type */
+ *        type
+ */
 public final class InlineSet<O extends OWLObject> implements Set<O>, OPPLFunction<Set<O>> {
-    private final Set<O> delegate = new HashSet<O>();
-    private final Set<Aggregandum<Collection<? extends O>>> aggregandums = new HashSet<Aggregandum<Collection<? extends O>>>();
 
-    /** @param variableType
-     *            variableType
+    private final Set<O> delegate = new HashSet<>();
+    private final Set<Aggregandum<Collection<? extends O>>> aggregandums = new HashSet<>();
+
+    /**
+     * @param variableType
+     *        variableType
      * @param aggregandums
-     *            aggregandums
+     *        aggregandums
      * @param dataFactory
-     *            dataFactory
+     *        dataFactory
      * @param constraintSystem
-     *            constraintSystem */
+     *        constraintSystem
+     */
     public InlineSet(VariableType<? extends O> variableType,
-            Collection<? extends Aggregandum<Collection<? extends O>>> aggregandums,
-            final OWLDataFactory dataFactory, final ConstraintSystem constraintSystem) {
+        Collection<? extends Aggregandum<Collection<? extends O>>> aggregandums,
+        final OWLDataFactory dataFactory, final ConstraintSystem constraintSystem) {
         this.aggregandums.addAll(checkNotNull(aggregandums, "aggregandums"));
         this.delegate.add(variableType.accept(new VariableTypeVisitorEx<O>() {
+
             @Override
             @SuppressWarnings("unchecked")
             public O visitCLASSVariableType(CLASSVariableType classVariableType) {
                 return (O) dataFactory.getOWLClass(IRI.create(String.format("%s#%s",
-                        ManchesterVariableSyntax.NAMESPACE,
-                        InlineSet.this.render(constraintSystem))));
+                    ManchesterVariableSyntax.NAMESPACE,
+                    InlineSet.this.render(constraintSystem))));
             }
 
             @Override
             @SuppressWarnings("unchecked")
             public O visitOBJECTPROPERTYVariableType(
-                    OBJECTPROPERTYVariableType objectpropertyVariableType) {
+                OBJECTPROPERTYVariableType objectpropertyVariableType) {
                 return (O) dataFactory.getOWLObjectProperty(IRI.create(String.format(
-                        "%s#%s", ManchesterVariableSyntax.NAMESPACE,
-                        InlineSet.this.render(constraintSystem))));
+                    "%s#%s", ManchesterVariableSyntax.NAMESPACE,
+                    InlineSet.this.render(constraintSystem))));
             }
 
             @Override
             @SuppressWarnings("unchecked")
             public O visitDATAPROPERTYVariableType(
-                    DATAPROPERTYVariableType datapropertyVariableType) {
+                DATAPROPERTYVariableType datapropertyVariableType) {
                 return (O) dataFactory.getOWLDataProperty(IRI.create(String.format(
-                        "%s#%s", ManchesterVariableSyntax.NAMESPACE,
-                        InlineSet.this.render(constraintSystem))));
+                    "%s#%s", ManchesterVariableSyntax.NAMESPACE,
+                    InlineSet.this.render(constraintSystem))));
             }
 
             @Override
             @SuppressWarnings("unchecked")
             public O visitINDIVIDUALVariableType(
-                    INDIVIDUALVariableType individualVariableType) {
+                INDIVIDUALVariableType individualVariableType) {
                 return (O) dataFactory.getOWLNamedIndividual(IRI.create(String.format(
-                        "%s#%s", ManchesterVariableSyntax.NAMESPACE,
-                        InlineSet.this.render(constraintSystem))));
+                    "%s#%s", ManchesterVariableSyntax.NAMESPACE,
+                    InlineSet.this.render(constraintSystem))));
             }
 
             @Override
             @SuppressWarnings("unchecked")
             public O visitCONSTANTVariableType(CONSTANTVariableType constantVariableType) {
                 return (O) dataFactory.getOWLLiteral(InlineSet.this
-                        .render(constraintSystem));
+                    .render(constraintSystem));
             }
 
             @Override
             @SuppressWarnings("unchecked")
             public O visitANNOTATIONPROPERTYVariableType(
-                    ANNOTATIONPROPERTYVariableType annotationpropertyVariableType) {
+                ANNOTATIONPROPERTYVariableType annotationpropertyVariableType) {
                 return (O) dataFactory.getOWLAnnotationProperty(IRI.create(String.format(
-                        "%s#%s", ManchesterVariableSyntax.NAMESPACE,
-                        InlineSet.this.render(constraintSystem))));
+                    "%s#%s", ManchesterVariableSyntax.NAMESPACE,
+                    InlineSet.this.render(constraintSystem))));
             }
         }));
     }
 
-    /** @return aggregandums */
+    /**
+     * @return aggregandums
+     */
     public Set<Aggregandum<Collection<? extends O>>> getAggregandums() {
-        return new HashSet<Aggregandum<Collection<? extends O>>>(this.aggregandums);
+        return new HashSet<>(this.aggregandums);
     }
 
     @Override
@@ -118,10 +114,10 @@ public final class InlineSet<O extends OWLObject> implements Set<O>, OPPLFunctio
 
     @Override
     public Set<O> compute(ValueComputationParameters params) {
-        Set<O> toReturn = new HashSet<O>();
+        Set<O> toReturn = new HashSet<>();
         for (Aggregandum<Collection<? extends O>> aggregandum : this.aggregandums) {
             Set<OPPLFunction<Collection<? extends O>>> opplFunctions = aggregandum
-                    .getOPPLFunctions();
+                .getOPPLFunctions();
             for (OPPLFunction<Collection<? extends O>> opplFunction : opplFunctions) {
                 Collection<? extends O> value = opplFunction.compute(params);
                 toReturn.addAll(value);
@@ -134,7 +130,7 @@ public final class InlineSet<O extends OWLObject> implements Set<O>, OPPLFunctio
     public String render(ConstraintSystem constraintSystem) {
         StringBuilder out = new StringBuilder("set(");
         Iterator<Aggregandum<Collection<? extends O>>> aggregandumIterator = this.aggregandums
-                .iterator();
+            .iterator();
         while (aggregandumIterator.hasNext()) {
             Aggregandum<Collection<? extends O>> aggregandum = aggregandumIterator.next();
             String comma = aggregandumIterator.hasNext() ? ", " : "";
@@ -148,7 +144,7 @@ public final class InlineSet<O extends OWLObject> implements Set<O>, OPPLFunctio
     public String render(ShortFormProvider shortFormProvider) {
         StringBuilder out = new StringBuilder("set(");
         Iterator<Aggregandum<Collection<? extends O>>> aggregandumIterator = this.aggregandums
-                .iterator();
+            .iterator();
         while (aggregandumIterator.hasNext()) {
             Aggregandum<Collection<? extends O>> aggregandum = aggregandumIterator.next();
             String comma = aggregandumIterator.hasNext() ? ", " : "";
@@ -158,33 +154,36 @@ public final class InlineSet<O extends OWLObject> implements Set<O>, OPPLFunctio
         return out.toString();
     }
 
-    /** @param dataFactory
-     *            dataFactory
+    /**
+     * @param dataFactory
+     *        dataFactory
      * @param constraintSystem
-     *            constraintSystem
+     *        constraintSystem
      * @param variableType
-     *            variableType
+     *        variableType
      * @param components
-     *            components
+     *        components
      * @param objects
-     *            objects
-     * @param <P>
-     *            set type
-     * @return inline set */
+     *        objects
+     * @param
+     *        <P>
+     *        set type
+     * @return inline set
+     */
     public static <P extends OWLObject> InlineSet<P> buildInlineSet(
-            OWLDataFactory dataFactory, ConstraintSystem constraintSystem,
-            VariableType<P> variableType, Collection<? extends InlineSet<P>> components,
-            P... objects) {
-        Set<Aggregandum<Collection<? extends P>>> set = new HashSet<Aggregandum<Collection<? extends P>>>();
+        OWLDataFactory dataFactory, ConstraintSystem constraintSystem,
+        VariableType<P> variableType, Collection<? extends InlineSet<P>> components,
+        P... objects) {
+        Set<Aggregandum<Collection<? extends P>>> set = new HashSet<>();
         for (InlineSet<P> inlineSet : components) {
             Set<Aggregandum<Collection<? extends P>>> aggregandums = inlineSet
-                    .getAggregandums();
+                .getAggregandums();
             set.addAll(aggregandums);
         }
         for (P p : objects) {
             set.add(Adapter.buildAggregandumOfCollection(p));
         }
-        return new InlineSet<P>(variableType, set, dataFactory, constraintSystem);
+        return new InlineSet<>(variableType, set, dataFactory, constraintSystem);
     }
 
     // Delegate methods

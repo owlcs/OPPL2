@@ -6,7 +6,8 @@ import java.util.List;
 import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
 
-/** Author: Matthew Horridge<br>
+/**
+ * Author: Matthew Horridge<br>
  * The University Of Manchester<br>
  * Medical Informatics Group<br>
  * Date: 23-Sep-2006<br>
@@ -17,34 +18,44 @@ import org.semanticweb.owlapi.model.OWLOntologyChange;
  * <br>
  * 
  * @param <E>
- *            type */
+ *        type
+ */
 public class OWLEntityCreationSet<E extends OWLEntity> {
+
     private final E owlEntity;
     private final List<OWLOntologyChange> changes;
 
-    /** @param owlEntity
-     *            owlEntity
+    /**
+     * @param owlEntity
+     *        owlEntity
      * @param changes
-     *            changes */
+     *        changes
+     */
     public OWLEntityCreationSet(E owlEntity, List<? extends OWLOntologyChange> changes) {
         this.owlEntity = owlEntity;
-        this.changes = new ArrayList<OWLOntologyChange>(changes);
+        this.changes = new ArrayList<>(changes);
     }
 
-    /** @param owlEntity
-     *            owlEntity */
+    /**
+     * @param owlEntity
+     *        owlEntity
+     */
     public OWLEntityCreationSet(E owlEntity) {
         this.owlEntity = owlEntity;
-        this.changes = new ArrayList<OWLOntologyChange>();
+        this.changes = new ArrayList<>();
         // changes.add(new AddEntity(ontology, owlEntity, null));
     }
 
-    /** @return entity */
+    /**
+     * @return entity
+     */
     public E getOWLEntity() {
         return this.owlEntity;
     }
 
-    /** @return changes */
+    /**
+     * @return changes
+     */
     public List<? extends OWLOntologyChange> getOntologyChanges() {
         return this.changes;
     }

@@ -15,27 +15,32 @@ import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.coode.parsers.oppl.testcase.AbstractOPPLTestCaseFactory;
 import org.semanticweb.owlapi.model.OWLObject;
 
-/** Represents an OWL Object in an assertion.
+/**
+ * Represents an OWL Object in an assertion.
  * 
- * @author Luigi Iannone */
+ * @author Luigi Iannone
+ */
 public class OWLExpressionAssertionExpression implements
-        AssertionExpression<Set<OWLObject>> {
+    AssertionExpression<Set<OWLObject>> {
+
     private final OWLObject owlObject;
     private final AbstractOPPLTestCaseFactory testCaseFactory;
     private final ConstraintSystem constraintSystem;
     private final RuntimeExceptionHandler handler;
 
-    /** @param owlObject
-     *            owlObject
+    /**
+     * @param owlObject
+     *        owlObject
      * @param constraintSystem
-     *            constraintSystem
+     *        constraintSystem
      * @param testCaseFactory
-     *            testCaseFactory
+     *        testCaseFactory
      * @param handler
-     *            handler */
+     *        handler
+     */
     public OWLExpressionAssertionExpression(OWLObject owlObject,
-            ConstraintSystem constraintSystem,
-            AbstractOPPLTestCaseFactory testCaseFactory, RuntimeExceptionHandler handler) {
+        ConstraintSystem constraintSystem,
+        AbstractOPPLTestCaseFactory testCaseFactory, RuntimeExceptionHandler handler) {
         this.owlObject = checkNotNull(owlObject, "owlObject");
         this.testCaseFactory = checkNotNull(testCaseFactory, "testCaseFactory");
         this.constraintSystem = checkNotNull(constraintSystem, "constraintSystem");
@@ -52,12 +57,16 @@ public class OWLExpressionAssertionExpression implements
         return assertionExpressionVisitor.visitOWLExpressionAssertionExpression(this);
     }
 
-    /** @return the owlObject */
+    /**
+     * @return the owlObject
+     */
     public OWLObject getOWLObject() {
         return owlObject;
     }
 
-    /** @return the testCaseFactory */
+    /**
+     * @return the testCaseFactory
+     */
     public AbstractOPPLTestCaseFactory getTestCaseFactory() {
         return testCaseFactory;
     }
@@ -65,25 +74,26 @@ public class OWLExpressionAssertionExpression implements
     @Override
     public String toString() {
         ManchesterSyntaxRenderer renderer = getTestCaseFactory().getOPPLFactory()
-                .getManchesterSyntaxRenderer(getConstraintSystem());
+            .getManchesterSyntaxRenderer(getConstraintSystem());
         owlObject.accept(renderer);
         return renderer.toString();
     }
 
-    /** @return the constraintSystem */
+    /**
+     * @return the constraintSystem
+     */
     public ConstraintSystem getConstraintSystem() {
         return constraintSystem;
     }
 
     @Override
-    public Set<OWLObject>
-            resolve(Set<? extends BindingNode> bindings, ConstraintSystem cs) {
-        Set<OWLObject> toReturn = new HashSet<OWLObject>();
+    public Set<OWLObject> resolve(Set<? extends BindingNode> bindings, ConstraintSystem cs) {
+        Set<OWLObject> toReturn = new HashSet<>();
         for (BindingNode bindingNode : bindings) {
             ValueComputationParameters parameters = new SimpleValueComputationParameters(
-                    cs, bindingNode, handler);
+                cs, bindingNode, handler);
             PartialOWLObjectInstantiator instantiator = new PartialOWLObjectInstantiator(
-                    parameters);
+                parameters);
             toReturn.add(owlObject.accept(instantiator));
         }
         return toReturn;
@@ -119,7 +129,9 @@ public class OWLExpressionAssertionExpression implements
         return true;
     }
 
-    /** @return the handler */
+    /**
+     * @return the handler
+     */
     public RuntimeExceptionHandler getHandler() {
         return handler;
     }

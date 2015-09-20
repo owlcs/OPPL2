@@ -7,24 +7,31 @@ import org.coode.parsers.Symbol;
 import org.coode.parsers.Type;
 import org.coode.parsers.oppl.OPPLSymbol;
 
-/** @author Luigi Iannone
+/**
+ * @author Luigi Iannone
  * @param <O>
- *            type */
+ *        type
+ */
 public abstract class VariableAttributeSymbol<O extends VariableAttribute<?>> extends
-        Symbol implements OPPLSymbol {
+    Symbol implements OPPLSymbol {
+
     private final O variableAttribute;
 
-    /** @return the variableAttribute */
+    /**
+     * @return the variableAttribute
+     */
     public O getVariableAttribute() {
         return this.variableAttribute;
     }
 
-    /** @param name
-     *            name
+    /**
+     * @param name
+     *        name
      * @param type
-     *            type
+     *        type
      * @param variableAttribute
-     *            variableAttribute */
+     *        variableAttribute
+     */
     public VariableAttributeSymbol(String name, Type type, O variableAttribute) {
         super(name, type);
         this.variableAttribute = checkNotNull(variableAttribute, "variableAttribute");

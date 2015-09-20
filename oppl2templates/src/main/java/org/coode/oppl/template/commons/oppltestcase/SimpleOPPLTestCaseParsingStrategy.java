@@ -12,30 +12,35 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class SimpleOPPLTestCaseParsingStrategy implements
-        ParsingStrategy<String, OPPLTestCase> {
+    ParsingStrategy<String, OPPLTestCase> {
+
     private final ErrorListener errorListener;
     private final ParserFactory parserFactory;
     private final RuntimeExceptionHandler handler;
 
-    /** @param ontologyManager
-     *            ontologyManager
+    /**
+     * @param ontologyManager
+     *        ontologyManager
      * @param ontology
-     *            ontology
+     *        ontology
      * @param reasoner
-     *            reasoner
+     *        reasoner
      * @param errorListener
-     *            errorListener
+     *        errorListener
      * @param handler
-     *            handler */
+     *        handler
+     */
     public SimpleOPPLTestCaseParsingStrategy(OWLOntologyManager ontologyManager,
-            OWLOntology ontology, OWLReasoner reasoner, ErrorListener errorListener,
-            RuntimeExceptionHandler handler) {
+        OWLOntology ontology, OWLReasoner reasoner, ErrorListener errorListener,
+        RuntimeExceptionHandler handler) {
         this.errorListener = checkNotNull(errorListener, "errorListener");
         this.handler = checkNotNull(handler, "handler");
         parserFactory = new ParserFactory(checkNotNull(ontology, "ontology"),
-                checkNotNull(ontologyManager, "ontologyManager"), reasoner);
+            checkNotNull(ontologyManager, "ontologyManager"), reasoner);
     }
 
     protected OPPLTestCaseParser build() {
@@ -48,17 +53,23 @@ public class SimpleOPPLTestCaseParsingStrategy implements
         return parser.parse(input, getHandler());
     }
 
-    /** @return the errorListener */
+    /**
+     * @return the errorListener
+     */
     public ErrorListener getErrorListener() {
         return errorListener;
     }
 
-    /** @return the parserFactory */
+    /**
+     * @return the parserFactory
+     */
     public ParserFactory getParserFactory() {
         return parserFactory;
     }
 
-    /** @return the handler */
+    /**
+     * @return the handler
+     */
     public RuntimeExceptionHandler getHandler() {
         return handler;
     }

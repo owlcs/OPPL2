@@ -468,7 +468,7 @@ public class ManchesterOWLSyntaxValidatorGUI extends JFrame {
 
     /** default constructor */
     public ManchesterOWLSyntaxValidatorGUI() {
-        axiomValidator = new ExpressionEditor<OWLAxiom>(manager, checker);
+        axiomValidator = new ExpressionEditor<>(manager, checker);
         initGUI();
     }
 

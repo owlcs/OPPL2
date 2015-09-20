@@ -31,12 +31,17 @@ import javax.swing.border.Border;
 
 import org.coode.patterns.PatternModel;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class PatternBorder implements Border {
+
     private final PatternModel patternModel;
 
-    /** @param patternModel
-     *            patternModel */
+    /**
+     * @param patternModel
+     *        patternModel
+     */
     public PatternBorder(PatternModel patternModel) {
         this.patternModel = patternModel;
     }
@@ -44,9 +49,9 @@ public class PatternBorder implements Border {
     @Override
     public Insets getBorderInsets(Component c) {
         return new Insets(0,
-                c.getFontMetrics(c.getFont())
-                        .getStringBounds(patternModel.getName(), c.getGraphics())
-                        .getBounds().width + 8, 0, 0);
+            c.getFontMetrics(c.getFont())
+                .getStringBounds(patternModel.getName(), c.getGraphics())
+                .getBounds().width + 8, 0, 0);
     }
 
     @Override
@@ -56,11 +61,11 @@ public class PatternBorder implements Border {
 
     @Override
     public void paintBorder(Component component, Graphics g, int x, int y, int width,
-            int height) {
+        int height) {
         Color oldColor = g.getColor();
         g.setColor(Color.BLUE);
         g.drawString(patternModel.getName(), x + 4, y + 2
-                + g.getFontMetrics().getAscent() + g.getFontMetrics().getLeading());
+            + g.getFontMetrics().getAscent() + g.getFontMetrics().getLeading());
         g.setColor(oldColor);
     }
 }

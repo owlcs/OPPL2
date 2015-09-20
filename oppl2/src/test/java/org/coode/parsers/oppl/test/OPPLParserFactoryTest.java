@@ -19,11 +19,12 @@ import org.semanticweb.owlapi.vocab.OWLRDFVocabulary;
 
 @SuppressWarnings("javadoc")
 public class OPPLParserFactoryTest {
+
     private OPPLScript parseScript(String opplString, OWLOntologyManager ontologyManager,
-            OWLOntology testOntology,
-            SymbolTableFactory<OPPLSymbolTable> symbolTableFactory) {
+        OWLOntology testOntology,
+        SymbolTableFactory<OPPLSymbolTable> symbolTableFactory) {
         OPPLParser parser = new ParserFactory(ontologyManager, testOntology, null).build(
-                new JUnitTestErrorListener(), symbolTableFactory);
+            new JUnitTestErrorListener(), symbolTableFactory);
         return parser.parse(opplString);
     }
 
@@ -31,10 +32,10 @@ public class OPPLParserFactoryTest {
     public void shouldTestNewEntityCreationInline() {
         String opplString = "?A:CLASS SELECT ?A SubClassOf 'Heart disease (disorder)' BEGIN ADD ?A SubClassOf !Candidate END;";
         AnnotationBasedSymbolTableFactory annotationBasedSymbolTableFactory = new AnnotationBasedSymbolTableFactory(
-                entire.getOWLOntologyManager(), Arrays.asList(OWLRDFVocabulary.RDFS_LABEL
-                        .getIRI()));
+            entire.getOWLOntologyManager(), Arrays.asList(OWLRDFVocabulary.RDFS_LABEL
+                .getIRI()));
         OPPLScript parsedScript = parseScript(opplString, entire.getOWLOntologyManager(),
-                entire, annotationBasedSymbolTableFactory);
+            entire, annotationBasedSymbolTableFactory);
         assertNotNull(parsedScript);
     }
 }

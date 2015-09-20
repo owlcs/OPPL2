@@ -4,12 +4,17 @@ import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
 import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public abstract class StringManipulationOPPLFunction implements OPPLFunction<String> {
+
     private final OPPLFunction<String> argument;
 
-    /** @param argument
-     *            argument */
+    /**
+     * @param argument
+     *        argument
+     */
     public StringManipulationOPPLFunction(OPPLFunction<String> argument) {
         this.argument = checkNotNull(argument, "argument");
     }
@@ -22,20 +27,26 @@ public abstract class StringManipulationOPPLFunction implements OPPLFunction<Str
     }
 
     protected abstract String manipulate(String string,
-            RuntimeExceptionHandler runTimeExceptionHandler);
+        RuntimeExceptionHandler runTimeExceptionHandler);
 
-    /** @param visitor
-     *            visitor */
+    /**
+     * @param visitor
+     *        visitor
+     */
     public abstract void accept(StringManipulationOPPLFunctionVisitor visitor);
 
-    /** @param visitor
-     *            visitor
+    /**
+     * @param visitor
+     *        visitor
      * @param <O>
-     *            visitor return type
-     * @return visitor value */
+     *        visitor return type
+     * @return visitor value
+     */
     public abstract <O> O accept(StringManipulationOPPLFunctionVisitorEx<O> visitor);
 
-    /** @return the argument */
+    /**
+     * @return the argument
+     */
     public OPPLFunction<String> getArgument() {
         return argument;
     }

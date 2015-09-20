@@ -65,7 +65,7 @@ public class InstantiatedPatternModel implements InstantiatedOPPLScript,
         runtimeExceptionHandler = checkNotNull(handler, "handler");
     }
 
-    private final Map<Variable<?>, Set<OWLObject>> instantiations = new HashMap<Variable<?>, Set<OWLObject>>();
+    private final Map<Variable<?>, Set<OWLObject>> instantiations = new HashMap<>();
     private String unresolvedOPPLStatementString;
 
     /**
@@ -75,7 +75,7 @@ public class InstantiatedPatternModel implements InstantiatedOPPLScript,
      */
     public Set<OWLObject> getInstantiations(Variable<?> variable) {
         // defensive copy; it also guarantees that no nulls are returned
-        Set<OWLObject> toReturn = new HashSet<OWLObject>();
+        Set<OWLObject> toReturn = new HashSet<>();
         if (instantiations.containsKey(variable)) {
             toReturn.addAll(instantiations.get(variable));
         }
@@ -117,7 +117,7 @@ public class InstantiatedPatternModel implements InstantiatedOPPLScript,
                     .getVariable(variable.getName()) != null) {
             Set<OWLObject> instantiation = getInstantiations(variable);
             if (instantiation == null) {
-                instantiation = new HashSet<OWLObject>();
+                instantiation = new HashSet<>();
             }
             instantiation.add(value);
             instantiations.put(variable, instantiation);
@@ -267,10 +267,10 @@ public class InstantiatedPatternModel implements InstantiatedOPPLScript,
      */
     public Set<BindingNode> extractBindingNodes() {
         List<InputVariable<?>> inputVariables = getInputVariables();
-        Map<Variable<?>, Set<OWLObject>> bindings = new HashMap<Variable<?>, Set<OWLObject>>();
+        Map<Variable<?>, Set<OWLObject>> bindings = new HashMap<>();
         for (InputVariable<?> v : inputVariables) {
             if (instantiations.containsKey(v)) {
-                bindings.put(v, new HashSet<OWLObject>(instantiations.get(v)));
+                bindings.put(v, new HashSet<>(instantiations.get(v)));
             }
         }
         Set<Variable<?>> toAssign = new HashSet<Variable<?>>(inputVariables);
@@ -279,7 +279,7 @@ public class InstantiatedPatternModel implements InstantiatedOPPLScript,
             toAssign.add(thisClassVariable);
             if (instantiations.containsKey(thisClassVariable)) {
                 bindings.put(thisClassVariable,
-                    new HashSet<OWLObject>(instantiations.get(thisClassVariable)));
+                    new HashSet<>(instantiations.get(thisClassVariable)));
             }
         }
         BindingNode rootBindingNode = new BindingNode(toAssign);
@@ -291,7 +291,7 @@ public class InstantiatedPatternModel implements InstantiatedOPPLScript,
 
     @Override
     public Set<OWLObject> getOWLObjects(OWLOntology ontology, ErrorListener errorListener) {
-        Set<OWLObject> toReturn = new HashSet<OWLObject>();
+        Set<OWLObject> toReturn = new HashSet<>();
         boolean found = false;
         OWLClass owlClass;
         Iterator<OWLClass> classIterator = ontology.getClassesInSignature().iterator();
@@ -463,7 +463,7 @@ public class InstantiatedPatternModel implements InstantiatedOPPLScript,
     public List<OWLAxiomChange> getActions() {
         List<OWLAxiomChange> actions = patternModel.getActions();
         Set<BindingNode> bindingNodes = extractBindingNodes();
-        List<OWLAxiomChange> toReturn = new ArrayList<OWLAxiomChange>();
+        List<OWLAxiomChange> toReturn = new ArrayList<>();
         for (BindingNode bindingNode : bindingNodes) {
             for (OWLAxiomChange axiomChange : actions) {
                 ValueComputationParameters parameters = new SimpleValueComputationParameters(

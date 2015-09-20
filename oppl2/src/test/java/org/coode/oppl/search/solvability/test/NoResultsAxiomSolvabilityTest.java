@@ -6,29 +6,15 @@ import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.OPPLFactory;
 import org.coode.oppl.Variable;
 import org.coode.oppl.bindingtree.BindingNode;
-import org.coode.oppl.search.solvability.AssertedModelQuerySolver;
-import org.coode.oppl.search.solvability.AxiomSolvability;
-import org.coode.oppl.search.solvability.NoResultsAxiomSolvability;
-import org.coode.oppl.search.solvability.NoSolutionSolvableSearchNode;
-import org.coode.oppl.search.solvability.SolvabilitySearchNode;
-import org.coode.oppl.search.solvability.SolvabilitySearchNodeVisitor;
-import org.coode.oppl.search.solvability.SolvableSearchNode;
-import org.coode.oppl.search.solvability.SolvedSearchNode;
-import org.coode.oppl.search.solvability.UnsolvableSearchNode;
+import org.coode.oppl.search.solvability.*;
 import org.coode.oppl.variabletypes.VariableTypeFactory;
 import org.junit.Test;
 import org.semanticweb.owlapi.apibinding.OWLManager;
-import org.semanticweb.owlapi.model.IRI;
-import org.semanticweb.owlapi.model.OWLClass;
-import org.semanticweb.owlapi.model.OWLClassExpression;
-import org.semanticweb.owlapi.model.OWLDataFactory;
-import org.semanticweb.owlapi.model.OWLObjectProperty;
-import org.semanticweb.owlapi.model.OWLOntology;
-import org.semanticweb.owlapi.model.OWLOntologyManager;
-import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
+import org.semanticweb.owlapi.model.*;
 
 @SuppressWarnings("javadoc")
 public class NoResultsAxiomSolvabilityTest {
+
     @Test
     public void shouldTestNoResultsSubClassAxiom() throws Exception {
         OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
@@ -36,29 +22,30 @@ public class NoResultsAxiomSolvabilityTest {
         OPPLFactory opplFactory = new OPPLFactory(manager, ontology, null);
         ConstraintSystem constraintSystem = opplFactory.createConstraintSystem();
         Variable<OWLClassExpression> x = constraintSystem.createVariable("?x",
-                VariableTypeFactory.getCLASSVariableType(), null);
+            VariableTypeFactory.getCLASSVariableType(), null);
         OWLDataFactory dataFactory = manager.getOWLDataFactory();
         OWLClass a = dataFactory.getOWLClass(IRI.create("A"));
         OWLClass b = dataFactory.getOWLClass(IRI.create("B"));
         OWLClass c = dataFactory.getOWLClass(IRI.create("C"));
         OWLObjectProperty p = dataFactory.getOWLObjectProperty(IRI.create("p"));
         manager.addAxiom(
-                ontology,
-                dataFactory.getOWLSubClassOfAxiom(
-                        dataFactory.getOWLObjectSomeValuesFrom(p, a),
-                        dataFactory.getOWLObjectSomeValuesFrom(p, b)));
+            ontology,
+            dataFactory.getOWLSubClassOfAxiom(
+                dataFactory.getOWLObjectSomeValuesFrom(p, a),
+                dataFactory.getOWLObjectSomeValuesFrom(p, b)));
         OWLSubClassOfAxiom axiom = dataFactory.getOWLSubClassOfAxiom(
-                dataFactory.getOWLObjectSomeValuesFrom(p,
-                        dataFactory.getOWLClass(x.getIRI())),
-                dataFactory.getOWLObjectSomeValuesFrom(p, c));
+            dataFactory.getOWLObjectSomeValuesFrom(p,
+                dataFactory.getOWLClass(x.getIRI())),
+            dataFactory.getOWLObjectSomeValuesFrom(p, c));
         AxiomSolvability axiomSolvability = new NoResultsAxiomSolvability(
-                constraintSystem, new AssertedModelQuerySolver(manager));
+            constraintSystem, new AssertedModelQuerySolver(manager));
         SolvabilitySearchNode node = axiomSolvability.getSolvabilitySearchNode(axiom,
-                BindingNode.createNewEmptyBindingNode());
+            BindingNode.createNewEmptyBindingNode());
         node.accept(new SolvabilitySearchNodeVisitor() {
+
             @Override
             public void visitUnsolvableSearchNode(
-                    UnsolvableSearchNode unsolvableSearchNode) {
+                UnsolvableSearchNode unsolvableSearchNode) {
                 fail("Wrong type of solvability node: unsolvable, when expecting no solutions");
             }
 
@@ -69,7 +56,7 @@ public class NoResultsAxiomSolvabilityTest {
 
             @Override
             public void visitNoSolutionSolvableSearchNode(
-                    NoSolutionSolvableSearchNode noSolutionSolvableSearchNode) {
+                NoSolutionSolvableSearchNode noSolutionSolvableSearchNode) {
                 // That's fine
             }
 
@@ -87,28 +74,29 @@ public class NoResultsAxiomSolvabilityTest {
         OPPLFactory opplFactory = new OPPLFactory(manager, ontology, null);
         ConstraintSystem constraintSystem = opplFactory.createConstraintSystem();
         Variable<OWLClassExpression> x = constraintSystem.createVariable("?x",
-                VariableTypeFactory.getCLASSVariableType(), null);
+            VariableTypeFactory.getCLASSVariableType(), null);
         OWLDataFactory dataFactory = manager.getOWLDataFactory();
         OWLClass a = dataFactory.getOWLClass(IRI.create("A"));
         OWLClass b = dataFactory.getOWLClass(IRI.create("B"));
         OWLObjectProperty p = dataFactory.getOWLObjectProperty(IRI.create("p"));
         manager.addAxiom(
-                ontology,
-                dataFactory.getOWLSubClassOfAxiom(
-                        dataFactory.getOWLObjectSomeValuesFrom(p, a),
-                        dataFactory.getOWLObjectSomeValuesFrom(p, b)));
+            ontology,
+            dataFactory.getOWLSubClassOfAxiom(
+                dataFactory.getOWLObjectSomeValuesFrom(p, a),
+                dataFactory.getOWLObjectSomeValuesFrom(p, b)));
         OWLSubClassOfAxiom axiom = dataFactory.getOWLSubClassOfAxiom(
-                dataFactory.getOWLObjectSomeValuesFrom(p,
-                        dataFactory.getOWLClass(x.getIRI())),
-                dataFactory.getOWLObjectSomeValuesFrom(p, b));
+            dataFactory.getOWLObjectSomeValuesFrom(p,
+                dataFactory.getOWLClass(x.getIRI())),
+            dataFactory.getOWLObjectSomeValuesFrom(p, b));
         AxiomSolvability axiomSolvability = new NoResultsAxiomSolvability(
-                constraintSystem, new AssertedModelQuerySolver(manager));
+            constraintSystem, new AssertedModelQuerySolver(manager));
         SolvabilitySearchNode node = axiomSolvability.getSolvabilitySearchNode(axiom,
-                BindingNode.createNewEmptyBindingNode());
+            BindingNode.createNewEmptyBindingNode());
         node.accept(new SolvabilitySearchNodeVisitor() {
+
             @Override
             public void visitUnsolvableSearchNode(
-                    UnsolvableSearchNode unsolvableSearchNode) {
+                UnsolvableSearchNode unsolvableSearchNode) {
                 // That's fine
             }
 
@@ -119,7 +107,7 @@ public class NoResultsAxiomSolvabilityTest {
 
             @Override
             public void visitNoSolutionSolvableSearchNode(
-                    NoSolutionSolvableSearchNode noSolutionSolvableSearchNode) {
+                NoSolutionSolvableSearchNode noSolutionSolvableSearchNode) {
                 fail("Wrong type of solvability node: no solutions, when expecting unsolvable");
             }
 

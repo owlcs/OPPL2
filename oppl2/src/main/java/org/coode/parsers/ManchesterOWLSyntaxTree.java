@@ -8,25 +8,34 @@ import org.antlr.runtime.Token;
 import org.antlr.runtime.tree.CommonTree;
 import org.semanticweb.owlapi.model.OWLObject;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class ManchesterOWLSyntaxTree extends CommonTree {
+
     private Type evalType = null;
     private OWLObject owlObject;
-    private final List<String> completions = new ArrayList<String>();
+    private final List<String> completions = new ArrayList<>();
 
-    /** @param token
-     *            token */
+    /**
+     * @param token
+     *        token
+     */
     public ManchesterOWLSyntaxTree(Token token) {
         super(token);
     }
 
-    /** @return the evalType */
+    /**
+     * @return the evalType
+     */
     public Type getEvalType() {
         return evalType;
     }
 
-    /** @param evalType
-     *            the evalType to set */
+    /**
+     * @param evalType
+     *        the evalType to set
+     */
     public void setEvalType(Type evalType) {
         this.evalType = evalType;
     }
@@ -34,29 +43,37 @@ public class ManchesterOWLSyntaxTree extends CommonTree {
     @Override
     public String toString() {
         return token.getText() + " type: "
-                + (getEvalType() == null ? "(none)" : getEvalType().toString());
+            + (getEvalType() == null ? "(none)" : getEvalType().toString());
     }
 
-    /** @return the owlObject */
+    /**
+     * @return the owlObject
+     */
     public OWLObject getOWLObject() {
         return owlObject;
     }
 
-    /** @param owlObject
-     *            the owlObject to set */
+    /**
+     * @param owlObject
+     *        the owlObject to set
+     */
     public void setOWLObject(OWLObject owlObject) {
         this.owlObject = owlObject;
     }
 
-    /** @param strings
-     *            strings */
+    /**
+     * @param strings
+     *        strings
+     */
     public void setCompletions(Collection<? extends String> strings) {
         completions.clear();
         completions.addAll(strings);
     }
 
-    /** @return the completions */
+    /**
+     * @return the completions
+     */
     public List<String> getCompletions() {
-        return new ArrayList<String>(completions);
+        return new ArrayList<>(completions);
     }
 }

@@ -7,12 +7,17 @@ import org.protege.editor.owl.OWLEditorKit;
 import org.protege.editor.owl.ui.renderer.OWLCellRenderer;
 import org.semanticweb.owlapi.model.OWLObject;
 
-/** Specialized OWLCellRenderer that deals with VariableListItems and
+/**
+ * Specialized OWLCellRenderer that deals with VariableListItems and
  * StaticListItems containing either OWLObjects or PRopertyChainModel,
- * PropertyChainCell or BindingModel objects */
+ * PropertyChainCell or BindingModel objects
+ */
 public class RenderableObjectCellRenderer extends OWLCellRenderer {
-    /** @param edkit
-     *            edkit */
+
+    /**
+     * @param edkit
+     *        edkit
+     */
     public RenderableObjectCellRenderer(OWLEditorKit edkit) {
         super(edkit);
     }

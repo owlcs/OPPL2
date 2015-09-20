@@ -10,12 +10,7 @@ import org.antlr.runtime.tree.RewriteEmptyStreamException;
 import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.parsers.ErrorListener;
 import org.coode.parsers.Type;
-import org.coode.parsers.oppl.testcase.JUnitTestCaseRunner;
-import org.coode.parsers.oppl.testcase.OPPLTest;
-import org.coode.parsers.oppl.testcase.OPPLTestCase;
-import org.coode.parsers.oppl.testcase.OPPLTestCaseParser;
-import org.coode.parsers.oppl.testcase.ParserFactory;
-import org.coode.parsers.oppl.testcase.TestCaseRunner;
+import org.coode.parsers.oppl.testcase.*;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -27,15 +22,20 @@ import uk.ac.manchester.cs.jfact.JFactFactory;
 
 @SuppressWarnings("javadoc")
 public class OPPLTestCaseRunnerTest {
+
     private final class JunitConfigShouldFailTestCaseRunner extends TestCaseRunner {
-        /** @param opplTestCase */
+
+        /**
+         * @param opplTestCase
+         */
         public JunitConfigShouldFailTestCaseRunner(OPPLTestCase opplTestCase) {
             super(opplTestCase);
         }
 
         @Override
         protected void fail(OPPLTest test) {
-            Assert.fail("The configuration should fail and the tests should not be carried out, but they have been instead ");
+            Assert.fail(
+                "The configuration should fail and the tests should not be carried out, but they have been instead ");
         }
 
         @Override
@@ -43,18 +43,23 @@ public class OPPLTestCaseRunnerTest {
 
         @Override
         protected void fail(Throwable e) {
-            Assert.fail("The configuration should fail and the query  should not be carried out, but it has and an exception was raised in the process "
+            Assert.fail(
+                "The configuration should fail and the query  should not be carried out, but it has and an exception was raised in the process "
                     + e.getMessage());
         }
 
         @Override
         protected void success(OPPLTest test) {
-            Assert.fail("The configuration should fail and the tests should not be carried out, but they have been instead ");
+            Assert.fail(
+                "The configuration should fail and the tests should not be carried out, but they have been instead ");
         }
     }
 
     private final class JunitShouldFailTestCaseRunner extends TestCaseRunner {
-        /** @param opplTestCase */
+
+        /**
+         * @param opplTestCase
+         */
         public JunitShouldFailTestCaseRunner(OPPLTestCase opplTestCase) {
             super(opplTestCase);
         }
@@ -65,7 +70,7 @@ public class OPPLTestCaseRunnerTest {
         @Override
         protected void configurationFailed(String message) {
             Assert.fail("The configuration should be fine, it fails instead with the following message: "
-                    + message);
+                + message);
         }
 
         @Override
@@ -78,14 +83,14 @@ public class OPPLTestCaseRunnerTest {
     }
 
     static final ErrorListener ERROR_LISTENER = new ErrorListener() {
+
         @Override
         public void unrecognisedSymbol(CommonTree t) {
             throw new RuntimeException(t.toString());
         }
 
         @Override
-        public void
-                incompatibleSymbolType(CommonTree t, Type type, CommonTree expression) {
+        public void incompatibleSymbolType(CommonTree t, Type type, CommonTree expression) {
             throw new RuntimeException(t.toString());
         }
 
@@ -120,6 +125,7 @@ public class OPPLTestCaseRunnerTest {
         }
     };
     private static final RuntimeExceptionHandler HANDLER = new RuntimeExceptionHandler() {
+
         @Override
         public void handlePatternSyntaxExcpetion(PatternSyntaxException e) {
             ERROR_LISTENER.reportThrowable(e, 0, 0, 0);
@@ -140,7 +146,7 @@ public class OPPLTestCaseRunnerTest {
     public void shouldTestCount() {
         String testCase = "testOneAssertion; ?x:CLASS SELECT ?x subClassOf Pizza ASSERT count(?x) = 1; ?x count is not 1;";
         ParserFactory parserFactory = new ParserFactory(pizza,
-                pizza.getOWLOntologyManager());
+            pizza.getOWLOntologyManager());
         OPPLTestCaseParser parser = parserFactory.build(ERROR_LISTENER);
         OPPLTestCase opplTestCase = parser.parse(testCase, HANDLER);
         this.runTestCase(opplTestCase);
@@ -158,7 +164,7 @@ public class OPPLTestCaseRunnerTest {
             }
         }
         ParserFactory parserFactory = new ParserFactory(pizza,
-                pizza.getOWLOntologyManager(), reasoner);
+            pizza.getOWLOntologyManager(), reasoner);
         OPPLTestCaseParser parser = parserFactory.build(ERROR_LISTENER);
         OPPLTestCase opplTestCase = parser.parse(testCase, HANDLER);
         this.runTestCase(opplTestCase);
@@ -168,7 +174,7 @@ public class OPPLTestCaseRunnerTest {
     public void shouldTestCountShouldFail() {
         String testCase = "testOneAssertion; ?x:CLASS SELECT ?x subClassOf Pizza ASSERT count(?x) != 1; ?x count is 1;";
         ParserFactory parserFactory = new ParserFactory(pizza,
-                pizza.getOWLOntologyManager());
+            pizza.getOWLOntologyManager());
         OPPLTestCaseParser parser = parserFactory.build(ERROR_LISTENER);
         OPPLTestCase opplTestCase = parser.parse(testCase, HANDLER);
         this.runTestCase(opplTestCase, false);
@@ -178,7 +184,7 @@ public class OPPLTestCaseRunnerTest {
     public void shouldTestConfigurationNotOK() {
         String testCase = "testOneAssertion; INFERENCE; ?x:CLASS SELECT ?x subClassOf Pizza ASSERT count(?x) != 1; ?x count is 1;";
         ParserFactory parserFactory = new ParserFactory(pizza,
-                pizza.getOWLOntologyManager());
+            pizza.getOWLOntologyManager());
         OPPLTestCaseParser parser = parserFactory.build(ERROR_LISTENER);
         OPPLTestCase opplTestCase = parser.parse(testCase, HANDLER);
         TestCaseRunner runner = new JunitConfigShouldFailTestCaseRunner(opplTestCase);
@@ -189,10 +195,12 @@ public class OPPLTestCaseRunnerTest {
         this.runTestCase(opplTestCase, true);
     }
 
-    /** @param opplTestCase */
+    /**
+     * @param opplTestCase
+     */
     private void runTestCase(OPPLTestCase opplTestCase, boolean shouldSucceed) {
         TestCaseRunner runner = shouldSucceed ? new JUnitTestCaseRunner(opplTestCase)
-                : new JunitShouldFailTestCaseRunner(opplTestCase);
+            : new JunitShouldFailTestCaseRunner(opplTestCase);
         runner.run();
     }
 }

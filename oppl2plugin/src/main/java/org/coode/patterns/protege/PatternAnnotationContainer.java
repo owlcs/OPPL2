@@ -14,24 +14,29 @@ import org.protege.editor.owl.model.AnnotationContainer;
 import org.semanticweb.owlapi.model.OWLAnnotation;
 import org.semanticweb.owlapi.model.OWLOntology;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class PatternAnnotationContainer implements AnnotationContainer {
+
     private final OWLEditorKit owlEditorKit;
     private final PatternExtractor patternExtractor;
 
-    /** @param owlEditorKit
-     *            owlEditorKit */
+    /**
+     * @param owlEditorKit
+     *        owlEditorKit
+     */
     public PatternAnnotationContainer(OWLEditorKit owlEditorKit) {
         this.owlEditorKit = checkNotNull(owlEditorKit, "owlEditorKit");
         patternExtractor = new PatternExtractor(getOntology(), getOWLEditorKit()
-                .getOWLModelManager().getOWLOntologyManager(),
-                PatternManager.getDefaultErrorListener());
+            .getOWLModelManager().getOWLOntologyManager(),
+            PatternManager.getDefaultErrorListener());
     }
 
     @Override
     public Set<OWLAnnotation> getAnnotations() {
         OWLOntology activeOntology = getOWLEditorKit().getOWLModelManager()
-                .getActiveOntology();
+            .getActiveOntology();
         Set<OWLAnnotation> toReturn = activeOntology.getAnnotations();
         Iterator<OWLAnnotation> iterator = toReturn.iterator();
         while (iterator.hasNext()) {
@@ -44,20 +49,26 @@ public class PatternAnnotationContainer implements AnnotationContainer {
         return toReturn;
     }
 
-    /** @param annotation
-     *            annotation
-     * @return pattern model */
+    /**
+     * @param annotation
+     *        annotation
+     * @return pattern model
+     */
     public PatternModel getPatternModel(OWLAnnotation annotation) {
         PatternOPPLScript extracted = annotation.accept(patternExtractor);
         return (PatternModel) extracted;
     }
 
-    /** @return the owlEditorKit */
+    /**
+     * @return the owlEditorKit
+     */
     public OWLEditorKit getOWLEditorKit() {
         return owlEditorKit;
     }
 
-    /** @return current ontology */
+    /**
+     * @return current ontology
+     */
     public OWLOntology getOntology() {
         return getOWLEditorKit().getOWLModelManager().getActiveOntology();
     }

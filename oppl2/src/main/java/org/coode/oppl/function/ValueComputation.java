@@ -1,11 +1,16 @@
 package org.coode.oppl.function;
 
-/** @author Luigi Iannone
+/**
+ * @author Luigi Iannone
  * @param <O>
- *            type */
+ *        type
+ */
 public interface ValueComputation<O> {
-    /** @param opplFunction
-     *            opplFunction
-     * @return computed value */
+
+    /**
+     * @param opplFunction
+     *        opplFunction
+     * @return computed value
+     */
     O compute(OPPLFunction<? extends O> opplFunction);
 }

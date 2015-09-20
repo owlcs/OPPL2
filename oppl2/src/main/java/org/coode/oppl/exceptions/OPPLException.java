@@ -22,11 +22,14 @@
  */
 package org.coode.oppl.exceptions;
 
-/** Generic OPPL Exception
+/**
+ * Generic OPPL Exception
  * 
- * @author Luigi Iannone */
+ * @author Luigi Iannone
+ */
 @SuppressWarnings("javadoc")
 public class OPPLException extends Exception {
+
     private static final long serialVersionUID = 20100L;
 
     public OPPLException(String message) {

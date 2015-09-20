@@ -1,14 +1,19 @@
 package org.coode.oppl.utils;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class ArgCheck {
-    /** @param o
-     *            o
+
+    /**
+     * @param o
+     *        o
      * @param name
-     *            name
+     *        name
      * @param <T>
-     *            type
-     * @return the input, if not null, illegal argument exception otherwise */
+     *        type
+     * @return the input, if not null, illegal argument exception otherwise
+     */
     public static <T> T checkNotNull(T o, String name) {
         if (o == null) {
             throw new IllegalArgumentException(name + " cannot be null");
@@ -18,8 +23,8 @@ public class ArgCheck {
             for (Object obj : (Iterable<?>) o) {
                 if (obj == null) {
                     throw new IllegalArgumentException(name
-                            + " cannot contain nulls, but contains a null at position: "
-                            + i);
+                        + " cannot contain nulls, but contains a null at position: "
+                        + i);
                 }
                 i++;
             }
@@ -27,11 +32,13 @@ public class ArgCheck {
         return o;
     }
 
-    /** @param o
-     *            o
+    /**
+     * @param o
+     *        o
      * @param <T>
-     *            type
-     * @return the input, if not null, illegal argument exception otherwise */
+     *        type
+     * @return the input, if not null, illegal argument exception otherwise
+     */
     public static <T> T checkNotNull(T o) {
         return checkNotNull(o, "the object");
     }

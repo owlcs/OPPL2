@@ -25,12 +25,15 @@ package org.coode.patterns;
 import java.util.Arrays;
 import java.util.List;
 
-/** @author Luigi Iannone Jun 27, 2008 */
+/**
+ * @author Luigi Iannone Jun 27, 2008
+ */
 @SuppressWarnings("javadoc")
 public class NonResovableArgumentsException extends PatternException {
+
     public NonResovableArgumentsException(String patternName, List<Object>... args) {
         super("One of the arguments " + Arrays.toString(args)
-                + " is not instantiated for pattern: " + patternName + " ");
+            + " is not instantiated for pattern: " + patternName + " ");
     }
 
     private static final long serialVersionUID = 20100L;

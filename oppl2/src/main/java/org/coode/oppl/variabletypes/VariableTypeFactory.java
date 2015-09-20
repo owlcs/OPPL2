@@ -7,10 +7,12 @@ import java.util.Set;
 import org.semanticweb.owlapi.model.*;
 import org.semanticweb.owlapi.util.OWLObjectVisitorExAdapter;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class VariableTypeFactory {
 
-    private static final EnumMap<VariableTypeName, VariableType<?>> typesCache = new EnumMap<VariableTypeName, VariableType<?>>(
+    private static final EnumMap<VariableTypeName, VariableType<?>> typesCache = new EnumMap<>(
         VariableTypeName.class);
 
     static {
@@ -28,9 +30,11 @@ public class VariableTypeFactory {
             VariableTypeName.CONSTANT));
     }
 
-    /** @param owlObject
+    /**
+     * @param owlObject
      *        owlObject
-     * @return variable type */
+     * @return variable type
+     */
     public static VariableType<?> getVariableType(OWLObject owlObject) {
         return owlObject.accept(new OWLObjectVisitorExAdapter<VariableType<?>>(null) {
 
@@ -125,8 +129,7 @@ public class VariableTypeFactory {
             }
 
             @Override
-            public VariableType<OWLDataPropertyExpression>
-                    visit(OWLDataProperty property) {
+            public VariableType<OWLDataPropertyExpression> visit(OWLDataProperty property) {
                 return VariableTypeFactory.getDATAPROPERTYVariableType();
             }
 
@@ -164,60 +167,77 @@ public class VariableTypeFactory {
         });
     }
 
-    /** @return variable type */
+    /**
+     * @return variable type
+     */
     @SuppressWarnings("unchecked")
     public static VariableType<OWLClassExpression> getCLASSVariableType() {
         return (VariableType<OWLClassExpression>) getVariableType(VariableTypeName.CLASS);
     }
 
-    /** @return variable type */
+    /**
+     * @return variable type
+     */
     @SuppressWarnings("unchecked")
-    public static VariableType<OWLObjectPropertyExpression>
-            getOBJECTPROPERTYTypeVariableType() {
+    public static VariableType<OWLObjectPropertyExpression> getOBJECTPROPERTYTypeVariableType() {
         return (VariableType<OWLObjectPropertyExpression>) getVariableType(VariableTypeName.OBJECTPROPERTY);
     }
 
-    /** @return variable type */
+    /**
+     * @return variable type
+     */
     @SuppressWarnings("unchecked")
     public static VariableType<OWLDataPropertyExpression> getDATAPROPERTYVariableType() {
         return (VariableType<OWLDataPropertyExpression>) getVariableType(VariableTypeName.DATAPROPERTY);
     }
 
-    /** @return variable type */
+    /**
+     * @return variable type
+     */
     @SuppressWarnings("unchecked")
     public static VariableType<OWLAnnotationProperty> getANNOTATIONPROPERTYVariableType() {
         return (VariableType<OWLAnnotationProperty>) getVariableType(VariableTypeName.ANNOTATIONPROPERTY);
     }
 
-    /** @return variable type */
+    /**
+     * @return variable type
+     */
     @SuppressWarnings("unchecked")
     public static VariableType<OWLIndividual> getINDIVIDUALVariableType() {
         return (VariableType<OWLIndividual>) getVariableType(VariableTypeName.INDIVIDUAL);
     }
 
-    /** @return variable type */
+    /**
+     * @return variable type
+     */
     @SuppressWarnings("unchecked")
     public static VariableType<OWLLiteral> getCONSTANTVariableType() {
         return (VariableType<OWLLiteral>) getVariableType(VariableTypeName.CONSTANT);
     }
 
-    /** @param variableTypeName
+    /**
+     * @param variableTypeName
      *        variableTypeName
-     * @return variable type */
+     * @return variable type
+     */
     public static VariableType<?> getVariableType(VariableTypeName variableTypeName) {
         return variableTypeName == null ? null : typesCache.get(variableTypeName);
     }
 
-    /** @param variableTypeName
+    /**
+     * @param variableTypeName
      *        variableTypeName
-     * @return variable type */
+     * @return variable type
+     */
     public static VariableType<?> getVariableType(String variableTypeName) {
         return getVariableType(VariableTypeName.getVariableTypeName(variableTypeName));
     }
 
-    /** @return set of variable type */
+    /**
+     * @return set of variable type
+     */
     public static Set<VariableType<?>> getAllVariableTypes() {
-        Set<VariableType<?>> toReturn = new HashSet<VariableType<?>>();
+        Set<VariableType<?>> toReturn = new HashSet<>();
         toReturn.add(getANNOTATIONPROPERTYVariableType());
         toReturn.add(getCONSTANTVariableType());
         toReturn.add(getDATAPROPERTYVariableType());

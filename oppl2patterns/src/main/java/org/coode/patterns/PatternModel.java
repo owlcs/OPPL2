@@ -148,7 +148,7 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
         implements OWLAxiomVisitorEx<OWLObject>,
         OPPLScriptVisitorEx<OWLClassExpression> {
 
-        protected final Set<OWLClassExpression> extractedDescriptions = new HashSet<OWLClassExpression>();
+        protected final Set<OWLClassExpression> extractedDescriptions = new HashSet<>();
         protected OWLPropertyExpression extractedProperty = null;
         protected OWLObject owlObject;
         protected OWLDataFactory dataFactory;
@@ -223,7 +223,7 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
         public OWLClassExpression visit(OWLEquivalentClassesAxiom axiom) {
             OWLClassExpression toReturn = null;
             if (variableType == VariableTypeFactory.getCLASSVariableType()) {
-                Set<OWLClassExpression> descriptions = new HashSet<OWLClassExpression>(
+                Set<OWLClassExpression> descriptions = new HashSet<>(
                     axiom.getClassExpressions());
                 descriptions.remove(owlObject);
                 extractedDescriptions.addAll(descriptions);
@@ -237,7 +237,7 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
         public OWLObjectPropertyExpression visit(OWLEquivalentObjectPropertiesAxiom axiom) {
             OWLObjectPropertyExpression toReturn = null;
             if (variableType == VariableTypeFactory.getOBJECTPROPERTYTypeVariableType()) {
-                Set<OWLObjectPropertyExpression> properties = new HashSet<OWLObjectPropertyExpression>(
+                Set<OWLObjectPropertyExpression> properties = new HashSet<>(
                     axiom.getProperties());
                 properties.remove(owlObject);
                 toReturn = !properties.isEmpty() ? properties.iterator().next() : null;
@@ -250,7 +250,7 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
         public OWLDataPropertyExpression visit(OWLEquivalentDataPropertiesAxiom axiom) {
             OWLDataPropertyExpression toReturn = null;
             if (variableType == VariableTypeFactory.getDATAPROPERTYVariableType()) {
-                Set<OWLDataPropertyExpression> properties = new HashSet<OWLDataPropertyExpression>(
+                Set<OWLDataPropertyExpression> properties = new HashSet<>(
                     axiom.getProperties());
                 properties.remove(owlObject);
                 toReturn = !properties.isEmpty() ? properties.iterator().next() : null;
@@ -291,35 +291,35 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
     static class ReplacementExtractor {
 
         public static List<List<Object>> permutations(List<List<Object>> elements) {
-            return permutations(new ArrayList<Object>(), elements);
+            return permutations(new ArrayList<>(), elements);
         }
 
         private static List<List<Object>> permutations(List<Object> path,
             List<List<Object>> elements) {
-            List<List<Object>> toReturn = new ArrayList<List<Object>>();
+            List<List<Object>> toReturn = new ArrayList<>();
             if (!elements.isEmpty()) {
                 List<Object> elem = elements.iterator().next();
                 elements.remove(elem);
                 for (Object string : elem) {
-                    List<Object> newPath = new ArrayList<Object>(path);
+                    List<Object> newPath = new ArrayList<>(path);
                     newPath.add(string);
                     toReturn.addAll(permutations(newPath, elements));
                 }
             } else {
                 return new ArrayList<List<Object>>(
-                    Collections.singleton(new ArrayList<Object>(path)));
+                    Collections.singleton(new ArrayList<>(path)));
             }
             return toReturn;
         }
     }
 
-    private final List<PatternOPPLScript> dependencies = new ArrayList<PatternOPPLScript>();
+    private final List<PatternOPPLScript> dependencies = new ArrayList<>();
     private String rendering = null;
     private IRI iri = null;
     private final OPPLScript opplStatement;
     protected final OWLOntologyManager ontologyManager;
     private boolean valid = true;
-    private final Set<PatternModelChangeListener> listeners = new HashSet<PatternModelChangeListener>();
+    private final Set<PatternModelChangeListener> listeners = new HashSet<>();
     private Variable<?> returnVariable = null;
     /**
      * 
@@ -367,7 +367,7 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
 
     @Override
     public List<Variable<?>> getVariables() {
-        List<Variable<?>> toReturn = new ArrayList<Variable<?>>();
+        List<Variable<?>> toReturn = new ArrayList<>();
         if (opplStatement != null) {
             toReturn = opplStatement.getVariables();
         }
@@ -512,7 +512,7 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
         Collection<? extends BindingNode> bindingNodes,
         RuntimeExceptionHandler runtimeExceptionHandler) throws PatternException {
         DefinitorialExtractor extractor = createDefinitorialExtractor(getReturnVariable());
-        getConstraintSystem().setLeaves(new HashSet<BindingNode>(bindingNodes));
+        getConstraintSystem().setLeaves(new HashSet<>(bindingNodes));
         for (BindingNode bindingNode : bindingNodes) {
             SimpleValueComputationParameters parameters = new SimpleValueComputationParameters(
                 getConstraintSystem(), bindingNode, runtimeExceptionHandler);
@@ -631,7 +631,7 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
      */
     public Set<PatternOPPLScript> getDependingPatterns(Set<OWLOntology> ontologies,
         ErrorListener errorListener) {
-        Set<PatternOPPLScript> toReturn = new HashSet<PatternOPPLScript>();
+        Set<PatternOPPLScript> toReturn = new HashSet<>();
         for (OWLOntology ontology : ontologies) {
             Set<PatternModel> existingPatterns = Utils.getExistingPatterns(ontology,
                 factory);
@@ -652,7 +652,7 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
      * @return instantiations
      */
     public Set<InstantiatedPatternModel> getInstantiations(ErrorListener errorListener) {
-        Set<InstantiatedPatternModel> toReturn = new HashSet<InstantiatedPatternModel>();
+        Set<InstantiatedPatternModel> toReturn = new HashSet<>();
         Set<OWLOntology> ontologies = ontologyManager.getOntologies();
         PatternExtractor patternExtractor = factory.getPatternExtractor(errorListener);
         for (OWLOntology ontology : ontologies) {
@@ -677,7 +677,7 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
 
     @Override
     public Set<OWLObject> getOWLObjects(OWLOntology ontology, ErrorListener errorListener) {
-        Set<OWLObject> toReturn = new HashSet<OWLObject>();
+        Set<OWLObject> toReturn = new HashSet<>();
         boolean found = false;
         OWLAnnotation ontologyAnnotation = null;
         Iterator<OWLAnnotation> annotationIterator = ontology.getAnnotations().iterator();

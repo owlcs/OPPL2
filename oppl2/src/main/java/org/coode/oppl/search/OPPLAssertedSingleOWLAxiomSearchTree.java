@@ -28,12 +28,12 @@ public class OPPLAssertedSingleOWLAxiomSearchTree extends
     protected final ConstraintSystem constraintSystem;
     protected final RuntimeExceptionHandler runtimeExceptionHandler;
     protected final OWLAxiom targetAxiom;
-    protected final Set<OWLClass> allClasses = new HashSet<OWLClass>();
-    protected final Set<OWLObjectProperty> allObjectProperties = new HashSet<OWLObjectProperty>();
-    protected final Set<OWLDataProperty> allDataProperties = new HashSet<OWLDataProperty>();
-    protected final Set<OWLIndividual> allIndividuals = new HashSet<OWLIndividual>();
-    protected final Set<OWLLiteral> allConstants = new HashSet<OWLLiteral>();
-    protected final Set<OWLAnnotationProperty> allAnnotationProperties = new HashSet<OWLAnnotationProperty>();
+    protected final Set<OWLClass> allClasses = new HashSet<>();
+    protected final Set<OWLObjectProperty> allObjectProperties = new HashSet<>();
+    protected final Set<OWLDataProperty> allDataProperties = new HashSet<>();
+    protected final Set<OWLIndividual> allIndividuals = new HashSet<>();
+    protected final Set<OWLLiteral> allConstants = new HashSet<>();
+    protected final Set<OWLAnnotationProperty> allAnnotationProperties = new HashSet<>();
 
     /**
      * @param targetAxiom
@@ -55,14 +55,14 @@ public class OPPLAssertedSingleOWLAxiomSearchTree extends
 
     @Override
     protected List<OPPLOWLAxiomSearchNode> getChildren(OPPLOWLAxiomSearchNode node) {
-        List<OPPLOWLAxiomSearchNode> toReturn = new ArrayList<OPPLOWLAxiomSearchNode>();
+        List<OPPLOWLAxiomSearchNode> toReturn = new ArrayList<>();
         Set<Variable<?>> variables = node.getBinding().getUnassignedVariables();
         BindingNode binding = node.getBinding();
         ValueComputationParameters parameters = new SimpleValueComputationParameters(
             getConstraintSystem(), binding, getRuntimeExceptionHandler());
         if (!variables.isEmpty()) {
             Variable<?> variable = variables.iterator().next();
-            Collection<OWLObject> values = new HashSet<OWLObject>(getAssignableValues(
+            Collection<OWLObject> values = new HashSet<>(getAssignableValues(
                 variable, parameters));
             for (OWLObject value : values) {
                 Assignment assignment = new Assignment(variable, value);
@@ -128,7 +128,7 @@ public class OPPLAssertedSingleOWLAxiomSearchTree extends
 
     private Collection<? extends OWLObject> getAssignableValues(Variable<?> variable,
         ValueComputationParameters parameters) {
-        Set<OWLObject> toReturn = new HashSet<OWLObject>();
+        Set<OWLObject> toReturn = new HashSet<>();
         toReturn.addAll(variable.accept(new AssignableValueExtractor(
             assignableValuesVisitor, parameters)));
         Iterator<OWLObject> iterator = toReturn.iterator();

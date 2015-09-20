@@ -46,7 +46,7 @@ public class PatternExtractor extends OWLObjectVisitorExAdapter<PatternOPPLScrip
     private final OWLOntologyManager ontologyManager;
     private final OWLOntology ontology;
     private final ErrorListener errorListener;
-    private final Set<OWLAnnotation> visited = new HashSet<OWLAnnotation>();
+    private final Set<OWLAnnotation> visited = new HashSet<>();
 
     /**
      * @param ontology
@@ -119,7 +119,7 @@ public class PatternExtractor extends OWLObjectVisitorExAdapter<PatternOPPLScrip
     }
 
     protected Set<String> getVisitedPatternNames() {
-        Set<String> toReturn = new HashSet<String>();
+        Set<String> toReturn = new HashSet<>();
         for (OWLAnnotation patternAnnotation : visited) {
             IRI iri = patternAnnotation.getProperty().getIRI();
             if (iri != null && PatternModel.NAMESPACE.equals(iri.getNamespace())) {
@@ -159,7 +159,7 @@ public class PatternExtractor extends OWLObjectVisitorExAdapter<PatternOPPLScrip
                 PatternConstraintSystem constraintSystem,
                 OPPLPatternsSymbolTable symbolTable, List<Object>... args) {
                 symbolTable.resolvePattern(reference, patternName, constraintSystem,
-                    new HashSet<String>(done), args);
+                    new HashSet<>(done), args);
             }
         };
     }

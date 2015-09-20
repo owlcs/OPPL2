@@ -2,12 +2,17 @@ package org.coode.parsers.factory;
 
 import org.coode.parsers.SymbolTable;
 
-/** @author Luigi Iannone
+/**
+ * @author Luigi Iannone
  * @param <S>
- *            type */
+ *        type
+ */
 public interface SymbolTableFactory<S extends SymbolTable> {
-    /** Creates a SymbolTable
+
+    /**
+     * Creates a SymbolTable
      * 
-     * @return the SymbolTable */
+     * @return the SymbolTable
+     */
     S createSymbolTable();
 }

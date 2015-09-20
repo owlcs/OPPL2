@@ -1,6 +1,8 @@
 package org.coode.oppl.function;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public enum AttributeName {
     /** groups */
     GROUPS,

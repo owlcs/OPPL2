@@ -4,20 +4,27 @@ import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
 import org.semanticweb.owlapi.model.OWLLiteral;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class OWLLiteralSymbol extends Symbol {
+
     private final OWLLiteral owlConstant;
 
-    /** @param name
-     *            name
+    /**
+     * @param name
+     *        name
      * @param constant
-     *            constant */
+     *        constant
+     */
     public OWLLiteralSymbol(String name, OWLLiteral constant) {
         super(name, OWLType.OWL_CONSTANT);
         owlConstant = checkNotNull(constant, "constant");
     }
 
-    /** @return the owlConstant */
+    /**
+     * @return the owlConstant
+     */
     public OWLLiteral getOWLLiteral() {
         return owlConstant;
     }

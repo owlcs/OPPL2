@@ -36,45 +36,47 @@ import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.coode.oppl.rendering.VariableOWLEntityRenderer;
 import org.coode.parsers.ErrorListener;
-import org.semanticweb.owlapi.model.IRI;
-import org.semanticweb.owlapi.model.OWLAnnotation;
-import org.semanticweb.owlapi.model.OWLAxiomChange;
-import org.semanticweb.owlapi.model.OWLEntity;
-import org.semanticweb.owlapi.model.OWLOntology;
-import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.*;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 
-/** @author Luigi Iannone Jun 16, 2008 */
+/**
+ * @author Luigi Iannone Jun 16, 2008
+ */
 public class PatternModelFactory implements AbstractPatternModelFactory {
+
     private final OWLOntologyManager ontologyManager;
     private final OWLOntology ontology;
     private final OWLReasoner reasoner;
 
-    /** @param ontology
-     *            ontology
+    /**
+     * @param ontology
+     *        ontology
      * @param ontologyManager
-     *            ontologyManager
+     *        ontologyManager
      * @param reasoner
-     *            reasoner */
+     *        reasoner
+     */
     public PatternModelFactory(OWLOntology ontology, OWLOntologyManager ontologyManager,
-            OWLReasoner reasoner) {
+        OWLReasoner reasoner) {
         this.ontologyManager = ontologyManager;
         this.ontology = ontology;
         this.reasoner = reasoner;
     }
 
-    /** @param ontology
-     *            ontology
+    /**
+     * @param ontology
+     *        ontology
      * @param ontologyManager
-     *            ontologyManager */
+     *        ontologyManager
+     */
     public PatternModelFactory(OWLOntology ontology, OWLOntologyManager ontologyManager) {
         this(ontology, ontologyManager, null);
     }
 
     @Override
     public PatternModel createPatternModel(OPPLScript opplScript)
-            throws UnsuitableOPPLScriptException {
+        throws UnsuitableOPPLScriptException {
         if (opplScript.getActions().isEmpty()) {
             throw new UnsuitableOPPLScriptException(opplScript);
         } else {
@@ -84,7 +86,7 @@ public class PatternModelFactory implements AbstractPatternModelFactory {
 
     @Override
     public InstantiatedPatternModel createInstantiatedPatternModel(
-            PatternModel patternModel, RuntimeExceptionHandler handler) {
+        PatternModel patternModel, RuntimeExceptionHandler handler) {
         return new InstantiatedPatternModel(patternModel, handler);
     }
 
@@ -95,23 +97,23 @@ public class PatternModelFactory implements AbstractPatternModelFactory {
 
     @Override
     public PatternExtractor getPatternExtractor(Set<OWLAnnotation> visitedAnnotations,
-            ErrorListener errorListener) {
+        ErrorListener errorListener) {
         return new PatternExtractor(ontology, ontologyManager, errorListener,
-                visitedAnnotations);
+            visitedAnnotations);
     }
 
     @Override
     public PatternConstraintSystem createConstraintSystem() {
         final ConstraintSystem delegate = new ConstraintSystem(ontology, ontologyManager,
-                getOPPLFactory());
+            getOPPLFactory());
         delegate.setReasoner(getReasoner());
         return new PatternConstraintSystem(delegate, ontologyManager, this);
     }
 
     @Override
     public PatternModel createPatternModel(String name, List<Variable<?>> variables,
-            List<OWLAxiomChange> actions, Variable<?> returnClause, String rendering,
-            ConstraintSystem constraintSystem) throws EmptyVariableListException,
+        List<OWLAxiomChange> actions, Variable<?> returnClause, String rendering,
+        ConstraintSystem constraintSystem) throws EmptyVariableListException,
             EmptyActionListException {
         if (variables.isEmpty()) {
             throw new EmptyVariableListException();
@@ -119,7 +121,7 @@ public class PatternModelFactory implements AbstractPatternModelFactory {
             throw new EmptyActionListException();
         } else {
             OPPLScript opplScript = getOPPLFactory().buildOPPLScript(constraintSystem,
-                    variables, null, actions);
+                variables, null, actions);
             try {
                 PatternModel patternModel = this.createPatternModel(opplScript);
                 patternModel.setRendering(rendering);
@@ -131,24 +133,29 @@ public class PatternModelFactory implements AbstractPatternModelFactory {
         }
     }
 
-    /** @return the ontologyManager */
+    /**
+     * @return the ontologyManager
+     */
     public OWLOntologyManager getOntologyManager() {
         return ontologyManager;
     }
 
-    /** @return the ontology */
+    /**
+     * @return the ontology
+     */
     public OWLOntology getOntology() {
         return ontology;
     }
 
     @Override
     public ManchesterSyntaxRenderer getRenderer(
-            final PatternConstraintSystem patternConstraintSystem) {
+        final PatternConstraintSystem patternConstraintSystem) {
         return new ManchesterSyntaxRenderer(new ShortFormProvider() {
+
             @Override
             public String getShortForm(OWLEntity entity) {
                 return PatternModelFactory.this.getOWLEntityRenderer(
-                        patternConstraintSystem).render(entity);
+                    patternConstraintSystem).render(entity);
             }
 
             @Override
@@ -156,9 +163,11 @@ public class PatternModelFactory implements AbstractPatternModelFactory {
         });
     }
 
-    /** @param cs
-     *            cs
-     * @return entity renderer */
+    /**
+     * @param cs
+     *        cs
+     * @return entity renderer
+     */
     public OWLEntityRenderer getOWLEntityRenderer(ConstraintSystem cs) {
         OWLEntityRendererImpl defaultRenderer = new OWLEntityRendererImpl();
         return new VariableOWLEntityRenderer(cs, defaultRenderer);
@@ -167,11 +176,13 @@ public class PatternModelFactory implements AbstractPatternModelFactory {
     @Override
     public OPPLAbstractFactory getOPPLFactory() {
         ParserFactory parserFactory = new ParserFactory(ontologyManager, ontology,
-                getReasoner());
+            getReasoner());
         return parserFactory.getOPPLFactory();
     }
 
-    /** @return the reasoner */
+    /**
+     * @return the reasoner
+     */
     public OWLReasoner getReasoner() {
         return reasoner;
     }

@@ -26,58 +26,65 @@ import org.protege.editor.core.ui.util.VerifiedInputEditor;
 import org.protege.editor.owl.OWLEditorKit;
 import org.protege.editor.owl.ui.editor.AbstractOWLObjectEditor;
 
-/** @author Luigi Iannone */
-public class OPPLTestCaseEditor extends AbstractOWLObjectEditor<OPPLTestCase> implements
-        VerifiedInputEditor {
+/**
+ * @author Luigi Iannone
+ */
+public class OPPLTestCaseEditor extends AbstractOWLObjectEditor<OPPLTestCase>implements
+    VerifiedInputEditor {
+
     protected final OWLEditorKit oek;
-    private final Set<InputVerificationStatusChangedListener> listeners = new HashSet<InputVerificationStatusChangedListener>();
+    private final Set<InputVerificationStatusChangedListener> listeners = new HashSet<>();
     private JPanel mainPanel;
     protected OPPLTestCase opplTestCase = null;
-    protected final Set<OPPLTestCase> otherOPPLTestCases = new HashSet<OPPLTestCase>();
+    protected final Set<OPPLTestCase> otherOPPLTestCases = new HashSet<>();
     protected final ExpressionEditor<OPPLTestCase> editor;
     private final ProtegeOPPLTestCaseAutoCompletionMatcher autoCompletionMatcher;
 
-    /** @param owlEditorKit
-     *            owlEditorKit */
+    /**
+     * @param owlEditorKit
+     *        owlEditorKit
+     */
     public OPPLTestCaseEditor(OWLEditorKit owlEditorKit) {
         oek = checkNotNull(owlEditorKit, "owlEditorKit");
         otherOPPLTestCases.addAll(new OPPLTestCaseAnnotationContainer(oek)
-                .getOPPLTestCases());
-        editor = new ExpressionEditor<OPPLTestCase>(oek.getOWLModelManager()
-                .getOWLOntologyManager(), new OPPLExpressionChecker<OPPLTestCase>(oek) {
-            @Override
-            protected OPPLTestCase parse(String text) {
-                ProtegeParserFactory parserFactory = new ProtegeParserFactory(oek);
-                OPPLTestCaseParser parser = parserFactory.build(getListener());
-                OPPLTestCase toReturn = null;
-                OPPLTestCase parsed = parser.parse(
+            .getOPPLTestCases());
+        editor = new ExpressionEditor<>(oek.getOWLModelManager()
+            .getOWLOntologyManager(), new OPPLExpressionChecker<OPPLTestCase>(oek) {
+
+                @Override
+                protected OPPLTestCase parse(String text) {
+                    ProtegeParserFactory parserFactory = new ProtegeParserFactory(oek);
+                    OPPLTestCaseParser parser = parserFactory.build(getListener());
+                    OPPLTestCase toReturn = null;
+                    OPPLTestCase parsed = parser.parse(
                         text,
                         new ShowMessageRuntimeExceptionHandler(OPPLTestCaseEditor.this
-                                .getEditorComponent()));
-                // Need to check that he test name is unique.
-                if (parsed != null && !isNameUnique(parsed)) {
-                    getListener().reportThrowable(
+                            .getEditorComponent()));
+                    // Need to check that he test name is unique.
+                    if (parsed != null && !isNameUnique(parsed)) {
+                        getListener().reportThrowable(
                             new DuplicateOPPLTestCaseNameException(parsed.getName()), 1,
                             0, parsed.getName().length());
-                } else {
-                    toReturn = parsed;
+                    } else {
+                        toReturn = parsed;
+                    }
+                    return toReturn;
                 }
-                return toReturn;
-            }
 
-            private final boolean isNameUnique(OPPLTestCase test) {
-                boolean found = false;
-                Iterator<OPPLTestCase> iterator = otherOPPLTestCases.iterator();
-                while (!found && iterator.hasNext()) {
-                    OPPLTestCase existingOPPLTestCase = iterator.next();
-                    found = test.getName().compareTo(existingOPPLTestCase.getName()) == 0;
+                private final boolean isNameUnique(OPPLTestCase test) {
+                    boolean found = false;
+                    Iterator<OPPLTestCase> iterator = otherOPPLTestCases.iterator();
+                    while (!found && iterator.hasNext()) {
+                        OPPLTestCase existingOPPLTestCase = iterator.next();
+                        found = test.getName().compareTo(existingOPPLTestCase.getName()) == 0;
+                    }
+                    return !found;
                 }
-                return !found;
-            }
-        });
+            });
         autoCompletionMatcher = new ProtegeOPPLTestCaseAutoCompletionMatcher(oek);
         new AutoCompleter(editor, autoCompletionMatcher);
         editor.addStatusChangedListener(new org.coode.parsers.ui.InputVerificationStatusChangedListener() {
+
             @Override
             public void verifiedStatusChanged(boolean newState) {
                 opplTestCase = editor.createObject();
@@ -114,11 +121,13 @@ public class OPPLTestCaseEditor extends AbstractOWLObjectEditor<OPPLTestCase> im
 
     @Override
     public void removeStatusChangedListener(
-            InputVerificationStatusChangedListener listener) {
+        InputVerificationStatusChangedListener listener) {
         listeners.remove(listener);
     }
 
-    /** @return the owlEditorKit */
+    /**
+     * @return the owlEditorKit
+     */
     public OWLEditorKit getOWLEditorKit() {
         return oek;
     }
@@ -149,7 +158,7 @@ public class OPPLTestCaseEditor extends AbstractOWLObjectEditor<OPPLTestCase> im
         // names.
         otherOPPLTestCases.clear();
         otherOPPLTestCases.addAll(new OPPLTestCaseAnnotationContainer(getOWLEditorKit())
-                .getOPPLTestCases());
+            .getOPPLTestCases());
         if (editedObject != null) {
             // I have to remove the one I am actually operating on.
             otherOPPLTestCases.remove(editedObject);

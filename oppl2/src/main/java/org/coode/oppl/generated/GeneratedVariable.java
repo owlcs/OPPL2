@@ -12,17 +12,20 @@ import org.coode.oppl.variabletypes.VariableType;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLObject;
 
-/** @author Luigi Iannone
+/**
+ * @author Luigi Iannone
  * @param <O>
- *            type */
+ *        type
+ */
 public class GeneratedVariable<O extends OWLObject> implements Variable<O> {
+
     private final OPPLFunction<? extends O> opplFunction;
     private final String name;
     private final IRI iri;
     private final VariableType<O> type;
 
     protected GeneratedVariable(String name, VariableType<O> type,
-            OPPLFunction<? extends O> opplFunction) {
+        OPPLFunction<? extends O> opplFunction) {
         this.name = checkNotNull(name, "name");
         this.type = checkNotNull(type, "type");
         this.opplFunction = checkNotNull(opplFunction, "opplFunction");
@@ -32,7 +35,7 @@ public class GeneratedVariable<O extends OWLObject> implements Variable<O> {
     @Override
     public String render(ConstraintSystem constraintSystem) {
         return String.format("%s:%s = %s", this.getName(), this.getType(), this
-                .getOPPLFunction().render(constraintSystem));
+            .getOPPLFunction().render(constraintSystem));
     }
 
     @Override
@@ -40,7 +43,9 @@ public class GeneratedVariable<O extends OWLObject> implements Variable<O> {
         return String.format("%s:%s", this.getName(), this.getType());
     }
 
-    /** @return the opplFunction */
+    /**
+     * @return the opplFunction
+     */
     public OPPLFunction<? extends O> getOPPLFunction() {
         return this.opplFunction;
     }
@@ -108,17 +113,20 @@ public class GeneratedVariable<O extends OWLObject> implements Variable<O> {
         return true;
     }
 
-    /** @param name
-     *            name
+    /**
+     * @param name
+     *        name
      * @param type
-     *            type
+     *        type
      * @param opplFunction
-     *            opplFunction
-     * @param <P>
-     *            variable type
-     * @return generated variable */
+     *        opplFunction
+     * @param
+     *        <P>
+     *        variable type
+     * @return generated variable
+     */
     public static <P extends OWLObject> GeneratedVariable<P> getGeneratedVariable(
-            String name, VariableType<P> type, OPPLFunction<? extends P> opplFunction) {
-        return new GeneratedVariable<P>(name, type, opplFunction);
+        String name, VariableType<P> type, OPPLFunction<? extends P> opplFunction) {
+        return new GeneratedVariable<>(name, type, opplFunction);
     }
 }

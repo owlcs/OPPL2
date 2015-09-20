@@ -1,10 +1,15 @@
 package org.coode.parsers.oppl.testcase;
 
 //import org.junit.Assert;
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class JUnitTestCaseRunner extends TestCaseRunner {
-    /** @param opplTestCase
-     *            opplTestCase */
+
+    /**
+     * @param opplTestCase
+     *        opplTestCase
+     */
     public JUnitTestCaseRunner(OPPLTestCase opplTestCase) {
         super(opplTestCase);
     }

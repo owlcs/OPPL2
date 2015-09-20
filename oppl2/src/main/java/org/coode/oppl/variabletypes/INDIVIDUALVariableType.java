@@ -16,11 +16,16 @@ import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.util.OWLObjectVisitorExAdapter;
 
-/** @author Luigi Iannone */
-public class INDIVIDUALVariableType extends AbstractVariableType<OWLIndividual> implements
-        VariableType<OWLIndividual> {
-    /** @param name
-     *            name */
+/**
+ * @author Luigi Iannone
+ */
+public class INDIVIDUALVariableType extends AbstractVariableType<OWLIndividual>implements
+    VariableType<OWLIndividual> {
+
+    /**
+     * @param name
+     *        name
+     */
     public INDIVIDUALVariableType(VariableTypeName name) {
         super(name, EnumSet.of(Direction.INSTANCEOF));
     }
@@ -37,16 +42,16 @@ public class INDIVIDUALVariableType extends AbstractVariableType<OWLIndividual> 
 
     @Override
     public RegexpGeneratedVariable<? extends OWLIndividual> getRegexpGeneratedVariable(
-            String name, OPPLFunction<Pattern> patternGeneratingOPPLFunction) {
-        return new RegexpGeneratedVariable<OWLIndividual>(name,
-                VariableTypeFactory.getINDIVIDUALVariableType(),
-                patternGeneratingOPPLFunction);
+        String name, OPPLFunction<Pattern> patternGeneratingOPPLFunction) {
+        return new RegexpGeneratedVariable<>(name,
+            VariableTypeFactory.getINDIVIDUALVariableType(),
+            patternGeneratingOPPLFunction);
     }
 
     @Override
     public Set<OWLIndividual> getReferencedOWLObjects(
-            Collection<? extends OWLOntology> ontologies) {
-        Set<OWLIndividual> toReturn = new HashSet<OWLIndividual>();
+        Collection<? extends OWLOntology> ontologies) {
+        Set<OWLIndividual> toReturn = new HashSet<>();
         for (OWLOntology ontology : ontologies) {
             toReturn.addAll(ontology.getIndividualsInSignature());
         }
@@ -56,6 +61,7 @@ public class INDIVIDUALVariableType extends AbstractVariableType<OWLIndividual> 
     @Override
     public boolean isCompatibleWith(OWLObject o) {
         return o.accept(new OWLObjectVisitorExAdapter<Boolean>(false) {
+
             @Override
             public Boolean visit(OWLAnonymousIndividual individual) {
                 return true;

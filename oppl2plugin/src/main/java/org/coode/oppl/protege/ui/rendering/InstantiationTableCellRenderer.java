@@ -12,13 +12,18 @@ import org.protege.editor.owl.OWLEditorKit;
 import org.protege.editor.owl.ui.renderer.OWLCellRenderer;
 import org.semanticweb.owlapi.model.OWLObject;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class InstantiationTableCellRenderer implements TableCellRenderer {
+
     private final OWLCellRenderer owlCellRenderer;
     private final OWLEditorKit owlEditorKit;
 
-    /** @param owlEditorKit
-     *            owlEditorKit */
+    /**
+     * @param owlEditorKit
+     *        owlEditorKit
+     */
     public InstantiationTableCellRenderer(OWLEditorKit owlEditorKit) {
         this.owlEditorKit = checkNotNull(owlEditorKit, "owlEditorKit");
         owlCellRenderer = new OWLCellRenderer(owlEditorKit);
@@ -26,18 +31,20 @@ public class InstantiationTableCellRenderer implements TableCellRenderer {
 
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value,
-            boolean isSelected, boolean hasFocus, int row, int column) {
+        boolean isSelected, boolean hasFocus, int row, int column) {
         Component toReturn = new DefaultTableCellRenderer()
-                .getTableCellRendererComponent(table, value, isSelected, hasFocus, row,
-                        column);
+            .getTableCellRendererComponent(table, value, isSelected, hasFocus, row,
+                column);
         if (value instanceof OWLObject) {
             toReturn = owlCellRenderer.getTableCellRendererComponent(table, value,
-                    isSelected, hasFocus, row, column);
+                isSelected, hasFocus, row, column);
         }
         return toReturn;
     }
 
-    /** @return the owlEditorKit */
+    /**
+     * @return the owlEditorKit
+     */
     protected OWLEditorKit getOWLEditorKit() {
         return owlEditorKit;
     }

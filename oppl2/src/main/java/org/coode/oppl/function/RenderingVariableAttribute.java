@@ -5,10 +5,15 @@ import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.semanticweb.owlapi.model.OWLObject;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class RenderingVariableAttribute extends VariableAttribute<String> {
-    /** @param variable
-     *            variable */
+
+    /**
+     * @param variable
+     *        variable
+     */
     public RenderingVariableAttribute(Variable<?> variable) {
         super(variable, AttributeName.RENDERING);
     }
@@ -25,19 +30,20 @@ public class RenderingVariableAttribute extends VariableAttribute<String> {
 
     @Override
     public ValueComputation<String> getValueComputation(
-            final ValueComputationParameters parameters) {
+        final ValueComputationParameters parameters) {
         return new ValueComputation<String>() {
+
             @Override
             public String compute(OPPLFunction<? extends String> opplFunction) {
                 String toReturn = null;
                 BindingNode bindingNode = parameters.getBindingNode();
                 OWLObject assignmentValue = bindingNode.getAssignmentValue(
-                        RenderingVariableAttribute.this.getVariable(), parameters);
+                    RenderingVariableAttribute.this.getVariable(), parameters);
                 if (assignmentValue != null) {
                     ManchesterSyntaxRenderer renderer = parameters
-                            .getConstraintSystem()
-                            .getOPPLFactory()
-                            .getManchesterSyntaxRenderer(parameters.getConstraintSystem());
+                        .getConstraintSystem()
+                        .getOPPLFactory()
+                        .getManchesterSyntaxRenderer(parameters.getConstraintSystem());
                     assignmentValue.accept(renderer);
                     toReturn = renderer.toString();
                 }

@@ -15,11 +15,15 @@ import javax.swing.event.ListDataListener;
 import org.protege.editor.core.ui.list.MListItem;
 import org.protege.editor.core.ui.list.MListSectionHeader;
 
-/** @author Luigi Iannone
+/**
+ * @author Luigi Iannone
  * @param <I>
- *            type */
+ *        type
+ */
 public class VariableListModel<I> implements ListModel {
+
     protected final static class MySectionHeader implements MListSectionHeader {
+
         final String header;
         boolean add = true;
 
@@ -40,19 +44,26 @@ public class VariableListModel<I> implements ListModel {
 
     private final MySectionHeader myHeader;
 
-    /** @author Luigi Iannone
+    /**
+     * @author Luigi Iannone
      * @param <E>
-     *            type */
+     *        type
+     */
     public final static class VariableListItem<E> implements MListItem {
+
         private final E item;
 
-        /** @return item */
+        /**
+         * @return item
+         */
         public E getItem() {
             return this.item;
         }
 
-        /** @param b
-         *            b */
+        /**
+         * @param b
+         *        b
+         */
         public VariableListItem(E b) {
             this.item = checkNotNull(b, "b");
         }
@@ -81,26 +92,30 @@ public class VariableListModel<I> implements ListModel {
         }
     }
 
-    private final List<Object> delegate = new ArrayList<Object>();
-    private final Set<ListDataListener> listeners = new HashSet<ListDataListener>();
+    private final List<Object> delegate = new ArrayList<>();
+    private final Set<ListDataListener> listeners = new HashSet<>();
     private final Collection<I> modelElements;
 
-    /** @param elements
-     *            elements
+    /**
+     * @param elements
+     *        elements
      * @param sectionHeader
-     *            sectionHeader */
+     *        sectionHeader
+     */
     public VariableListModel(Collection<I> elements, String sectionHeader) {
         this.modelElements = elements;
         this.myHeader = new MySectionHeader(sectionHeader);
         this.init();
     }
 
-    /** @param elements
-     *            elements
+    /**
+     * @param elements
+     *        elements
      * @param sectionHeader
-     *            sectionHeader
+     *        sectionHeader
      * @param canAdd
-     *            canAdd */
+     *        canAdd
+     */
     public VariableListModel(Collection<I> elements, String sectionHeader, boolean canAdd) {
         this(elements, sectionHeader);
         this.myHeader.add = canAdd;
@@ -111,14 +126,14 @@ public class VariableListModel<I> implements ListModel {
         this.delegate.clear();
         this.delegate.add(this.myHeader);
         for (I bm : this.modelElements) {
-            this.delegate.add(new VariableListItem<I>(bm));
+            this.delegate.add(new VariableListItem<>(bm));
         }
         this.notifyListeners();
     }
 
     protected void notifyListeners() {
         ListDataEvent event = new ListDataEvent(this, ListDataEvent.CONTENTS_CHANGED, 0,
-                this.delegate.size() - 1);
+            this.delegate.size() - 1);
         for (ListDataListener l : this.listeners) {
             l.contentsChanged(event);
         }

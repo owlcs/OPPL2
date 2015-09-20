@@ -3,17 +3,7 @@ package org.coode.parsers;
 
 import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
-import org.antlr.runtime.BaseRecognizer;
-import org.antlr.runtime.BitSet;
-import org.antlr.runtime.DFA;
-import org.antlr.runtime.IntStream;
-import org.antlr.runtime.MismatchedTokenException;
-import org.antlr.runtime.NoViableAltException;
-import org.antlr.runtime.Parser;
-import org.antlr.runtime.ParserRuleReturnScope;
-import org.antlr.runtime.RecognitionException;
-import org.antlr.runtime.RecognizerSharedState;
-import org.antlr.runtime.TokenStream;
+import org.antlr.runtime.*;
 import org.antlr.runtime.tree.CommonTreeAdaptor;
 import org.antlr.runtime.tree.RewriteEmptyStreamException;
 import org.antlr.runtime.tree.RewriteRuleSubtreeStream;
@@ -23,39 +13,40 @@ import org.coode.oppl.log.Logging;
 
 @SuppressWarnings({ "javadoc", "incomplete-switch", "synthetic-access" })
 public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
+
     public static final String[] tokenNames = new String[] { "<invalid>", "<EOR>",
-            "<DOWN>", "<UP>", "COMPOSITION", "OPEN_PARENTHESYS", "OPEN_CURLY_BRACES",
-            "CLOSED_CURLY_BRACES", "CLOSED_PARENTHESYS", "WHITESPACE", "AND", "OR",
-            "NOT", "SOME", "ONLY", "MIN", "MAX", "EXACTLY", "VALUE", "INVERSE",
-            "SUBCLASS_OF", "SUB_PROPERTY_OF", "EQUIVALENT_TO", "SAME_AS",
-            "DIFFERENT_FROM", "INVERSE_OF", "DISJOINT_WITH", "DOMAIN", "RANGE",
-            "FUNCTIONAL", "SYMMETRIC", "ANTI_SYMMETRIC", "REFLEXIVE", "IRREFLEXIVE",
-            "TRANSITIVE", "INVERSE_FUNCTIONAL", "POW", "COMMA", "INSTANCE_OF", "TYPES",
-            "DBLQUOTE", "DIGIT", "INTEGER", "LETTER", "IDENTIFIER", "ENTITY_REFERENCE",
-            "QUESTION_MARK", "Tokens", "SUB_CLASS_AXIOM", "EQUIVALENT_TO_AXIOM",
-            "DISJOINT_WITH_AXIOM", "SUB_PROPERTY_AXIOM", "SAME_AS_AXIOM",
-            "DIFFERENT_FROM_AXIOM", "UNARY_AXIOM", "DISJUNCTION", "CONJUNCTION",
-            "PROPERTY_CHAIN", "NEGATED_EXPRESSION", "NEGATED_ASSERTION",
-            "INVERSE_PROPERTY", "SOME_RESTRICTION", "ALL_RESTRICTION",
-            "VALUE_RESTRICTION", "CARDINALITY_RESTRICTION", "ONE_OF", "TYPE_ASSERTION",
-            "ROLE_ASSERTION", "INVERSE_OBJECT_PROPERTY_EXPRESSION", "EXPRESSION",
-            "CONSTANT", "HAS_KEY", "IRI", "ANNOTATION_ASSERTION",
-            "STANDALONE_EXPRESSION", "INCOMPLETE_TYPE_ASSERTION",
-            "INCOMPLETE_ROLE_ASSERTION", "INCOMPLETE_UNARY_AXIOM",
-            "INCOMPLETE_SUB_CLASS_AXIOM", "INCOMPLETE_EQUIVALENT_TO_AXIOM",
-            "INCOMPLETE_DISJOINT_WITH_AXIOM", "INCOMPLETE_SUB_PROPERTY_AXIOM",
-            "INCOMPLETE_SAME_AS_AXIOM", "INCOMPLETE_DIFFERENT_FROM_AXIOM",
-            "INCOMPLETE_DOMAIN", "INCOMPLETE_RANGE", "INCOMPLETE_INVERSE_OF",
-            "INCOMPLETE_PROPERTY_CHAIN", "INCOMPLETE_DISJUNCTION",
-            "INCOMPLETE_CONJUNCTION", "INCOMPLETE_INVERSE_OBJECT_PROPERTY_EXPRESSION",
-            "INCOMPLETE_NEGATED_EXPRESSION", "INCOMPLETE_SOME_RESTRICTION",
-            "INCOMPLETE_ALL_RESTRICTION", "INCOMPLETE_CARDINALITY_RESTRICTION",
-            "INCOMPLETE_ONE_OF", "INCOMPLETE_VALUE_RESTRICTION", "INCOMPLETE_EXPRESSION",
-            "AT", "OPEN_SQUARE_BRACKET", "CLOSED_SQUARE_BRACKET", "EQUAL", "LESS_THAN",
-            "LESS_THAN_EQUAL", "GREATER_THAN", "GREATER_THAN_EQUAL", "DATA_RANGE", "693",
-            "694", "695", "696", "697", "698", "699", "700", "701", "702", "703", "704",
-            "705", "706", "707", "708", "709", "710", "711", "712", "713", "714", "715",
-            "716", "717", "718", "719", "720", "721", "722", "723", "724" };
+        "<DOWN>", "<UP>", "COMPOSITION", "OPEN_PARENTHESYS", "OPEN_CURLY_BRACES",
+        "CLOSED_CURLY_BRACES", "CLOSED_PARENTHESYS", "WHITESPACE", "AND", "OR",
+        "NOT", "SOME", "ONLY", "MIN", "MAX", "EXACTLY", "VALUE", "INVERSE",
+        "SUBCLASS_OF", "SUB_PROPERTY_OF", "EQUIVALENT_TO", "SAME_AS",
+        "DIFFERENT_FROM", "INVERSE_OF", "DISJOINT_WITH", "DOMAIN", "RANGE",
+        "FUNCTIONAL", "SYMMETRIC", "ANTI_SYMMETRIC", "REFLEXIVE", "IRREFLEXIVE",
+        "TRANSITIVE", "INVERSE_FUNCTIONAL", "POW", "COMMA", "INSTANCE_OF", "TYPES",
+        "DBLQUOTE", "DIGIT", "INTEGER", "LETTER", "IDENTIFIER", "ENTITY_REFERENCE",
+        "QUESTION_MARK", "Tokens", "SUB_CLASS_AXIOM", "EQUIVALENT_TO_AXIOM",
+        "DISJOINT_WITH_AXIOM", "SUB_PROPERTY_AXIOM", "SAME_AS_AXIOM",
+        "DIFFERENT_FROM_AXIOM", "UNARY_AXIOM", "DISJUNCTION", "CONJUNCTION",
+        "PROPERTY_CHAIN", "NEGATED_EXPRESSION", "NEGATED_ASSERTION",
+        "INVERSE_PROPERTY", "SOME_RESTRICTION", "ALL_RESTRICTION",
+        "VALUE_RESTRICTION", "CARDINALITY_RESTRICTION", "ONE_OF", "TYPE_ASSERTION",
+        "ROLE_ASSERTION", "INVERSE_OBJECT_PROPERTY_EXPRESSION", "EXPRESSION",
+        "CONSTANT", "HAS_KEY", "IRI", "ANNOTATION_ASSERTION",
+        "STANDALONE_EXPRESSION", "INCOMPLETE_TYPE_ASSERTION",
+        "INCOMPLETE_ROLE_ASSERTION", "INCOMPLETE_UNARY_AXIOM",
+        "INCOMPLETE_SUB_CLASS_AXIOM", "INCOMPLETE_EQUIVALENT_TO_AXIOM",
+        "INCOMPLETE_DISJOINT_WITH_AXIOM", "INCOMPLETE_SUB_PROPERTY_AXIOM",
+        "INCOMPLETE_SAME_AS_AXIOM", "INCOMPLETE_DIFFERENT_FROM_AXIOM",
+        "INCOMPLETE_DOMAIN", "INCOMPLETE_RANGE", "INCOMPLETE_INVERSE_OF",
+        "INCOMPLETE_PROPERTY_CHAIN", "INCOMPLETE_DISJUNCTION",
+        "INCOMPLETE_CONJUNCTION", "INCOMPLETE_INVERSE_OBJECT_PROPERTY_EXPRESSION",
+        "INCOMPLETE_NEGATED_EXPRESSION", "INCOMPLETE_SOME_RESTRICTION",
+        "INCOMPLETE_ALL_RESTRICTION", "INCOMPLETE_CARDINALITY_RESTRICTION",
+        "INCOMPLETE_ONE_OF", "INCOMPLETE_VALUE_RESTRICTION", "INCOMPLETE_EXPRESSION",
+        "AT", "OPEN_SQUARE_BRACKET", "CLOSED_SQUARE_BRACKET", "EQUAL", "LESS_THAN",
+        "LESS_THAN_EQUAL", "GREATER_THAN", "GREATER_THAN_EQUAL", "DATA_RANGE", "693",
+        "694", "695", "696", "697", "698", "699", "700", "701", "702", "703", "704",
+        "705", "706", "707", "708", "709", "710", "711", "712", "713", "714", "715",
+        "716", "717", "718", "719", "720", "721", "722", "723", "724" };
     public static final int COMMA = 37;
     public static final int GREATER_THAN = 667;
     public static final int DIFFERENT_FROM = 24;
@@ -170,10 +161,10 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
     }
 
     public ManchesterOWLSyntaxAutoCompleteCombinedParser(TokenStream input,
-            RecognizerSharedState state) {
+        RecognizerSharedState state) {
         super(input, state);
         gManchesterOWLSyntaxAutoCompleteBase = new ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase(
-                input, state, this);
+            input, state, this);
         gMOWLParser = gManchesterOWLSyntaxAutoCompleteBase.gMOWLParser;
     }
 
@@ -201,12 +192,12 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
     private ErrorListener errorListener;
 
     public ManchesterOWLSyntaxAutoCompleteCombinedParser(TokenStream input,
-            ErrorListener errorListener) {
+        ErrorListener errorListener) {
         this(input, new RecognizerSharedState(), errorListener);
     }
 
     public ManchesterOWLSyntaxAutoCompleteCombinedParser(TokenStream input,
-            RecognizerSharedState state, ErrorListener errorListener) {
+        RecognizerSharedState state, ErrorListener errorListener) {
         this(input, state);
         this.errorListener = checkNotNull(errorListener, "errorListener");
     }
@@ -223,17 +214,18 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
     }
 
     protected void mismatch(IntStream in, int ttype,
-            @SuppressWarnings("unused") BitSet follow) throws RecognitionException {
+        @SuppressWarnings("unused") BitSet follow) throws RecognitionException {
         throw new MismatchedTokenException(ttype, in);
     }
 
     @Override
     public Object recoverFromMismatchedSet(IntStream in, RecognitionException e,
-            BitSet follow) throws RecognitionException {
+        BitSet follow) throws RecognitionException {
         throw e;
     }
 
     public static class main_return extends ParserRuleReturnScope {
+
         ManchesterOWLSyntaxTree tree;
 
         @Override
@@ -256,13 +248,13 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
         ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteExpression_return incompleteExpression3 = null;
         ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.standaloneExpression_return standaloneExpression4 = null;
         RewriteRuleSubtreeStream stream_incompleteExpression = new RewriteRuleSubtreeStream(
-                adaptor, "rule incompleteExpression");
+            adaptor, "rule incompleteExpression");
         RewriteRuleSubtreeStream stream_incompleteAxiom = new RewriteRuleSubtreeStream(
-                adaptor, "rule incompleteAxiom");
+            adaptor, "rule incompleteAxiom");
         RewriteRuleSubtreeStream stream_axiom = new RewriteRuleSubtreeStream(adaptor,
-                "rule axiom");
+            "rule axiom");
         RewriteRuleSubtreeStream stream_standaloneExpression = new RewriteRuleSubtreeStream(
-                adaptor, "rule standaloneExpression");
+            adaptor, "rule standaloneExpression");
         try {
             // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxAutoCompleteCombined.g:65:5:
             // ( ( options {backtrack=true; } : axiom -> axiom | incompleteAxiom
@@ -338,7 +330,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
                             // 69:22: -> incompleteAxiom
                             {
                                 adaptor.addChild(root_0,
-                                        stream_incompleteAxiom.nextTree());
+                                    stream_incompleteAxiom.nextTree());
                             }
                             retval.tree = root_0;
                         }
@@ -356,7 +348,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
                         }
                         if (state.backtracking == 0) {
                             stream_incompleteExpression.add(incompleteExpression3
-                                    .getTree());
+                                .getTree());
                         }
                         // AST REWRITE
                         // elements: incompleteExpression
@@ -371,7 +363,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
                             // 70:27: -> incompleteExpression
                             {
                                 adaptor.addChild(root_0,
-                                        stream_incompleteExpression.nextTree());
+                                    stream_incompleteExpression.nextTree());
                             }
                             retval.tree = root_0;
                         }
@@ -389,7 +381,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
                         }
                         if (state.backtracking == 0) {
                             stream_standaloneExpression.add(standaloneExpression4
-                                    .getTree());
+                                .getTree());
                         }
                         // AST REWRITE
                         // elements: standaloneExpression
@@ -404,7 +396,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
                             // 71:30: -> standaloneExpression
                             {
                                 adaptor.addChild(root_0,
-                                        stream_standaloneExpression.nextTree());
+                                    stream_standaloneExpression.nextTree());
                             }
                             retval.tree = root_0;
                         }
@@ -415,7 +407,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
             retval.stop = input.LT(-1);
             if (state.backtracking == 0) {
                 retval.tree = (ManchesterOWLSyntaxTree) adaptor
-                        .rulePostProcessing(root_0);
+                    .rulePostProcessing(root_0);
                 adaptor.setTokenBoundaries(retval.tree, retval.start, retval.stop);
             }
         } catch (RecognitionException e) {
@@ -426,14 +418,14 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
             if (errorListener != null) {
                 errorListener.rewriteEmptyStreamException(e);
             }
-        } finally {}
+        }
         return retval;
     }
 
     // $ANTLR end "main"
     // $ANTLR start synpred1_ManchesterOWLSyntaxAutoCompleteCombined
     public final void synpred1_ManchesterOWLSyntaxAutoCompleteCombined_fragment()
-            throws RecognitionException {
+        throws RecognitionException {
         // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxAutoCompleteCombined.g:68:3:
         // ( axiom )
         // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxAutoCompleteCombined.g:68:3:
@@ -484,219 +476,170 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
 
     // $ANTLR end synpred3_ManchesterOWLSyntaxAutoCompleteCombined
     // Delegated rules
-    public
-            ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteAxiom_return
-            incompleteAxiom() {
+    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteAxiom_return incompleteAxiom() {
         return gManchesterOWLSyntaxAutoCompleteBase.incompleteAxiom();
     }
 
-    public
-            ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteValueRestriction_return
-            incompleteValueRestriction() {
+    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteValueRestriction_return incompleteValueRestriction() {
         return gManchesterOWLSyntaxAutoCompleteBase.incompleteValueRestriction();
     }
 
-    public
-            ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteQualifiedRestriction_return
-            incompleteQualifiedRestriction() {
+    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteQualifiedRestriction_return incompleteQualifiedRestriction() {
         return gManchesterOWLSyntaxAutoCompleteBase.incompleteQualifiedRestriction();
     }
 
-    public
-            ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteComplexPropertyExpression_return
-            incompleteComplexPropertyExpression() {
+    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteComplexPropertyExpression_return incompleteComplexPropertyExpression() {
         return gManchesterOWLSyntaxAutoCompleteBase.incompleteComplexPropertyExpression();
     }
 
-    public
-            ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.dataRangeFacet_return
-            dataRangeFacet() throws RecognitionException {
+    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.dataRangeFacet_return dataRangeFacet()
+        throws RecognitionException {
         return gMOWLParser.dataRangeFacet();
     }
 
-    public
-            ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteUnary_return
-            incompleteUnary() {
+    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteUnary_return incompleteUnary() {
         return gManchesterOWLSyntaxAutoCompleteBase.incompleteUnary();
     }
 
-    public
-            ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.axiom_return
-            axiom() throws RecognitionException {
+    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.axiom_return axiom()
+        throws RecognitionException {
         return gMOWLParser.axiom();
     }
 
-    public
-            ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.binaryAxiom_return
-            binaryAxiom() throws RecognitionException {
+    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.binaryAxiom_return binaryAxiom()
+        throws RecognitionException {
         return gMOWLParser.binaryAxiom();
     }
 
-    public
-            ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.unary_return
-            unary() throws RecognitionException {
+    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.unary_return unary()
+        throws RecognitionException {
         return gMOWLParser.unary();
     }
 
-    public
-            ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.assertionAxiom_return
-            assertionAxiom() throws RecognitionException {
+    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.assertionAxiom_return assertionAxiom()
+        throws RecognitionException {
         return gMOWLParser.assertionAxiom();
     }
 
-    public
-            ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteOneOf_return
-            incompleteOneOf() {
+    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteOneOf_return incompleteOneOf() {
         return gManchesterOWLSyntaxAutoCompleteBase.incompleteOneOf();
     }
 
-    public
-            ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteAssertionAxiom_return
-            incompleteAssertionAxiom() {
+    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteAssertionAxiom_return incompleteAssertionAxiom() {
         return gManchesterOWLSyntaxAutoCompleteBase.incompleteAssertionAxiom();
     }
 
-    public
-            ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.expression_return
-            expression() throws RecognitionException {
+    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.expression_return expression()
+        throws RecognitionException {
         return gMOWLParser.expression();
     }
 
-    public
-            ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.unaryCharacteristic_return
-            unaryCharacteristic() throws RecognitionException {
+    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.unaryCharacteristic_return unaryCharacteristic()
+        throws RecognitionException {
         return gMOWLParser.unaryCharacteristic();
     }
 
-    public
-            ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.unaryAxiom_return
-            unaryAxiom() throws RecognitionException {
+    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.unaryAxiom_return unaryAxiom()
+        throws RecognitionException {
         return gMOWLParser.unaryAxiom();
     }
 
-    public
-            ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.oneOf_return
-            oneOf() throws RecognitionException {
+    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.oneOf_return oneOf()
+        throws RecognitionException {
         return gMOWLParser.oneOf();
     }
 
-    public
-            ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.constant_return
-            constant() throws RecognitionException {
+    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.constant_return constant()
+        throws RecognitionException {
         return gMOWLParser.constant();
     }
 
-    public
-            ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteBinaryAxiom_return
-            incompleteBinaryAxiom() {
+    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteBinaryAxiom_return incompleteBinaryAxiom() {
         return gManchesterOWLSyntaxAutoCompleteBase.incompleteBinaryAxiom();
     }
 
-    public
-            ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.complexPropertyExpression_return
-            complexPropertyExpression() throws RecognitionException {
+    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.complexPropertyExpression_return complexPropertyExpression()
+        throws RecognitionException {
         return gMOWLParser.complexPropertyExpression();
     }
 
-    public
-            ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteConjunction_return
-            incompleteConjunction() {
+    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteConjunction_return incompleteConjunction() {
         return gManchesterOWLSyntaxAutoCompleteBase.incompleteConjunction();
     }
 
-    public
-            ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.iri_return
-            iri() throws RecognitionException {
+    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.iri_return iri()
+        throws RecognitionException {
         return gMOWLParser.iri();
     }
 
-    public
-            ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.cardinalityRestriction_return
-            cardinalityRestriction() throws RecognitionException {
+    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.cardinalityRestriction_return cardinalityRestriction()
+        throws RecognitionException {
         return gMOWLParser.cardinalityRestriction();
     }
 
-    public
-            ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.propertyExpression_return
-            propertyExpression() throws RecognitionException {
+    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.propertyExpression_return propertyExpression()
+        throws RecognitionException {
         return gMOWLParser.propertyExpression();
     }
 
-    public
-            ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.value_return
-            value() throws RecognitionException {
+    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.value_return value()
+        throws RecognitionException {
         return gMOWLParser.value();
     }
 
-    public
-            ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.qualifiedRestriction_return
-            qualifiedRestriction() throws RecognitionException {
+    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.qualifiedRestriction_return qualifiedRestriction()
+        throws RecognitionException {
         return gMOWLParser.qualifiedRestriction();
     }
 
-    public
-            ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteCardinalityRestriction_return
-            incompleteCardinalityRestriction() {
+    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteCardinalityRestriction_return incompleteCardinalityRestriction() {
         return gManchesterOWLSyntaxAutoCompleteBase.incompleteCardinalityRestriction();
     }
 
-    public
-            ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteExpression_return
-            incompleteExpression() {
+    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteExpression_return incompleteExpression() {
         return gManchesterOWLSyntaxAutoCompleteBase.incompleteExpression();
     }
 
-    public
-            ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.valueRestriction_return
-            valueRestriction() throws RecognitionException {
+    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.valueRestriction_return valueRestriction()
+        throws RecognitionException {
         return gMOWLParser.valueRestriction();
     }
 
-    public
-            ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.standaloneExpression_return
-            standaloneExpression() {
+    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.standaloneExpression_return standaloneExpression() {
         return gManchesterOWLSyntaxAutoCompleteBase.standaloneExpression();
     }
 
-    public
-            ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.annotationAssertionAxiom_return
-            annotationAssertionAxiom() throws RecognitionException {
+    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.annotationAssertionAxiom_return annotationAssertionAxiom()
+        throws RecognitionException {
         return gMOWLParser.annotationAssertionAxiom();
     }
 
-    public
-            ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteUnaryAxiom_return
-            incompleteUnaryAxiom() {
+    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteUnaryAxiom_return incompleteUnaryAxiom() {
         return gManchesterOWLSyntaxAutoCompleteBase.incompleteUnaryAxiom();
     }
 
-    public
-            ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.restrictionKind_return
-            restrictionKind() throws RecognitionException {
+    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.restrictionKind_return restrictionKind()
+        throws RecognitionException {
         return gMOWLParser.restrictionKind();
     }
 
-    public
-            ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.dataRange_return
-            dataRange() throws RecognitionException {
+    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.dataRange_return dataRange()
+        throws RecognitionException {
         return gMOWLParser.dataRange();
     }
 
-    public
-            ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.atomic_return
-            atomic() throws RecognitionException {
+    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.atomic_return atomic()
+        throws RecognitionException {
         return gMOWLParser.atomic();
     }
 
-    public
-            ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.hasKeyAxiom_return
-            hasKeyAxiom() throws RecognitionException {
+    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.hasKeyAxiom_return hasKeyAxiom()
+        throws RecognitionException {
         return gMOWLParser.hasKeyAxiom();
     }
 
-    public
-            ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.conjunction_return
-            conjunction() throws RecognitionException {
+    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.conjunction_return conjunction()
+        throws RecognitionException {
         return gMOWLParser.conjunction();
     }
 
@@ -707,9 +650,9 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
         int start = input.mark();
         try {
             synpred1_ManchesterOWLSyntaxAutoCompleteCombined_fragment(); // can
-                                                                         // never
-                                                                         // throw
-                                                                         // exception
+ // never
+ // throw
+ // exception
         } catch (RecognitionException re) {
             logger.info("impossible: ", re);
         }
@@ -749,13 +692,13 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
     static final String DFA1_maxS = "\1\156\16\0\4\uffff";
     static final String DFA1_acceptS = "\17\uffff\1\1\1\2\1\3\1\4";
     static final String DFA1_specialS = "\1\uffff\1\0\1\1\1\2\1\3\1\4\1\5\1\6\1\7\1\10\1\11\1\12\1\13\1\14"
-            + "\1\15\4\uffff}>";
+        + "\1\15\4\uffff}>";
     static final String[] DFA1_transitionS = {
-            "\1\7\1\5\5\uffff\1\4\6\uffff\1\3\11\uffff\1\10\1\12\1\13\1\14"
-                    + "\1\15\1\16\1\11\4\uffff\1\6\3\uffff\1\1\1\2\100\uffff\1\17",
-            "\1\uffff", "\1\uffff", "\1\uffff", "\1\uffff", "\1\uffff", "\1\uffff",
-            "\1\uffff", "\1\uffff", "\1\uffff", "\1\uffff", "\1\uffff", "\1\uffff",
-            "\1\uffff", "\1\uffff", "", "", "", "" };
+        "\1\7\1\5\5\uffff\1\4\6\uffff\1\3\11\uffff\1\10\1\12\1\13\1\14"
+            + "\1\15\1\16\1\11\4\uffff\1\6\3\uffff\1\1\1\2\100\uffff\1\17",
+        "\1\uffff", "\1\uffff", "\1\uffff", "\1\uffff", "\1\uffff", "\1\uffff",
+        "\1\uffff", "\1\uffff", "\1\uffff", "\1\uffff", "\1\uffff", "\1\uffff",
+        "\1\uffff", "\1\uffff", "", "", "", "" };
     static final short[] DFA1_eot = DFA.unpackEncodedString(DFA1_eotS);
     static final short[] DFA1_eof = DFA.unpackEncodedString(DFA1_eofS);
     static final char[] DFA1_min = DFA.unpackEncodedStringToUnsignedChars(DFA1_minS);
@@ -763,6 +706,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
     static final short[] DFA1_accept = DFA.unpackEncodedString(DFA1_acceptS);
     static final short[] DFA1_special = DFA.unpackEncodedString(DFA1_specialS);
     static final short[][] DFA1_transition;
+
     static {
         int numStates = DFA1_transitionS.length;
         DFA1_transition = new short[numStates][];
@@ -772,6 +716,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
     }
 
     class DFA1 extends DFA {
+
         public DFA1(BaseRecognizer recognizer) {
             this.recognizer = recognizer;
             decisionNumber = 1;
@@ -791,7 +736,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
 
         @Override
         public int specialStateTransition(int __s, IntStream _input)
-                throws NoViableAltException {
+            throws NoViableAltException {
             TokenStream in = (TokenStream) _input;
             int s = __s;
             int _s = s;
@@ -1040,24 +985,24 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
                 return -1;
             }
             NoViableAltException nvae = new NoViableAltException(getDescription(), 1, _s,
-                    in);
+                in);
             error(nvae);
             throw nvae;
         }
     }
 
     public static final BitSet FOLLOW_axiom_in_main125 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_incompleteAxiom_in_main136 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_incompleteExpression_in_main147 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_standaloneExpression_in_main164 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_axiom_in_synpred1_ManchesterOWLSyntaxAutoCompleteCombined125 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_incompleteAxiom_in_synpred2_ManchesterOWLSyntaxAutoCompleteCombined136 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_incompleteExpression_in_synpred3_ManchesterOWLSyntaxAutoCompleteCombined147 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
 }

@@ -2,12 +2,7 @@ package org.coode.parsers.oppl.testcase;
 
 import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
-import org.antlr.runtime.ANTLRStringStream;
-import org.antlr.runtime.RecognitionException;
-import org.antlr.runtime.RuleReturnScope;
-import org.antlr.runtime.Token;
-import org.antlr.runtime.TokenRewriteStream;
-import org.antlr.runtime.TokenStream;
+import org.antlr.runtime.*;
 import org.antlr.runtime.tree.CommonErrorNode;
 import org.antlr.runtime.tree.CommonTree;
 import org.antlr.runtime.tree.CommonTreeAdaptor;
@@ -26,25 +21,35 @@ import org.coode.parsers.oppl.OPPLSyntaxTree;
 import org.coode.parsers.oppl.OPPLTypeEnforcement;
 import org.coode.parsers.oppl.OPPLTypes;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class OPPLTestCaseParser {
-    /** Abstract factory for creating parsers
+
+    /**
+     * Abstract factory for creating parsers
      * 
-     * @author Luigi Iannone */
+     * @author Luigi Iannone
+     */
     public interface AbstractParserFactory {
-        /** Builds an OPPLTestCaseParser attaching an ErrorListener to it.
+
+        /**
+         * Builds an OPPLTestCaseParser attaching an ErrorListener to it.
          * 
          * @param errorListener
-         *            The ErrorListener. Cannot be {@code null}.
+         *        The ErrorListener. Cannot be {@code null}.
          * @return An OPPLLintParser.
          * @throws NullPointerException
-         *             when the input is {@code null}. */
+         *         when the input is {@code null}.
+         */
         OPPLTestCaseParser build(ErrorListener errorListener);
 
-        /** Retrieves an instance AbstractOPPLTestCaseFactory that this
+        /**
+         * Retrieves an instance AbstractOPPLTestCaseFactory that this
          * AbstractParserFactory provides.
          * 
-         * @return An AbstractOPPLTestCaseFactory */
+         * @return An AbstractOPPLTestCaseFactory
+         */
         AbstractOPPLTestCaseFactory getOPPLTestCaseFactory();
     }
 
@@ -52,6 +57,7 @@ public class OPPLTestCaseParser {
     private final AbstractOPPLTestCaseFactory opplTestCaseFactory;
     private final SymbolTableFactory<OPPLTestCaseSymbolTable> symbolTableFactory;
     private static final TreeAdaptor ADAPTOR = new CommonTreeAdaptor() {
+
         @Override
         public Object create(Token token) {
             return new OPPLSyntaxTree(token);
@@ -67,55 +73,65 @@ public class OPPLTestCaseParser {
 
         @Override
         public Object errorNode(TokenStream input, Token start, Token stop,
-                RecognitionException e) {
+            RecognitionException e) {
             return new CommonErrorNode(input, start, stop, e);
         }
     };
 
-    /** @param factory
-     *            factory
+    /**
+     * @param factory
+     *        factory
      * @param listener
-     *            listener
+     *        listener
      * @param symbolTableFactory
-     *            symbolTableFactory */
+     *        symbolTableFactory
+     */
     public OPPLTestCaseParser(AbstractOPPLTestCaseFactory factory,
-            ErrorListener listener,
-            SymbolTableFactory<OPPLTestCaseSymbolTable> symbolTableFactory) {
+        ErrorListener listener,
+        SymbolTableFactory<OPPLTestCaseSymbolTable> symbolTableFactory) {
         opplTestCaseFactory = checkNotNull(factory, "factory");
         this.listener = checkNotNull(listener, "listener");
         this.symbolTableFactory = checkNotNull(symbolTableFactory, "symbolTableFactory");
     }
 
-    /** @return the symbolTableFactory */
+    /**
+     * @return the symbolTableFactory
+     */
     public SymbolTableFactory<OPPLTestCaseSymbolTable> getSymbolTableFactory() {
         return symbolTableFactory;
     }
 
-    /** @return the opplLintFactory */
+    /**
+     * @return the opplLintFactory
+     */
     public AbstractOPPLTestCaseFactory getOPPLTestCaseFactory() {
         return opplTestCaseFactory;
     }
 
-    /** @return the listener */
+    /**
+     * @return the listener
+     */
     public ErrorListener getListener() {
         return listener;
     }
 
-    /** @param input
-     *            input
+    /**
+     * @param input
+     *        input
      * @param handler
-     *            handler
-     * @return oppl test case */
+     *        handler
+     * @return oppl test case
+     */
     public OPPLTestCase parse(String input, RuntimeExceptionHandler handler) {
         OPPLTestCaseSymbolTable symtab = getSymbolTableFactory().createSymbolTable();
         symtab.setErrorListener(getListener());
         ANTLRStringStream antlrStringStream = new ANTLRStringStream(input);
         OPPLTestCaseLexer lexer = new OPPLTestCaseLexer(antlrStringStream);
         ConstraintSystem constraintSystem = getOPPLTestCaseFactory().getOPPLFactory()
-                .createConstraintSystem();
+            .createConstraintSystem();
         final TokenRewriteStream tokens = new TokenRewriteStream(lexer);
         OPPLTestCaseCombinedParser parser = new OPPLTestCaseCombinedParser(tokens,
-                getListener());
+            getListener());
         parser.setTreeAdaptor(ADAPTOR);
         try {
             RuleReturnScope r = parser.testCase();
@@ -127,24 +143,24 @@ public class OPPLTestCaseParser {
                 nodes.reset();
                 // RESOLVE SYMBOLS, COMPUTE EXPRESSION TYPES
                 ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(
-                        nodes);
+                    nodes);
                 simplify.setTreeAdaptor(ADAPTOR);
                 tree = (CommonTree) simplify.downup(tree);
                 nodes.reset();
                 OPPLDefine define = new OPPLDefine(nodes, symtab, getListener(),
-                        constraintSystem);
+                    constraintSystem);
                 define.setTreeAdaptor(ADAPTOR);
                 define.downup(tree);
                 nodes.reset();
                 ManchesterOWLSyntaxTypes mOWLTypes = new ManchesterOWLSyntaxTypes(nodes,
-                        symtab, new SilentListener());
+                    symtab, new SilentListener());
                 symtab.setErrorListener(mOWLTypes.getErrorListener());
                 mOWLTypes.downup(tree);
                 nodes.reset();
                 OPPLTypeEnforcement typeEnforcement = new OPPLTypeEnforcement(nodes,
-                        symtab, new DefaultTypeEnforcer(symtab, getOPPLTestCaseFactory()
-                                .getOPPLFactory().getOWLEntityFactory(), getListener()),
-                        getListener());
+                    symtab, new DefaultTypeEnforcer(symtab, getOPPLTestCaseFactory()
+                        .getOPPLFactory().getOWLEntityFactory(), getListener()),
+                    getListener());
                 typeEnforcement.downup(tree);
                 symtab.setErrorListener(typeEnforcement.getErrorListener());
                 nodes.reset();
@@ -154,18 +170,18 @@ public class OPPLTestCaseParser {
                 mOWLTypes.downup(tree);
                 nodes.reset();
                 OPPLTypes opplTypes = new OPPLTypes(nodes, symtab, getListener(),
-                        constraintSystem, getOPPLTestCaseFactory().getOPPLFactory());
+                    constraintSystem, getOPPLTestCaseFactory().getOPPLFactory());
                 opplTypes.downup(tree);
                 nodes.reset();
                 OPPLTestCaseTypes opplTestCaseTypes = new OPPLTestCaseTypes(nodes,
-                        symtab, listener, constraintSystem, opplTestCaseFactory, handler);
+                    symtab, listener, constraintSystem, opplTestCaseFactory, handler);
                 opplTestCaseTypes.downup(tree);
             }
             return tree != null ? (OPPLTestCase) ((OPPLSyntaxTree) tree).getOPPLContent()
-                    : null;
+                : null;
         } catch (org.antlr.runtime.tree.RewriteEarlyExitException e) {
             listener.reportThrowable(new RuntimeException("Probably empty set of tests",
-                    e), 0, 0, 0);
+                e), 0, 0, 0);
             return null;
         }
     }

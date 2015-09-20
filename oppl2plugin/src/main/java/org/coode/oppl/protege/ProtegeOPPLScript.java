@@ -24,22 +24,22 @@ package org.coode.oppl.protege;
 
 import java.util.List;
 
-import org.coode.oppl.ConstraintSystem;
-import org.coode.oppl.OPPLQuery;
-import org.coode.oppl.OPPLScript;
-import org.coode.oppl.OPPLScriptVisitor;
-import org.coode.oppl.OPPLScriptVisitorEx;
-import org.coode.oppl.Variable;
+import org.coode.oppl.*;
 import org.coode.oppl.variabletypes.InputVariable;
 import org.semanticweb.owlapi.model.OWLAxiomChange;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class ProtegeOPPLScript implements OPPLScript {
+
     private final OPPLScript opplScript;
 
-    /** @param opplScript
-     *            opplScript */
+    /**
+     * @param opplScript
+     *        opplScript
+     */
     public ProtegeOPPLScript(OPPLScript opplScript) {
         this.opplScript = opplScript;
     }

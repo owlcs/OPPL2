@@ -34,8 +34,11 @@ import org.protege.editor.core.ui.util.ComponentFactory;
 import org.protege.editor.owl.ui.view.AbstractActiveOntologyViewComponent;
 import org.semanticweb.owlapi.model.OWLOntology;
 
-/** @author Luigi Iannone Jul 3, 2008 */
+/**
+ * @author Luigi Iannone Jul 3, 2008
+ */
 public class PatternOntologyView extends AbstractActiveOntologyViewComponent {
+
     private static final long serialVersionUID = 20100L;
     private PatternModelList list;
     private PatternManager patternManager;
@@ -47,28 +50,28 @@ public class PatternOntologyView extends AbstractActiveOntologyViewComponent {
         }
         if (patternManager != null) {
             getOWLEditorKit().getModelManager().removeOntologyChangeListener(
-                    patternManager);
+                patternManager);
         }
         ProtegeParserFactory.getInstance(getOWLEditorKit()).dispose();
     }
 
     @Override
-    protected void initialiseOntologyView() throws Exception {
+    protected void initialiseOntologyView() {
         setLayout(new BorderLayout());
         list = new PatternModelList(getOWLEditorKit());
         AbstractPatternModelFactory patternFactory = org.coode.patterns.protege.ProtegeParserFactory
-                .getInstance(getOWLEditorKit()).getPatternFactory();
+            .getInstance(getOWLEditorKit()).getPatternFactory();
         list.setRootObject(new PatternAnnotationContainer(getOWLEditorKit()));
         list.setCellRenderer(new PatternCellRenderer(getOWLEditorKit()));
         JScrollPane listPane = ComponentFactory.createScrollPane(list);
         patternManager = PatternManager.getInstance(getOWLEditorKit().getModelManager()
-                .getOWLOntologyManager(), patternFactory);
+            .getOWLOntologyManager(), patternFactory);
         getOWLEditorKit().getModelManager().addOntologyChangeListener(patternManager);
         this.add(listPane);
     }
 
     @Override
-    protected void updateView(OWLOntology activeOntology) throws Exception {
+    protected void updateView(OWLOntology activeOntology) {
         list.setRootObject(new PatternAnnotationContainer(getOWLEditorKit()));
     }
 }

@@ -10,30 +10,39 @@ import org.coode.oppl.function.OPPLFunction;
 import org.coode.oppl.generated.GeneratedVariable;
 import org.semanticweb.owlapi.model.OWLObject;
 
-/** @author Luigi Iannone
+/**
+ * @author Luigi Iannone
  * @param <O>
- *            type */
+ *        type
+ */
 abstract class AbstractVariableType<O extends OWLObject> implements VariableType<O> {
+
     private final VariableTypeName name;
     private final EnumSet<Direction> allowedDirections = EnumSet.noneOf(Direction.class);
 
-    /** @param name
-     *            name
+    /**
+     * @param name
+     *        name
      * @param allowedDirections
-     *            allowedDirections */
+     *        allowedDirections
+     */
     public AbstractVariableType(VariableTypeName name,
-            EnumSet<Direction> allowedDirections) {
+        EnumSet<Direction> allowedDirections) {
         this.name = checkNotNull(name, "name");
         this.allowedDirections
-                .addAll(checkNotNull(allowedDirections, "allowedDirections"));
+            .addAll(checkNotNull(allowedDirections, "allowedDirections"));
     }
 
-    /** @return the name */
+    /**
+     * @return the name
+     */
     public VariableTypeName getName() {
         return this.name;
     }
 
-    /** @return the allowedDirections */
+    /**
+     * @return the allowedDirections
+     */
     @Override
     public EnumSet<Direction> getAllowedDirections() {
         return EnumSet.copyOf(this.allowedDirections);
@@ -51,7 +60,7 @@ abstract class AbstractVariableType<O extends OWLObject> implements VariableType
 
     @Override
     public GeneratedVariable<O> getGeneratedVariable(String n,
-            OPPLFunction<? extends O> opplFunction) {
+        OPPLFunction<? extends O> opplFunction) {
         return GeneratedVariable.getGeneratedVariable(n, this, opplFunction);
     }
 }

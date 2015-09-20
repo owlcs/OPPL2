@@ -4,20 +4,27 @@ import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
 import org.semanticweb.owlapi.model.OWLObject;
 
-/** @author Luigi Iannone
+/**
+ * @author Luigi Iannone
  * @param <O>
- *            type */
+ *        type
+ */
 public abstract class AbstractVariableScope<O extends OWLObject> implements
-        VariableScope<O> {
+    VariableScope<O> {
+
     private final VariableScopeChecker checker;
 
-    /** @param checker
-     *            checker */
+    /**
+     * @param checker
+     *        checker
+     */
     public AbstractVariableScope(VariableScopeChecker checker) {
         this.checker = checkNotNull(checker, "The checker");
     }
 
-    /** @return the checker */
+    /**
+     * @return the checker
+     */
     public VariableScopeChecker getChecker() {
         return this.checker;
     }

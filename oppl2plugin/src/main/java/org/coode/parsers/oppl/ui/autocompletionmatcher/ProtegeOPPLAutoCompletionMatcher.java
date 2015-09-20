@@ -19,11 +19,15 @@ import org.protege.editor.owl.model.event.OWLModelManagerChangeEvent;
 import org.protege.editor.owl.model.event.OWLModelManagerListener;
 import org.semanticweb.owlapi.model.OWLEntity;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public final class ProtegeOPPLAutoCompletionMatcher implements AutoCompletionMatcher {
+
     private static final KeywordAutoCompletionMatcher OPPL_KEYWORD_AUTO_COMPLETION_MATCHER = new KeywordAutoCompletionMatcher(
-            getKeywords());
+        getKeywords());
     private final OWLModelManagerListener modelManagerListener = new OWLModelManagerListener() {
+
         @Override
         public void handleChange(OWLModelManagerChangeEvent event) {
             ProtegeOPPLAutoCompletionMatcher.this.reset();
@@ -32,11 +36,13 @@ public final class ProtegeOPPLAutoCompletionMatcher implements AutoCompletionMat
     private final OWLEditorKit owlEditorKit;
     private AutoCompletionMatcher delegate;
     private final List<String> fragments = Arrays.asList(":CLASS", ":OBJECTPROPERTY",
-            ":DATAPROPERTY", ":INDIVIDUAL", ":CONSTANT", ".toLowerCase", ".toUpperCase",
-            ".VALUES", ".RENDERING", ".GROUPS");
+        ":DATAPROPERTY", ":INDIVIDUAL", ":CONSTANT", ".toLowerCase", ".toUpperCase",
+        ".VALUES", ".RENDERING", ".GROUPS");
 
-    /** @param owlEditorKit
-     *            owlEditorKit */
+    /**
+     * @param owlEditorKit
+     *        owlEditorKit
+     */
     public ProtegeOPPLAutoCompletionMatcher(OWLEditorKit owlEditorKit) {
         this.owlEditorKit = checkNotNull(owlEditorKit, "owlEditorKit");
         getOWLEditorKit().getOWLModelManager().addListener(modelManagerListener);
@@ -51,15 +57,15 @@ public final class ProtegeOPPLAutoCompletionMatcher implements AutoCompletionMat
     }
 
     private Set<String> matchFragments(String string2Complete) {
-        Set<String> toReturn = new HashSet<String>();
+        Set<String> toReturn = new HashSet<>();
         for (int i = string2Complete.length() - 1; i >= 0; i--) {
             String fragmentStart = string2Complete.substring(i);
             for (String string : fragments) {
                 Pattern pattern = Pattern
-                        .compile(
-                                String.format("(%s).*",
-                                        fragmentStart.replaceAll("\\?", "\\\\?")),
-                                Pattern.CASE_INSENSITIVE);
+                    .compile(
+                        String.format("(%s).*",
+                            fragmentStart.replaceAll("\\?", "\\\\?")),
+                        Pattern.CASE_INSENSITIVE);
                 Matcher matcher = pattern.matcher(string);
                 if (matcher.matches()) {
                     String rest = string.replace(matcher.group(1), "");
@@ -75,33 +81,38 @@ public final class ProtegeOPPLAutoCompletionMatcher implements AutoCompletionMat
         getOWLEditorKit().getOWLModelManager().removeListener(modelManagerListener);
     }
 
-    /** @return the owlEditorKit */
+    /**
+     * @return the owlEditorKit
+     */
     public OWLEditorKit getOWLEditorKit() {
         return owlEditorKit;
     }
 
     protected void reset() {
         OWLEntityRenderer entityRenderer = new OWLEntityRenderer() {
+
             @Override
             public String render(OWLEntity entity) {
                 return ProtegeOPPLAutoCompletionMatcher.this.getOWLEditorKit()
-                        .getOWLModelManager().getRendering(entity);
+                    .getOWLModelManager().getRendering(entity);
             }
         };
         delegate = new MultipleAutoCompletionMatcher(Arrays.asList(
-                new ManchesterOWLSyntaxSimpleAutoCompletionMatcher(entityRenderer,
-                        getOWLEditorKit().getOWLModelManager().getOWLOntologyManager()),
-                OPPL_KEYWORD_AUTO_COMPLETION_MATCHER));
+            new ManchesterOWLSyntaxSimpleAutoCompletionMatcher(entityRenderer,
+                getOWLEditorKit().getOWLModelManager().getOWLOntologyManager()),
+            OPPL_KEYWORD_AUTO_COMPLETION_MATCHER));
     }
 
-    /** @return keywords */
+    /**
+     * @return keywords
+     */
     public static List<String> getKeywords() {
         return Arrays.asList("WHERE", "IN", "SELECT", "ASSERTED", "create",
-                "createIntersection", "createDisjuntion", "BEGIN", "END;",
-                "superClassOf", "superPropertyOf", "CLASS", "OBJECTPROPERTY",
-                "DATAPROPERTY", "INDIVIDUAL", "CONSTANT", "ADD", "REMOVE",
-                "subPropertyOf", "MATCH", "VALUES", "RENDERING", "GROUPS", "FAIL",
-                "SET(", "DisjointClasses:", "DisjointProperties:",
-                "DifferentIndividuals:", "SameIndividual:");
+            "createIntersection", "createDisjuntion", "BEGIN", "END;",
+            "superClassOf", "superPropertyOf", "CLASS", "OBJECTPROPERTY",
+            "DATAPROPERTY", "INDIVIDUAL", "CONSTANT", "ADD", "REMOVE",
+            "subPropertyOf", "MATCH", "VALUES", "RENDERING", "GROUPS", "FAIL",
+            "SET(", "DisjointClasses:", "DisjointProperties:",
+            "DifferentIndividuals:", "SameIndividual:");
     }
 }

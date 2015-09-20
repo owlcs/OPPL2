@@ -62,12 +62,12 @@ public abstract class PropertyVariableScope<P extends OWLPropertyExpression>
 
     static <O extends OWLPropertyExpression> SubPropertyVariableScope<O> buildSubPropertyVariableScope(O property,
         VariableScopeChecker checker) {
-        return new SubPropertyVariableScope<O>(property, checker);
+        return new SubPropertyVariableScope<>(property, checker);
     }
 
     static <O extends OWLPropertyExpression> SuperPropertyVariableScope<O> buildSuperPropertyVariableScope(O property,
         VariableScopeChecker checker) {
-        return new SuperPropertyVariableScope<O>(property, checker);
+        return new SuperPropertyVariableScope<>(property, checker);
     }
 
     @Override

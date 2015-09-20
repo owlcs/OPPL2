@@ -4,12 +4,7 @@ import static org.coode.oppl.testontologies.TestOntologies.pizza;
 import static org.coode.parsers.oppl.test.SymbolTables.getOPPLSymbolTable;
 import static org.junit.Assert.assertNotNull;
 
-import org.antlr.runtime.ANTLRStringStream;
-import org.antlr.runtime.RecognitionException;
-import org.antlr.runtime.RuleReturnScope;
-import org.antlr.runtime.Token;
-import org.antlr.runtime.TokenRewriteStream;
-import org.antlr.runtime.TokenStream;
+import org.antlr.runtime.*;
 import org.antlr.runtime.tree.CommonErrorNode;
 import org.antlr.runtime.tree.CommonTree;
 import org.antlr.runtime.tree.CommonTreeAdaptor;
@@ -24,10 +19,14 @@ import org.coode.parsers.common.SilentListener;
 import org.coode.parsers.oppl.OPPLSymbolTable;
 import org.junit.Test;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 @SuppressWarnings("javadoc")
 public class TestIncompleteAxiomsParsing {
+
     public TreeAdaptor adaptor = new CommonTreeAdaptor() {
+
         @Override
         public Object create(Token token) {
             return new ManchesterOWLSyntaxTree(token);
@@ -43,7 +42,7 @@ public class TestIncompleteAxiomsParsing {
 
         @Override
         public Object errorNode(TokenStream input, Token start, Token stop,
-                RecognitionException e) {
+            RecognitionException e) {
             return new CommonErrorNode(input, start, stop, e);
         }
     };
@@ -53,7 +52,7 @@ public class TestIncompleteAxiomsParsing {
         MOWLLexer lexer = new MOWLLexer(new ANTLRStringStream(input));
         final TokenRewriteStream tokens = new TokenRewriteStream(lexer);
         ManchesterOWLSyntaxAutoCompleteCombinedParser parser = new ManchesterOWLSyntaxAutoCompleteCombinedParser(
-                tokens);
+            tokens);
         parser.setTreeAdaptor(adaptor);
         RuleReturnScope r = parser.main();
         CommonTree tree = (CommonTree) r.getTree();

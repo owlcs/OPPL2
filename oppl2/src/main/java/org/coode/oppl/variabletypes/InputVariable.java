@@ -24,19 +24,17 @@ package org.coode.oppl.variabletypes;
 
 import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
-import org.coode.oppl.ConstraintSystem;
-import org.coode.oppl.ManchesterVariableSyntax;
-import org.coode.oppl.Variable;
-import org.coode.oppl.VariableScope;
-import org.coode.oppl.VariableVisitor;
-import org.coode.oppl.VariableVisitorEx;
+import org.coode.oppl.*;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLObject;
 
-/** @author Luigi Iannone
+/**
+ * @author Luigi Iannone
  * @param <O>
- *            type */
+ *        type
+ */
 public class InputVariable<O extends OWLObject> implements Variable<O> {
+
     private final String name;
     private final VariableType<O> type;
     private final IRI iri;
@@ -73,7 +71,9 @@ public class InputVariable<O extends OWLObject> implements Variable<O> {
         return this.name + ":" + this.getType();
     }
 
-    /** @return variable scope */
+    /**
+     * @return variable scope
+     */
     public VariableScope<?> getVariableScope() {
         return this.variableScope;
     }
@@ -121,12 +121,12 @@ public class InputVariable<O extends OWLObject> implements Variable<O> {
     @Override
     public String render(ConstraintSystem constraintSystem) {
         String scope = this.getVariableScope() == null ? "" : this.getVariableScope()
-                .render(constraintSystem);
+            .render(constraintSystem);
         return String.format("%s:%s%s", this.getName(), this.getType(), scope);
     }
 
     static <P extends OWLObject> InputVariable<P> getInputVariable(String name,
-            VariableType<P> type, VariableScope<?> variableScope) {
-        return new InputVariable<P>(name, type, variableScope);
+        VariableType<P> type, VariableScope<?> variableScope) {
+        return new InputVariable<>(name, type, variableScope);
     }
 }

@@ -23,17 +23,17 @@
 package org.coode.oppl.utils;
 
 import org.coode.oppl.ConstraintSystem;
-import org.semanticweb.owlapi.model.OWLAnnotationProperty;
-import org.semanticweb.owlapi.model.OWLClass;
-import org.semanticweb.owlapi.model.OWLDataProperty;
-import org.semanticweb.owlapi.model.OWLLiteral;
-import org.semanticweb.owlapi.model.OWLNamedIndividual;
-import org.semanticweb.owlapi.model.OWLObjectProperty;
+import org.semanticweb.owlapi.model.*;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class VariableDetector extends AbstractVariableDetector {
-    /** @param constraintSystem
-     *            constraintSystem */
+
+    /**
+     * @param constraintSystem
+     *        constraintSystem
+     */
     public VariableDetector(ConstraintSystem constraintSystem) {
         super(constraintSystem);
     }

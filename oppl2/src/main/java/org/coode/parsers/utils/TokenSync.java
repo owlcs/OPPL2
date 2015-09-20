@@ -2,41 +2,37 @@ package org.coode.parsers.utils;
 
 import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
+import java.io.*;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class TokenSync {
+
     private class TokenMap {
+
         private final String path;
-        private final Map<Integer, String> map = new HashMap<Integer, String>();
-        private final Map<String, Integer> inverseMap = new HashMap<String, Integer>();
+        private final Map<Integer, String> map = new HashMap<>();
+        private final Map<String, Integer> inverseMap = new HashMap<>();
         private int max = 0;
 
-        /** @param path
-         *            path */
+        /**
+         * @param path
+         *        path
+         */
         public TokenMap(String path) {
             this.path = checkNotNull(path, "path");
             parse();
         }
 
-        /** @return the path */
+        /**
+         * @return the path
+         */
         public String getPath() {
             return path;
         }
@@ -65,11 +61,11 @@ public class TokenSync {
                     reader.close();
                 } catch (IOException e) {
                     Logger.getLogger(this.getClass().getName()).log(Level.WARNING,
-                            "Could not read line " + e.getMessage());
+                        "Could not read line " + e.getMessage());
                 }
             } catch (FileNotFoundException e) {
                 Logger.getLogger(this.getClass().getName()).log(Level.SEVERE,
-                        "The File could not be open " + e.getMessage());
+                    "The File could not be open " + e.getMessage());
             }
         }
 
@@ -79,7 +75,7 @@ public class TokenSync {
 
         protected void write(String outPath) throws FileNotFoundException {
             PrintWriter writer = new PrintWriter(new File(outPath));
-            Set<Integer> keySet = new TreeSet<Integer>(map.keySet());
+            Set<Integer> keySet = new TreeSet<>(map.keySet());
             for (Integer type : keySet) {
                 writer.println(map.get(type) + "=" + type);
             }
@@ -87,7 +83,7 @@ public class TokenSync {
         }
 
         public Set<Integer> getKeys() {
-            return new HashSet<Integer>(map.keySet());
+            return new HashSet<>(map.keySet());
         }
 
         public String getTokenText(int key) {
@@ -110,7 +106,7 @@ public class TokenSync {
                 if (containsTokenText(tokenText) && !key.equals(myKey)) {
                     changeKey(tokenText, myKey, key);
                 } else if (!isEmptyKey(key)
-                        && tokenText.compareTo(getTokenText(key)) != 0) {
+                    && tokenText.compareTo(getTokenText(key)) != 0) {
                     // If the key is occupied in this token map by some other
                     // token
                     max++;
@@ -124,8 +120,10 @@ public class TokenSync {
             removeDuplicates(reference);
         }
 
-        /** @param reference
-         *            reference */
+        /**
+         * @param reference
+         *        reference
+         */
         private void removeDuplicates(TokenMap reference) {
             for (Integer key : reference.getKeys()) {
                 String tokenText = reference.getTokenText(key);
@@ -133,23 +131,27 @@ public class TokenSync {
             }
         }
 
-        /** @param referenceKey
-         *            referenceKey
+        /**
+         * @param referenceKey
+         *        referenceKey
          * @param tokenText
-         *            tokenText */
+         *        tokenText
+         */
         private void removeDuplicates(Integer referenceKey, String tokenText) {
             for (Object thisKey : map.keySet().toArray()) {
                 if (tokenText.compareTo(map.get(thisKey)) == 0
-                        && !thisKey.equals(referenceKey)) {
+                    && !thisKey.equals(referenceKey)) {
                     map.remove(thisKey);
                     inverseMap.put(tokenText, referenceKey);
                 }
             }
         }
 
-        /** @param key
-         *            key
-         * @return true if key is empty */
+        /**
+         * @param key
+         *        key
+         * @return true if key is empty
+         */
         private boolean isEmptyKey(Integer key) {
             return getTokenText(key) == null;
         }
@@ -166,22 +168,26 @@ public class TokenSync {
             inverseMap.put(tokenText, toKey);
         }
 
-        /** @return the max */
+        /**
+         * @return the max
+         */
         public int getMax() {
             return max;
         }
     }
 
     private final TokenMap referenceTokenMap;
-    private final List<TokenMap> toSync = new ArrayList<TokenMap>();
+    private final List<TokenMap> toSync = new ArrayList<>();
     private boolean synced = false;
 
-    /** @param referencePath
-     *            referencePath
+    /**
+     * @param referencePath
+     *        referencePath
      * @param toSync
-     *            toSync
+     *        toSync
      * @param others
-     *            others */
+     *        others
+     */
     public TokenSync(String referencePath, String toSync, String... others) {
         checkNotNull(referencePath, "referencePath");
         checkNotNull(toSync, "toSync");
@@ -202,16 +208,20 @@ public class TokenSync {
         }
     }
 
-    /** @throws FileNotFoundException
-     *             FileNotFoundException */
+    /**
+     * @throws FileNotFoundException
+     *         FileNotFoundException
+     */
     public void save() throws FileNotFoundException {
         this.save(false);
     }
 
-    /** @param forceSync
-     *            forceSync
+    /**
+     * @param forceSync
+     *        forceSync
      * @throws FileNotFoundException
-     *             FileNotFoundException */
+     *         FileNotFoundException
+     */
     public void save(boolean forceSync) throws FileNotFoundException {
         if (forceSync) {
             sync();
@@ -222,23 +232,25 @@ public class TokenSync {
         }
     }
 
-    /** @param args
-     *            args */
+    /**
+     * @param args
+     *        args
+     */
     public static void main(String[] args) {
         if (args.length >= 2) {
             String referenceTokenFileName = args[0];
             String toSync = args[1];
-            List<String> asList = new ArrayList<String>(Arrays.asList(args));
+            List<String> asList = new ArrayList<>(Arrays.asList(args));
             asList.remove(referenceTokenFileName);
             asList.remove(toSync);
             TokenSync tokenSync = new TokenSync(referenceTokenFileName, toSync,
-                    asList.toArray(new String[asList.size()]));
+                asList.toArray(new String[asList.size()]));
             tokenSync.sync();
             try {
                 tokenSync.save();
             } catch (FileNotFoundException e) {
                 Logger.getLogger(TokenFileSorter.class.getName()).log(Level.SEVERE,
-                        "The output File could not be open " + e.getMessage());
+                    "The output File could not be open " + e.getMessage());
             }
         }
     }

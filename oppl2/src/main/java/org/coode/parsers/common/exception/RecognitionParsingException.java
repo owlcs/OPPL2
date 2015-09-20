@@ -3,29 +3,36 @@ package org.coode.parsers.common.exception;
 import java.util.HashSet;
 import java.util.Set;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class RecognitionParsingException extends ParsingException {
-    private static final long serialVersionUID = 20100L;
-    private final Set<String> symbols = new HashSet<String>();
 
-    /** @param line
-     *            line
+    private static final long serialVersionUID = 20100L;
+    private final Set<String> symbols = new HashSet<>();
+
+    /**
+     * @param line
+     *        line
      * @param charPositionInLine
-     *            charPositionInLine */
+     *        charPositionInLine
+     */
     public RecognitionParsingException(int line, int charPositionInLine) {
         this(line, charPositionInLine, (String[]) null);
     }
 
-    /** @param line
-     *            line
+    /**
+     * @param line
+     *        line
      * @param charPositionInLine
-     *            charPositionInLine
+     *        charPositionInLine
      * @param symbols
-     *            symbols */
+     *        symbols
+     */
     public RecognitionParsingException(int line, int charPositionInLine,
-            String... symbols) {
+        String... symbols) {
         super(String.format("Recognition exception at line %d char position in line %d",
-                line, charPositionInLine), line, charPositionInLine);
+            line, charPositionInLine), line, charPositionInLine);
         if (symbols != null) {
             for (String string : symbols) {
                 this.symbols.add(string);
@@ -33,8 +40,10 @@ public class RecognitionParsingException extends ParsingException {
         }
     }
 
-    /** @return the symbols */
+    /**
+     * @return the symbols
+     */
     public Set<String> getSymbols() {
-        return new HashSet<String>(symbols);
+        return new HashSet<>(symbols);
     }
 }

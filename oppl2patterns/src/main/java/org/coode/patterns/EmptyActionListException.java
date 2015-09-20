@@ -22,8 +22,11 @@
  */
 package org.coode.patterns;
 
-/** @author Luigi Iannone Nov 25, 2008 */
+/**
+ * @author Luigi Iannone Nov 25, 2008
+ */
 public class EmptyActionListException extends PatternException {
+
     private static final long serialVersionUID = 20100L;
 
     /**

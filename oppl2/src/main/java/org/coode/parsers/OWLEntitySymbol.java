@@ -4,20 +4,27 @@ import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
 import org.semanticweb.owlapi.model.OWLEntity;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class OWLEntitySymbol extends Symbol {
+
     private final OWLEntity entity;
 
-    /** @param name
-     *            name
+    /**
+     * @param name
+     *        name
      * @param entity
-     *            entity */
+     *        entity
+     */
     public OWLEntitySymbol(String name, OWLEntity entity) {
         super(name, OWLType.get(entity));
         this.entity = checkNotNull(entity, "entity");
     }
 
-    /** @return the entity */
+    /**
+     * @return the entity
+     */
     public OWLEntity getEntity() {
         return entity;
     }

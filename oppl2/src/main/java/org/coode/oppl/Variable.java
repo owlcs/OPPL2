@@ -26,35 +26,48 @@ import org.coode.oppl.variabletypes.VariableType;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLObject;
 
-/** Any variable not generated implements this interface; generated variables
+/**
+ * Any variable not generated implements this interface; generated variables
  * implement Variable
  * 
  * @author Luigi Iannone
  * @param <O>
- *            type */
+ *        type
+ */
 public interface Variable<O extends OWLObject> extends Renderable {
-    /** @return the name of the Variable */
+
+    /**
+     * @return the name of the Variable
+     */
     String getName();
 
-    /** @return an URI for the Variable */
+    /**
+     * @return an URI for the Variable
+     */
     IRI getIRI();
 
-    /** @return the type of the Variable
-     * @see VariableType */
+    /**
+     * @return the type of the Variable
+     * @see VariableType
+     */
     VariableType<O> getType();
 
-    /** Visitor pattern interface method for visitors without return type
+    /**
+     * Visitor pattern interface method for visitors without return type
      * 
      * @param visitor
-     *            visitor */
+     *        visitor
+     */
     void accept(VariableVisitor visitor);
 
-    /** Visitor pattern interface method for visitors with return type
+    /**
+     * Visitor pattern interface method for visitors with return type
      * 
      * @param visitor
-     *            visitor
+     *        visitor
      * @param <T>
-     *            visitor type
-     * @return an instance of T */
+     *        visitor type
+     * @return an instance of T
+     */
     <T> T accept(VariableVisitorEx<T> visitor);
 }

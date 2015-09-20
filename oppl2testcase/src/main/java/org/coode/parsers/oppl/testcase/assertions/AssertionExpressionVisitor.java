@@ -1,30 +1,43 @@
 package org.coode.parsers.oppl.testcase.assertions;
 
-/** Visitor pattern for AssertionExpression.
+/**
+ * Visitor pattern for AssertionExpression.
  * 
- * @author Luigi Iannone */
+ * @author Luigi Iannone
+ */
 public interface AssertionExpressionVisitor {
-    /** @param countAssertionExpression
-     *            countAssertionExpression */
+
+    /**
+     * @param countAssertionExpression
+     *        countAssertionExpression
+     */
     void visitCountAssertionExpression(CountAssertionExpression countAssertionExpression);
 
-    /** @param integerAssertionExpression
-     *            integerAssertionExpression */
+    /**
+     * @param integerAssertionExpression
+     *        integerAssertionExpression
+     */
     void visitIntegerAssertionExpressionVisitor(
-            IntegerAssertionExpression integerAssertionExpression);
+        IntegerAssertionExpression integerAssertionExpression);
 
-    /** @param owlExpressionAssertionExpression
-     *            owlExpressionAssertionExpression */
+    /**
+     * @param owlExpressionAssertionExpression
+     *        owlExpressionAssertionExpression
+     */
     void visitOWLExpressionAssertionExpression(
-            OWLExpressionAssertionExpression owlExpressionAssertionExpression);
+        OWLExpressionAssertionExpression owlExpressionAssertionExpression);
 
-    /** @param countStarAssertionExpression
-     *            countStarAssertionExpression */
+    /**
+     * @param countStarAssertionExpression
+     *        countStarAssertionExpression
+     */
     void visitCountStarAssertionExpression(
-            CountStarAssertionExpression countStarAssertionExpression);
+        CountStarAssertionExpression countStarAssertionExpression);
 
-    /** @param bindingNodeCountAssertionExpression
-     *            bindingNodeCountAssertionExpression */
+    /**
+     * @param bindingNodeCountAssertionExpression
+     *        bindingNodeCountAssertionExpression
+     */
     void visitBindingNodeCountAssertionExpression(
-            BindingNodeCountAssertionExpression bindingNodeCountAssertionExpression);
+        BindingNodeCountAssertionExpression bindingNodeCountAssertionExpression);
 }

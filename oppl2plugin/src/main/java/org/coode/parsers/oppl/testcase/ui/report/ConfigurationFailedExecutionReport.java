@@ -4,17 +4,22 @@ import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
 import org.coode.parsers.oppl.testcase.OPPLTestCase;
 
-/** Represents an execution of an OPPLTestCase that terminated unsuccessfully
+/**
+ * Represents an execution of an OPPLTestCase that terminated unsuccessfully
  * because its configuration failed.
  * 
- * @author Luigi Iannone */
+ * @author Luigi Iannone
+ */
 public class ConfigurationFailedExecutionReport extends UnsuccessfulExecutionReport {
+
     private final String message;
 
-    /** @param opplTestCase
-     *            opplTestCase
+    /**
+     * @param opplTestCase
+     *        opplTestCase
      * @param message
-     *            message */
+     *        message
+     */
     public ConfigurationFailedExecutionReport(OPPLTestCase opplTestCase, String message) {
         super(opplTestCase);
         this.message = checkNotNull(message, "message");
@@ -30,7 +35,9 @@ public class ConfigurationFailedExecutionReport extends UnsuccessfulExecutionRep
         return visitor.visitConfigurationFailedExecutionReport(this);
     }
 
-    /** @return the message */
+    /**
+     * @return the message
+     */
     public String getMessage() {
         return message;
     }

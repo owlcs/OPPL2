@@ -11,26 +11,31 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class SimpleOPPLParserCreationStrategy implements
-        ParsingStrategy<String, OPPLScript> {
+    ParsingStrategy<String, OPPLScript> {
+
     private final ErrorListener errorListener;
     private final ParserFactory parserFactory;
 
-    /** @param ontologyManager
-     *            ontologyManager
+    /**
+     * @param ontologyManager
+     *        ontologyManager
      * @param ontology
-     *            ontology
+     *        ontology
      * @param reasoner
-     *            reasoner
+     *        reasoner
      * @param errorListener
-     *            errorListener */
+     *        errorListener
+     */
     public SimpleOPPLParserCreationStrategy(OWLOntologyManager ontologyManager,
-            OWLOntology ontology, OWLReasoner reasoner, ErrorListener errorListener) {
+        OWLOntology ontology, OWLReasoner reasoner, ErrorListener errorListener) {
         this.errorListener = checkNotNull(errorListener, "errorListener");
         parserFactory = new ParserFactory(
-                checkNotNull(ontologyManager, "ontologyManager"), checkNotNull(ontology,
-                        "ontology"), reasoner);
+            checkNotNull(ontologyManager, "ontologyManager"), checkNotNull(ontology,
+                "ontology"), reasoner);
     }
 
     protected OPPLParser build() {
@@ -43,12 +48,16 @@ public class SimpleOPPLParserCreationStrategy implements
         return parser.parse(input);
     }
 
-    /** @return the errorListener */
+    /**
+     * @return the errorListener
+     */
     public ErrorListener getErrorListener() {
         return errorListener;
     }
 
-    /** @return the parserFactory */
+    /**
+     * @return the parserFactory
+     */
     public ParserFactory getParserFactory() {
         return parserFactory;
     }

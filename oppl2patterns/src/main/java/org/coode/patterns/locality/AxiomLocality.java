@@ -5,25 +5,34 @@ import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class AxiomLocality {
+
     private boolean isLocal;
     private final OWLReasoner reasoner;
 
-    /** @param r
-     *            r */
+    /**
+     * @param r
+     *        r
+     */
     public AxiomLocality(OWLReasoner r) {
         reasoner = checkNotNull(r, "r");
     }
 
-    /** @return true if local */
+    /**
+     * @return true if local
+     */
     public boolean isLocal() {
         return isLocal;
     }
 
-    /** @param axiom
-     *            axiom
-     * @return true if local */
+    /**
+     * @param axiom
+     *        axiom
+     * @return true if local
+     */
     public boolean isLocal(OWLAxiom axiom) {
         reset();
         isLocal = reasoner.isEntailed(axiom);

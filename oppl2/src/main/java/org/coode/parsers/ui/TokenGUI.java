@@ -18,20 +18,24 @@ import javax.swing.table.TableCellRenderer;
 
 import org.coode.parsers.utils.TokenFileSorter;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class TokenGUI extends JFrame {
+
     private final TableCellRenderer tableCellRenderer = new TableCellRenderer() {
+
         @Override
         public Component getTableCellRendererComponent(JTable t, Object value,
-                boolean isSelected, boolean hasFocus, int row, int column) {
+            boolean isSelected, boolean hasFocus, int row, int column) {
             DefaultTableCellRenderer defaultCellRenderer = new DefaultTableCellRenderer();
             if (t.getModel() instanceof TokenTableModel
-                    && ((TokenTableModel) t.getModel()).getAnomalies().contains(
-                            value.toString())) {
+                && ((TokenTableModel) t.getModel()).getAnomalies().contains(
+                    value.toString())) {
                 defaultCellRenderer.setForeground(Color.RED);
             }
             Component toReturn = defaultCellRenderer.getTableCellRendererComponent(t,
-                    value, isSelected, hasFocus, row, column);
+                value, isSelected, hasFocus, row, column);
             return toReturn;
         }
     };
@@ -39,8 +43,10 @@ public class TokenGUI extends JFrame {
     private final File file;
     private final JTable table = new JTable();
 
-    /** @param file
-     *            file */
+    /**
+     * @param file
+     *        file
+     */
     public TokenGUI(File file) {
         this.file = file;
         init();
@@ -51,9 +57,9 @@ public class TokenGUI extends JFrame {
         setLayout(new BorderLayout());
         JPanel summaryPanel = new JPanel();
         summaryPanel.add(new JLabel("Min unused index "
-                + ((TokenTableModel) table.getModel()).getMinUnusedTokenIndex()));
+            + ((TokenTableModel) table.getModel()).getMinUnusedTokenIndex()));
         summaryPanel.add(new JLabel("Max unused index "
-                + ((TokenTableModel) table.getModel()).getMaxUsedTokenIndex()));
+            + ((TokenTableModel) table.getModel()).getMaxUsedTokenIndex()));
         this.add(summaryPanel, BorderLayout.NORTH);
         this.add(new JScrollPane(table), BorderLayout.CENTER);
         table.getColumn(TokenTableModel.TOKEN_NAME).setCellRenderer(tableCellRenderer);
@@ -62,23 +68,26 @@ public class TokenGUI extends JFrame {
     private void init() {
         if (file.isDirectory()) {
             String[] list = file.list(new FilenameFilter() {
+
                 @Override
                 public boolean accept(File dir, String name) {
                     return name.endsWith(".tokens");
                 }
             });
-            List<TokenFileSorter> tokenFileSorters = new ArrayList<TokenFileSorter>(
-                    list.length);
+            List<TokenFileSorter> tokenFileSorters = new ArrayList<>(
+                list.length);
             for (String string : list) {
                 tokenFileSorters
-                        .add(new TokenFileSorter(new File(file, string).getPath()));
+                    .add(new TokenFileSorter(new File(file, string).getPath()));
             }
             table.setModel(new TokenTableModel(tokenFileSorters));
         }
     }
 
-    /** @param args
-     *            args */
+    /**
+     * @param args
+     *        args
+     */
     public static void main(String[] args) {
         TokenGUI frame = new TokenGUI(new File(args[0]));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

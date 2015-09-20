@@ -20,14 +20,17 @@ import org.protege.editor.core.ui.util.VerifiedInputEditor;
 import org.protege.editor.owl.OWLEditorKit;
 import org.semanticweb.owlapi.model.OWLEntity;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class OWLEntitySelector extends JPanel implements VerifiedInputEditor {
+
     private static final long serialVersionUID = 20100L;
     protected MList facetClassView = new MList();
-    protected List<OWLEntity> facetClasses = new ArrayList<OWLEntity>();
-    protected VariableListModel<OWLEntity> facetClassesModel = new VariableListModel<OWLEntity>(
-            facetClasses, "OWL entity selection");
-    private final Set<InputVerificationStatusChangedListener> listeners = new HashSet<InputVerificationStatusChangedListener>();
+    protected List<OWLEntity> facetClasses = new ArrayList<>();
+    protected VariableListModel<OWLEntity> facetClassesModel = new VariableListModel<>(
+        facetClasses, "OWL entity selection");
+    private final Set<InputVerificationStatusChangedListener> listeners = new HashSet<>();
     private final OWLEditorKit kit;
 
     @Override
@@ -37,17 +40,19 @@ public class OWLEntitySelector extends JPanel implements VerifiedInputEditor {
 
     @Override
     public void removeStatusChangedListener(
-            InputVerificationStatusChangedListener listener) {
+        InputVerificationStatusChangedListener listener) {
         listeners.remove(listener);
     }
 
-    /** @param k
-     *            k */
+    /**
+     * @param k
+     *        k
+     */
     public OWLEntitySelector(OWLEditorKit k) {
         super(new BorderLayout());
         kit = k;
         facetClasses.addAll(LocalityChecker.collectEntities(k.getOWLModelManager()
-                .getOntologies()));
+            .getOntologies()));
         facetClassView.setCellRenderer(new RenderableObjectCellRenderer(kit));
         facetClassView.setModel(facetClassesModel);
         setOK(false);
@@ -56,6 +61,7 @@ public class OWLEntitySelector extends JPanel implements VerifiedInputEditor {
         spobjf.setBorder(ComponentFactory.createTitledBorder("Entity selection"));
         this.add(spobjf);
         facetClassView.addListSelectionListener(new ListSelectionListener() {
+
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 if (!e.getValueIsAdjusting()) {
@@ -77,12 +83,14 @@ public class OWLEntitySelector extends JPanel implements VerifiedInputEditor {
         facetClassView.getSelectionModel().clearSelection();
     }
 
-    /** @return the owl class */
+    /**
+     * @return the owl class
+     */
     @SuppressWarnings("unchecked")
     public OWLEntity getOWLClass() {
         if (facetClassView.getSelectedIndex() > -1) {
             OWLEntity p = ((VariableListItem<OWLEntity>) facetClassView
-                    .getSelectedValue()).getItem();
+                .getSelectedValue()).getItem();
             return p;
         }
         return null;

@@ -30,6 +30,7 @@ import uk.ac.manchester.cs.jfact.JFactFactory;
 
 @SuppressWarnings("javadoc")
 public abstract class AbstractTestCase {
+
     private static final int TOLERANCE = 3;
     private final static RuntimeExceptionHandler HANDLER = new QuickFailRuntimeExceptionHandler();
     // ontology manager
@@ -47,23 +48,23 @@ public abstract class AbstractTestCase {
         try {
             ChangeExtractor changeExtractor = new ChangeExtractor(HANDLER, true);
             changeExtractor.visit(script);
-            Set<OWLAxiom> queryAxioms = new HashSet<OWLAxiom>();
+            Set<OWLAxiom> queryAxioms = new HashSet<>();
             if (script.getQuery() != null) {
                 queryAxioms.addAll(script.getQuery().getAssertedAxioms());
                 queryAxioms.addAll(script.getQuery().getAxioms());
             }
-            Set<OWLAxiom> matches = new HashSet<OWLAxiom>();
+            Set<OWLAxiom> matches = new HashSet<>();
             StringWriter resultWriter = new StringWriter();
             if (script.getConstraintSystem().getLeaves() != null
-                    && !script.getConstraintSystem().getLeaves().isEmpty()) {
+                && !script.getConstraintSystem().getLeaves().isEmpty()) {
                 for (BindingNode bindingNode : script.getConstraintSystem().getLeaves()) {
                     ValueComputationParameters parameters = new SimpleValueComputationParameters(
-                            script.getConstraintSystem(), bindingNode, HANDLER);
+                        script.getConstraintSystem(), bindingNode, HANDLER);
                     PartialOWLObjectInstantiator partialOWLObjectInstantiator = new PartialOWLObjectInstantiator(
-                            parameters);
+                        parameters);
                     for (OWLAxiom owlAxiom : queryAxioms) {
                         OWLAxiom match = (OWLAxiom) owlAxiom
-                                .accept(partialOWLObjectInstantiator);
+                            .accept(partialOWLObjectInstantiator);
                         matches.add(match);
                         resultWriter.append(match.toString());
                         resultWriter.append("\n");
@@ -71,7 +72,7 @@ public abstract class AbstractTestCase {
                 }
             }
             assertEquals("Query " + script.toString() + "\n" + resultWriter.toString(),
-                    expected, matches.size());
+                expected, matches.size());
         } catch (Exception e) {
             log(e);
         }
@@ -122,7 +123,7 @@ public abstract class AbstractTestCase {
     protected OPPLScript parse(String script, OWLOntology ontology, OWLReasoner reasoner) {
         try {
             OPPLParser parser = new ParserFactory(ontology.getOWLOntologyManager(),
-                    ontology, reasoner).build(errorListener);
+                ontology, reasoner).build(errorListener);
             return parser.parse(script);
         } catch (Exception e) {
             if (longStackTrace) {
@@ -167,11 +168,13 @@ public abstract class AbstractTestCase {
                     if (Math.abs(value - expectedIndex) < TOLERANCE) {
                         // then the position is close enough
                     } else {
-                        fail("ExhaustingTestCase The error type is correct but the column does not match the expected one. Expected error column: "
+                        fail(
+                            "ExhaustingTestCase The error type is correct but the column does not match the expected one. Expected error column: "
                                 + expectedIndex + "\n actual stacktrace: " + stackTrace);
                     }
                 } catch (NumberFormatException e) {
-                    fail("ExhaustingTestCase.checkProperStackTrace() Could not parse a column number to verify the correctness of the stack trace:\nExpected error type: "
+                    fail(
+                        "ExhaustingTestCase.checkProperStackTrace() Could not parse a column number to verify the correctness of the stack trace:\nExpected error type: "
                             + expected
                             + "\nExpected error column: "
                             + expectedIndex
@@ -180,14 +183,15 @@ public abstract class AbstractTestCase {
             } else {
                 // there is no full stop after the expected string. No column
                 // number info should be available
-                fail("ExhaustingTestCase.testParseDoubleVariableDeclaration() No column info checked; stack trace correct unless a column number was expected.");
+                fail(
+                    "ExhaustingTestCase.testParseDoubleVariableDeclaration() No column info checked; stack trace correct unless a column number was expected.");
             }
         } else {
             fail("ExhaustingTestCase The stack trace does not correspond to the expected one! \nExpected error type: "
-                    + expected
-                    + "\nExpected error column: "
-                    + expectedIndex
-                    + "\n actual stacktrace: " + stackTrace);
+                + expected
+                + "\nExpected error column: "
+                + expectedIndex
+                + "\n actual stacktrace: " + stackTrace);
         }
     }
 
@@ -195,7 +199,7 @@ public abstract class AbstractTestCase {
         // assertEquals(0, stackTrace.length());
         if (stackTrace.length() != 0) {
             fail("ExhaustingTestCase There should not have been a stacktrace!\n actual stacktrace: "
-                    + stackTrace);
+                + stackTrace);
         }
     }
 

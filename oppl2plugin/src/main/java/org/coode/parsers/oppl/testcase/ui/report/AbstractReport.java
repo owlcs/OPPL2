@@ -4,12 +4,17 @@ import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
 import org.coode.parsers.oppl.testcase.OPPLTestCase;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public abstract class AbstractReport implements Report {
+
     private final OPPLTestCase opplTestCase;
 
-    /** @param opplTestCase
-     *            opplTestCase */
+    /**
+     * @param opplTestCase
+     *        opplTestCase
+     */
     public AbstractReport(OPPLTestCase opplTestCase) {
         this.opplTestCase = checkNotNull(opplTestCase, "opplTestCase");
     }

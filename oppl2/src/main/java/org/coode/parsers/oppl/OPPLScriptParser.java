@@ -3,14 +3,7 @@ package org.coode.parsers.oppl;
 
 import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
-import org.antlr.runtime.BitSet;
-import org.antlr.runtime.IntStream;
-import org.antlr.runtime.MismatchedTokenException;
-import org.antlr.runtime.Parser;
-import org.antlr.runtime.ParserRuleReturnScope;
-import org.antlr.runtime.RecognitionException;
-import org.antlr.runtime.RecognizerSharedState;
-import org.antlr.runtime.TokenStream;
+import org.antlr.runtime.*;
 import org.antlr.runtime.tree.CommonTreeAdaptor;
 import org.antlr.runtime.tree.RewriteEmptyStreamException;
 import org.antlr.runtime.tree.RewriteRuleSubtreeStream;
@@ -19,40 +12,41 @@ import org.coode.parsers.ErrorListener;
 
 @SuppressWarnings({ "javadoc", "incomplete-switch" })
 public class OPPLScriptParser extends Parser {
+
     public static final String[] tokenNames = new String[] { "<invalid>", "<EOR>",
-            "<DOWN>", "<UP>", "COMPOSITION", "OPEN_PARENTHESYS", "OPEN_CURLY_BRACES",
-            "CLOSED_CURLY_BRACES", "CLOSED_PARENTHESYS", "WHITESPACE", "AND", "OR",
-            "NOT", "SOME", "ONLY", "MIN", "MAX", "EXACTLY", "VALUE", "INVERSE",
-            "SUBCLASS_OF", "SUB_PROPERTY_OF", "EQUIVALENT_TO", "SAME_AS",
-            "DIFFERENT_FROM", "INVERSE_OF", "DISJOINT_WITH", "DOMAIN", "RANGE",
-            "FUNCTIONAL", "SYMMETRIC", "ANTI_SYMMETRIC", "REFLEXIVE", "IRREFLEXIVE",
-            "TRANSITIVE", "INVERSE_FUNCTIONAL", "POW", "COMMA", "INSTANCE_OF", "TYPES",
-            "DBLQUOTE", "DIGIT", "INTEGER", "LETTER", "IDENTIFIER", "ENTITY_REFERENCE",
-            "QUESTION_MARK", "Tokens", "SUB_CLASS_AXIOM", "EQUIVALENT_TO_AXIOM",
-            "DISJOINT_WITH_AXIOM", "SUB_PROPERTY_AXIOM", "SAME_AS_AXIOM",
-            "DIFFERENT_FROM_AXIOM", "UNARY_AXIOM", "DISJUNCTION", "CONJUNCTION",
-            "PROPERTY_CHAIN", "NEGATED_EXPRESSION", "NEGATED_ASSERTION",
-            "INVERSE_PROPERTY", "SOME_RESTRICTION", "ALL_RESTRICTION",
-            "VALUE_RESTRICTION", "CARDINALITY_RESTRICTION", "ONE_OF", "TYPE_ASSERTION",
-            "ROLE_ASSERTION", "INVERSE_OBJECT_PROPERTY_EXPRESSION", "EXPRESSION",
-            "CONSTANT", "WHERE", "NOT_EQUAL", "EQUAL", "IN", "SELECT", "ASSERTED",
-            "COLON", "DOT", "PLUS", "CREATE", "CREATE_INTERSECTION",
-            "CREATE_DISJUNCTION", "BEGIN", "END", "OPEN_SQUARE_BRACKET",
-            "CLOSED_SQUARE_BRACKET", "SUPER_CLASS_OF", "SUPER_PROPERTY_OF",
-            "VARIABLE_TYPE", "ADD", "REMOVE", "ASSERTED_CLAUSE", "PLAIN_CLAUSE",
-            "INEQUALITY_CONSTRAINT", "IN_SET_CONSTRAINT", "INPUT_VARIABLE_DEFINITION",
-            "GENERATED_VARIABLE_DEFINITION", "CREATE_OPPL_FUNCTION",
-            "VARIABLE_ATTRIBUTE", "OPPL_FUNCTION", "ACTIONS", "VARIABLE_DEFINITIONS",
-            "QUERY", "VARIABLE_SCOPE", "SUBPROPERTY_OF", "VARIABLE_IDENTIFIER",
-            "OPPL_STATEMENT", "HAS_KEY", "IRI", "ANNOTATION_ASSERTION",
-            "IRI_ATTRIBUTE_NAME", "AT", "SET", "DISJOINT_CLASSES", "DISJOINT_PROPERTIES",
-            "SAME_INDIVIDUAL", "DIFFERENT_INDIVIDUALS", "TO_LOWER_CASE", "TO_UPPER_CASE",
-            "ESCLAMATION_MARK", "MATCH", "ATTRIBUTE_SELECTOR", "VALUES", "RENDERING",
-            "GROUPS", "STRING_OPERATION", "VARIABLE_NAME", "REGEXP_CONSTRAINT", "FAIL",
-            "NAF_CONSTRAINT", "LESS_THAN", "LESS_THAN_EQUAL", "GREATER_THAN",
-            "GREATER_THAN_EQUAL", "DATA_RANGE", "591", "592", "593", "594", "595", "596",
-            "597", "598", "599", "600", "601", "602", "603", "604", "605", "606", "607",
-            "608", "609", "610", "611", "612", "613", "614", "615", "616" };
+        "<DOWN>", "<UP>", "COMPOSITION", "OPEN_PARENTHESYS", "OPEN_CURLY_BRACES",
+        "CLOSED_CURLY_BRACES", "CLOSED_PARENTHESYS", "WHITESPACE", "AND", "OR",
+        "NOT", "SOME", "ONLY", "MIN", "MAX", "EXACTLY", "VALUE", "INVERSE",
+        "SUBCLASS_OF", "SUB_PROPERTY_OF", "EQUIVALENT_TO", "SAME_AS",
+        "DIFFERENT_FROM", "INVERSE_OF", "DISJOINT_WITH", "DOMAIN", "RANGE",
+        "FUNCTIONAL", "SYMMETRIC", "ANTI_SYMMETRIC", "REFLEXIVE", "IRREFLEXIVE",
+        "TRANSITIVE", "INVERSE_FUNCTIONAL", "POW", "COMMA", "INSTANCE_OF", "TYPES",
+        "DBLQUOTE", "DIGIT", "INTEGER", "LETTER", "IDENTIFIER", "ENTITY_REFERENCE",
+        "QUESTION_MARK", "Tokens", "SUB_CLASS_AXIOM", "EQUIVALENT_TO_AXIOM",
+        "DISJOINT_WITH_AXIOM", "SUB_PROPERTY_AXIOM", "SAME_AS_AXIOM",
+        "DIFFERENT_FROM_AXIOM", "UNARY_AXIOM", "DISJUNCTION", "CONJUNCTION",
+        "PROPERTY_CHAIN", "NEGATED_EXPRESSION", "NEGATED_ASSERTION",
+        "INVERSE_PROPERTY", "SOME_RESTRICTION", "ALL_RESTRICTION",
+        "VALUE_RESTRICTION", "CARDINALITY_RESTRICTION", "ONE_OF", "TYPE_ASSERTION",
+        "ROLE_ASSERTION", "INVERSE_OBJECT_PROPERTY_EXPRESSION", "EXPRESSION",
+        "CONSTANT", "WHERE", "NOT_EQUAL", "EQUAL", "IN", "SELECT", "ASSERTED",
+        "COLON", "DOT", "PLUS", "CREATE", "CREATE_INTERSECTION",
+        "CREATE_DISJUNCTION", "BEGIN", "END", "OPEN_SQUARE_BRACKET",
+        "CLOSED_SQUARE_BRACKET", "SUPER_CLASS_OF", "SUPER_PROPERTY_OF",
+        "VARIABLE_TYPE", "ADD", "REMOVE", "ASSERTED_CLAUSE", "PLAIN_CLAUSE",
+        "INEQUALITY_CONSTRAINT", "IN_SET_CONSTRAINT", "INPUT_VARIABLE_DEFINITION",
+        "GENERATED_VARIABLE_DEFINITION", "CREATE_OPPL_FUNCTION",
+        "VARIABLE_ATTRIBUTE", "OPPL_FUNCTION", "ACTIONS", "VARIABLE_DEFINITIONS",
+        "QUERY", "VARIABLE_SCOPE", "SUBPROPERTY_OF", "VARIABLE_IDENTIFIER",
+        "OPPL_STATEMENT", "HAS_KEY", "IRI", "ANNOTATION_ASSERTION",
+        "IRI_ATTRIBUTE_NAME", "AT", "SET", "DISJOINT_CLASSES", "DISJOINT_PROPERTIES",
+        "SAME_INDIVIDUAL", "DIFFERENT_INDIVIDUALS", "TO_LOWER_CASE", "TO_UPPER_CASE",
+        "ESCLAMATION_MARK", "MATCH", "ATTRIBUTE_SELECTOR", "VALUES", "RENDERING",
+        "GROUPS", "STRING_OPERATION", "VARIABLE_NAME", "REGEXP_CONSTRAINT", "FAIL",
+        "NAF_CONSTRAINT", "LESS_THAN", "LESS_THAN_EQUAL", "GREATER_THAN",
+        "GREATER_THAN_EQUAL", "DATA_RANGE", "591", "592", "593", "594", "595", "596",
+        "597", "598", "599", "600", "601", "602", "603", "604", "605", "606", "607",
+        "608", "609", "610", "611", "612", "613", "614", "615", "616" };
     public static final int HAS_KEY = 109;
     public static final int VALUE_RESTRICTION = 63;
     public static final int LETTER = 43;
@@ -239,17 +233,18 @@ public class OPPLScriptParser extends Parser {
     }
 
     protected void mismatch(IntStream in, int ttype,
-            @SuppressWarnings("unused") BitSet follow) throws RecognitionException {
+        @SuppressWarnings("unused") BitSet follow) throws RecognitionException {
         throw new MismatchedTokenException(ttype, in);
     }
 
     @Override
     public Object recoverFromMismatchedSet(IntStream in, RecognitionException e,
-            BitSet follow) throws RecognitionException {
+        BitSet follow) throws RecognitionException {
         throw e;
     }
 
     public static class statement_return extends ParserRuleReturnScope {
+
         OPPLSyntaxTree tree;
 
         @Override
@@ -270,11 +265,11 @@ public class OPPLScriptParser extends Parser {
         OPPLScript_OPPLParser.query_return query2 = null;
         OPPLScript_OPPLParser.actions_return actions3 = null;
         RewriteRuleSubtreeStream stream_query = new RewriteRuleSubtreeStream(adaptor,
-                "rule query");
+            "rule query");
         RewriteRuleSubtreeStream stream_variableDefinitions = new RewriteRuleSubtreeStream(
-                adaptor, "rule variableDefinitions");
+            adaptor, "rule variableDefinitions");
         RewriteRuleSubtreeStream stream_actions = new RewriteRuleSubtreeStream(adaptor,
-                "rule actions");
+            "rule actions");
         try {
             // /Users/luigi/Documents/workspace/Parsers/src/OPPLScript.g:78:3: (
             // ( variableDefinitions )? ( query )? actions -> ^( OPPL_STATEMENT
@@ -302,7 +297,7 @@ public class OPPLScriptParser extends Parser {
                         }
                         if (state.backtracking == 0) {
                             stream_variableDefinitions
-                                    .add(variableDefinitions1.getTree());
+                                .add(variableDefinitions1.getTree());
                         }
                     }
                         break;
@@ -359,13 +354,13 @@ public class OPPLScriptParser extends Parser {
                         {
                             OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                             root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                    adaptor.create(OPPL_STATEMENT, "OPPL_STATEMENT"),
-                                    root_1);
+                                adaptor.create(OPPL_STATEMENT, "OPPL_STATEMENT"),
+                                root_1);
                             // /Users/luigi/Documents/workspace/Parsers/src/OPPLScript.g:79:61:
                             // ( variableDefinitions )?
                             if (stream_variableDefinitions.hasNext()) {
                                 adaptor.addChild(root_1,
-                                        stream_variableDefinitions.nextTree());
+                                    stream_variableDefinitions.nextTree());
                             }
                             stream_variableDefinitions.reset();
                             // /Users/luigi/Documents/workspace/Parsers/src/OPPLScript.g:79:82:
@@ -394,7 +389,7 @@ public class OPPLScriptParser extends Parser {
             if (errorListener != null) {
                 errorListener.rewriteEmptyStreamException(exception);
             }
-        } finally {}
+        }
         return retval;
     }
 
@@ -404,93 +399,93 @@ public class OPPLScriptParser extends Parser {
         return gOPPLParser.iri();
     }
 
-    public OPPLScript_OPPLParser_MOWLParser.annotationAssertionAxiom_return
-            annotationAssertionAxiom() throws RecognitionException {
+    public OPPLScript_OPPLParser_MOWLParser.annotationAssertionAxiom_return annotationAssertionAxiom()
+        throws RecognitionException {
         return gMOWLParser.annotationAssertionAxiom();
     }
 
     public OPPLScript_OPPLParser_MOWLParser.binaryAxiom_return binaryAxiom()
-            throws RecognitionException {
+        throws RecognitionException {
         return gMOWLParser.binaryAxiom();
     }
 
     public OPPLScript_OPPLParser.stringOperation_return stringOperation()
-            throws RecognitionException {
+        throws RecognitionException {
         return gOPPLParser.stringOperation();
     }
 
     public OPPLScript_OPPLParser_MOWLParser.constant_return constant()
-            throws RecognitionException {
+        throws RecognitionException {
         return gMOWLParser.constant();
     }
 
-    public OPPLScript_OPPLParser_MOWLParser.cardinalityRestriction_return
-            cardinalityRestriction() throws RecognitionException {
+    public OPPLScript_OPPLParser_MOWLParser.cardinalityRestriction_return cardinalityRestriction()
+        throws RecognitionException {
         return gMOWLParser.cardinalityRestriction();
     }
 
     public OPPLScript_OPPLParser_MOWLParser.unary_return unary()
-            throws RecognitionException {
+        throws RecognitionException {
         return gMOWLParser.unary();
     }
 
     public OPPLScript_OPPLParser_MOWLParser.unaryAxiom_return unaryAxiom()
-            throws RecognitionException {
+        throws RecognitionException {
         return gMOWLParser.unaryAxiom();
     }
 
     public OPPLScript_OPPLParser_MOWLParser.expression_return expression()
-            throws RecognitionException {
+        throws RecognitionException {
         return gMOWLParser.expression();
     }
 
     public OPPLScript_OPPLParser_MOWLParser.conjunction_return conjunction()
-            throws RecognitionException {
+        throws RecognitionException {
         return gMOWLParser.conjunction();
     }
 
     public OPPLScript_OPPLParser_MOWLParser.oneOf_return oneOf()
-            throws RecognitionException {
+        throws RecognitionException {
         return gMOWLParser.oneOf();
     }
 
     public OPPLScript_OPPLParser_MOWLParser.assertionAxiom_return assertionAxiom()
-            throws RecognitionException {
+        throws RecognitionException {
         return gMOWLParser.assertionAxiom();
     }
 
     public OPPLScript_OPPLParser.variableScope_return variableScope()
-            throws RecognitionException {
+        throws RecognitionException {
         return gOPPLParser.variableScope();
     }
 
     public OPPLScript_OPPLParser.simpleStringExpression_return simpleStringExpression()
-            throws RecognitionException {
+        throws RecognitionException {
         return gOPPLParser.simpleStringExpression();
     }
 
     public OPPLScript_OPPLParser.createIdentifier_return createIdentifier()
-            throws RecognitionException {
+        throws RecognitionException {
         return gOPPLParser.createIdentifier();
     }
 
     public OPPLScript_OPPLParser.variableDefinition_return variableDefinition()
-            throws RecognitionException {
+        throws RecognitionException {
         return gOPPLParser.variableDefinition();
     }
 
     public OPPLScript_OPPLParser.opplFunction_return opplFunction()
-            throws RecognitionException {
+        throws RecognitionException {
         return gOPPLParser.opplFunction();
     }
 
     public OPPLScript_OPPLParser.constraint_return constraint()
-            throws RecognitionException {
+        throws RecognitionException {
         return gOPPLParser.constraint();
     }
 
-    public OPPLScript_OPPLParser.variableAttributeReference_return
-            variableAttributeReference() throws RecognitionException {
+    public OPPLScript_OPPLParser.variableAttributeReference_return variableAttributeReference()
+        throws RecognitionException {
         return gOPPLParser.variableAttributeReference();
     }
 
@@ -511,7 +506,7 @@ public class OPPLScriptParser extends Parser {
     }
 
     public OPPLScript_OPPLParser_MOWLParser.hasKeyAxiom_return hasKeyAxiom()
-            throws RecognitionException {
+        throws RecognitionException {
         return gMOWLParser.hasKeyAxiom();
     }
 
@@ -524,27 +519,27 @@ public class OPPLScriptParser extends Parser {
     }
 
     public OPPLScript_OPPLParser_MOWLParser.restrictionKind_return restrictionKind()
-            throws RecognitionException {
+        throws RecognitionException {
         return gMOWLParser.restrictionKind();
     }
 
     public OPPLScript_OPPLParser.lowerUpperCase_return lowerUpperCase()
-            throws RecognitionException {
+        throws RecognitionException {
         return gOPPLParser.lowerUpperCase();
     }
 
     public OPPLScript_OPPLParser_MOWLParser.disjunction_return disjunction()
-            throws RecognitionException {
+        throws RecognitionException {
         return gMOWLParser.disjunction();
     }
 
     public OPPLScript_OPPLParser.stringExpression_return stringExpression()
-            throws RecognitionException {
+        throws RecognitionException {
         return gOPPLParser.stringExpression();
     }
 
     public OPPLScript_OPPLParser.attributeSelector_return attributeSelector()
-            throws RecognitionException {
+        throws RecognitionException {
         return gOPPLParser.attributeSelector();
     }
 
@@ -553,59 +548,58 @@ public class OPPLScriptParser extends Parser {
     }
 
     public OPPLScript_OPPLParser_MOWLParser.valueRestriction_return valueRestriction()
-            throws RecognitionException {
+        throws RecognitionException {
         return gMOWLParser.valueRestriction();
     }
 
     public OPPLScript_OPPLParser.selectClause_return selectClause()
-            throws RecognitionException {
+        throws RecognitionException {
         return gOPPLParser.selectClause();
     }
 
-    public OPPLScript_OPPLParser_MOWLParser.qualifiedRestriction_return
-            qualifiedRestriction() throws RecognitionException {
+    public OPPLScript_OPPLParser_MOWLParser.qualifiedRestriction_return qualifiedRestriction()
+        throws RecognitionException {
         return gMOWLParser.qualifiedRestriction();
     }
 
-    public OPPLScript_OPPLParser_MOWLParser.unaryCharacteristic_return
-            unaryCharacteristic() throws RecognitionException {
+    public OPPLScript_OPPLParser_MOWLParser.unaryCharacteristic_return unaryCharacteristic()
+        throws RecognitionException {
         return gMOWLParser.unaryCharacteristic();
     }
 
     public OPPLScript_OPPLParser_MOWLParser.dataRange_return dataRange()
-            throws RecognitionException {
+        throws RecognitionException {
         return gMOWLParser.dataRange();
     }
 
     public OPPLScript_OPPLParser_MOWLParser.value_return value()
-            throws RecognitionException {
+        throws RecognitionException {
         return gMOWLParser.value();
     }
 
-    public OPPLScript_OPPLParser_MOWLParser.complexPropertyExpression_return
-            complexPropertyExpression() throws RecognitionException {
+    public OPPLScript_OPPLParser_MOWLParser.complexPropertyExpression_return complexPropertyExpression()
+        throws RecognitionException {
         return gMOWLParser.complexPropertyExpression();
     }
 
-    public OPPLScript_OPPLParser_MOWLParser.propertyExpression_return
-            propertyExpression() throws RecognitionException {
+    public OPPLScript_OPPLParser_MOWLParser.propertyExpression_return propertyExpression() throws RecognitionException {
         return gMOWLParser.propertyExpression();
     }
 
     public OPPLScript_OPPLParser.variableDefinitions_return variableDefinitions()
-            throws RecognitionException {
+        throws RecognitionException {
         return gOPPLParser.variableDefinitions();
     }
 
     public OPPLScript_OPPLParser_MOWLParser.dataRangeFacet_return dataRangeFacet()
-            throws RecognitionException {
+        throws RecognitionException {
         return gMOWLParser.dataRangeFacet();
     }
 
     public static final BitSet FOLLOW_variableDefinitions_in_statement112 = new BitSet(
-            new long[] { 0x0000000000000000L, 0x0000000000080800L });
+        new long[] { 0x0000000000000000L, 0x0000000000080800L });
     public static final BitSet FOLLOW_query_in_statement115 = new BitSet(new long[] {
-            0x0000000000000000L, 0x0000000000080800L });
+        0x0000000000000000L, 0x0000000000080800L });
     public static final BitSet FOLLOW_actions_in_statement118 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
 }

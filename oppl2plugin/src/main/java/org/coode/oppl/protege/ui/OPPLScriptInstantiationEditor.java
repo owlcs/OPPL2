@@ -38,25 +38,31 @@ import org.protege.editor.owl.model.classexpression.OWLExpressionParserException
 import org.protege.editor.owl.ui.clsdescriptioneditor.ExpressionEditor;
 import org.semanticweb.owlapi.model.OWLException;
 
-/** GUI component that allows to instantiate a generic OPPL Script
+/**
+ * GUI component that allows to instantiate a generic OPPL Script
  * 
  * @author Luigi Iannone
- * @param <P>
- *            type */
+ * @param
+ *        <P>
+ *        type
+ */
 public abstract class OPPLScriptInstantiationEditor<P extends InstantiatedOPPLScript>
-        implements VerifiedInputEditor, InputVerificationStatusChangedListener {
-    private final Set<InputVerificationStatusChangedListener> listeners = new HashSet<InputVerificationStatusChangedListener>();
+    implements VerifiedInputEditor, InputVerificationStatusChangedListener {
+
+    private final Set<InputVerificationStatusChangedListener> listeners = new HashSet<>();
     protected ExpressionEditor<P> editor;
     protected OWLEditorKit owlEditorKit;
     protected JPanel mainPane = new JPanel(new BorderLayout());
     protected P instantiatedScript = null;
 
-    /** @param instantiatedOPPLScript
-     *            instantiatedOPPLScript
+    /**
+     * @param instantiatedOPPLScript
+     *        instantiatedOPPLScript
      * @param owlEditorKit
-     *            owlEditorKit */
+     *        owlEditorKit
+     */
     public OPPLScriptInstantiationEditor(P instantiatedOPPLScript,
-            OWLEditorKit owlEditorKit) {
+        OWLEditorKit owlEditorKit) {
         this.instantiatedScript = instantiatedOPPLScript;
         this.owlEditorKit = owlEditorKit;
         this.init();
@@ -89,15 +95,17 @@ public abstract class OPPLScriptInstantiationEditor<P extends InstantiatedOPPLSc
 
     @Override
     public void removeStatusChangedListener(
-            InputVerificationStatusChangedListener listener) {
+        InputVerificationStatusChangedListener listener) {
         this.listeners.remove(listener);
     }
 
-    /** @param listener
-     *            listener */
+    /**
+     * @param listener
+     *        listener
+     */
     private void notifyListener(InputVerificationStatusChangedListener listener) {
         boolean valid = this.instantiatedScript != null ? this.instantiatedScript
-                .isValid() : false;
+            .isValid() : false;
         listener.verifiedStatusChanged(valid);
     }
 
@@ -141,12 +149,16 @@ public abstract class OPPLScriptInstantiationEditor<P extends InstantiatedOPPLSc
         this.editor.removeStatusChangedListener(this);
     }
 
-    /** @return edited oppl script */
+    /**
+     * @return edited oppl script
+     */
     public InstantiatedOPPLScript getEditedObject() {
         return this.instantiatedScript;
     }
 
-    /** @return editor */
+    /**
+     * @return editor
+     */
     public JComponent getEditorComponent() {
         return this.mainPane;
     }

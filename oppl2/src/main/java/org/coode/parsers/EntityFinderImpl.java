@@ -8,17 +8,10 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.semanticweb.owlapi.model.OWLClass;
-import org.semanticweb.owlapi.model.OWLDataProperty;
-import org.semanticweb.owlapi.model.OWLDatatype;
-import org.semanticweb.owlapi.model.OWLEntity;
-import org.semanticweb.owlapi.model.OWLIndividual;
-import org.semanticweb.owlapi.model.OWLNamedIndividual;
-import org.semanticweb.owlapi.model.OWLObjectProperty;
-import org.semanticweb.owlapi.model.OWLOntology;
-import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.*;
 
-/** Author: Matthew Horridge<br>
+/**
+ * Author: Matthew Horridge<br>
  * The University Of Manchester<br>
  * Medical Informatics Group<br>
  * Date: 16-May-2006<br>
@@ -26,21 +19,25 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
  * <br>
  * matthew.horridge@cs.man.ac.uk<br>
  * www.cs.man.ac.uk/~horridgm<br>
- * <br> */
+ * <br>
+ */
 public class EntityFinderImpl implements EntityFinder {
+
     private final OWLEntityRenderingCache renderingCache;
     private final OWLOntologyManager manager;
     private final boolean useRegularExpressions;
     private static final String WILDCARD = "*";
 
-    /** @param mngr
-     *            mngr
+    /**
+     * @param mngr
+     *        mngr
      * @param renderingCache
-     *            renderingCache
+     *        renderingCache
      * @param useRegularExpressions
-     *            useRegularExpressions */
+     *        useRegularExpressions
+     */
     public EntityFinderImpl(OWLOntologyManager mngr,
-            OWLEntityRenderingCache renderingCache, boolean useRegularExpressions) {
+        OWLEntityRenderingCache renderingCache, boolean useRegularExpressions) {
         this.renderingCache = checkNotNull(renderingCache, "renderingCache");
         manager = checkNotNull(mngr, "mngr");
         this.useRegularExpressions = useRegularExpressions;
@@ -63,7 +60,7 @@ public class EntityFinderImpl implements EntityFinder {
 
     @Override
     public Set<OWLObjectProperty> getMatchingOWLObjectProperties(String match,
-            boolean fullRegExp) {
+        boolean fullRegExp) {
         return this.getEntities(match, OWLObjectProperty.class, fullRegExp);
     }
 
@@ -74,7 +71,7 @@ public class EntityFinderImpl implements EntityFinder {
 
     @Override
     public Set<OWLDataProperty> getMatchingOWLDataProperties(String match,
-            boolean fullRegExp) {
+        boolean fullRegExp) {
         return this.getEntities(match, OWLDataProperty.class, fullRegExp);
     }
 
@@ -85,7 +82,7 @@ public class EntityFinderImpl implements EntityFinder {
 
     @Override
     public Set<OWLNamedIndividual> getMatchingOWLIndividuals(String match,
-            boolean fullRegExp) {
+        boolean fullRegExp) {
         return this.getEntities(match, OWLNamedIndividual.class, fullRegExp);
     }
 
@@ -110,7 +107,7 @@ public class EntityFinderImpl implements EntityFinder {
     }
 
     private <T extends OWLEntity> Set<T> getEntities(String match, Class<T> type,
-            boolean fullRegExp) {
+        boolean fullRegExp) {
         if (match.length() == 0) {
             return Collections.emptySet();
         }
@@ -122,7 +119,7 @@ public class EntityFinderImpl implements EntityFinder {
     }
 
     private <T extends OWLEntity> Set<T> doRegExpSearch(String match, Class<T> type) {
-        Set<T> results = new HashSet<T>();
+        Set<T> results = new HashSet<>();
         try {
             Pattern pattern = Pattern.compile(match);
             for (String rendering : this.getRenderings(type)) {
@@ -147,7 +144,7 @@ public class EntityFinderImpl implements EntityFinder {
      */
     private <T extends OWLEntity> Set<T> doWildcardSearch(String _match, Class<T> type) {
         String match = _match;
-        Set<T> results = new HashSet<T>();
+        Set<T> results = new HashSet<>();
         if (match.equals(WILDCARD)) {
             results = this.getAllEntities(type);
         } else {
@@ -156,6 +153,7 @@ public class EntityFinderImpl implements EntityFinder {
                 if (match.length() > 1 && match.endsWith(WILDCARD)) {
                     // Contains
                     matcher = new SimpleWildCardMatcher() {
+
                         @Override
                         public boolean matches(String rendering, String s) {
                             return rendering.indexOf(s) != -1;
@@ -165,6 +163,7 @@ public class EntityFinderImpl implements EntityFinder {
                 } else {
                     // Ends with
                     matcher = new SimpleWildCardMatcher() {
+
                         @Override
                         public boolean matches(String rendering, String s) {
                             return rendering.indexOf(s) != -1;
@@ -179,6 +178,7 @@ public class EntityFinderImpl implements EntityFinder {
                 }
                 // @@TODO handle matches exactly?
                 matcher = new SimpleWildCardMatcher() {
+
                     @Override
                     public boolean matches(String rendering, String s) {
                         return rendering.startsWith(s) || rendering.startsWith("'" + s);
@@ -189,7 +189,7 @@ public class EntityFinderImpl implements EntityFinder {
                 match = match.toLowerCase();
                 for (String rendering : this.getRenderings(type)) {
                     if (rendering.length() > 0
-                            && matcher.matches(rendering.toLowerCase(), match)) {
+                        && matcher.matches(rendering.toLowerCase(), match)) {
                         results.add(this.getEntity(rendering, type));
                     }
                 }
@@ -200,7 +200,7 @@ public class EntityFinderImpl implements EntityFinder {
 
     @SuppressWarnings("unchecked")
     private <T extends OWLEntity> Set<T> getAllEntities(Class<T> type) {
-        Set<T> entities = new HashSet<T>();
+        Set<T> entities = new HashSet<>();
         for (OWLOntology ont : manager.getOntologies()) {
             if (type.equals(OWLClass.class)) {
                 entities.addAll((Set<T>) ont.getClassesInSignature());
@@ -251,6 +251,7 @@ public class EntityFinderImpl implements EntityFinder {
     }
 
     private interface SimpleWildCardMatcher {
+
         boolean matches(String rendering, String s);
     }
 }

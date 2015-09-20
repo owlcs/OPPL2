@@ -31,13 +31,7 @@ import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Set;
 
-import javax.swing.DefaultListModel;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
-import javax.swing.JToolBar;
+import javax.swing.*;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
@@ -58,22 +52,16 @@ import org.protege.editor.core.ui.util.ComponentFactory;
 import org.protege.editor.owl.model.OWLModelManager;
 import org.protege.editor.owl.ui.renderer.OWLCellRenderer;
 import org.protege.editor.owl.ui.view.AbstractOWLViewComponent;
-import org.semanticweb.owlapi.model.AddAxiom;
-import org.semanticweb.owlapi.model.OWLAxiom;
-import org.semanticweb.owlapi.model.OWLAxiomChange;
-import org.semanticweb.owlapi.model.OWLDeclarationAxiom;
-import org.semanticweb.owlapi.model.OWLEntity;
-import org.semanticweb.owlapi.model.OWLException;
-import org.semanticweb.owlapi.model.OWLObject;
-import org.semanticweb.owlapi.model.OWLOntologyChange;
-import org.semanticweb.owlapi.model.OWLOntologyChangeListener;
-import org.semanticweb.owlapi.model.RemoveAxiom;
+import org.semanticweb.owlapi.model.*;
 
-/** View that allows to record macros in OPPL
+/**
+ * View that allows to record macros in OPPL
  * 
- * @author Luigi Iannone */
+ * @author Luigi Iannone
+ */
 public class OPPLMacroView extends AbstractOWLViewComponent implements
-        OWLOntologyChangeListener, ListDataListener, OPPLMacroListener {
+    OWLOntologyChangeListener, ListDataListener, OPPLMacroListener {
+
     private static final long serialVersionUID = 20100L;
     private RuntimeExceptionHandler runtimeExceptionHandler;
     protected ActionList recordedActions;
@@ -88,48 +76,51 @@ public class OPPLMacroView extends AbstractOWLViewComponent implements
     @Override
     public void initialiseOWLView() {
         constraintSystem = ProtegeParserFactory.getInstance(getOWLEditorKit())
-                .getOPPLFactory().createConstraintSystem();
+            .getOPPLFactory().createConstraintSystem();
         runtimeExceptionHandler = new ShowMessageRuntimeExceptionHandler(this);
         setLayout(new BorderLayout());
         recordedActions = new ActionList(getOWLEditorKit(), constraintSystem, false);
         JScrollPane recordedActionsScrollPane = ComponentFactory
-                .createScrollPane(recordedActions);
+            .createScrollPane(recordedActions);
         JPanel recordedActionBorderPanel = new JPanel(new BorderLayout());
         recordedActionBorderPanel.setBorder(ComponentFactory
-                .createTitledBorder("Recorded actions"));
+            .createTitledBorder("Recorded actions"));
         recordedActionBorderPanel.add(recordedActionsScrollPane);
         JToolBar recorderToolBar = new JToolBar();
         recordButton = new JButton(new ImageIcon(this.getClass().getClassLoader()
-                .getResource("record-button.jpg")));
+            .getResource("record-button.jpg")));
         recordButton.setToolTipText("Start Recording");
         recordButton.addActionListener(new ActionListener() {
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 OWLModelManager modelManager = OPPLMacroView.this.getOWLEditorKit()
-                        .getModelManager();
+                    .getModelManager();
                 modelManager.addOntologyChangeListener(OPPLMacroView.this);
                 stopButton.setEnabled(true);
                 recordButton.setEnabled(false);
             }
         });
         stopButton = new JButton(new ImageIcon(this.getClass().getClassLoader()
-                .getResource("stop-button.jpg")));
+            .getResource("stop-button.jpg")));
         stopButton.setToolTipText("Stop Recording");
         stopButton.setEnabled(false);
         stopButton.addActionListener(new ActionListener() {
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 OPPLMacroView.this.getOWLEditorKit().getModelManager()
-                        .removeOntologyChangeListener(OPPLMacroView.this);
+                    .removeOntologyChangeListener(OPPLMacroView.this);
                 recordButton.setEnabled(true);
                 stopButton.setEnabled(false);
             }
         });
         copy2ClipboardButton = new JButton(new ImageIcon(this.getClass().getClassLoader()
-                .getResource("copy2Cipboard.jpg")));
+            .getResource("copy2Cipboard.jpg")));
         copy2ClipboardButton.setToolTipText("Copy OPPL");
         copy2ClipboardButton.setEnabled(false);
         copy2ClipboardButton.addActionListener(new ActionListener() {
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 StringBuilder opplString = new StringBuilder();
@@ -139,25 +130,26 @@ public class OPPLMacroView extends AbstractOWLViewComponent implements
                     Object variableElement = variableModel.getElementAt(i);
                     if (variableElement instanceof VariableListItem) {
                         Variable<?> v = ((VariableListItem) variableElement)
-                                .getVariable();
+                            .getVariable();
                         String variableString = " " + v.toString();
                         VariableScope<?> variableScope = v
-                                .accept(new AbstractVariableVisitorExAdapter<VariableScope<?>>(
-                                        null) {
-                                    @Override
-                                    public <P extends OWLObject> VariableScope<?> visit(
-                                            InputVariable<P> iv) {
-                                        return iv.getVariableScope();
-                                    }
-                                });
+                            .accept(new AbstractVariableVisitorExAdapter<VariableScope<?>>(
+                                null) {
+
+                            @Override
+                            public <P extends OWLObject> VariableScope<?> visit(
+                                InputVariable<P> iv) {
+                                return iv.getVariableScope();
+                            }
+                        });
                         if (variableScope != null) {
                             String scopeString = "["
-                                    + variableScope.getDirection().toString()
-                                    + " "
-                                    + OPPLMacroView.this.getOWLModelManager()
-                                            .getRendering(
-                                                    variableScope.getScopingObject())
-                                    + "]";
+                                + variableScope.getDirection().toString()
+                                + " "
+                                + OPPLMacroView.this.getOWLModelManager()
+                                    .getRendering(
+                                        variableScope.getScopingObject())
+                                + "]";
                             variableString += scopeString;
                         }
                         if (!first) {
@@ -171,17 +163,17 @@ public class OPPLMacroView extends AbstractOWLViewComponent implements
                 DefaultListModel actionModel = recordedActions.getDefaultModel();
                 opplString.append("\nBEGIN");
                 VariableOWLCellRenderer cellRenderer = new VariableOWLCellRenderer(
-                        OPPLMacroView.this.getOWLEditorKit(), constraintSystem,
-                        new OWLCellRenderer(OPPLMacroView.this.getOWLEditorKit()));
+                    OPPLMacroView.this.getOWLEditorKit(), constraintSystem,
+                    new OWLCellRenderer(OPPLMacroView.this.getOWLEditorKit()));
                 for (int i = 0; i < actionModel.getSize(); i++) {
                     Object actionElement = actionModel.getElementAt(i);
                     if (actionElement instanceof ActionListItem) {
                         OWLAxiomChange axiomChange = ((ActionListItem) actionElement)
-                                .getAxiomChange();
+                            .getAxiomChange();
                         String isCommaThere = first ? "" : ",";
                         first = false;
                         String action = axiomChange.isAddAxiom() ? " \nADD "
-                                : " \nREMOVE ";
+                            : " \nREMOVE ";
                         OWLAxiom axiom = axiomChange.getAxiom();
                         String axiomRendering = cellRenderer.getRendering(axiom);
                         opplString.append(isCommaThere);
@@ -196,10 +188,11 @@ public class OPPLMacroView extends AbstractOWLViewComponent implements
             }
         });
         clearButton = new JButton(new ImageIcon(this.getClass().getClassLoader()
-                .getResource("clearButton.jpg")));
+            .getResource("clearButton.jpg")));
         clearButton.setToolTipText("Clear all");
         clearButton.setEnabled(false);
         clearButton.addActionListener(new ActionListener() {
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 recordedActions.getDefaultModel().clear();
@@ -225,7 +218,7 @@ public class OPPLMacroView extends AbstractOWLViewComponent implements
         JScrollPane entitiesPane = ComponentFactory.createScrollPane(entities);
         JPanel entitiesBorderPanel = new JPanel(new BorderLayout());
         entitiesBorderPanel.setBorder(ComponentFactory
-                .createTitledBorder("Named entities: "));
+            .createTitledBorder("Named entities: "));
         entitiesBorderPanel.add(entitiesPane);
         JScrollPane variablesPane = ComponentFactory.createScrollPane(variableList);
         JPanel variableBorderPanel = new JPanel(new BorderLayout());
@@ -250,8 +243,7 @@ public class OPPLMacroView extends AbstractOWLViewComponent implements
     }
 
     @Override
-    public void ontologiesChanged(List<? extends OWLOntologyChange> changes)
-            throws OWLException {
+    public void ontologiesChanged(List<? extends OWLOntologyChange> changes) {
         DefaultListModel existingListModel = recordedActions.getDefaultModel();
         ActionListModel updatedListModel = new ActionListModel(false);
         updatedListModel.addListDataListener(this);
@@ -260,14 +252,14 @@ public class OPPLMacroView extends AbstractOWLViewComponent implements
             int size = existingListModel.getSize();
             for (int i = 0; i < size; i++) {
                 OWLAxiomChange axiomChange = ((ActionListItem) existingListModel
-                        .getElementAt(i)).getAxiomChange();
+                    .getElementAt(i)).getAxiomChange();
                 updatedListModel.addAction(axiomChange, false, true);
             }
         }
         for (OWLOntologyChange ontologyChange : changes) {
             if (ontologyChange instanceof OWLAxiomChange
-                    && !(((OWLAxiomChange) ontologyChange).getAxiom() instanceof OWLDeclarationAxiom)
-                    && ((OWLAxiomChange) ontologyChange).getAxiom().isLogicalAxiom()) {
+                && !(((OWLAxiomChange) ontologyChange).getAxiom() instanceof OWLDeclarationAxiom)
+                && ((OWLAxiomChange) ontologyChange).getAxiom().isLogicalAxiom()) {
                 updatedListModel.addAction((OWLAxiomChange) ontologyChange, false, true);
             }
         }
@@ -325,7 +317,7 @@ public class OPPLMacroView extends AbstractOWLViewComponent implements
     @Override
     public void handleGeneralisedOWLObject(Variable<?> variable) {
         VariableListItem variableListItem = new VariableListItem(variable,
-                getConstraintSystem(), getOWLEditorKit(), true, true);
+            getConstraintSystem(), getOWLEditorKit(), true, true);
         variableListItem.addOPPLMacroListener(this);
         variableList.getDefaultModel().addElement(variableListItem);
         updateActions();
@@ -336,18 +328,18 @@ public class OPPLMacroView extends AbstractOWLViewComponent implements
         ActionListModel model = (ActionListModel) recordedActions.getModel();
         int size = model.size();
         OWLObjectAbstractor abstractor = new OWLObjectAbstractor(variables,
-                new SimpleValueComputationParameters(constraintSystem,
-                        BindingNode.createNewEmptyBindingNode(),
-                        getRuntimeExceptionHandler()));
+            new SimpleValueComputationParameters(constraintSystem,
+                BindingNode.createNewEmptyBindingNode(),
+                getRuntimeExceptionHandler()));
         for (int i = 0; i < size; i++) {
             ActionListItem anActionListItem = (ActionListItem) model.remove(i);
             OWLAxiomChange axiomChange = anActionListItem.getAxiomChange();
             OWLAxiom axiom = axiomChange.getAxiom();
             OWLAxiom abstractedAxiom = (OWLAxiom) axiom.accept(abstractor);
             OWLAxiomChange newChange = axiomChange.isAddAxiom() ? new AddAxiom(
-                    getOWLModelManager().getActiveOntology(), abstractedAxiom)
-                    : new RemoveAxiom(getOWLModelManager().getActiveOntology(),
-                            abstractedAxiom);
+                getOWLModelManager().getActiveOntology(), abstractedAxiom)
+                : new RemoveAxiom(getOWLModelManager().getActiveOntology(),
+                    abstractedAxiom);
             model.add(i, new ActionListItem(newChange, false, true));
         }
     }
@@ -355,7 +347,7 @@ public class OPPLMacroView extends AbstractOWLViewComponent implements
     @Override
     public void handleDeletedVariable(Variable<?> variable) {
         Set<OWLObject> possibleBindings = getConstraintSystem().getVariableBindings(
-                variable, getRuntimeExceptionHandler());
+            variable, getRuntimeExceptionHandler());
         ActionListModel model = (ActionListModel) recordedActions.getModel();
         for (int i = model.getSize() - 1; i >= 0; i--) {
             Object element = model.getElementAt(i);
@@ -366,16 +358,16 @@ public class OPPLMacroView extends AbstractOWLViewComponent implements
                 OWLAxiom axiom = change.getAxiom();
                 for (OWLObject object : possibleBindings) {
                     BindingNode bindingNode = new BindingNode(new Assignment(variable,
-                            object));
+                        object));
                     PartialOWLObjectInstantiator instantiator = new PartialOWLObjectInstantiator(
-                            new SimpleValueComputationParameters(constraintSystem,
-                                    bindingNode, getRuntimeExceptionHandler()));
+                        new SimpleValueComputationParameters(constraintSystem,
+                            bindingNode, getRuntimeExceptionHandler()));
                     OWLAxiom instantiatedAxiom = (OWLAxiom) axiom.accept(instantiator);
                     OWLAxiomChange newAxiomChange = change.isAddAxiom() ? new AddAxiom(
-                            change.getOntology(), instantiatedAxiom) : new RemoveAxiom(
+                        change.getOntology(), instantiatedAxiom) : new RemoveAxiom(
                             change.getOntology(), instantiatedAxiom);
                     ActionListItem newItem = new ActionListItem(newAxiomChange, false,
-                            true);
+                        true);
                     model.addElement(newItem);
                 }
             }
@@ -387,12 +379,16 @@ public class OPPLMacroView extends AbstractOWLViewComponent implements
         updateActions();
     }
 
-    /** @return the constraintSystem */
+    /**
+     * @return the constraintSystem
+     */
     public ConstraintSystem getConstraintSystem() {
         return constraintSystem;
     }
 
-    /** @return the runtimeExceptionHandler */
+    /**
+     * @return the runtimeExceptionHandler
+     */
     public RuntimeExceptionHandler getRuntimeExceptionHandler() {
         return runtimeExceptionHandler;
     }

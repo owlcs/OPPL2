@@ -263,7 +263,7 @@ public class OPPLTypes extends TreeFilter {
     // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypes.g:129:1: bottomup
     // : ( opplAxioms | statement );
     @Override
-    public final void bottomup() throws RecognitionException {
+    public final void bottomup() {
         try {
             // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypes.g:130:5: (
             // opplAxioms | statement )
@@ -315,7 +315,7 @@ public class OPPLTypes extends TreeFilter {
             if (errorListener != null) {
                 errorListener.rewriteEmptyStreamException(exception);
             }
-        } finally {}
+        }
         return;
     }
 
@@ -331,7 +331,7 @@ public class OPPLTypes extends TreeFilter {
         OPPLTypes.variableDefinitions_return vd = null;
         OPPLTypes.query_return q = null;
         OPPLTypes.actions_return actions1 = null;
-        List<Variable<?>> vds = new ArrayList<Variable<?>>();
+        List<Variable<?>> vds = new ArrayList<>();
         try {
             // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypes.g:140:2: (
             // ^( OPPL_STATEMENT (vd= variableDefinitions )? (q= query )?
@@ -432,7 +432,7 @@ public class OPPLTypes extends TreeFilter {
             if (errorListener != null) {
                 errorListener.rewriteEmptyStreamException(exception);
             }
-        } finally {}
+        }
         return retval;
     }
 
@@ -450,7 +450,7 @@ public class OPPLTypes extends TreeFilter {
         OPPLTypes.variableDefinitions_return retval = new OPPLTypes.variableDefinitions_return();
         retval.start = input.LT(1);
         OPPLTypes.variableDefinition_return vd = null;
-        List<Variable<?>> toReturn = new ArrayList<Variable<?>>();
+        List<Variable<?>> toReturn = new ArrayList<>();
         try {
             // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypes.g:171:2: (
             // ^( VARIABLE_DEFINITIONS (vd= variableDefinition )+ ) )
@@ -522,7 +522,7 @@ public class OPPLTypes extends TreeFilter {
             if (errorListener != null) {
                 errorListener.rewriteEmptyStreamException(exception);
             }
-        } finally {}
+        }
         return retval;
     }
 
@@ -659,7 +659,7 @@ public class OPPLTypes extends TreeFilter {
             if (errorListener != null) {
                 errorListener.rewriteEmptyStreamException(exception);
             }
-        } finally {}
+        }
         return retval;
     }
 
@@ -770,7 +770,7 @@ public class OPPLTypes extends TreeFilter {
             if (errorListener != null) {
                 errorListener.rewriteEmptyStreamException(exception);
             }
-        } finally {}
+        }
         return retval;
     }
 
@@ -787,7 +787,7 @@ public class OPPLTypes extends TreeFilter {
         OPPLTypes.actions_return retval = new OPPLTypes.actions_return();
         retval.start = input.LT(1);
         OWLAxiomChange action4 = null;
-        retval.actions = new ArrayList<OWLAxiomChange>();
+        retval.actions = new ArrayList<>();
         try {
             // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypes.g:239:2: (
             // ^( ACTIONS ( action )+ ) )
@@ -858,7 +858,7 @@ public class OPPLTypes extends TreeFilter {
             if (errorListener != null) {
                 errorListener.rewriteEmptyStreamException(exception);
             }
-        } finally {}
+        }
         return retval;
     }
 
@@ -960,7 +960,7 @@ public class OPPLTypes extends TreeFilter {
             if (errorListener != null) {
                 errorListener.rewriteEmptyStreamException(exception);
             }
-        } finally {}
+        }
         return change;
     }
 
@@ -1445,7 +1445,7 @@ public class OPPLTypes extends TreeFilter {
             if (errorListener != null) {
                 errorListener.rewriteEmptyStreamException(exception);
             }
-        } finally {}
+        }
         return retval;
     }
 
@@ -1457,7 +1457,7 @@ public class OPPLTypes extends TreeFilter {
     public final OPPLFunction<String> stringOperation() {
         OPPLFunction<String> value = null;
         OPPLFunction<String> valuesToAggregate = null;
-        List<Aggregandum<String>> values = new ArrayList<Aggregandum<String>>();
+        List<Aggregandum<String>> values = new ArrayList<>();
         try {
             // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypes.g:349:3: (
             // ^( STRING_OPERATION (valuesToAggregate= stringExpression )+ ) )
@@ -1529,7 +1529,7 @@ public class OPPLTypes extends TreeFilter {
             if (errorListener != null) {
                 errorListener.rewriteEmptyStreamException(exception);
             }
-        } finally {}
+        }
         return value;
     }
 
@@ -1571,7 +1571,7 @@ public class OPPLTypes extends TreeFilter {
                         return value;
                     }
                     if (state.backtracking == 1) {
-                        value = new Constant<String>(DBLQUOTE16.getText());
+                        value = new Constant<>(DBLQUOTE16.getText());
                     }
                 }
                     break;
@@ -1787,7 +1787,7 @@ public class OPPLTypes extends TreeFilter {
             if (errorListener != null) {
                 errorListener.rewriteEmptyStreamException(exception);
             }
-        } finally {}
+        }
         return value;
     }
 
@@ -2133,7 +2133,7 @@ public class OPPLTypes extends TreeFilter {
             if (errorListener != null) {
                 errorListener.rewriteEmptyStreamException(exception);
             }
-        } finally {}
+        }
         return retval;
     }
 
@@ -2160,7 +2160,7 @@ public class OPPLTypes extends TreeFilter {
         OPPLSyntaxTree expression = null;
         OPPLSyntaxTree a = null;
         OPPLFunction<String> se = null;
-        List<OPPLSyntaxTree> identifiers = new ArrayList<OPPLSyntaxTree>();
+        List<OPPLSyntaxTree> identifiers = new ArrayList<>();
         try {
             // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypes.g:460:1: (
             // ^( INEQUALITY_CONSTRAINT IDENTIFIER ^( EXPRESSION expression= . )
@@ -2386,7 +2386,7 @@ public class OPPLTypes extends TreeFilter {
             if (errorListener != null) {
                 errorListener.rewriteEmptyStreamException(exception);
             }
-        } finally {}
+        }
         return retval;
     }
 
@@ -2405,8 +2405,8 @@ public class OPPLTypes extends TreeFilter {
         OPPLTypes.aggregandums_return retval = new OPPLTypes.aggregandums_return();
         retval.start = input.LT(1);
         OPPLTypes.aggregandum_return a = null;
-        retval.list = new ArrayList<Aggregandum<?>>();
-        retval.tokenList = new ArrayList<OPPLSyntaxTree>();
+        retval.list = new ArrayList<>();
+        retval.tokenList = new ArrayList<>();
         try {
             // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypes.g:490:2: (
             // (a= aggregandum )+ )
@@ -2461,7 +2461,7 @@ public class OPPLTypes extends TreeFilter {
             if (errorListener != null) {
                 errorListener.rewriteEmptyStreamException(exception);
             }
-        } finally {}
+        }
         return retval;
     }
 
@@ -2745,7 +2745,7 @@ public class OPPLTypes extends TreeFilter {
             if (errorListener != null) {
                 errorListener.rewriteEmptyStreamException(exception);
             }
-        } finally {}
+        }
         return retval;
     }
 
@@ -2861,7 +2861,7 @@ public class OPPLTypes extends TreeFilter {
             if (errorListener != null) {
                 errorListener.rewriteEmptyStreamException(exception);
             }
-        } finally {}
+        }
         return retval;
     }
 

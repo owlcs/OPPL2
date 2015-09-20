@@ -6,10 +6,13 @@ import org.antlr.runtime.tree.RewriteEmptyStreamException;
 import org.coode.parsers.ErrorListener;
 import org.coode.parsers.Type;
 
-/** This implementation does not do anything when any error is encountered.
+/**
+ * This implementation does not do anything when any error is encountered.
  * 
- * @author Luigi Iannone */
+ * @author Luigi Iannone
+ */
 public class SilentListener implements ErrorListener {
+
     @Override
     public void illegalToken(CommonTree t, String message) {}
 

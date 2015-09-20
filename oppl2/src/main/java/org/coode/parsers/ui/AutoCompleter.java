@@ -6,19 +6,7 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Point;
 import java.awt.Window;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.HierarchyEvent;
-import java.awt.event.HierarchyListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -33,7 +21,8 @@ import javax.swing.text.JTextComponent;
 
 import org.coode.parsers.ui.autocompletionmatcher.AutoCompletionMatcher;
 
-/** Author: Matthew Horridge<br>
+/**
+ * Author: Matthew Horridge<br>
  * The University Of Manchester<br>
  * Medical Informatics Group<br>
  * Date: May 4, 2006<br>
@@ -41,8 +30,10 @@ import org.coode.parsers.ui.autocompletionmatcher.AutoCompletionMatcher;
  * <br>
  * matthew.horridge@cs.man.ac.uk<br>
  * www.cs.man.ac.uk/~horridgm<br>
- * <br> */
+ * <br>
+ */
 public final class AutoCompleter {
+
     private static final int DEFAULT_MAX_ENTRIES = 100;
     protected final JTextComponent textComponent;
     private final Set<String> wordDelimeters;
@@ -54,6 +45,7 @@ public final class AutoCompleter {
     protected String lastTextUpdate = "*";
     private final int maxEntries = DEFAULT_MAX_ENTRIES;
     private final KeyListener keyListener = new KeyAdapter() {
+
         @Override
         public void keyPressed(KeyEvent e) {
             AutoCompleter.this.processKeyPressed(e);
@@ -63,7 +55,7 @@ public final class AutoCompleter {
         public void keyReleased(KeyEvent e) {
             if (e.getKeyCode() != KeyEvent.VK_UP && e.getKeyCode() != KeyEvent.VK_DOWN) {
                 if (popupWindow.isVisible()
-                        && !lastTextUpdate.equals(textComponent.getText())) {
+                    && !lastTextUpdate.equals(textComponent.getText())) {
                     lastTextUpdate = textComponent.getText();
                     AutoCompleter.this.updatePopup(AutoCompleter.this.getMatches());
                 }
@@ -71,6 +63,7 @@ public final class AutoCompleter {
         }
     };
     protected final ComponentAdapter componentListener = new ComponentAdapter() {
+
         @Override
         public void componentHidden(ComponentEvent event) {
             AutoCompleter.this.hidePopup();
@@ -87,6 +80,7 @@ public final class AutoCompleter {
         }
     };
     private final HierarchyListener hierarchyListener = new HierarchyListener() {
+
         @Override
         public void hierarchyChanged(HierarchyEvent e) {
             if ((e.getChangeFlags() & HierarchyEvent.PARENT_CHANGED) != 0) {
@@ -99,6 +93,7 @@ public final class AutoCompleter {
         }
     };
     private final MouseListener mouseListener = new MouseAdapter() {
+
         @Override
         public void mouseClicked(MouseEvent e) {
             if (e.getClickCount() == 2) {
@@ -107,21 +102,24 @@ public final class AutoCompleter {
         }
     };
     private final FocusListener focusListener = new FocusAdapter() {
+
         @Override
         public void focusLost(FocusEvent event) {
             AutoCompleter.this.hidePopup();
         }
     };
 
-    /** @param tc
-     *            tc
+    /**
+     * @param tc
+     *        tc
      * @param matcher
-     *            matcher */
+     *        matcher
+     */
     public AutoCompleter(JTextComponent tc, AutoCompletionMatcher matcher) {
         this.matcher = checkNotNull(matcher, "matcher");
         textComponent = checkNotNull(tc, "tc");
-        wordDelimeters = new HashSet<String>(Arrays.asList(" ", "\n", "[", "]", "{", "}",
-                "(", ")", ",", "^"));
+        wordDelimeters = new HashSet<>(Arrays.asList(" ", "\n", "[", "]", "{", "}",
+            "(", ")", ",", "^"));
         popupList = new JList();
         popupList.setAutoscrolls(true);
         popupList.addMouseListener(mouseListener);
@@ -193,7 +191,7 @@ public final class AutoCompleter {
     protected void createPopupWindow() {
         JScrollPane sp = new JScrollPane(popupList);
         popupWindow = new JWindow((Window) SwingUtilities.getAncestorOfClass(
-                Window.class, textComponent));
+            Window.class, textComponent));
         // popupWindow.setAlwaysOnTop(true); // this doesn't appear to work with
         // certain Windows/java combinations
         popupWindow.getContentPane().setLayout(new BorderLayout());
@@ -250,8 +248,8 @@ public final class AutoCompleter {
                 }
                 SwingUtilities.convertPointToScreen(p, textComponent);
                 p.y = p.y
-                        + textComponent.getFontMetrics(textComponent.getFont())
-                                .getHeight();
+                    + textComponent.getFontMetrics(textComponent.getFont())
+                        .getHeight();
                 popupWindow.setLocation(p);
             } catch (BadLocationException e) {
                 e.printStackTrace();
@@ -340,7 +338,7 @@ public final class AutoCompleter {
             if (caretPos > 0) {
                 for (int index = caretPos; index > -1; index--) {
                     if (wordDelimeters.contains(textComponent.getDocument().getText(
-                            index, 1))) {
+                        index, 1))) {
                         return index + 1;
                     }
                     if (index == 0) {

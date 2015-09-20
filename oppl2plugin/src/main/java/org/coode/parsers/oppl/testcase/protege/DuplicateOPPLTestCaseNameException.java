@@ -1,10 +1,13 @@
 package org.coode.parsers.oppl.testcase.protege;
 
-/** Raiswd when there is two OPPLTestCase instances with the same name stored as
+/**
+ * Raiswd when there is two OPPLTestCase instances with the same name stored as
  * annotations in an ontology or its import closure.
  * 
- * @author Luigi Iannone */
+ * @author Luigi Iannone
+ */
 public class DuplicateOPPLTestCaseNameException extends RuntimeException {
+
     private static final long serialVersionUID = 20100L;
 
     /**
@@ -14,22 +17,28 @@ public class DuplicateOPPLTestCaseNameException extends RuntimeException {
         super();
     }
 
-    /** @param message
-     *            message
+    /**
+     * @param message
+     *        message
      * @param cause
-     *            cause */
+     *        cause
+     */
     public DuplicateOPPLTestCaseNameException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    /** @param message
-     *            message */
+    /**
+     * @param message
+     *        message
+     */
     public DuplicateOPPLTestCaseNameException(String message) {
         super(message);
     }
 
-    /** @param cause
-     *            cause */
+    /**
+     * @param cause
+     *        cause
+     */
     public DuplicateOPPLTestCaseNameException(Throwable cause) {
         super(cause);
     }

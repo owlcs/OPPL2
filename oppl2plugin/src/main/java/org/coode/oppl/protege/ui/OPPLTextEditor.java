@@ -46,17 +46,19 @@ import org.protege.editor.owl.OWLEditorKit;
 import org.protege.editor.owl.model.event.EventType;
 import org.protege.editor.owl.model.event.OWLModelManagerChangeEvent;
 import org.protege.editor.owl.model.event.OWLModelManagerListener;
-import org.semanticweb.owlapi.model.OWLException;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
 import org.semanticweb.owlapi.model.OWLOntologyChangeListener;
 
-/** Text based editor for OPPL scripts
+/**
+ * Text based editor for OPPL scripts
  * 
- * @author Luigi Iannone */
+ * @author Luigi Iannone
+ */
 public final class OPPLTextEditor extends JPanel implements VerifiedInputEditor,
-        OWLModelManagerListener {
+    OWLModelManagerListener {
+
     private static final long serialVersionUID = 20100L;
-    private final Set<InputVerificationStatusChangedListener> listeners = new HashSet<InputVerificationStatusChangedListener>();
+    private final Set<InputVerificationStatusChangedListener> listeners = new HashSet<>();
     private final OWLEditorKit owlEditorKit;
     private OPPLScript opplScript = null;
     protected final ExpressionEditor<OPPLScript> editor;
@@ -64,14 +66,15 @@ public final class OPPLTextEditor extends JPanel implements VerifiedInputEditor,
     private final OPPLExpressionChecker<OPPLScript> opplExpressionChecker;
     private final ProtegeOPPLAutoCompletionMatcher autoCompletionMatcher;
     private final OWLOntologyChangeListener ontologyChangeListener = new OWLOntologyChangeListener() {
+
         @Override
-        public void ontologiesChanged(List<? extends OWLOntologyChange> changes)
-                throws OWLException {
+        public void ontologiesChanged(List<? extends OWLOntologyChange> changes) {
             // Force refresh
             editor.setText(editor.getText());
         }
     };
     private final OWLModelManagerListener modelManagerListener = new OWLModelManagerListener() {
+
         @Override
         public void handleChange(OWLModelManagerChangeEvent event) {
             // Force refresh
@@ -79,58 +82,68 @@ public final class OPPLTextEditor extends JPanel implements VerifiedInputEditor,
         }
     };
 
-    /** @return the opplScript */
+    /**
+     * @return the opplScript
+     */
     public OPPLScript getOPPLScript() {
         return opplScript;
     }
 
-    /** @param opplScript
-     *            the opplScript to set */
+    /**
+     * @param opplScript
+     *        the opplScript to set
+     */
     public void setOPPLScript(OPPLScript opplScript) {
         String rendering = opplScript.render();
         editor.setText(rendering);
     }
 
-    /** @return the owlEditorKit */
+    /**
+     * @return the owlEditorKit
+     */
     public OWLEditorKit getOWLEditorKit() {
         return owlEditorKit;
     }
 
-    /** Builds an instance of this OPPLTextBuilder.
+    /**
+     * Builds an instance of this OPPLTextBuilder.
      * 
      * @param owlEditorKit
-     *            the editor kit for building the instance. Cannot be
-     *            {@code null}. */
+     *        the editor kit for building the instance. Cannot be {@code null}.
+     */
     protected OPPLTextEditor(OWLEditorKit owlEditorKit) {
         this(owlEditorKit, null);
     }
 
-    /** Builds an instance of this OPPLTextBuilder.
+    /**
+     * Builds an instance of this OPPLTextBuilder.
      * 
      * @param owlEditorKit
-     *            the editor kit for building the instance. Cannot be
-     *            {@code null}.
+     *        the editor kit for building the instance. Cannot be {@code null}.
      * @param validator
-     *            performs custom validation checks on a syntactical valid
-     *            OPPLScript.
+     *        performs custom validation checks on a syntactical valid
+     *        OPPLScript.
      * @throws NullPointerException
-     *             when the input is {@code null}. */
+     *         when the input is {@code null}.
+     */
     protected OPPLTextEditor(OWLEditorKit owlEditorKit, OPPLScriptValidator validator) {
         this.owlEditorKit = owlEditorKit;
         this.validator = validator;
         opplExpressionChecker = new OPPLExpressionChecker<OPPLScript>(getOWLEditorKit()) {
+
             @Override
             protected OPPLScript parse(String text) {
                 AbstractParserFactory factory = ProtegeParserFactory
-                        .getInstance(getOWLEditorKit());
+                    .getInstance(getOWLEditorKit());
                 OPPLParser parser = factory.build(getListener());
                 OPPLScript toReturn = parser.parse(text);
                 return toReturn;
             }
         };
-        editor = new ExpressionEditor<OPPLScript>(getOWLEditorKit().getOWLModelManager()
-                .getOWLOntologyManager(), opplExpressionChecker);
+        editor = new ExpressionEditor<>(getOWLEditorKit().getOWLModelManager()
+            .getOWLOntologyManager(), opplExpressionChecker);
         editor.addStatusChangedListener(new InputVerificationStatusChangedListener() {
+
             @Override
             public void verifiedStatusChanged(boolean newState) {
                 OPPLTextEditor.this.handleChange();
@@ -138,7 +151,7 @@ public final class OPPLTextEditor extends JPanel implements VerifiedInputEditor,
         });
         getOWLEditorKit().getOWLModelManager().addListener(modelManagerListener);
         getOWLEditorKit().getOWLModelManager().getOWLOntologyManager()
-                .addOntologyChangeListener(ontologyChangeListener);
+            .addOntologyChangeListener(ontologyChangeListener);
         autoCompletionMatcher = new ProtegeOPPLAutoCompletionMatcher(getOWLEditorKit());
         getOWLEditorKit().getModelManager().addListener(this);
         new AutoCompleter(editor, autoCompletionMatcher);
@@ -173,7 +186,7 @@ public final class OPPLTextEditor extends JPanel implements VerifiedInputEditor,
 
     @Override
     public void removeStatusChangedListener(
-            InputVerificationStatusChangedListener listener) {
+        InputVerificationStatusChangedListener listener) {
         listeners.remove(listener);
     }
 
@@ -200,6 +213,6 @@ public final class OPPLTextEditor extends JPanel implements VerifiedInputEditor,
         autoCompletionMatcher.dispose();
         getOWLEditorKit().getOWLModelManager().removeListener(modelManagerListener);
         getOWLEditorKit().getOWLModelManager().getOWLOntologyManager()
-                .removeOntologyChangeListener(ontologyChangeListener);
+            .removeOntologyChangeListener(ontologyChangeListener);
     }
 }

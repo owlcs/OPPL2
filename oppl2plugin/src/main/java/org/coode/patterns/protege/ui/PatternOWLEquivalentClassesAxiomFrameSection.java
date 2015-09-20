@@ -37,19 +37,24 @@ import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLEquivalentClassesAxiom;
 import org.semanticweb.owlapi.model.OWLOntology;
 
-/** @author Luigi Iannone Jul 22, 2008 */
+/**
+ * @author Luigi Iannone Jul 22, 2008
+ */
 public class PatternOWLEquivalentClassesAxiomFrameSection extends
-        OWLEquivalentClassesAxiomFrameSection {
+    OWLEquivalentClassesAxiomFrameSection {
+
     private final AbstractPatternModelFactory factory;
 
-    /** @param editorKit
-     *            editorKit
+    /**
+     * @param editorKit
+     *        editorKit
      * @param frame
-     *            frame
+     *        frame
      * @param f
-     *            f */
+     *        f
+     */
     public PatternOWLEquivalentClassesAxiomFrameSection(OWLEditorKit editorKit,
-            OWLFrame<OWLClass> frame, AbstractPatternModelFactory f) {
+        OWLFrame<OWLClass> frame, AbstractPatternModelFactory f) {
         super(editorKit, frame);
         factory = f;
     }
@@ -61,11 +66,11 @@ public class PatternOWLEquivalentClassesAxiomFrameSection extends
 
     @Override
     protected Set<OWLEquivalentClassesAxiom> getClassAxioms(OWLClassExpression descr,
-            OWLOntology ont) {
-        Set<OWLEquivalentClassesAxiom> toReturn = new HashSet<OWLEquivalentClassesAxiom>();
+        OWLOntology ont) {
+        Set<OWLEquivalentClassesAxiom> toReturn = new HashSet<>();
         if (!descr.isAnonymous()) {
             for (OWLEquivalentClassesAxiom ax : ont
-                    .getEquivalentClassesAxioms(getRootObject().asOWLClass())) {
+                .getEquivalentClassesAxioms(getRootObject().asOWLClass())) {
                 Set<OWLAnnotation> annotationAxioms = ax.getAnnotations();
                 boolean isPatternGenerated = Utils.isPatternGenerated(annotationAxioms);
                 if (isPatternGenerated) {
@@ -82,12 +87,12 @@ public class PatternOWLEquivalentClassesAxiomFrameSection extends
         boolean isPatternGenerated = Utils.isPatternGenerated(annotationAxioms);
         if (isPatternGenerated) {
             PatternModel generatingPatternModel = Utils.getGeneratingPatternModel(
-                    annotationAxioms, getOWLEditorKit().getModelManager()
-                            .getOWLOntologyManager(), factory);
+                annotationAxioms, getOWLEditorKit().getModelManager()
+                    .getOWLOntologyManager(), factory);
             if (generatingPatternModel != null) {
                 addRow(new PatternOWLEquivalentClassesAxiomFrameSectionRow(
-                        getOWLEditorKit(), this, ontology, getRootObject().asOWLClass(),
-                        ax, generatingPatternModel));
+                    getOWLEditorKit(), this, ontology, getRootObject().asOWLClass(),
+                    ax, generatingPatternModel));
             }
         }
     }

@@ -4,12 +4,7 @@ import static org.coode.oppl.testontologies.TestOntologies.*;
 import static org.coode.parsers.oppl.test.SymbolTables.getOPPLSymbolTable;
 import static org.junit.Assert.*;
 
-import org.antlr.runtime.ANTLRStringStream;
-import org.antlr.runtime.RecognitionException;
-import org.antlr.runtime.RuleReturnScope;
-import org.antlr.runtime.Token;
-import org.antlr.runtime.TokenRewriteStream;
-import org.antlr.runtime.TokenStream;
+import org.antlr.runtime.*;
 import org.antlr.runtime.tree.CommonErrorNode;
 import org.antlr.runtime.tree.CommonTree;
 import org.antlr.runtime.tree.CommonTreeAdaptor;
@@ -21,23 +16,20 @@ import org.coode.parsers.ErrorListener;
 import org.coode.parsers.ManchesterOWLSyntaxSimplify;
 import org.coode.parsers.ManchesterOWLSyntaxTypes;
 import org.coode.parsers.common.SilentListener;
-import org.coode.parsers.oppl.DefaultTypeEnforcer;
-import org.coode.parsers.oppl.OPPLDefine;
-import org.coode.parsers.oppl.OPPLLexer;
-import org.coode.parsers.oppl.OPPLScriptParser;
-import org.coode.parsers.oppl.OPPLSymbolTable;
-import org.coode.parsers.oppl.OPPLSyntaxTree;
-import org.coode.parsers.oppl.OPPLTypeEnforcement;
-import org.coode.parsers.oppl.OPPLTypes;
+import org.coode.parsers.oppl.*;
 import org.junit.Test;
 import org.semanticweb.owlapi.model.OWLOntology;
 
-/** Test for the AST generation for OPPL
+/**
+ * Test for the AST generation for OPPL
  * 
- * @author Luigi Iannone */
+ * @author Luigi Iannone
+ */
 @SuppressWarnings("javadoc")
 public class OPPLScriptTypesFailedParsingTest {
+
     private final TreeAdaptor adaptor = new CommonTreeAdaptor() {
+
         @Override
         public Object create(Token token) {
             return new OPPLSyntaxTree(token);
@@ -53,7 +45,7 @@ public class OPPLScriptTypesFailedParsingTest {
 
         @Override
         public Object errorNode(TokenStream input, Token start, Token stop,
-                RecognitionException e) {
+            RecognitionException e) {
             return new CommonErrorNode(input, start, stop, e);
         }
     };
@@ -77,7 +69,7 @@ public class OPPLScriptTypesFailedParsingTest {
 
     protected OPPLSyntaxTree parse(String input, OWLOntology ontology) {
         OPPLFactory opplFactory = new OPPLFactory(ontology.getOWLOntologyManager(),
-                ontology, null);
+            ontology, null);
         ConstraintSystem constraintSystem = opplFactory.createConstraintSystem();
         ANTLRStringStream antlrStringStream = new ANTLRStringStream(input);
         OPPLLexer lexer = new OPPLLexer(antlrStringStream);
@@ -101,18 +93,18 @@ public class OPPLScriptTypesFailedParsingTest {
         define.downup(tree);
         nodes.reset();
         ManchesterOWLSyntaxTypes mOWLTypes = new ManchesterOWLSyntaxTypes(nodes, symtab,
-                listener);
+            listener);
         mOWLTypes.downup(tree);
         nodes.reset();
         OPPLTypeEnforcement typeEnforcement = new OPPLTypeEnforcement(nodes, symtab,
-                new DefaultTypeEnforcer(symtab, opplFactory.getOWLEntityFactory(),
-                        listener), listener);
+            new DefaultTypeEnforcer(symtab, opplFactory.getOWLEntityFactory(),
+                listener), listener);
         typeEnforcement.downup(tree);
         nodes.reset();
         mOWLTypes.downup(tree);
         nodes.reset();
         OPPLTypes opplTypes = new OPPLTypes(nodes, symtab, listener, constraintSystem,
-                opplFactory);
+            opplFactory);
         opplTypes.downup(tree);
         return (OPPLSyntaxTree) r.getTree();
     }

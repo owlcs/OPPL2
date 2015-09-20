@@ -7,28 +7,33 @@ import java.util.List;
 
 import org.coode.oppl.OPPLScript;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class OPPLTestCaseImpl implements OPPLTestCase {
+
     private final String name;
     private final OPPLScript opplScript;
     private final boolean requiresInference;
-    private final List<OPPLTest> tests = new ArrayList<OPPLTest>();
+    private final List<OPPLTest> tests = new ArrayList<>();
 
-    /** @param name
-     *            name
+    /**
+     * @param name
+     *        name
      * @param opplScript
-     *            opplScript
+     *        opplScript
      * @param tests
-     *            tests
+     *        tests
      * @param requiresInference
-     *            requiresInference */
+     *        requiresInference
+     */
     public OPPLTestCaseImpl(String name, OPPLScript opplScript,
-            List<? extends OPPLTest> tests, boolean requiresInference) {
+        List<? extends OPPLTest> tests, boolean requiresInference) {
         this.name = checkNotNull(name, "name");
         this.opplScript = checkNotNull(opplScript, "opplScript");
         if (!opplScript.getActions().isEmpty()) {
             throw new IllegalArgumentException(
-                    "No actions allowed in OPPL Test case scripts");
+                "No actions allowed in OPPL Test case scripts");
         }
         this.requiresInference = requiresInference;
         this.tests.addAll(checkNotNull(tests, "tests"));
@@ -54,7 +59,7 @@ public class OPPLTestCaseImpl implements OPPLTestCase {
 
     @Override
     public List<OPPLTest> getTests() {
-        return new ArrayList<OPPLTest>(tests);
+        return new ArrayList<>(tests);
     }
 
     @Override
@@ -63,7 +68,7 @@ public class OPPLTestCaseImpl implements OPPLTestCase {
         // name SEMICOLON INFERENCE? statement test+
         StringBuilder b = new StringBuilder();
         b.append(String.format("%s; %s%s ", getName(),
-                requiresInference() ? "INFERENCE; " : "", getOPPLScript()));
+            requiresInference() ? "INFERENCE; " : "", getOPPLScript()));
         for (OPPLTest t : getTests()) {
             b.append(String.format("%s ", t));
         }

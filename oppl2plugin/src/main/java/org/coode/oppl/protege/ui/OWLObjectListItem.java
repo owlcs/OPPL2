@@ -25,12 +25,17 @@ package org.coode.oppl.protege.ui;
 import org.protege.editor.core.ui.list.MListItem;
 import org.semanticweb.owlapi.model.OWLObject;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class OWLObjectListItem implements MListItem {
+
     private final OWLObject owlObject;
 
-    /** @param owlObject
-     *            owlObject */
+    /**
+     * @param owlObject
+     *        owlObject
+     */
     public OWLObjectListItem(OWLObject owlObject) {
         this.owlObject = owlObject;
     }
@@ -58,7 +63,9 @@ public class OWLObjectListItem implements MListItem {
         return false;
     }
 
-    /** @return the owlObject */
+    /**
+     * @return the owlObject
+     */
     public OWLObject getOwlObject() {
         return owlObject;
     }

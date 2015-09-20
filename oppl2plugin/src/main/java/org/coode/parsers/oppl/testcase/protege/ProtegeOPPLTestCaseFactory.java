@@ -13,19 +13,24 @@ import org.coode.parsers.oppl.testcase.OPPLTestCase;
 import org.coode.parsers.oppl.testcase.OPPLTestCaseImpl;
 import org.protege.editor.owl.OWLEditorKit;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class ProtegeOPPLTestCaseFactory implements AbstractOPPLTestCaseFactory {
+
     private final OWLEditorKit owlEditorKit;
 
-    /** @param owlEditorKit
-     *            owlEditorKit */
+    /**
+     * @param owlEditorKit
+     *        owlEditorKit
+     */
     public ProtegeOPPLTestCaseFactory(OWLEditorKit owlEditorKit) {
         this.owlEditorKit = checkNotNull(owlEditorKit, "owlEditorKit");
     }
 
     @Override
     public OPPLTestCase buildOPPLTestCase(String name, OPPLScript opplContent,
-            List<? extends OPPLTest> tests, boolean requiresInference) {
+        List<? extends OPPLTest> tests, boolean requiresInference) {
         return new OPPLTestCaseImpl(name, opplContent, tests, requiresInference);
     }
 
@@ -34,7 +39,9 @@ public class ProtegeOPPLTestCaseFactory implements AbstractOPPLTestCaseFactory {
         return new ProtegeOPPLFactory(getOWLEditorKit());
     }
 
-    /** @return the owlEditorKit */
+    /**
+     * @return the owlEditorKit
+     */
     public OWLEditorKit getOWLEditorKit() {
         return owlEditorKit;
     }

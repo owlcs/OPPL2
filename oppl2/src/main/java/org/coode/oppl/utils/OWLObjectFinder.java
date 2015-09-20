@@ -9,25 +9,30 @@ import java.util.List;
 
 import org.semanticweb.owlapi.model.OWLObject;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class OWLObjectFinder {
-    /** @param key
-     *            key
+
+    /**
+     * @param key
+     *        key
      * @param container
-     *            container
-     * @return list of lists of positions */
+     *        container
+     * @return list of lists of positions
+     */
     public static List<List<Integer>> findAll(OWLObject key, OWLObject container) {
         checkNotNull(key, "key");
         checkNotNull(container, "container");
         List<List<Integer>> toReturn = key.equals(container) ? Collections
-                .singletonList(Collections.singletonList(0)) : findAll(key, container,
+            .singletonList(Collections.singletonList(0)) : findAll(key, container,
                 Collections.<Integer> emptyList());
         return toReturn;
     }
 
     private static List<List<Integer>> findAll(OWLObject key, OWLObject container,
-            List<Integer> position) {
-        List<List<Integer>> toReturn = new ArrayList<List<Integer>>();
+        List<Integer> position) {
+        List<List<Integer>> toReturn = new ArrayList<>();
         OWLObjectDecomposer decomposer = new OWLObjectDecomposer();
         List<Object> decomposition = container.accept(decomposer);
         if (!decomposition.isEmpty()) {
@@ -37,7 +42,7 @@ public class OWLObjectFinder {
                 Object object = iterator.next();
                 if (OWLObject.class.isAssignableFrom(object.getClass())) {
                     OWLObject toCompare = (OWLObject) object;
-                    ArrayList<Integer> newPosition = new ArrayList<Integer>(position);
+                    ArrayList<Integer> newPosition = new ArrayList<>(position);
                     newPosition.add(i);
                     if (key.equals(toCompare)) {
                         toReturn.add(newPosition);

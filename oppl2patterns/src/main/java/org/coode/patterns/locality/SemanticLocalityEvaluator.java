@@ -8,20 +8,25 @@ import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 
-/** Copyright: Copyright (c) 2007 Company: Clark &amp; Parsia, LLC. <a
- * href="http://www.clarkparsia.com">clarkparsia</a>
+/**
+ * Copyright: Copyright (c) 2007 Company: Clark &amp; Parsia, LLC.
+ * <a href="http://www.clarkparsia.com">clarkparsia</a>
  * 
- * @author Evren Sirin */
+ * @author Evren Sirin
+ */
 public final class SemanticLocalityEvaluator implements LocalityEvaluator {
+
     protected OWLDataFactory df;
     private final AxiomLocality axiomVisitor;
     private final BottomReplacer bottomReplacer;
     protected OWLReasoner reasoner;
 
-    /** @param man
-     *            man
+    /**
+     * @param man
+     *        man
      * @param reasoner
-     *            reasoner */
+     *        reasoner
+     */
     public SemanticLocalityEvaluator(OWLOntologyManager man, OWLReasoner reasoner) {
         df = man.getOWLDataFactory();
         this.reasoner = reasoner;

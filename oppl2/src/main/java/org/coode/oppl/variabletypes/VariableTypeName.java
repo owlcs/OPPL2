@@ -3,7 +3,9 @@ package org.coode.oppl.variabletypes;
 import java.util.HashMap;
 import java.util.Map;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public enum VariableTypeName {
     /** class */
     CLASS,
@@ -17,7 +19,9 @@ public enum VariableTypeName {
     ANNOTATIONPROPERTY,
     /** individual */
     INDIVIDUAL;
-    private static final Map<String, VariableTypeName> cache = new HashMap<String, VariableTypeName>();
+
+    private static final Map<String, VariableTypeName> cache = new HashMap<>();
+
     static {
         cache.put("CLASS", CLASS);
         cache.put("OBJECTPROPERTY", OBJECTPROPERTY);
@@ -26,9 +30,11 @@ public enum VariableTypeName {
         cache.put("CONSTANT", CONSTANT);
     }
 
-    /** @param string
-     *            string
-     * @return cache variable type name */
+    /**
+     * @param string
+     *        string
+     * @return cache variable type name
+     */
     public static VariableTypeName getVariableTypeName(String string) {
         return cache.get(string);
     }

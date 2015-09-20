@@ -6,15 +6,20 @@ import java.util.Collection;
 
 import org.coode.oppl.template.ReplacementStrategy;
 
-/** Uses String.format to perform the substitution.
+/**
+ * Uses String.format to perform the substitution.
  * 
- * @author Luigi Iannone */
+ * @author Luigi Iannone
+ */
 public final class StringFormatReplacementStrategy implements
-        ReplacementStrategy<String, String> {
+    ReplacementStrategy<String, String> {
+
     private final Object[] params;
 
-    /** @param params
-     *            params */
+    /**
+     * @param params
+     *        params
+     */
     public StringFormatReplacementStrategy(Collection<? extends Object> params) {
         this.params = checkNotNull(params, "params").toArray();
     }

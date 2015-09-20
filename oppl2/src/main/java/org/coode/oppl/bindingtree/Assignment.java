@@ -28,33 +28,42 @@ import org.coode.oppl.Variable;
 import org.coode.oppl.variabletypes.VariableTypeFactory;
 import org.semanticweb.owlapi.model.OWLObject;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class Assignment {
+
     private final Variable<?> assignedVariable;
     private final OWLObject assignment;
 
-    /** @param assignedVariable
-     *            assignedVariable
+    /**
+     * @param assignedVariable
+     *        assignedVariable
      * @param assignment
-     *            assignment */
+     *        assignment
+     */
     public Assignment(Variable<?> assignedVariable, OWLObject assignment) {
         this.assignedVariable = checkNotNull(assignedVariable, "assignedVariable");
         this.assignment = checkNotNull(assignment, "assignment");
         if (VariableTypeFactory.getVariableType(assignment) != assignedVariable.getType()) {
             throw new IllegalArgumentException(
-                    "The assigned value is incompatible with the variable it is assigned to: "
-                            + assignment.getClass() + " "
-                            + VariableTypeFactory.getVariableType(assignment) + " "
-                            + assignedVariable.getType());
+                "The assigned value is incompatible with the variable it is assigned to: "
+                    + assignment.getClass() + " "
+                    + VariableTypeFactory.getVariableType(assignment) + " "
+                    + assignedVariable.getType());
         }
     }
 
-    /** @return the assignedVariable */
+    /**
+     * @return the assignedVariable
+     */
     public Variable<?> getAssignedVariable() {
         return assignedVariable;
     }
 
-    /** @return the assignment */
+    /**
+     * @return the assignment
+     */
     public OWLObject getAssignment() {
         return assignment;
     }

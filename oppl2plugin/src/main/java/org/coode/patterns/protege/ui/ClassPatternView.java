@@ -38,49 +38,52 @@ import org.protege.editor.owl.ui.framelist.OWLFrameList;
 import org.protege.editor.owl.ui.view.cls.AbstractOWLClassViewComponent;
 import org.semanticweb.owlapi.model.OWLClass;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class ClassPatternView extends AbstractOWLClassViewComponent {
+
     private OWLFrameList<OWLClass> list;
     private JScrollPane listPane = null;
     private PatternManager patternManager;
     private static final long serialVersionUID = 20100L;
 
     @Override
-    public void initialiseClassView() throws Exception {
+    public void initialiseClassView() {
         setLayout(new BorderLayout());
         AbstractPatternModelFactory f = new ProtegePatternModelFactory(
-                getOWLModelManager());
+            getOWLModelManager());
         list = new OWLFrameList<OWLClass>(getOWLEditorKit(), new PatternClassFrame(
-                getOWLEditorKit(), f)) {
-            
+            getOWLEditorKit(), f)) {
+
             private static final long serialVersionUID = 20100L;
 
             @Override
             protected Border createListItemBorder(JList l, Object value, int index,
-                    boolean isSelected, boolean cellHasFocus) {
+                boolean isSelected, boolean cellHasFocus) {
                 Border border = super.createListItemBorder(l, value, index, isSelected,
-                        cellHasFocus);
+                    cellHasFocus);
                 Border toReturn = border;
                 if (value instanceof PatternOWLEquivalentClassesAxiomFrameSectionRow) {
                     PatternOWLEquivalentClassesAxiomFrameSectionRow row = (PatternOWLEquivalentClassesAxiomFrameSectionRow) value;
                     PatternModel generatingPatternModel = row.getGeneratingPatternModel();
                     PatternBorder patternBorder = new PatternBorder(
-                            generatingPatternModel);
+                        generatingPatternModel);
                     toReturn = BorderFactory.createCompoundBorder(border, patternBorder);
                 }
                 if (value instanceof PatternOWLSubClassAxiomFrameSectionRow) {
                     PatternOWLSubClassAxiomFrameSectionRow row = (PatternOWLSubClassAxiomFrameSectionRow) value;
                     PatternModel generatingPatternModel = row.getGeneratingPatternModel();
                     PatternBorder patternBorder = new PatternBorder(
-                            generatingPatternModel);
+                        generatingPatternModel);
                     toReturn = BorderFactory.createCompoundBorder(border, patternBorder);
                 }
                 if (value instanceof PatternClassFrameSectionRow) {
                     PatternClassFrameSectionRow row = (PatternClassFrameSectionRow) value;
                     PatternModel generatingPatternModel = row.getPatternModel()
-                            .getInstantiatedPattern();
+                        .getInstantiatedPattern();
                     PatternBorder patternBorder = new PatternBorder(
-                            generatingPatternModel);
+                        generatingPatternModel);
                     toReturn = BorderFactory.createCompoundBorder(border, patternBorder);
                 }
                 return toReturn;
@@ -91,7 +94,7 @@ public class ClassPatternView extends AbstractOWLClassViewComponent {
         // PatternParser.setPatternModelFactory(new ProtegePatternModelFactory(
         // this.getOWLModelManager()));
         patternManager = PatternManager.getInstance(getOWLEditorKit().getModelManager()
-                .getOWLOntologyManager(), f);
+            .getOWLOntologyManager(), f);
         getOWLEditorKit().getModelManager().addOntologyChangeListener(patternManager);
         this.add(listPane);
     }
@@ -103,7 +106,7 @@ public class ClassPatternView extends AbstractOWLClassViewComponent {
         }
         if (patternManager != null) {
             getOWLEditorKit().getModelManager().removeOntologyChangeListener(
-                    patternManager);
+                patternManager);
         }
     }
 

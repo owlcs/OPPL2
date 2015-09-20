@@ -24,12 +24,7 @@ package org.coode.oppl.protege.ui;
 
 import java.awt.Component;
 
-import javax.swing.DefaultListCellRenderer;
-import javax.swing.DefaultListModel;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.ListCellRenderer;
+import javax.swing.*;
 
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.Variable;
@@ -40,47 +35,52 @@ import org.coode.oppl.variabletypes.InputVariable;
 import org.protege.editor.owl.OWLEditorKit;
 import org.semanticweb.owlapi.model.OWLObject;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class VariableList extends OPPLMList {
+
     class VariableListCellRenderer extends DefaultListCellRenderer {
+
         private static final long serialVersionUID = 20100L;
 
         // private final DefaultListCellRenderer defaultCellRenderer = new
         // DefaultListCellRenderer();
         @Override
         public Component getListCellRendererComponent(JList list, Object value,
-                int index, boolean isSelected, boolean cellHasFocus) {
+            int index, boolean isSelected, boolean cellHasFocus) {
             JLabel label = (JLabel) super.getListCellRendererComponent(list, value,
-                    index, isSelected, cellHasFocus);
+                index, isSelected, cellHasFocus);
             if (value instanceof VariableListItem) {
                 Variable<?> variable = ((VariableListItem) value).getVariable();
                 VariableScope<?> variableScope = variable
-                        .accept(new AbstractVariableVisitorExAdapter<VariableScope<?>>(
-                                null) {
-                            @Override
-                            public <P extends OWLObject> VariableScope<?> visit(
-                                    InputVariable<P> v) {
-                                return v.getVariableScope();
-                            }
-                        });
+                    .accept(new AbstractVariableVisitorExAdapter<VariableScope<?>>(
+                        null) {
+
+                        @Override
+                        public <P extends OWLObject> VariableScope<?> visit(
+                            InputVariable<P> v) {
+                            return v.getVariableScope();
+                        }
+                    });
                 String variableScopeString = null;
                 if (variableScope == null) {
                     variableScopeString = "";
                 } else {
                     String rendering = owlEditorKit.getModelManager().getRendering(
-                            variableScope.getScopingObject());
+                        variableScope.getScopingObject());
                     variableScopeString = new StringBuilder("[")
-                            .append(variableScope.getDirection()).append(" ")
-                            .append(rendering).append("] ").toString();
+                        .append(variableScope.getDirection()).append(" ")
+                        .append(rendering).append("] ").toString();
                 }
                 label.setIcon(new ImageIcon(this
-                        .getClass()
-                        .getClassLoader()
-                        .getResource(
-                                variable instanceof GeneratedVariable<?> ? "cog.png"
-                                        : "user-icon.gif")));
+                    .getClass()
+                    .getClassLoader()
+                    .getResource(
+                        variable instanceof GeneratedVariable<?> ? "cog.png"
+                            : "user-icon.gif")));
                 label.setText(constraintSystem.render(variable) + ":"
-                        + variable.getType() + variableScopeString);
+                    + variable.getType() + variableScopeString);
             }
             return label;
         }
@@ -91,10 +91,12 @@ public class VariableList extends OPPLMList {
     protected final OWLEditorKit owlEditorKit;
     protected ConstraintSystem constraintSystem;
 
-    /** @param owlEditorKit
-     *            owlEditorKit
+    /**
+     * @param owlEditorKit
+     *        owlEditorKit
      * @param constraintSystem
-     *            constraintSystem */
+     *        constraintSystem
+     */
     public VariableList(OWLEditorKit owlEditorKit, ConstraintSystem constraintSystem) {
         this.owlEditorKit = owlEditorKit;
         this.constraintSystem = constraintSystem;
@@ -115,7 +117,9 @@ public class VariableList extends OPPLMList {
         return owlEditorKit;
     }
 
-    /** @return variable list cell renderer */
+    /**
+     * @return variable list cell renderer
+     */
     public ListCellRenderer getVariableListCellRenderer() {
         return variableListCellRenderer;
     }

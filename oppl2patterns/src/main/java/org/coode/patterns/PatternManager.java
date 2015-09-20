@@ -119,7 +119,7 @@ public class PatternManager implements OWLOntologyChangeListener {
             OWLAnnotation annotation = axiom.getAnnotation();
             PatternOPPLScript patternModel = annotation.accept(patternExtractor);
             OWLAnnotationSubject subject = axiom.getSubject();
-            List<OWLAxiomChange> changes = new ArrayList<OWLAxiomChange>();
+            List<OWLAxiomChange> changes = new ArrayList<>();
             if (patternModel != null && subject instanceof OWLClass
                 && patternModel instanceof InstantiatedPatternModel) {
                 Set<OWLOntology> ontologies = ontologyManager.getOntologies();
@@ -159,7 +159,7 @@ public class PatternManager implements OWLOntologyChangeListener {
         }
     }
 
-    private static Map<OWLOntologyManager, PatternManager> instances = new HashMap<OWLOntologyManager, PatternManager>();
+    private static Map<OWLOntologyManager, PatternManager> instances = new HashMap<>();
     private final OWLOntologyManager ontologyManager;
     private final AbstractPatternModelFactory factory;
 
@@ -176,8 +176,7 @@ public class PatternManager implements OWLOntologyChangeListener {
     }
 
     @Override
-    public void ontologiesChanged(List<? extends OWLOntologyChange> changes)
-        throws OWLException {
+    public void ontologiesChanged(List<? extends OWLOntologyChange> changes) {
         for (OWLOntologyChange ontologyChange : changes) {
             if (ontologyChange.isAxiomChange()) {
                 OWLOntology ontology = ontologyChange.getOntology();

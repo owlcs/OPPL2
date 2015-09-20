@@ -28,24 +28,29 @@ import org.coode.oppl.entity.OWLEntityRenderer;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLEntity;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class VariableOWLEntityRenderer implements OWLEntityRenderer {
+
     private ConstraintSystem constraintSystem;
     private OWLEntityRenderer delegate;
 
-    /** Builds a VariableOWLEntityRenderer from a generic one and a
+    /**
+     * Builds a VariableOWLEntityRenderer from a generic one and a
      * ConstraintSystem instance.
      * 
      * @param constraintSystem
-     *            the ConstraintSystem containing all the variables. Cannot be
-     *            {@code null}.
+     *        the ConstraintSystem containing all the variables. Cannot be
+     *        {@code null}.
      * @param delegate
-     *            the OWLEntityRenderer instance for the non-variable entities.
-     *            Cannot be {@code null}.
+     *        the OWLEntityRenderer instance for the non-variable entities.
+     *        Cannot be {@code null}.
      * @throws NullPointerException
-     *             when either of the inputs is {@code null}. */
+     *         when either of the inputs is {@code null}.
+     */
     public VariableOWLEntityRenderer(ConstraintSystem constraintSystem,
-            OWLEntityRenderer delegate) {
+        OWLEntityRenderer delegate) {
         this.constraintSystem = constraintSystem;
         this.delegate = delegate;
     }
@@ -63,24 +68,32 @@ public class VariableOWLEntityRenderer implements OWLEntityRenderer {
         return toReturn;
     }
 
-    /** @return the constraintSystem */
+    /**
+     * @return the constraintSystem
+     */
     public ConstraintSystem getConstraintSystem() {
         return constraintSystem;
     }
 
-    /** @param constraintSystem
-     *            the constraintSystem to set */
+    /**
+     * @param constraintSystem
+     *        the constraintSystem to set
+     */
     public void setConstraintSystem(ConstraintSystem constraintSystem) {
         this.constraintSystem = constraintSystem;
     }
 
-    /** @return the delegate */
+    /**
+     * @return the delegate
+     */
     public OWLEntityRenderer getDelegate() {
         return delegate;
     }
 
-    /** @param delegate
-     *            the delegate to set */
+    /**
+     * @param delegate
+     *        the delegate to set
+     */
     public void setDelegate(OWLEntityRenderer delegate) {
         this.delegate = delegate;
     }

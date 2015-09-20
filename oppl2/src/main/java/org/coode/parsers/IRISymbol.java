@@ -4,19 +4,26 @@ import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
 import org.semanticweb.owlapi.model.IRI;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class IRISymbol extends Symbol {
+
     private final IRI iri;
 
-    /** @return the iri */
+    /**
+     * @return the iri
+     */
     public IRI getIRI() {
         return iri;
     }
 
-    /** @param name
-     *            name
+    /**
+     * @param name
+     *        name
      * @param iri
-     *            iri */
+     *        iri
+     */
     public IRISymbol(String name, IRI iri) {
         super(name, OWLType.IRI);
         this.iri = checkNotNull(iri, "iri");

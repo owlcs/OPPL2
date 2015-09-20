@@ -42,67 +42,74 @@ import org.protege.editor.owl.OWLEditorKit;
 import org.protege.editor.owl.model.event.OWLModelManagerChangeEvent;
 import org.protege.editor.owl.model.event.OWLModelManagerListener;
 import org.protege.editor.owl.ui.editor.AbstractOWLObjectEditor;
-import org.semanticweb.owlapi.model.OWLException;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
 import org.semanticweb.owlapi.model.OWLOntologyChangeListener;
 
-/** @author Luigi Iannone Apr 2, 2009 */
-public class PatternEditor extends AbstractOWLObjectEditor<PatternModel> implements
-        org.protege.editor.core.ui.util.VerifiedInputEditor, ChangeListener {
+/**
+ * @author Luigi Iannone Apr 2, 2009
+ */
+public class PatternEditor extends AbstractOWLObjectEditor<PatternModel>implements
+    org.protege.editor.core.ui.util.VerifiedInputEditor, ChangeListener {
+
     protected final JTabbedPane mainPanel = new JTabbedPane();
-    private final Set<org.protege.editor.core.ui.util.InputVerificationStatusChangedListener> listeners = new HashSet<org.protege.editor.core.ui.util.InputVerificationStatusChangedListener>();
+    private final Set<org.protege.editor.core.ui.util.InputVerificationStatusChangedListener> listeners = new HashSet<>();
     protected final PatternBuilder patternBuilder;
     protected final TypeInPatternBuilder patternTextEditor;
     protected PatternModel patternModel = null;
     private final OWLModelManagerListener modelManagerListener = new OWLModelManagerListener() {
+
         @Override
         public void handleChange(OWLModelManagerChangeEvent event) {
             mainPanel.setSelectedComponent(patternBuilder.getEditorComponent());
         }
     };
     private final OWLOntologyChangeListener ontologyChangeListener = new OWLOntologyChangeListener() {
+
         @Override
-        public void ontologiesChanged(List<? extends OWLOntologyChange> changes)
-                throws OWLException {
+        public void ontologiesChanged(List<? extends OWLOntologyChange> changes) {
             mainPanel.setSelectedComponent(patternBuilder.getEditorComponent());
         }
     };
     private final OWLEditorKit owlEditorKit;
 
-    /** @param owlEditorKit
-     *            owlEditorKit
+    /**
+     * @param owlEditorKit
+     *        owlEditorKit
      * @param f
-     *            f */
+     *        f
+     */
     public PatternEditor(OWLEditorKit owlEditorKit, AbstractPatternModelFactory f) {
         this.owlEditorKit = checkNotNull(owlEditorKit, "owlEditorKit");
         patternBuilder = new PatternBuilder(getOWLEditorKit(), checkNotNull(f, "f"));
         patternTextEditor = new TypeInPatternBuilder(getOWLEditorKit());
         patternBuilder
-                .addStatusChangedListener(new InputVerificationStatusChangedListener() {
-                    @Override
-                    public void verifiedStatusChanged(boolean newState) {
-                        patternModel = null;
-                        if (newState) {
-                            patternModel = patternBuilder.getEditedObject();
-                        }
-                        PatternEditor.this.handleChange();
+            .addStatusChangedListener(new InputVerificationStatusChangedListener() {
+
+                @Override
+                public void verifiedStatusChanged(boolean newState) {
+                    patternModel = null;
+                    if (newState) {
+                        patternModel = patternBuilder.getEditedObject();
                     }
-                });
+                    PatternEditor.this.handleChange();
+                }
+            });
         patternTextEditor
-                .addStatusChangedListener(new InputVerificationStatusChangedListener() {
-                    @Override
-                    public void verifiedStatusChanged(boolean newState) {
-                        patternModel = null;
-                        if (newState) {
-                            patternModel = patternTextEditor.getEditedObject();
-                        }
-                        PatternEditor.this.handleChange();
+            .addStatusChangedListener(new InputVerificationStatusChangedListener() {
+
+                @Override
+                public void verifiedStatusChanged(boolean newState) {
+                    patternModel = null;
+                    if (newState) {
+                        patternModel = patternTextEditor.getEditedObject();
                     }
-                });
+                    PatternEditor.this.handleChange();
+                }
+            });
         mainPanel.addChangeListener(this);
         getOWLEditorKit().getOWLModelManager().addListener(modelManagerListener);
         getOWLEditorKit().getOWLModelManager().getOWLOntologyManager()
-                .addOntologyChangeListener(ontologyChangeListener);
+            .addOntologyChangeListener(ontologyChangeListener);
         initGUI();
         handleChange();
     }
@@ -125,19 +132,15 @@ public class PatternEditor extends AbstractOWLObjectEditor<PatternModel> impleme
     }
 
     @Override
-    public
-            void
-            addStatusChangedListener(
-                    org.protege.editor.core.ui.util.InputVerificationStatusChangedListener listener) {
+    public void addStatusChangedListener(
+        org.protege.editor.core.ui.util.InputVerificationStatusChangedListener listener) {
         checkNotNull(listener, "listener").verifiedStatusChanged(patternModel != null);
         listeners.add(listener);
     }
 
     @Override
-    public
-            void
-            removeStatusChangedListener(
-                    org.protege.editor.core.ui.util.InputVerificationStatusChangedListener listener) {
+    public void removeStatusChangedListener(
+        org.protege.editor.core.ui.util.InputVerificationStatusChangedListener listener) {
         listeners.remove(listener);
     }
 
@@ -148,7 +151,7 @@ public class PatternEditor extends AbstractOWLObjectEditor<PatternModel> impleme
         patternTextEditor.dispose();
         getOWLEditorKit().getOWLModelManager().removeListener(modelManagerListener);
         getOWLEditorKit().getOWLModelManager().getOWLOntologyManager()
-                .removeOntologyChangeListener(ontologyChangeListener);
+            .removeOntologyChangeListener(ontologyChangeListener);
     }
 
     @Override
@@ -174,8 +177,10 @@ public class PatternEditor extends AbstractOWLObjectEditor<PatternModel> impleme
         }
     }
 
-    /** @param patternModel
-     *            patternModel */
+    /**
+     * @param patternModel
+     *        patternModel
+     */
     public void setPatternModel(PatternModel patternModel) {
         patternTextEditor.setPatternModel(patternModel);
         patternBuilder.setPatternModel(patternModel);
@@ -197,7 +202,9 @@ public class PatternEditor extends AbstractOWLObjectEditor<PatternModel> impleme
         return true;
     }
 
-    /** @return the owlEditorKit */
+    /**
+     * @return the owlEditorKit
+     */
     public OWLEditorKit getOWLEditorKit() {
         return owlEditorKit;
     }

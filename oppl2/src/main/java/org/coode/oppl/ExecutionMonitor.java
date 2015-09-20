@@ -1,9 +1,13 @@
 package org.coode.oppl;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public interface ExecutionMonitor {
+
     /** non cancellable */
     static final ExecutionMonitor NON_CANCELLABLE = new ExecutionMonitor() {
+
         @Override
         public boolean isCancelled() {
             return false;
@@ -15,10 +19,14 @@ public interface ExecutionMonitor {
         }
     };
 
-    /** @return true if cancelled */
+    /**
+     * @return true if cancelled
+     */
     boolean isCancelled();
 
-    /** @param newValue
-     *            newValue */
+    /**
+     * @param newValue
+     *        newValue
+     */
     void progressIncrementChanged(int newValue);
 }

@@ -8,25 +8,33 @@ import org.coode.parsers.oppl.variableattribute.CollectionVariableAttributeSymbo
 import org.coode.parsers.oppl.variableattribute.StringVariableAttributeSymbol;
 import org.semanticweb.owlapi.model.OWLObject;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public interface OPPLSymbolVisitor extends SymbolVisitor {
-    /** @param stringVariableAttributeSymbol
-     *            stringVariableAttributeSymbol */
+
+    /**
+     * @param stringVariableAttributeSymbol
+     *        stringVariableAttributeSymbol
+     */
     void visitStringVariableAttributeSymbol(
-            StringVariableAttributeSymbol stringVariableAttributeSymbol);
+        StringVariableAttributeSymbol stringVariableAttributeSymbol);
 
-    /** @param collectionVariableAttributeSymbol
-     *            collectionVariableAttributeSymbol
-     * @param <P>
-     *            variable type
+    /**
+     * @param collectionVariableAttributeSymbol
+     *        collectionVariableAttributeSymbol
+     * @param
+     *        <P>
+     *        variable type
      * @param <T>
-     *            attribute type */
-            <P extends OWLObject, T extends VariableAttribute<Collection<? extends P>>>
-            void
-            visitCollectionVariableAttributeSymbol(
-                    CollectionVariableAttributeSymbol<P, T> collectionVariableAttributeSymbol);
+     *        attribute type
+     */
+    <P extends OWLObject, T extends VariableAttribute<Collection<? extends P>>> void visitCollectionVariableAttributeSymbol(
+        CollectionVariableAttributeSymbol<P, T> collectionVariableAttributeSymbol);
 
-    /** @param createOnDemandIdentifier
-     *            createOnDemandIdentifier */
+    /**
+     * @param createOnDemandIdentifier
+     *        createOnDemandIdentifier
+     */
     void visitCreateOnDemandIdentifier(CreateOnDemandIdentifier createOnDemandIdentifier);
 }

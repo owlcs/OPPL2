@@ -11,20 +11,25 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class ParserFactory implements AbstractParserFactory {
+
     private final OWLOntologyManager ontologyManager;
     private final OWLOntology ontology;
     private final OWLReasoner reasoner;
 
-    /** @param ontologyManager
-     *            ontologyManager
+    /**
+     * @param ontologyManager
+     *        ontologyManager
      * @param ontology
-     *            ontology
+     *        ontology
      * @param reasoner
-     *            reasoner */
+     *        reasoner
+     */
     public ParserFactory(OWLOntologyManager ontologyManager, OWLOntology ontology,
-            OWLReasoner reasoner) {
+        OWLReasoner reasoner) {
         this.ontologyManager = checkNotNull(ontologyManager, "ontologyManager");
         this.ontology = checkNotNull(ontology, "ontology");
         this.reasoner = reasoner;
@@ -33,17 +38,19 @@ public class ParserFactory implements AbstractParserFactory {
     @Override
     public OPPLParser build(ErrorListener errorListener) {
         SymbolTableFactory<OPPLSymbolTable> symbolTableFactory = new SimpleSymbolTableFactory(
-                getOntologyManager());
+            getOntologyManager());
         return this.build(errorListener, symbolTableFactory);
     }
 
-    /** @param errorListener
-     *            errorListener
+    /**
+     * @param errorListener
+     *        errorListener
      * @param symbolTableFactory
-     *            symbolTableFactory
-     * @return new parser */
+     *        symbolTableFactory
+     * @return new parser
+     */
     public OPPLParser build(ErrorListener errorListener,
-            SymbolTableFactory<OPPLSymbolTable> symbolTableFactory) {
+        SymbolTableFactory<OPPLSymbolTable> symbolTableFactory) {
         return new OPPLParser(getOPPLFactory(), errorListener, symbolTableFactory);
     }
 
@@ -52,17 +59,23 @@ public class ParserFactory implements AbstractParserFactory {
         return new OPPLFactory(getOntologyManager(), getOntology(), getReasoner());
     }
 
-    /** @return the ontologyManager */
+    /**
+     * @return the ontologyManager
+     */
     public OWLOntologyManager getOntologyManager() {
         return ontologyManager;
     }
 
-    /** @return the ontology */
+    /**
+     * @return the ontology
+     */
     public OWLOntology getOntology() {
         return ontology;
     }
 
-    /** @return the reasoner */
+    /**
+     * @return the reasoner
+     */
     public OWLReasoner getReasoner() {
         return reasoner;
     }

@@ -4,30 +4,14 @@ package org.coode.parsers.oppl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.antlr.runtime.BaseRecognizer;
-import org.antlr.runtime.BitSet;
-import org.antlr.runtime.DFA;
-import org.antlr.runtime.EarlyExitException;
-import org.antlr.runtime.IntStream;
-import org.antlr.runtime.NoViableAltException;
-import org.antlr.runtime.Parser;
-import org.antlr.runtime.ParserRuleReturnScope;
-import org.antlr.runtime.RecognitionException;
-import org.antlr.runtime.RecognizerSharedState;
-import org.antlr.runtime.RuleReturnScope;
-import org.antlr.runtime.Token;
-import org.antlr.runtime.TokenStream;
-import org.antlr.runtime.tree.CommonTreeAdaptor;
-import org.antlr.runtime.tree.RewriteEarlyExitException;
-import org.antlr.runtime.tree.RewriteEmptyStreamException;
-import org.antlr.runtime.tree.RewriteRuleSubtreeStream;
-import org.antlr.runtime.tree.RewriteRuleTokenStream;
-import org.antlr.runtime.tree.TreeAdaptor;
+import org.antlr.runtime.*;
+import org.antlr.runtime.tree.*;
 import org.coode.oppl.log.Logger;
 import org.coode.oppl.log.Logging;
 
 @SuppressWarnings({ "javadoc", "incomplete-switch", "synthetic-access" })
 public class OPPLScript_OPPLParser_MOWLParser extends Parser {
+
     public static final int HAS_KEY = 109;
     public static final int VALUE_RESTRICTION = 63;
     public static final int LETTER = 43;
@@ -168,13 +152,13 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
     public OPPLScript_OPPLParser gParent;
 
     public OPPLScript_OPPLParser_MOWLParser(TokenStream input,
-            OPPLScriptParser gOPPLScript, OPPLScript_OPPLParser gOPPLParser) {
+        OPPLScriptParser gOPPLScript, OPPLScript_OPPLParser gOPPLParser) {
         this(input, new RecognizerSharedState(), gOPPLScript, gOPPLParser);
     }
 
     public OPPLScript_OPPLParser_MOWLParser(TokenStream input,
-            RecognizerSharedState state, OPPLScriptParser gOPPLScript,
-            OPPLScript_OPPLParser gOPPLParser) {
+        RecognizerSharedState state, OPPLScriptParser gOPPLScript,
+        OPPLScript_OPPLParser gOPPLParser) {
         super(input, state);
         this.gOPPLScript = gOPPLScript;
         this.gOPPLParser = gOPPLParser;
@@ -205,6 +189,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
     public void displayRecognitionError(String[] tokenNames, RecognitionException e) {}
 
     public static class annotationAssertionAxiom_return extends ParserRuleReturnScope {
+
         OPPLSyntaxTree tree;
 
         @Override
@@ -220,8 +205,8 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
     // ANNOTATION_ASSERTION iri ^( EXPRESSION $p) ^( EXPRESSION $a) ) |
     // subjectIRI= iri p= atomic objectIRI= iri -> ^( ANNOTATION_ASSERTION
     // $subjectIRI ^( EXPRESSION $p) ^( EXPRESSION $objectIRI) ) );
-    public final OPPLScript_OPPLParser_MOWLParser.annotationAssertionAxiom_return
-            annotationAssertionAxiom() throws RecognitionException {
+    public final OPPLScript_OPPLParser_MOWLParser.annotationAssertionAxiom_return annotationAssertionAxiom()
+        throws RecognitionException {
         OPPLScript_OPPLParser_MOWLParser.annotationAssertionAxiom_return retval = new OPPLScript_OPPLParser_MOWLParser.annotationAssertionAxiom_return();
         retval.start = input.LT(1);
         OPPLSyntaxTree root_0 = null;
@@ -233,11 +218,11 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         OPPLScript_OPPLParser.iri_return iri1 = null;
         OPPLScript_OPPLParser.iri_return iri2 = null;
         RewriteRuleSubtreeStream stream_constant = new RewriteRuleSubtreeStream(adaptor,
-                "rule constant");
+            "rule constant");
         RewriteRuleSubtreeStream stream_iri = new RewriteRuleSubtreeStream(adaptor,
-                "rule iri");
+            "rule iri");
         RewriteRuleSubtreeStream stream_atomic = new RewriteRuleSubtreeStream(adaptor,
-                "rule atomic");
+            "rule atomic");
         try {
             // MOWLParser.g:73:32: ( iri p= atomic o= constant -> ^(
             // ANNOTATION_ASSERTION iri ^( EXPRESSION $p) ^( EXPRESSION $o) ) |
@@ -288,9 +273,9 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
                         RewriteRuleSubtreeStream stream_p = new RewriteRuleSubtreeStream(
-                                adaptor, "rule p", p != null ? p.tree : null);
+                            adaptor, "rule p", p != null ? p.tree : null);
                         RewriteRuleSubtreeStream stream_o = new RewriteRuleSubtreeStream(
-                                adaptor, "rule o", o != null ? o.tree : null);
+                            adaptor, "rule o", o != null ? o.tree : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 74:30: -> ^( ANNOTATION_ASSERTION iri ^( EXPRESSION
                         // $p) ^( EXPRESSION $o) )
@@ -300,26 +285,26 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(adaptor
-                                        .create(ANNOTATION_ASSERTION,
-                                                "ANNOTATION_ASSERTION"), root_1);
+                                    .create(ANNOTATION_ASSERTION,
+                                        "ANNOTATION_ASSERTION"), root_1);
                                 adaptor.addChild(root_1, stream_iri.nextTree());
                                 // MOWLParser.g:74:60: ^( EXPRESSION $p)
                                 {
                                     OPPLSyntaxTree root_2 = (OPPLSyntaxTree) adaptor
-                                            .nil();
+                                        .nil();
                                     root_2 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                            adaptor.create(EXPRESSION, "EXPRESSION"),
-                                            root_2);
+                                        adaptor.create(EXPRESSION, "EXPRESSION"),
+                                        root_2);
                                     adaptor.addChild(root_2, stream_p.nextTree());
                                     adaptor.addChild(root_1, root_2);
                                 }
                                 // MOWLParser.g:74:77: ^( EXPRESSION $o)
                                 {
                                     OPPLSyntaxTree root_2 = (OPPLSyntaxTree) adaptor
-                                            .nil();
+                                        .nil();
                                     root_2 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                            adaptor.create(EXPRESSION, "EXPRESSION"),
-                                            root_2);
+                                        adaptor.create(EXPRESSION, "EXPRESSION"),
+                                        root_2);
                                     adaptor.addChild(root_2, stream_o.nextTree());
                                     adaptor.addChild(root_1, root_2);
                                 }
@@ -370,9 +355,9 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
                         RewriteRuleSubtreeStream stream_p = new RewriteRuleSubtreeStream(
-                                adaptor, "rule p", p != null ? p.tree : null);
+                            adaptor, "rule p", p != null ? p.tree : null);
                         RewriteRuleSubtreeStream stream_a = new RewriteRuleSubtreeStream(
-                                adaptor, "rule a", a != null ? a.tree : null);
+                            adaptor, "rule a", a != null ? a.tree : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 75:30: -> ^( ANNOTATION_ASSERTION iri ^( EXPRESSION
                         // $p) ^( EXPRESSION $a) )
@@ -382,26 +367,26 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(adaptor
-                                        .create(ANNOTATION_ASSERTION,
-                                                "ANNOTATION_ASSERTION"), root_1);
+                                    .create(ANNOTATION_ASSERTION,
+                                        "ANNOTATION_ASSERTION"), root_1);
                                 adaptor.addChild(root_1, stream_iri.nextTree());
                                 // MOWLParser.g:75:60: ^( EXPRESSION $p)
                                 {
                                     OPPLSyntaxTree root_2 = (OPPLSyntaxTree) adaptor
-                                            .nil();
+                                        .nil();
                                     root_2 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                            adaptor.create(EXPRESSION, "EXPRESSION"),
-                                            root_2);
+                                        adaptor.create(EXPRESSION, "EXPRESSION"),
+                                        root_2);
                                     adaptor.addChild(root_2, stream_p.nextTree());
                                     adaptor.addChild(root_1, root_2);
                                 }
                                 // MOWLParser.g:75:77: ^( EXPRESSION $a)
                                 {
                                     OPPLSyntaxTree root_2 = (OPPLSyntaxTree) adaptor
-                                            .nil();
+                                        .nil();
                                     root_2 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                            adaptor.create(EXPRESSION, "EXPRESSION"),
-                                            root_2);
+                                        adaptor.create(EXPRESSION, "EXPRESSION"),
+                                        root_2);
                                     adaptor.addChild(root_2, stream_a.nextTree());
                                     adaptor.addChild(root_1, root_2);
                                 }
@@ -452,13 +437,13 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
                         RewriteRuleSubtreeStream stream_objectIRI = new RewriteRuleSubtreeStream(
-                                adaptor, "rule objectIRI",
-                                objectIRI != null ? objectIRI.tree : null);
+                            adaptor, "rule objectIRI",
+                            objectIRI != null ? objectIRI.tree : null);
                         RewriteRuleSubtreeStream stream_subjectIRI = new RewriteRuleSubtreeStream(
-                                adaptor, "rule subjectIRI",
-                                subjectIRI != null ? subjectIRI.tree : null);
+                            adaptor, "rule subjectIRI",
+                            subjectIRI != null ? subjectIRI.tree : null);
                         RewriteRuleSubtreeStream stream_p = new RewriteRuleSubtreeStream(
-                                adaptor, "rule p", p != null ? p.tree : null);
+                            adaptor, "rule p", p != null ? p.tree : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 76:48: -> ^( ANNOTATION_ASSERTION $subjectIRI ^(
                         // EXPRESSION $p) ^( EXPRESSION $objectIRI) )
@@ -469,16 +454,16 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(adaptor
-                                        .create(ANNOTATION_ASSERTION,
-                                                "ANNOTATION_ASSERTION"), root_1);
+                                    .create(ANNOTATION_ASSERTION,
+                                        "ANNOTATION_ASSERTION"), root_1);
                                 adaptor.addChild(root_1, stream_subjectIRI.nextTree());
                                 // MOWLParser.g:76:86: ^( EXPRESSION $p)
                                 {
                                     OPPLSyntaxTree root_2 = (OPPLSyntaxTree) adaptor
-                                            .nil();
+                                        .nil();
                                     root_2 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                            adaptor.create(EXPRESSION, "EXPRESSION"),
-                                            root_2);
+                                        adaptor.create(EXPRESSION, "EXPRESSION"),
+                                        root_2);
                                     adaptor.addChild(root_2, stream_p.nextTree());
                                     adaptor.addChild(root_1, root_2);
                                 }
@@ -486,10 +471,10 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                                 // $objectIRI)
                                 {
                                     OPPLSyntaxTree root_2 = (OPPLSyntaxTree) adaptor
-                                            .nil();
+                                        .nil();
                                     root_2 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                            adaptor.create(EXPRESSION, "EXPRESSION"),
-                                            root_2);
+                                        adaptor.create(EXPRESSION, "EXPRESSION"),
+                                        root_2);
                                     adaptor.addChild(root_2, stream_objectIRI.nextTree());
                                     adaptor.addChild(root_1, root_2);
                                 }
@@ -510,12 +495,13 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
             throw e;
         } catch (RewriteEmptyStreamException e) {
             throw e;
-        } finally {}
+        }
         return retval;
     }
 
     // $ANTLR end "annotationAssertionAxiom"
     public static class hasKeyAxiom_return extends ParserRuleReturnScope {
+
         OPPLSyntaxTree tree;
 
         @Override
@@ -529,7 +515,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
     // propertyExpression ( COMMA propertyExpression )* -> ^( HAS_KEY ^(
     // EXPRESSION $exp) ( ^( EXPRESSION propertyExpression ) )+ ) ;
     public final OPPLScript_OPPLParser_MOWLParser.hasKeyAxiom_return hasKeyAxiom()
-            throws RecognitionException {
+        throws RecognitionException {
         OPPLScript_OPPLParser_MOWLParser.hasKeyAxiom_return retval = new OPPLScript_OPPLParser_MOWLParser.hasKeyAxiom_return();
         retval.start = input.LT(1);
         OPPLSyntaxTree root_0 = null;
@@ -539,13 +525,13 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         OPPLScript_OPPLParser_MOWLParser.propertyExpression_return propertyExpression4 = null;
         OPPLScript_OPPLParser_MOWLParser.propertyExpression_return propertyExpression6 = null;
         RewriteRuleTokenStream stream_HAS_KEY = new RewriteRuleTokenStream(adaptor,
-                "token HAS_KEY");
+            "token HAS_KEY");
         RewriteRuleTokenStream stream_COMMA = new RewriteRuleTokenStream(adaptor,
-                "token COMMA");
+            "token COMMA");
         RewriteRuleSubtreeStream stream_disjunction = new RewriteRuleSubtreeStream(
-                adaptor, "rule disjunction");
+            adaptor, "rule disjunction");
         RewriteRuleSubtreeStream stream_propertyExpression = new RewriteRuleSubtreeStream(
-                adaptor, "rule propertyExpression");
+            adaptor, "rule propertyExpression");
         try {
             // MOWLParser.g:86:2: (exp= disjunction HAS_KEY propertyExpression (
             // COMMA propertyExpression )* -> ^( HAS_KEY ^( EXPRESSION $exp) (
@@ -593,7 +579,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                         // MOWLParser.g:87:48: COMMA propertyExpression
                         {
                             COMMA5 = (Token) match(input, COMMA,
-                                    FOLLOW_COMMA_in_hasKeyAxiom469);
+                                FOLLOW_COMMA_in_hasKeyAxiom469);
                             if (state.failed) {
                                 return retval;
                             }
@@ -608,7 +594,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                             }
                             if (state.backtracking == 0) {
                                 stream_propertyExpression.add(propertyExpression6
-                                        .getTree());
+                                    .getTree());
                             }
                         }
                             break;
@@ -626,7 +612,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                 if (state.backtracking == 0) {
                     retval.tree = root_0;
                     RewriteRuleSubtreeStream stream_exp = new RewriteRuleSubtreeStream(
-                            adaptor, "rule exp", exp != null ? exp.tree : null);
+                        adaptor, "rule exp", exp != null ? exp.tree : null);
                     root_0 = (OPPLSyntaxTree) adaptor.nil();
                     // 87:75: -> ^( HAS_KEY ^( EXPRESSION $exp) ( ^( EXPRESSION
                     // propertyExpression ) )+ )
@@ -636,12 +622,12 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                         {
                             OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                             root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                    stream_HAS_KEY.nextNode(), root_1);
+                                stream_HAS_KEY.nextNode(), root_1);
                             // MOWLParser.g:87:88: ^( EXPRESSION $exp)
                             {
                                 OPPLSyntaxTree root_2 = (OPPLSyntaxTree) adaptor.nil();
                                 root_2 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                        adaptor.create(EXPRESSION, "EXPRESSION"), root_2);
+                                    adaptor.create(EXPRESSION, "EXPRESSION"), root_2);
                                 adaptor.addChild(root_2, stream_exp.nextTree());
                                 adaptor.addChild(root_1, root_2);
                             }
@@ -653,12 +639,12 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                                 // propertyExpression )
                                 {
                                     OPPLSyntaxTree root_2 = (OPPLSyntaxTree) adaptor
-                                            .nil();
+                                        .nil();
                                     root_2 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                            adaptor.create(EXPRESSION, "EXPRESSION"),
-                                            root_2);
+                                        adaptor.create(EXPRESSION, "EXPRESSION"),
+                                        root_2);
                                     adaptor.addChild(root_2,
-                                            stream_propertyExpression.nextTree());
+                                        stream_propertyExpression.nextTree());
                                     adaptor.addChild(root_1, root_2);
                                 }
                             }
@@ -678,12 +664,13 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
             throw e;
         } catch (RewriteEmptyStreamException e) {
             throw e;
-        } finally {}
+        }
         return retval;
     }
 
     // $ANTLR end "hasKeyAxiom"
     public static class assertionAxiom_return extends ParserRuleReturnScope {
+
         OPPLSyntaxTree tree;
 
         @Override
@@ -700,7 +687,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
     // propertyExpression ) ^( EXPRESSION value ) ) | NOT assertionAxiom -> ^(
     // NEGATED_ASSERTION assertionAxiom ) );
     public final OPPLScript_OPPLParser_MOWLParser.assertionAxiom_return assertionAxiom()
-            throws RecognitionException {
+        throws RecognitionException {
         OPPLScript_OPPLParser_MOWLParser.assertionAxiom_return retval = new OPPLScript_OPPLParser_MOWLParser.assertionAxiom_return();
         retval.start = input.LT(1);
         OPPLSyntaxTree root_0 = null;
@@ -714,21 +701,21 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         OPPLScript_OPPLParser_MOWLParser.value_return value11 = null;
         OPPLScript_OPPLParser_MOWLParser.assertionAxiom_return assertionAxiom13 = null;
         RewriteRuleTokenStream stream_TYPES = new RewriteRuleTokenStream(adaptor,
-                "token TYPES");
+            "token TYPES");
         RewriteRuleTokenStream stream_NOT = new RewriteRuleTokenStream(adaptor,
-                "token NOT");
+            "token NOT");
         RewriteRuleTokenStream stream_INSTANCE_OF = new RewriteRuleTokenStream(adaptor,
-                "token INSTANCE_OF");
+            "token INSTANCE_OF");
         RewriteRuleSubtreeStream stream_expression = new RewriteRuleSubtreeStream(
-                adaptor, "rule expression");
+            adaptor, "rule expression");
         RewriteRuleSubtreeStream stream_propertyExpression = new RewriteRuleSubtreeStream(
-                adaptor, "rule propertyExpression");
+            adaptor, "rule propertyExpression");
         RewriteRuleSubtreeStream stream_value = new RewriteRuleSubtreeStream(adaptor,
-                "rule value");
+            "rule value");
         RewriteRuleSubtreeStream stream_assertionAxiom = new RewriteRuleSubtreeStream(
-                adaptor, "rule assertionAxiom");
+            adaptor, "rule assertionAxiom");
         RewriteRuleSubtreeStream stream_atomic = new RewriteRuleSubtreeStream(adaptor,
-                "rule atomic");
+            "rule atomic");
         try {
             // MOWLParser.g:92:41: (i= atomic ( INSTANCE_OF | TYPES ) expression
             // -> ^( TYPE_ASSERTION ^( EXPRESSION expression ) ^( EXPRESSION $i)
@@ -765,7 +752,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                             return retval;
                         }
                         NoViableAltException nvae = new NoViableAltException("", 4, 0,
-                                input);
+                            input);
                         throw nvae;
                     }
                     switch (alt4) {
@@ -773,7 +760,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                         // MOWLParser.g:93:15: INSTANCE_OF
                         {
                             INSTANCE_OF7 = (Token) match(input, INSTANCE_OF,
-                                    FOLLOW_INSTANCE_OF_in_assertionAxiom523);
+                                FOLLOW_INSTANCE_OF_in_assertionAxiom523);
                             if (state.failed) {
                                 return retval;
                             }
@@ -786,7 +773,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                         // MOWLParser.g:93:29: TYPES
                         {
                             TYPES8 = (Token) match(input, TYPES,
-                                    FOLLOW_TYPES_in_assertionAxiom527);
+                                FOLLOW_TYPES_in_assertionAxiom527);
                             if (state.failed) {
                                 return retval;
                             }
@@ -815,7 +802,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
                         RewriteRuleSubtreeStream stream_i = new RewriteRuleSubtreeStream(
-                                adaptor, "rule i", i != null ? i.tree : null);
+                            adaptor, "rule i", i != null ? i.tree : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 93:47: -> ^( TYPE_ASSERTION ^( EXPRESSION expression
                         // ) ^( EXPRESSION $i) )
@@ -825,26 +812,26 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                        adaptor.create(TYPE_ASSERTION, "TYPE_ASSERTION"),
-                                        root_1);
+                                    adaptor.create(TYPE_ASSERTION, "TYPE_ASSERTION"),
+                                    root_1);
                                 // MOWLParser.g:93:67: ^( EXPRESSION expression
                                 // )
                                 {
                                     OPPLSyntaxTree root_2 = (OPPLSyntaxTree) adaptor
-                                            .nil();
+                                        .nil();
                                     root_2 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                            adaptor.create(EXPRESSION, "EXPRESSION"),
-                                            root_2);
+                                        adaptor.create(EXPRESSION, "EXPRESSION"),
+                                        root_2);
                                     adaptor.addChild(root_2, stream_expression.nextTree());
                                     adaptor.addChild(root_1, root_2);
                                 }
                                 // MOWLParser.g:93:92: ^( EXPRESSION $i)
                                 {
                                     OPPLSyntaxTree root_2 = (OPPLSyntaxTree) adaptor
-                                            .nil();
+                                        .nil();
                                     root_2 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                            adaptor.create(EXPRESSION, "EXPRESSION"),
-                                            root_2);
+                                        adaptor.create(EXPRESSION, "EXPRESSION"),
+                                        root_2);
                                     adaptor.addChild(root_2, stream_i.nextTree());
                                     adaptor.addChild(root_1, root_2);
                                 }
@@ -895,8 +882,8 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
                         RewriteRuleSubtreeStream stream_subject = new RewriteRuleSubtreeStream(
-                                adaptor, "rule subject", subject != null ? subject.tree
-                                        : null);
+                            adaptor, "rule subject", subject != null ? subject.tree
+                                : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 94:50: -> ^( ROLE_ASSERTION ^( EXPRESSION $subject)
                         // ^( EXPRESSION propertyExpression ) ^( EXPRESSION
@@ -908,15 +895,15 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                        adaptor.create(ROLE_ASSERTION, "ROLE_ASSERTION"),
-                                        root_1);
+                                    adaptor.create(ROLE_ASSERTION, "ROLE_ASSERTION"),
+                                    root_1);
                                 // MOWLParser.g:94:70: ^( EXPRESSION $subject)
                                 {
                                     OPPLSyntaxTree root_2 = (OPPLSyntaxTree) adaptor
-                                            .nil();
+                                        .nil();
                                     root_2 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                            adaptor.create(EXPRESSION, "EXPRESSION"),
-                                            root_2);
+                                        adaptor.create(EXPRESSION, "EXPRESSION"),
+                                        root_2);
                                     adaptor.addChild(root_2, stream_subject.nextTree());
                                     adaptor.addChild(root_1, root_2);
                                 }
@@ -924,21 +911,21 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                                 // propertyExpression )
                                 {
                                     OPPLSyntaxTree root_2 = (OPPLSyntaxTree) adaptor
-                                            .nil();
+                                        .nil();
                                     root_2 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                            adaptor.create(EXPRESSION, "EXPRESSION"),
-                                            root_2);
+                                        adaptor.create(EXPRESSION, "EXPRESSION"),
+                                        root_2);
                                     adaptor.addChild(root_2,
-                                            stream_propertyExpression.nextTree());
+                                        stream_propertyExpression.nextTree());
                                     adaptor.addChild(root_1, root_2);
                                 }
                                 // MOWLParser.g:94:126: ^( EXPRESSION value )
                                 {
                                     OPPLSyntaxTree root_2 = (OPPLSyntaxTree) adaptor
-                                            .nil();
+                                        .nil();
                                     root_2 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                            adaptor.create(EXPRESSION, "EXPRESSION"),
-                                            root_2);
+                                        adaptor.create(EXPRESSION, "EXPRESSION"),
+                                        root_2);
                                     adaptor.addChild(root_2, stream_value.nextTree());
                                     adaptor.addChild(root_1, root_2);
                                 }
@@ -985,8 +972,8 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(adaptor
-                                        .create(NEGATED_ASSERTION, "NEGATED_ASSERTION"),
-                                        root_1);
+                                    .create(NEGATED_ASSERTION, "NEGATED_ASSERTION"),
+                                    root_1);
                                 adaptor.addChild(root_1, stream_assertionAxiom.nextTree());
                                 adaptor.addChild(root_0, root_1);
                             }
@@ -1005,12 +992,13 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
             throw e;
         } catch (RewriteEmptyStreamException e) {
             throw e;
-        } finally {}
+        }
         return retval;
     }
 
     // $ANTLR end "assertionAxiom"
     public static class binaryAxiom_return extends ParserRuleReturnScope {
+
         OPPLSyntaxTree tree;
 
         @Override
@@ -1037,7 +1025,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
     // $lhsID) ^( EXPRESSION expression ) ) | lhsID= atomic RANGE expression ->
     // ^( RANGE ^( EXPRESSION $lhsID) ^( EXPRESSION expression ) ) );
     public final OPPLScript_OPPLParser_MOWLParser.binaryAxiom_return binaryAxiom()
-            throws RecognitionException {
+        throws RecognitionException {
         OPPLScript_OPPLParser_MOWLParser.binaryAxiom_return retval = new OPPLScript_OPPLParser_MOWLParser.binaryAxiom_return();
         retval.start = input.LT(1);
         OPPLSyntaxTree root_0 = null;
@@ -1061,29 +1049,29 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         OPPLScript_OPPLParser_MOWLParser.expression_return expression22 = null;
         OPPLScript_OPPLParser_MOWLParser.expression_return expression24 = null;
         RewriteRuleTokenStream stream_RANGE = new RewriteRuleTokenStream(adaptor,
-                "token RANGE");
+            "token RANGE");
         RewriteRuleTokenStream stream_SAME_AS = new RewriteRuleTokenStream(adaptor,
-                "token SAME_AS");
+            "token SAME_AS");
         RewriteRuleTokenStream stream_DISJOINT_WITH = new RewriteRuleTokenStream(adaptor,
-                "token DISJOINT_WITH");
+            "token DISJOINT_WITH");
         RewriteRuleTokenStream stream_INVERSE_OF = new RewriteRuleTokenStream(adaptor,
-                "token INVERSE_OF");
+            "token INVERSE_OF");
         RewriteRuleTokenStream stream_DIFFERENT_FROM = new RewriteRuleTokenStream(
-                adaptor, "token DIFFERENT_FROM");
+            adaptor, "token DIFFERENT_FROM");
         RewriteRuleTokenStream stream_EQUIVALENT_TO = new RewriteRuleTokenStream(adaptor,
-                "token EQUIVALENT_TO");
+            "token EQUIVALENT_TO");
         RewriteRuleTokenStream stream_SUBCLASS_OF = new RewriteRuleTokenStream(adaptor,
-                "token SUBCLASS_OF");
+            "token SUBCLASS_OF");
         RewriteRuleTokenStream stream_DOMAIN = new RewriteRuleTokenStream(adaptor,
-                "token DOMAIN");
+            "token DOMAIN");
         RewriteRuleTokenStream stream_SUB_PROPERTY_OF = new RewriteRuleTokenStream(
-                adaptor, "token SUB_PROPERTY_OF");
+            adaptor, "token SUB_PROPERTY_OF");
         RewriteRuleSubtreeStream stream_expression = new RewriteRuleSubtreeStream(
-                adaptor, "rule expression");
+            adaptor, "rule expression");
         RewriteRuleSubtreeStream stream_propertyExpression = new RewriteRuleSubtreeStream(
-                adaptor, "rule propertyExpression");
+            adaptor, "rule propertyExpression");
         RewriteRuleSubtreeStream stream_atomic = new RewriteRuleSubtreeStream(adaptor,
-                "rule atomic");
+            "rule atomic");
         try {
             // MOWLParser.g:102:26: (lhs= expression SUBCLASS_OF superClass=
             // expression -> ^( SUB_CLASS_AXIOM ^( EXPRESSION $lhs) ^(
@@ -1120,7 +1108,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                         stream_expression.add(lhs.getTree());
                     }
                     SUBCLASS_OF14 = (Token) match(input, SUBCLASS_OF,
-                            FOLLOW_SUBCLASS_OF_in_binaryAxiom641);
+                        FOLLOW_SUBCLASS_OF_in_binaryAxiom641);
                     if (state.failed) {
                         return retval;
                     }
@@ -1146,10 +1134,10 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
                         RewriteRuleSubtreeStream stream_superClass = new RewriteRuleSubtreeStream(
-                                adaptor, "rule superClass",
-                                superClass != null ? superClass.tree : null);
+                            adaptor, "rule superClass",
+                            superClass != null ? superClass.tree : null);
                         RewriteRuleSubtreeStream stream_lhs = new RewriteRuleSubtreeStream(
-                                adaptor, "rule lhs", lhs != null ? lhs.tree : null);
+                            adaptor, "rule lhs", lhs != null ? lhs.tree : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 103:57: -> ^( SUB_CLASS_AXIOM ^( EXPRESSION $lhs) ^(
                         // EXPRESSION $superClass) )
@@ -1159,15 +1147,15 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(adaptor
-                                        .create(SUB_CLASS_AXIOM, "SUB_CLASS_AXIOM"),
-                                        root_1);
+                                    .create(SUB_CLASS_AXIOM, "SUB_CLASS_AXIOM"),
+                                    root_1);
                                 // MOWLParser.g:103:79: ^( EXPRESSION $lhs)
                                 {
                                     OPPLSyntaxTree root_2 = (OPPLSyntaxTree) adaptor
-                                            .nil();
+                                        .nil();
                                     root_2 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                            adaptor.create(EXPRESSION, "EXPRESSION"),
-                                            root_2);
+                                        adaptor.create(EXPRESSION, "EXPRESSION"),
+                                        root_2);
                                     adaptor.addChild(root_2, stream_lhs.nextTree());
                                     adaptor.addChild(root_1, root_2);
                                 }
@@ -1175,10 +1163,10 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                                 // $superClass)
                                 {
                                     OPPLSyntaxTree root_2 = (OPPLSyntaxTree) adaptor
-                                            .nil();
+                                        .nil();
                                     root_2 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                            adaptor.create(EXPRESSION, "EXPRESSION"),
-                                            root_2);
+                                        adaptor.create(EXPRESSION, "EXPRESSION"),
+                                        root_2);
                                     adaptor.addChild(root_2, stream_superClass.nextTree());
                                     adaptor.addChild(root_1, root_2);
                                 }
@@ -1203,7 +1191,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                         stream_expression.add(lhs.getTree());
                     }
                     EQUIVALENT_TO15 = (Token) match(input, EQUIVALENT_TO,
-                            FOLLOW_EQUIVALENT_TO_in_binaryAxiom688);
+                        FOLLOW_EQUIVALENT_TO_in_binaryAxiom688);
                     if (state.failed) {
                         return retval;
                     }
@@ -1229,9 +1217,9 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
                         RewriteRuleSubtreeStream stream_rhs = new RewriteRuleSubtreeStream(
-                                adaptor, "rule rhs", rhs != null ? rhs.tree : null);
+                            adaptor, "rule rhs", rhs != null ? rhs.tree : null);
                         RewriteRuleSubtreeStream stream_lhs = new RewriteRuleSubtreeStream(
-                                adaptor, "rule lhs", lhs != null ? lhs.tree : null);
+                            adaptor, "rule lhs", lhs != null ? lhs.tree : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 104:60: -> ^( EQUIVALENT_TO_AXIOM ^( EXPRESSION $lhs)
                         // ^( EXPRESSION $rhs) )
@@ -1241,25 +1229,25 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(adaptor
-                                        .create(EQUIVALENT_TO_AXIOM,
-                                                "EQUIVALENT_TO_AXIOM"), root_1);
+                                    .create(EQUIVALENT_TO_AXIOM,
+                                        "EQUIVALENT_TO_AXIOM"), root_1);
                                 // MOWLParser.g:104:85: ^( EXPRESSION $lhs)
                                 {
                                     OPPLSyntaxTree root_2 = (OPPLSyntaxTree) adaptor
-                                            .nil();
+                                        .nil();
                                     root_2 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                            adaptor.create(EXPRESSION, "EXPRESSION"),
-                                            root_2);
+                                        adaptor.create(EXPRESSION, "EXPRESSION"),
+                                        root_2);
                                     adaptor.addChild(root_2, stream_lhs.nextTree());
                                     adaptor.addChild(root_1, root_2);
                                 }
                                 // MOWLParser.g:104:104: ^( EXPRESSION $rhs)
                                 {
                                     OPPLSyntaxTree root_2 = (OPPLSyntaxTree) adaptor
-                                            .nil();
+                                        .nil();
                                     root_2 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                            adaptor.create(EXPRESSION, "EXPRESSION"),
-                                            root_2);
+                                        adaptor.create(EXPRESSION, "EXPRESSION"),
+                                        root_2);
                                     adaptor.addChild(root_2, stream_rhs.nextTree());
                                     adaptor.addChild(root_1, root_2);
                                 }
@@ -1284,7 +1272,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                         stream_expression.add(lhs.getTree());
                     }
                     DISJOINT_WITH16 = (Token) match(input, DISJOINT_WITH,
-                            FOLLOW_DISJOINT_WITH_in_binaryAxiom733);
+                        FOLLOW_DISJOINT_WITH_in_binaryAxiom733);
                     if (state.failed) {
                         return retval;
                     }
@@ -1310,10 +1298,10 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
                         RewriteRuleSubtreeStream stream_disjoint = new RewriteRuleSubtreeStream(
-                                adaptor, "rule disjoint",
-                                disjoint != null ? disjoint.tree : null);
+                            adaptor, "rule disjoint",
+                            disjoint != null ? disjoint.tree : null);
                         RewriteRuleSubtreeStream stream_lhs = new RewriteRuleSubtreeStream(
-                                adaptor, "rule lhs", lhs != null ? lhs.tree : null);
+                            adaptor, "rule lhs", lhs != null ? lhs.tree : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 105:65: -> ^( DISJOINT_WITH_AXIOM ^( EXPRESSION $lhs)
                         // ^( EXPRESSION $disjoint) )
@@ -1323,15 +1311,15 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(adaptor
-                                        .create(DISJOINT_WITH_AXIOM,
-                                                "DISJOINT_WITH_AXIOM"), root_1);
+                                    .create(DISJOINT_WITH_AXIOM,
+                                        "DISJOINT_WITH_AXIOM"), root_1);
                                 // MOWLParser.g:105:90: ^( EXPRESSION $lhs)
                                 {
                                     OPPLSyntaxTree root_2 = (OPPLSyntaxTree) adaptor
-                                            .nil();
+                                        .nil();
                                     root_2 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                            adaptor.create(EXPRESSION, "EXPRESSION"),
-                                            root_2);
+                                        adaptor.create(EXPRESSION, "EXPRESSION"),
+                                        root_2);
                                     adaptor.addChild(root_2, stream_lhs.nextTree());
                                     adaptor.addChild(root_1, root_2);
                                 }
@@ -1339,10 +1327,10 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                                 // $disjoint)
                                 {
                                     OPPLSyntaxTree root_2 = (OPPLSyntaxTree) adaptor
-                                            .nil();
+                                        .nil();
                                     root_2 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                            adaptor.create(EXPRESSION, "EXPRESSION"),
-                                            root_2);
+                                        adaptor.create(EXPRESSION, "EXPRESSION"),
+                                        root_2);
                                     adaptor.addChild(root_2, stream_disjoint.nextTree());
                                     adaptor.addChild(root_1, root_2);
                                 }
@@ -1367,7 +1355,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                         stream_expression.add(lhs.getTree());
                     }
                     SUB_PROPERTY_OF17 = (Token) match(input, SUB_PROPERTY_OF,
-                            FOLLOW_SUB_PROPERTY_OF_in_binaryAxiom778);
+                        FOLLOW_SUB_PROPERTY_OF_in_binaryAxiom778);
                     if (state.failed) {
                         return retval;
                     }
@@ -1393,10 +1381,10 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
                         RewriteRuleSubtreeStream stream_superProperty = new RewriteRuleSubtreeStream(
-                                adaptor, "rule superProperty",
-                                superProperty != null ? superProperty.tree : null);
+                            adaptor, "rule superProperty",
+                            superProperty != null ? superProperty.tree : null);
                         RewriteRuleSubtreeStream stream_lhs = new RewriteRuleSubtreeStream(
-                                adaptor, "rule lhs", lhs != null ? lhs.tree : null);
+                            adaptor, "rule lhs", lhs != null ? lhs.tree : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 106:80: -> ^( SUB_PROPERTY_AXIOM ^( EXPRESSION $lhs)
                         // ^( EXPRESSION $superProperty) )
@@ -1406,15 +1394,15 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                        adaptor.create(SUB_PROPERTY_AXIOM,
-                                                "SUB_PROPERTY_AXIOM"), root_1);
+                                    adaptor.create(SUB_PROPERTY_AXIOM,
+                                        "SUB_PROPERTY_AXIOM"), root_1);
                                 // MOWLParser.g:106:104: ^( EXPRESSION $lhs)
                                 {
                                     OPPLSyntaxTree root_2 = (OPPLSyntaxTree) adaptor
-                                            .nil();
+                                        .nil();
                                     root_2 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                            adaptor.create(EXPRESSION, "EXPRESSION"),
-                                            root_2);
+                                        adaptor.create(EXPRESSION, "EXPRESSION"),
+                                        root_2);
                                     adaptor.addChild(root_2, stream_lhs.nextTree());
                                     adaptor.addChild(root_1, root_2);
                                 }
@@ -1422,12 +1410,12 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                                 // $superProperty)
                                 {
                                     OPPLSyntaxTree root_2 = (OPPLSyntaxTree) adaptor
-                                            .nil();
+                                        .nil();
                                     root_2 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                            adaptor.create(EXPRESSION, "EXPRESSION"),
-                                            root_2);
+                                        adaptor.create(EXPRESSION, "EXPRESSION"),
+                                        root_2);
                                     adaptor.addChild(root_2,
-                                            stream_superProperty.nextTree());
+                                        stream_superProperty.nextTree());
                                     adaptor.addChild(root_1, root_2);
                                 }
                                 adaptor.addChild(root_0, root_1);
@@ -1451,7 +1439,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                         stream_atomic.add(lhsID.getTree());
                     }
                     INVERSE_OF18 = (Token) match(input, INVERSE_OF,
-                            FOLLOW_INVERSE_OF_in_binaryAxiom823);
+                        FOLLOW_INVERSE_OF_in_binaryAxiom823);
                     if (state.failed) {
                         return retval;
                     }
@@ -1477,10 +1465,10 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
                         RewriteRuleSubtreeStream stream_lhsID = new RewriteRuleSubtreeStream(
-                                adaptor, "rule lhsID", lhsID != null ? lhsID.tree : null);
+                            adaptor, "rule lhsID", lhsID != null ? lhsID.tree : null);
                         RewriteRuleSubtreeStream stream_rhsAtomic = new RewriteRuleSubtreeStream(
-                                adaptor, "rule rhsAtomic",
-                                rhsAtomic != null ? rhsAtomic.tree : null);
+                            adaptor, "rule rhsAtomic",
+                            rhsAtomic != null ? rhsAtomic.tree : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 107:57: -> ^( INVERSE_OF ^( EXPRESSION $lhsID) ^(
                         // EXPRESSION $rhsAtomic) )
@@ -1490,14 +1478,14 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                        stream_INVERSE_OF.nextNode(), root_1);
+                                    stream_INVERSE_OF.nextNode(), root_1);
                                 // MOWLParser.g:107:73: ^( EXPRESSION $lhsID)
                                 {
                                     OPPLSyntaxTree root_2 = (OPPLSyntaxTree) adaptor
-                                            .nil();
+                                        .nil();
                                     root_2 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                            adaptor.create(EXPRESSION, "EXPRESSION"),
-                                            root_2);
+                                        adaptor.create(EXPRESSION, "EXPRESSION"),
+                                        root_2);
                                     adaptor.addChild(root_2, stream_lhsID.nextTree());
                                     adaptor.addChild(root_1, root_2);
                                 }
@@ -1505,10 +1493,10 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                                 // $rhsAtomic)
                                 {
                                     OPPLSyntaxTree root_2 = (OPPLSyntaxTree) adaptor
-                                            .nil();
+                                        .nil();
                                     root_2 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                            adaptor.create(EXPRESSION, "EXPRESSION"),
-                                            root_2);
+                                        adaptor.create(EXPRESSION, "EXPRESSION"),
+                                        root_2);
                                     adaptor.addChild(root_2, stream_rhsAtomic.nextTree());
                                     adaptor.addChild(root_1, root_2);
                                 }
@@ -1532,7 +1520,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                         stream_atomic.add(lhsID.getTree());
                     }
                     SAME_AS19 = (Token) match(input, SAME_AS,
-                            FOLLOW_SAME_AS_in_binaryAxiom862);
+                        FOLLOW_SAME_AS_in_binaryAxiom862);
                     if (state.failed) {
                         return retval;
                     }
@@ -1558,9 +1546,9 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
                         RewriteRuleSubtreeStream stream_lhsID = new RewriteRuleSubtreeStream(
-                                adaptor, "rule lhsID", lhsID != null ? lhsID.tree : null);
+                            adaptor, "rule lhsID", lhsID != null ? lhsID.tree : null);
                         RewriteRuleSubtreeStream stream_rhsID = new RewriteRuleSubtreeStream(
-                                adaptor, "rule rhsID", rhsID != null ? rhsID.tree : null);
+                            adaptor, "rule rhsID", rhsID != null ? rhsID.tree : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 108:43: -> ^( SAME_AS_AXIOM ^( EXPRESSION $lhsID) ^(
                         // EXPRESSION $rhsID) )
@@ -1570,25 +1558,25 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                        adaptor.create(SAME_AS_AXIOM, "SAME_AS_AXIOM"),
-                                        root_1);
+                                    adaptor.create(SAME_AS_AXIOM, "SAME_AS_AXIOM"),
+                                    root_1);
                                 // MOWLParser.g:108:62: ^( EXPRESSION $lhsID)
                                 {
                                     OPPLSyntaxTree root_2 = (OPPLSyntaxTree) adaptor
-                                            .nil();
+                                        .nil();
                                     root_2 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                            adaptor.create(EXPRESSION, "EXPRESSION"),
-                                            root_2);
+                                        adaptor.create(EXPRESSION, "EXPRESSION"),
+                                        root_2);
                                     adaptor.addChild(root_2, stream_lhsID.nextTree());
                                     adaptor.addChild(root_1, root_2);
                                 }
                                 // MOWLParser.g:108:84: ^( EXPRESSION $rhsID)
                                 {
                                     OPPLSyntaxTree root_2 = (OPPLSyntaxTree) adaptor
-                                            .nil();
+                                        .nil();
                                     root_2 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                            adaptor.create(EXPRESSION, "EXPRESSION"),
-                                            root_2);
+                                        adaptor.create(EXPRESSION, "EXPRESSION"),
+                                        root_2);
                                     adaptor.addChild(root_2, stream_rhsID.nextTree());
                                     adaptor.addChild(root_1, root_2);
                                 }
@@ -1613,7 +1601,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                         stream_atomic.add(lhsID.getTree());
                     }
                     DIFFERENT_FROM20 = (Token) match(input, DIFFERENT_FROM,
-                            FOLLOW_DIFFERENT_FROM_in_binaryAxiom909);
+                        FOLLOW_DIFFERENT_FROM_in_binaryAxiom909);
                     if (state.failed) {
                         return retval;
                     }
@@ -1639,9 +1627,9 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
                         RewriteRuleSubtreeStream stream_lhsID = new RewriteRuleSubtreeStream(
-                                adaptor, "rule lhsID", lhsID != null ? lhsID.tree : null);
+                            adaptor, "rule lhsID", lhsID != null ? lhsID.tree : null);
                         RewriteRuleSubtreeStream stream_rhsID = new RewriteRuleSubtreeStream(
-                                adaptor, "rule rhsID", rhsID != null ? rhsID.tree : null);
+                            adaptor, "rule rhsID", rhsID != null ? rhsID.tree : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 109:58: -> ^( DIFFERENT_FROM_AXIOM ^( EXPRESSION
                         // $lhsID) ^( EXPRESSION $rhsID) )
@@ -1651,25 +1639,25 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(adaptor
-                                        .create(DIFFERENT_FROM_AXIOM,
-                                                "DIFFERENT_FROM_AXIOM"), root_1);
+                                    .create(DIFFERENT_FROM_AXIOM,
+                                        "DIFFERENT_FROM_AXIOM"), root_1);
                                 // MOWLParser.g:109:84: ^( EXPRESSION $lhsID)
                                 {
                                     OPPLSyntaxTree root_2 = (OPPLSyntaxTree) adaptor
-                                            .nil();
+                                        .nil();
                                     root_2 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                            adaptor.create(EXPRESSION, "EXPRESSION"),
-                                            root_2);
+                                        adaptor.create(EXPRESSION, "EXPRESSION"),
+                                        root_2);
                                     adaptor.addChild(root_2, stream_lhsID.nextTree());
                                     adaptor.addChild(root_1, root_2);
                                 }
                                 // MOWLParser.g:109:105: ^( EXPRESSION $rhsID)
                                 {
                                     OPPLSyntaxTree root_2 = (OPPLSyntaxTree) adaptor
-                                            .nil();
+                                        .nil();
                                     root_2 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                            adaptor.create(EXPRESSION, "EXPRESSION"),
-                                            root_2);
+                                        adaptor.create(EXPRESSION, "EXPRESSION"),
+                                        root_2);
                                     adaptor.addChild(root_2, stream_rhsID.nextTree());
                                     adaptor.addChild(root_1, root_2);
                                 }
@@ -1693,7 +1681,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                         stream_atomic.add(lhsID.getTree());
                     }
                     DOMAIN21 = (Token) match(input, DOMAIN,
-                            FOLLOW_DOMAIN_in_binaryAxiom956);
+                        FOLLOW_DOMAIN_in_binaryAxiom956);
                     if (state.failed) {
                         return retval;
                     }
@@ -1719,7 +1707,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
                         RewriteRuleSubtreeStream stream_lhsID = new RewriteRuleSubtreeStream(
-                                adaptor, "rule lhsID", lhsID != null ? lhsID.tree : null);
+                            adaptor, "rule lhsID", lhsID != null ? lhsID.tree : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 110:46: -> ^( DOMAIN ^( EXPRESSION $lhsID) ^(
                         // EXPRESSION expression ) )
@@ -1729,14 +1717,14 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                        stream_DOMAIN.nextNode(), root_1);
+                                    stream_DOMAIN.nextNode(), root_1);
                                 // MOWLParser.g:110:58: ^( EXPRESSION $lhsID)
                                 {
                                     OPPLSyntaxTree root_2 = (OPPLSyntaxTree) adaptor
-                                            .nil();
+                                        .nil();
                                     root_2 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                            adaptor.create(EXPRESSION, "EXPRESSION"),
-                                            root_2);
+                                        adaptor.create(EXPRESSION, "EXPRESSION"),
+                                        root_2);
                                     adaptor.addChild(root_2, stream_lhsID.nextTree());
                                     adaptor.addChild(root_1, root_2);
                                 }
@@ -1744,10 +1732,10 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                                 // )
                                 {
                                     OPPLSyntaxTree root_2 = (OPPLSyntaxTree) adaptor
-                                            .nil();
+                                        .nil();
                                     root_2 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                            adaptor.create(EXPRESSION, "EXPRESSION"),
-                                            root_2);
+                                        adaptor.create(EXPRESSION, "EXPRESSION"),
+                                        root_2);
                                     adaptor.addChild(root_2, stream_expression.nextTree());
                                     adaptor.addChild(root_1, root_2);
                                 }
@@ -1796,7 +1784,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
                         RewriteRuleSubtreeStream stream_lhsID = new RewriteRuleSubtreeStream(
-                                adaptor, "rule lhsID", lhsID != null ? lhsID.tree : null);
+                            adaptor, "rule lhsID", lhsID != null ? lhsID.tree : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 111:44: -> ^( RANGE ^( EXPRESSION $lhsID) ^(
                         // EXPRESSION expression ) )
@@ -1806,14 +1794,14 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                        stream_RANGE.nextNode(), root_1);
+                                    stream_RANGE.nextNode(), root_1);
                                 // MOWLParser.g:111:55: ^( EXPRESSION $lhsID)
                                 {
                                     OPPLSyntaxTree root_2 = (OPPLSyntaxTree) adaptor
-                                            .nil();
+                                        .nil();
                                     root_2 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                            adaptor.create(EXPRESSION, "EXPRESSION"),
-                                            root_2);
+                                        adaptor.create(EXPRESSION, "EXPRESSION"),
+                                        root_2);
                                     adaptor.addChild(root_2, stream_lhsID.nextTree());
                                     adaptor.addChild(root_1, root_2);
                                 }
@@ -1821,10 +1809,10 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                                 // )
                                 {
                                     OPPLSyntaxTree root_2 = (OPPLSyntaxTree) adaptor
-                                            .nil();
+                                        .nil();
                                     root_2 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                            adaptor.create(EXPRESSION, "EXPRESSION"),
-                                            root_2);
+                                        adaptor.create(EXPRESSION, "EXPRESSION"),
+                                        root_2);
                                     adaptor.addChild(root_2, stream_expression.nextTree());
                                     adaptor.addChild(root_1, root_2);
                                 }
@@ -1845,12 +1833,13 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
             throw e;
         } catch (RewriteEmptyStreamException e) {
             throw e;
-        } finally {}
+        }
         return retval;
     }
 
     // $ANTLR end "binaryAxiom"
     public static class unaryAxiom_return extends ParserRuleReturnScope {
+
         OPPLSyntaxTree tree;
 
         @Override
@@ -1863,16 +1852,16 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
     // MOWLParser.g:115:1: unaryAxiom : unaryCharacteristic unary -> ^(
     // UNARY_AXIOM unaryCharacteristic ^( EXPRESSION unary ) ) ;
     public final OPPLScript_OPPLParser_MOWLParser.unaryAxiom_return unaryAxiom()
-            throws RecognitionException {
+        throws RecognitionException {
         OPPLScript_OPPLParser_MOWLParser.unaryAxiom_return retval = new OPPLScript_OPPLParser_MOWLParser.unaryAxiom_return();
         retval.start = input.LT(1);
         OPPLSyntaxTree root_0 = null;
         OPPLScript_OPPLParser_MOWLParser.unaryCharacteristic_return unaryCharacteristic25 = null;
         OPPLScript_OPPLParser_MOWLParser.unary_return unary26 = null;
         RewriteRuleSubtreeStream stream_unary = new RewriteRuleSubtreeStream(adaptor,
-                "rule unary");
+            "rule unary");
         RewriteRuleSubtreeStream stream_unaryCharacteristic = new RewriteRuleSubtreeStream(
-                adaptor, "rule unaryCharacteristic");
+            adaptor, "rule unaryCharacteristic");
         try {
             // MOWLParser.g:115:13: ( unaryCharacteristic unary -> ^(
             // UNARY_AXIOM unaryCharacteristic ^( EXPRESSION unary ) ) )
@@ -1914,14 +1903,14 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                         {
                             OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                             root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                    adaptor.create(UNARY_AXIOM, "UNARY_AXIOM"), root_1);
+                                adaptor.create(UNARY_AXIOM, "UNARY_AXIOM"), root_1);
                             adaptor.addChild(root_1,
-                                    stream_unaryCharacteristic.nextTree());
+                                stream_unaryCharacteristic.nextTree());
                             // MOWLParser.g:116:69: ^( EXPRESSION unary )
                             {
                                 OPPLSyntaxTree root_2 = (OPPLSyntaxTree) adaptor.nil();
                                 root_2 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                        adaptor.create(EXPRESSION, "EXPRESSION"), root_2);
+                                    adaptor.create(EXPRESSION, "EXPRESSION"), root_2);
                                 adaptor.addChild(root_2, stream_unary.nextTree());
                                 adaptor.addChild(root_1, root_2);
                             }
@@ -1940,12 +1929,13 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
             throw e;
         } catch (RewriteEmptyStreamException e) {
             throw e;
-        } finally {}
+        }
         return retval;
     }
 
     // $ANTLR end "unaryAxiom"
     public static class unaryCharacteristic_return extends ParserRuleReturnScope {
+
         OPPLSyntaxTree tree;
 
         @Override
@@ -1960,8 +1950,8 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
     // SYMMETRIC ) | ANTI_SYMMETRIC -> ^( ANTI_SYMMETRIC ) | REFLEXIVE -> ^(
     // REFLEXIVE ) | IRREFLEXIVE -> ^( IRREFLEXIVE ) | TRANSITIVE -> ^(
     // TRANSITIVE ) );
-    public final OPPLScript_OPPLParser_MOWLParser.unaryCharacteristic_return
-            unaryCharacteristic() throws RecognitionException {
+    public final OPPLScript_OPPLParser_MOWLParser.unaryCharacteristic_return unaryCharacteristic()
+        throws RecognitionException {
         OPPLScript_OPPLParser_MOWLParser.unaryCharacteristic_return retval = new OPPLScript_OPPLParser_MOWLParser.unaryCharacteristic_return();
         retval.start = input.LT(1);
         OPPLSyntaxTree root_0 = null;
@@ -1973,19 +1963,19 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         Token IRREFLEXIVE32 = null;
         Token TRANSITIVE33 = null;
         RewriteRuleTokenStream stream_REFLEXIVE = new RewriteRuleTokenStream(adaptor,
-                "token REFLEXIVE");
+            "token REFLEXIVE");
         RewriteRuleTokenStream stream_SYMMETRIC = new RewriteRuleTokenStream(adaptor,
-                "token SYMMETRIC");
+            "token SYMMETRIC");
         RewriteRuleTokenStream stream_FUNCTIONAL = new RewriteRuleTokenStream(adaptor,
-                "token FUNCTIONAL");
+            "token FUNCTIONAL");
         RewriteRuleTokenStream stream_TRANSITIVE = new RewriteRuleTokenStream(adaptor,
-                "token TRANSITIVE");
+            "token TRANSITIVE");
         RewriteRuleTokenStream stream_ANTI_SYMMETRIC = new RewriteRuleTokenStream(
-                adaptor, "token ANTI_SYMMETRIC");
+            adaptor, "token ANTI_SYMMETRIC");
         RewriteRuleTokenStream stream_INVERSE_FUNCTIONAL = new RewriteRuleTokenStream(
-                adaptor, "token INVERSE_FUNCTIONAL");
+            adaptor, "token INVERSE_FUNCTIONAL");
         RewriteRuleTokenStream stream_IRREFLEXIVE = new RewriteRuleTokenStream(adaptor,
-                "token IRREFLEXIVE");
+            "token IRREFLEXIVE");
         try {
             // MOWLParser.g:119:21: ( FUNCTIONAL -> ^( FUNCTIONAL ) |
             // INVERSE_FUNCTIONAL -> ^( INVERSE_FUNCTIONAL ) | SYMMETRIC -> ^(
@@ -2035,7 +2025,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                 // MOWLParser.g:120:5: FUNCTIONAL
                 {
                     FUNCTIONAL27 = (Token) match(input, FUNCTIONAL,
-                            FOLLOW_FUNCTIONAL_in_unaryCharacteristic1121);
+                        FOLLOW_FUNCTIONAL_in_unaryCharacteristic1121);
                     if (state.failed) {
                         return retval;
                     }
@@ -2058,7 +2048,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                        stream_FUNCTIONAL.nextNode(), root_1);
+                                    stream_FUNCTIONAL.nextNode(), root_1);
                                 adaptor.addChild(root_0, root_1);
                             }
                         }
@@ -2070,7 +2060,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                 // MOWLParser.g:121:7: INVERSE_FUNCTIONAL
                 {
                     INVERSE_FUNCTIONAL28 = (Token) match(input, INVERSE_FUNCTIONAL,
-                            FOLLOW_INVERSE_FUNCTIONAL_in_unaryCharacteristic1135);
+                        FOLLOW_INVERSE_FUNCTIONAL_in_unaryCharacteristic1135);
                     if (state.failed) {
                         return retval;
                     }
@@ -2093,7 +2083,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                        stream_INVERSE_FUNCTIONAL.nextNode(), root_1);
+                                    stream_INVERSE_FUNCTIONAL.nextNode(), root_1);
                                 adaptor.addChild(root_0, root_1);
                             }
                         }
@@ -2105,7 +2095,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                 // MOWLParser.g:122:7: SYMMETRIC
                 {
                     SYMMETRIC29 = (Token) match(input, SYMMETRIC,
-                            FOLLOW_SYMMETRIC_in_unaryCharacteristic1149);
+                        FOLLOW_SYMMETRIC_in_unaryCharacteristic1149);
                     if (state.failed) {
                         return retval;
                     }
@@ -2128,7 +2118,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                        stream_SYMMETRIC.nextNode(), root_1);
+                                    stream_SYMMETRIC.nextNode(), root_1);
                                 adaptor.addChild(root_0, root_1);
                             }
                         }
@@ -2140,7 +2130,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                 // MOWLParser.g:123:7: ANTI_SYMMETRIC
                 {
                     ANTI_SYMMETRIC30 = (Token) match(input, ANTI_SYMMETRIC,
-                            FOLLOW_ANTI_SYMMETRIC_in_unaryCharacteristic1163);
+                        FOLLOW_ANTI_SYMMETRIC_in_unaryCharacteristic1163);
                     if (state.failed) {
                         return retval;
                     }
@@ -2163,7 +2153,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                        stream_ANTI_SYMMETRIC.nextNode(), root_1);
+                                    stream_ANTI_SYMMETRIC.nextNode(), root_1);
                                 adaptor.addChild(root_0, root_1);
                             }
                         }
@@ -2175,7 +2165,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                 // MOWLParser.g:124:7: REFLEXIVE
                 {
                     REFLEXIVE31 = (Token) match(input, REFLEXIVE,
-                            FOLLOW_REFLEXIVE_in_unaryCharacteristic1177);
+                        FOLLOW_REFLEXIVE_in_unaryCharacteristic1177);
                     if (state.failed) {
                         return retval;
                     }
@@ -2198,7 +2188,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                        stream_REFLEXIVE.nextNode(), root_1);
+                                    stream_REFLEXIVE.nextNode(), root_1);
                                 adaptor.addChild(root_0, root_1);
                             }
                         }
@@ -2210,7 +2200,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                 // MOWLParser.g:125:7: IRREFLEXIVE
                 {
                     IRREFLEXIVE32 = (Token) match(input, IRREFLEXIVE,
-                            FOLLOW_IRREFLEXIVE_in_unaryCharacteristic1191);
+                        FOLLOW_IRREFLEXIVE_in_unaryCharacteristic1191);
                     if (state.failed) {
                         return retval;
                     }
@@ -2233,7 +2223,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                        stream_IRREFLEXIVE.nextNode(), root_1);
+                                    stream_IRREFLEXIVE.nextNode(), root_1);
                                 adaptor.addChild(root_0, root_1);
                             }
                         }
@@ -2245,7 +2235,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                 // MOWLParser.g:126:7: TRANSITIVE
                 {
                     TRANSITIVE33 = (Token) match(input, TRANSITIVE,
-                            FOLLOW_TRANSITIVE_in_unaryCharacteristic1205);
+                        FOLLOW_TRANSITIVE_in_unaryCharacteristic1205);
                     if (state.failed) {
                         return retval;
                     }
@@ -2268,7 +2258,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                        stream_TRANSITIVE.nextNode(), root_1);
+                                    stream_TRANSITIVE.nextNode(), root_1);
                                 adaptor.addChild(root_0, root_1);
                             }
                         }
@@ -2286,12 +2276,13 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
             throw e;
         } catch (RewriteEmptyStreamException e) {
             throw e;
-        } finally {}
+        }
         return retval;
     }
 
     // $ANTLR end "unaryCharacteristic"
     public static class expression_return extends ParserRuleReturnScope {
+
         OPPLSyntaxTree tree;
 
         @Override
@@ -2306,7 +2297,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
     // complexPropertyExpression ) | OPEN_PARENTHESYS expression
     // CLOSED_PARENTHESYS -> ^( expression ) ) ;
     public final OPPLScript_OPPLParser_MOWLParser.expression_return expression()
-            throws RecognitionException {
+        throws RecognitionException {
         OPPLScript_OPPLParser_MOWLParser.expression_return retval = new OPPLScript_OPPLParser_MOWLParser.expression_return();
         retval.start = input.LT(1);
         OPPLSyntaxTree root_0 = null;
@@ -2316,15 +2307,15 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         OPPLScript_OPPLParser_MOWLParser.complexPropertyExpression_return complexPropertyExpression35 = null;
         OPPLScript_OPPLParser_MOWLParser.expression_return expression37 = null;
         RewriteRuleTokenStream stream_CLOSED_PARENTHESYS = new RewriteRuleTokenStream(
-                adaptor, "token CLOSED_PARENTHESYS");
+            adaptor, "token CLOSED_PARENTHESYS");
         RewriteRuleTokenStream stream_OPEN_PARENTHESYS = new RewriteRuleTokenStream(
-                adaptor, "token OPEN_PARENTHESYS");
+            adaptor, "token OPEN_PARENTHESYS");
         RewriteRuleSubtreeStream stream_expression = new RewriteRuleSubtreeStream(
-                adaptor, "rule expression");
+            adaptor, "rule expression");
         RewriteRuleSubtreeStream stream_disjunction = new RewriteRuleSubtreeStream(
-                adaptor, "rule disjunction");
+            adaptor, "rule disjunction");
         RewriteRuleSubtreeStream stream_complexPropertyExpression = new RewriteRuleSubtreeStream(
-                adaptor, "rule complexPropertyExpression");
+            adaptor, "rule complexPropertyExpression");
         try {
             // MOWLParser.g:129:11: ( ( options {backtrack=true; } : disjunction
             // -> ^( disjunction ) | complexPropertyExpression -> ^(
@@ -2369,9 +2360,9 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                                 // MOWLParser.g:132:20: ^( disjunction )
                                 {
                                     OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor
-                                            .nil();
+                                        .nil();
                                     root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                            stream_disjunction.nextNode(), root_1);
+                                        stream_disjunction.nextNode(), root_1);
                                     adaptor.addChild(root_0, root_1);
                                 }
                             }
@@ -2390,7 +2381,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                         }
                         if (state.backtracking == 0) {
                             stream_complexPropertyExpression
-                                    .add(complexPropertyExpression35.getTree());
+                                .add(complexPropertyExpression35.getTree());
                         }
                         // AST REWRITE
                         // elements: complexPropertyExpression
@@ -2408,10 +2399,10 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                                 // complexPropertyExpression )
                                 {
                                     OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor
-                                            .nil();
+                                        .nil();
                                     root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                            stream_complexPropertyExpression.nextNode(),
-                                            root_1);
+                                        stream_complexPropertyExpression.nextNode(),
+                                        root_1);
                                     adaptor.addChild(root_0, root_1);
                                 }
                             }
@@ -2424,7 +2415,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     // CLOSED_PARENTHESYS
                     {
                         OPEN_PARENTHESYS36 = (Token) match(input, OPEN_PARENTHESYS,
-                                FOLLOW_OPEN_PARENTHESYS_in_expression1273);
+                            FOLLOW_OPEN_PARENTHESYS_in_expression1273);
                         if (state.failed) {
                             return retval;
                         }
@@ -2441,7 +2432,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                             stream_expression.add(expression37.getTree());
                         }
                         CLOSED_PARENTHESYS38 = (Token) match(input, CLOSED_PARENTHESYS,
-                                FOLLOW_CLOSED_PARENTHESYS_in_expression1277);
+                            FOLLOW_CLOSED_PARENTHESYS_in_expression1277);
                         if (state.failed) {
                             return retval;
                         }
@@ -2463,9 +2454,9 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                                 // MOWLParser.g:134:56: ^( expression )
                                 {
                                     OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor
-                                            .nil();
+                                        .nil();
                                     root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                            stream_expression.nextNode(), root_1);
+                                        stream_expression.nextNode(), root_1);
                                     adaptor.addChild(root_0, root_1);
                                 }
                             }
@@ -2484,12 +2475,13 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
             throw e;
         } catch (RewriteEmptyStreamException e) {
             throw e;
-        } finally {}
+        }
         return retval;
     }
 
     // $ANTLR end "expression"
     public static class disjunction_return extends ParserRuleReturnScope {
+
         OPPLSyntaxTree tree;
 
         @Override
@@ -2502,7 +2494,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
     // MOWLParser.g:141:1: disjunction : conjunction ( OR conjunction )* -> ^(
     // DISJUNCTION ( conjunction )+ ) ;
     public final OPPLScript_OPPLParser_MOWLParser.disjunction_return disjunction()
-            throws RecognitionException {
+        throws RecognitionException {
         OPPLScript_OPPLParser_MOWLParser.disjunction_return retval = new OPPLScript_OPPLParser_MOWLParser.disjunction_return();
         retval.start = input.LT(1);
         OPPLSyntaxTree root_0 = null;
@@ -2511,7 +2503,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         OPPLScript_OPPLParser_MOWLParser.conjunction_return conjunction41 = null;
         RewriteRuleTokenStream stream_OR = new RewriteRuleTokenStream(adaptor, "token OR");
         RewriteRuleSubtreeStream stream_conjunction = new RewriteRuleSubtreeStream(
-                adaptor, "rule conjunction");
+            adaptor, "rule conjunction");
         try {
             // MOWLParser.g:142:2: ( conjunction ( OR conjunction )* -> ^(
             // DISJUNCTION ( conjunction )+ ) )
@@ -2579,7 +2571,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                         {
                             OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                             root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                    adaptor.create(DISJUNCTION, "DISJUNCTION"), root_1);
+                                adaptor.create(DISJUNCTION, "DISJUNCTION"), root_1);
                             if (!stream_conjunction.hasNext()) {
                                 throw new RewriteEarlyExitException();
                             }
@@ -2602,12 +2594,13 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
             throw e;
         } catch (RewriteEmptyStreamException e) {
             throw e;
-        } finally {}
+        }
         return retval;
     }
 
     // $ANTLR end "disjunction"
     public static class conjunction_return extends ParserRuleReturnScope {
+
         OPPLSyntaxTree tree;
 
         @Override
@@ -2620,7 +2613,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
     // MOWLParser.g:146:1: conjunction : unary ( AND unary )* -> ^( CONJUNCTION
     // ( unary )+ ) ;
     public final OPPLScript_OPPLParser_MOWLParser.conjunction_return conjunction()
-            throws RecognitionException {
+        throws RecognitionException {
         OPPLScript_OPPLParser_MOWLParser.conjunction_return retval = new OPPLScript_OPPLParser_MOWLParser.conjunction_return();
         retval.start = input.LT(1);
         OPPLSyntaxTree root_0 = null;
@@ -2628,9 +2621,9 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         OPPLScript_OPPLParser_MOWLParser.unary_return unary42 = null;
         OPPLScript_OPPLParser_MOWLParser.unary_return unary44 = null;
         RewriteRuleTokenStream stream_AND = new RewriteRuleTokenStream(adaptor,
-                "token AND");
+            "token AND");
         RewriteRuleSubtreeStream stream_unary = new RewriteRuleSubtreeStream(adaptor,
-                "rule unary");
+            "rule unary");
         try {
             // MOWLParser.g:146:13: ( unary ( AND unary )* -> ^( CONJUNCTION (
             // unary )+ ) )
@@ -2660,7 +2653,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                         // MOWLParser.g:147:12: AND unary
                         {
                             AND43 = (Token) match(input, AND,
-                                    FOLLOW_AND_in_conjunction1342);
+                                FOLLOW_AND_in_conjunction1342);
                             if (state.failed) {
                                 return retval;
                             }
@@ -2698,7 +2691,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                         {
                             OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                             root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                    adaptor.create(CONJUNCTION, "CONJUNCTION"), root_1);
+                                adaptor.create(CONJUNCTION, "CONJUNCTION"), root_1);
                             if (!stream_unary.hasNext()) {
                                 throw new RewriteEarlyExitException();
                             }
@@ -2721,12 +2714,13 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
             throw e;
         } catch (RewriteEmptyStreamException e) {
             throw e;
-        } finally {}
+        }
         return retval;
     }
 
     // $ANTLR end "conjunction"
     public static class complexPropertyExpression_return extends ParserRuleReturnScope {
+
         OPPLSyntaxTree tree;
 
         @Override
@@ -2739,8 +2733,8 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
     // MOWLParser.g:150:1: complexPropertyExpression : INVERSE OPEN_PARENTHESYS
     // propertyExpression CLOSED_PARENTHESYS -> ^(
     // INVERSE_OBJECT_PROPERTY_EXPRESSION propertyExpression ) ;
-    public final OPPLScript_OPPLParser_MOWLParser.complexPropertyExpression_return
-            complexPropertyExpression() throws RecognitionException {
+    public final OPPLScript_OPPLParser_MOWLParser.complexPropertyExpression_return complexPropertyExpression()
+        throws RecognitionException {
         OPPLScript_OPPLParser_MOWLParser.complexPropertyExpression_return retval = new OPPLScript_OPPLParser_MOWLParser.complexPropertyExpression_return();
         retval.start = input.LT(1);
         OPPLSyntaxTree root_0 = null;
@@ -2749,13 +2743,13 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         Token CLOSED_PARENTHESYS48 = null;
         OPPLScript_OPPLParser_MOWLParser.propertyExpression_return propertyExpression47 = null;
         RewriteRuleTokenStream stream_INVERSE = new RewriteRuleTokenStream(adaptor,
-                "token INVERSE");
+            "token INVERSE");
         RewriteRuleTokenStream stream_CLOSED_PARENTHESYS = new RewriteRuleTokenStream(
-                adaptor, "token CLOSED_PARENTHESYS");
+            adaptor, "token CLOSED_PARENTHESYS");
         RewriteRuleTokenStream stream_OPEN_PARENTHESYS = new RewriteRuleTokenStream(
-                adaptor, "token OPEN_PARENTHESYS");
+            adaptor, "token OPEN_PARENTHESYS");
         RewriteRuleSubtreeStream stream_propertyExpression = new RewriteRuleSubtreeStream(
-                adaptor, "rule propertyExpression");
+            adaptor, "rule propertyExpression");
         try {
             // MOWLParser.g:150:26: ( INVERSE OPEN_PARENTHESYS
             // propertyExpression CLOSED_PARENTHESYS -> ^(
@@ -2764,7 +2758,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
             // CLOSED_PARENTHESYS
             {
                 INVERSE45 = (Token) match(input, INVERSE,
-                        FOLLOW_INVERSE_in_complexPropertyExpression1365);
+                    FOLLOW_INVERSE_in_complexPropertyExpression1365);
                 if (state.failed) {
                     return retval;
                 }
@@ -2772,7 +2766,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     stream_INVERSE.add(INVERSE45);
                 }
                 OPEN_PARENTHESYS46 = (Token) match(input, OPEN_PARENTHESYS,
-                        FOLLOW_OPEN_PARENTHESYS_in_complexPropertyExpression1367);
+                    FOLLOW_OPEN_PARENTHESYS_in_complexPropertyExpression1367);
                 if (state.failed) {
                     return retval;
                 }
@@ -2789,7 +2783,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     stream_propertyExpression.add(propertyExpression47.getTree());
                 }
                 CLOSED_PARENTHESYS48 = (Token) match(input, CLOSED_PARENTHESYS,
-                        FOLLOW_CLOSED_PARENTHESYS_in_complexPropertyExpression1371);
+                    FOLLOW_CLOSED_PARENTHESYS_in_complexPropertyExpression1371);
                 if (state.failed) {
                     return retval;
                 }
@@ -2815,8 +2809,8 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                         {
                             OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                             root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(adaptor.create(
-                                    INVERSE_OBJECT_PROPERTY_EXPRESSION,
-                                    "INVERSE_OBJECT_PROPERTY_EXPRESSION"), root_1);
+                                INVERSE_OBJECT_PROPERTY_EXPRESSION,
+                                "INVERSE_OBJECT_PROPERTY_EXPRESSION"), root_1);
                             adaptor.addChild(root_1, stream_propertyExpression.nextTree());
                             adaptor.addChild(root_0, root_1);
                         }
@@ -2833,12 +2827,13 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
             throw e;
         } catch (RewriteEmptyStreamException e) {
             throw e;
-        } finally {}
+        }
         return retval;
     }
 
     // $ANTLR end "complexPropertyExpression"
     public static class unary_return extends ParserRuleReturnScope {
+
         OPPLSyntaxTree tree;
 
         @Override
@@ -2855,7 +2850,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
     // ^( NEGATED_EXPRESSION atomic ) | qualifiedRestriction -> ^(
     // qualifiedRestriction ) | dataRange | constant | atomic );
     public final OPPLScript_OPPLParser_MOWLParser.unary_return unary()
-            throws RecognitionException {
+        throws RecognitionException {
         OPPLScript_OPPLParser_MOWLParser.unary_return retval = new OPPLScript_OPPLParser_MOWLParser.unary_return();
         retval.start = input.LT(1);
         OPPLSyntaxTree root_0 = null;
@@ -2874,21 +2869,21 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         OPPLScript_OPPLParser.atomic_return atomic59 = null;
         RuleReturnScope rest = null;
         RewriteRuleTokenStream stream_NOT = new RewriteRuleTokenStream(adaptor,
-                "token NOT");
+            "token NOT");
         RewriteRuleTokenStream stream_CLOSED_PARENTHESYS = new RewriteRuleTokenStream(
-                adaptor, "token CLOSED_PARENTHESYS");
+            adaptor, "token CLOSED_PARENTHESYS");
         RewriteRuleTokenStream stream_COMPOSITION = new RewriteRuleTokenStream(adaptor,
-                "token COMPOSITION");
+            "token COMPOSITION");
         RewriteRuleTokenStream stream_OPEN_PARENTHESYS = new RewriteRuleTokenStream(
-                adaptor, "token OPEN_PARENTHESYS");
+            adaptor, "token OPEN_PARENTHESYS");
         RewriteRuleSubtreeStream stream_expression = new RewriteRuleSubtreeStream(
-                adaptor, "rule expression");
+            adaptor, "rule expression");
         RewriteRuleSubtreeStream stream_qualifiedRestriction = new RewriteRuleSubtreeStream(
-                adaptor, "rule qualifiedRestriction");
+            adaptor, "rule qualifiedRestriction");
         RewriteRuleSubtreeStream stream_propertyExpression = new RewriteRuleSubtreeStream(
-                adaptor, "rule propertyExpression");
+            adaptor, "rule propertyExpression");
         RewriteRuleSubtreeStream stream_atomic = new RewriteRuleSubtreeStream(adaptor,
-                "rule atomic");
+            "rule atomic");
         try {
             // MOWLParser.g:155:34: (head= propertyExpression ( COMPOSITION
             // rest+= propertyExpression )+ -> ^( PROPERTY_CHAIN $head $rest) |
@@ -2927,7 +2922,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                             // propertyExpression
                             {
                                 COMPOSITION49 = (Token) match(input, COMPOSITION,
-                                        FOLLOW_COMPOSITION_in_unary1414);
+                                    FOLLOW_COMPOSITION_in_unary1414);
                                 if (state.failed) {
                                     return retval;
                                 }
@@ -2944,7 +2939,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                                     stream_propertyExpression.add(rest.getTree());
                                 }
                                 if (list_rest == null) {
-                                    list_rest = new ArrayList<Object>();
+                                    list_rest = new ArrayList<>();
                                 }
                                 if (rest != null) {
                                     list_rest.add(rest.getTree());
@@ -2974,9 +2969,9 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
                         RewriteRuleSubtreeStream stream_head = new RewriteRuleSubtreeStream(
-                                adaptor, "rule head", head != null ? head.tree : null);
+                            adaptor, "rule head", head != null ? head.tree : null);
                         RewriteRuleSubtreeStream stream_rest = new RewriteRuleSubtreeStream(
-                                adaptor, "token rest", list_rest);
+                            adaptor, "token rest", list_rest);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 157:71: -> ^( PROPERTY_CHAIN $head $rest)
                         {
@@ -2985,8 +2980,8 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                        adaptor.create(PROPERTY_CHAIN, "PROPERTY_CHAIN"),
-                                        root_1);
+                                    adaptor.create(PROPERTY_CHAIN, "PROPERTY_CHAIN"),
+                                    root_1);
                                 adaptor.addChild(root_1, stream_head.nextTree());
                                 adaptor.addChild(root_1, stream_rest.nextTree());
                                 adaptor.addChild(root_0, root_1);
@@ -3008,7 +3003,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                         stream_NOT.add(NOT50);
                     }
                     OPEN_PARENTHESYS51 = (Token) match(input, OPEN_PARENTHESYS,
-                            FOLLOW_OPEN_PARENTHESYS_in_unary1442);
+                        FOLLOW_OPEN_PARENTHESYS_in_unary1442);
                     if (state.failed) {
                         return retval;
                     }
@@ -3025,7 +3020,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                         stream_expression.add(expression52.getTree());
                     }
                     CLOSED_PARENTHESYS53 = (Token) match(input, CLOSED_PARENTHESYS,
-                            FOLLOW_CLOSED_PARENTHESYS_in_unary1446);
+                        FOLLOW_CLOSED_PARENTHESYS_in_unary1446);
                     if (state.failed) {
                         return retval;
                     }
@@ -3049,8 +3044,8 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                        adaptor.create(NEGATED_EXPRESSION,
-                                                "NEGATED_EXPRESSION"), root_1);
+                                    adaptor.create(NEGATED_EXPRESSION,
+                                        "NEGATED_EXPRESSION"), root_1);
                                 adaptor.addChild(root_1, stream_expression.nextTree());
                                 adaptor.addChild(root_0, root_1);
                             }
@@ -3095,8 +3090,8 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                        adaptor.create(NEGATED_EXPRESSION,
-                                                "NEGATED_EXPRESSION"), root_1);
+                                    adaptor.create(NEGATED_EXPRESSION,
+                                        "NEGATED_EXPRESSION"), root_1);
                                 adaptor.addChild(root_1, stream_atomic.nextTree());
                                 adaptor.addChild(root_0, root_1);
                             }
@@ -3133,7 +3128,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                        stream_qualifiedRestriction.nextNode(), root_1);
+                                    stream_qualifiedRestriction.nextNode(), root_1);
                                 adaptor.addChild(root_0, root_1);
                             }
                         }
@@ -3196,12 +3191,13 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
             throw e;
         } catch (RewriteEmptyStreamException e) {
             throw e;
-        } finally {}
+        }
         return retval;
     }
 
     // $ANTLR end "unary"
     public static class dataRange_return extends ParserRuleReturnScope {
+
         OPPLSyntaxTree tree;
 
         @Override
@@ -3215,7 +3211,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
     // dataRangeFacet ( COMMA dataRangeFacet )* CLOSED_SQUARE_BRACKET -> ^(
     // DATA_RANGE IDENTIFIER ( dataRangeFacet )+ ) ;
     public final OPPLScript_OPPLParser_MOWLParser.dataRange_return dataRange()
-            throws RecognitionException {
+        throws RecognitionException {
         OPPLScript_OPPLParser_MOWLParser.dataRange_return retval = new OPPLScript_OPPLParser_MOWLParser.dataRange_return();
         retval.start = input.LT(1);
         OPPLSyntaxTree root_0 = null;
@@ -3226,15 +3222,15 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         OPPLScript_OPPLParser_MOWLParser.dataRangeFacet_return dataRangeFacet62 = null;
         OPPLScript_OPPLParser_MOWLParser.dataRangeFacet_return dataRangeFacet64 = null;
         RewriteRuleTokenStream stream_COMMA = new RewriteRuleTokenStream(adaptor,
-                "token COMMA");
+            "token COMMA");
         RewriteRuleTokenStream stream_OPEN_SQUARE_BRACKET = new RewriteRuleTokenStream(
-                adaptor, "token OPEN_SQUARE_BRACKET");
+            adaptor, "token OPEN_SQUARE_BRACKET");
         RewriteRuleTokenStream stream_IDENTIFIER = new RewriteRuleTokenStream(adaptor,
-                "token IDENTIFIER");
+            "token IDENTIFIER");
         RewriteRuleTokenStream stream_CLOSED_SQUARE_BRACKET = new RewriteRuleTokenStream(
-                adaptor, "token CLOSED_SQUARE_BRACKET");
+            adaptor, "token CLOSED_SQUARE_BRACKET");
         RewriteRuleSubtreeStream stream_dataRangeFacet = new RewriteRuleSubtreeStream(
-                adaptor, "rule dataRangeFacet");
+            adaptor, "rule dataRangeFacet");
         try {
             // MOWLParser.g:168:2: ( IDENTIFIER OPEN_SQUARE_BRACKET
             // dataRangeFacet ( COMMA dataRangeFacet )* CLOSED_SQUARE_BRACKET ->
@@ -3243,7 +3239,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
             // ( COMMA dataRangeFacet )* CLOSED_SQUARE_BRACKET
             {
                 IDENTIFIER60 = (Token) match(input, IDENTIFIER,
-                        FOLLOW_IDENTIFIER_in_dataRange1526);
+                    FOLLOW_IDENTIFIER_in_dataRange1526);
                 if (state.failed) {
                     return retval;
                 }
@@ -3251,7 +3247,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     stream_IDENTIFIER.add(IDENTIFIER60);
                 }
                 OPEN_SQUARE_BRACKET61 = (Token) match(input, OPEN_SQUARE_BRACKET,
-                        FOLLOW_OPEN_SQUARE_BRACKET_in_dataRange1528);
+                    FOLLOW_OPEN_SQUARE_BRACKET_in_dataRange1528);
                 if (state.failed) {
                     return retval;
                 }
@@ -3279,7 +3275,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                         // MOWLParser.g:169:51: COMMA dataRangeFacet
                         {
                             COMMA63 = (Token) match(input, COMMA,
-                                    FOLLOW_COMMA_in_dataRange1533);
+                                FOLLOW_COMMA_in_dataRange1533);
                             if (state.failed) {
                                 return retval;
                             }
@@ -3302,7 +3298,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     }
                 } while (true);
                 CLOSED_SQUARE_BRACKET65 = (Token) match(input, CLOSED_SQUARE_BRACKET,
-                        FOLLOW_CLOSED_SQUARE_BRACKET_in_dataRange1539);
+                    FOLLOW_CLOSED_SQUARE_BRACKET_in_dataRange1539);
                 if (state.failed) {
                     return retval;
                 }
@@ -3326,7 +3322,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                         {
                             OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                             root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                    adaptor.create(DATA_RANGE, "DATA_RANGE"), root_1);
+                                adaptor.create(DATA_RANGE, "DATA_RANGE"), root_1);
                             adaptor.addChild(root_1, stream_IDENTIFIER.nextNode());
                             if (!stream_dataRangeFacet.hasNext()) {
                                 throw new RewriteEarlyExitException();
@@ -3350,12 +3346,13 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
             throw e;
         } catch (RewriteEmptyStreamException e) {
             throw e;
-        } finally {}
+        }
         return retval;
     }
 
     // $ANTLR end "dataRange"
     public static class dataRangeFacet_return extends ParserRuleReturnScope {
+
         OPPLSyntaxTree tree;
 
         @Override
@@ -3370,7 +3367,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
     // GREATER_THAN constant -> ^( GREATER_THAN constant ) | GREATER_THAN_EQUAL
     // constant -> ^( GREATER_THAN_EQUAL constant ) );
     public final OPPLScript_OPPLParser_MOWLParser.dataRangeFacet_return dataRangeFacet()
-            throws RecognitionException {
+        throws RecognitionException {
         OPPLScript_OPPLParser_MOWLParser.dataRangeFacet_return retval = new OPPLScript_OPPLParser_MOWLParser.dataRangeFacet_return();
         retval.start = input.LT(1);
         OPPLSyntaxTree root_0 = null;
@@ -3383,15 +3380,15 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         OPPLScript_OPPLParser_MOWLParser.constant_return constant71 = null;
         OPPLScript_OPPLParser_MOWLParser.constant_return constant73 = null;
         RewriteRuleTokenStream stream_LESS_THAN_EQUAL = new RewriteRuleTokenStream(
-                adaptor, "token LESS_THAN_EQUAL");
+            adaptor, "token LESS_THAN_EQUAL");
         RewriteRuleTokenStream stream_GREATER_THAN_EQUAL = new RewriteRuleTokenStream(
-                adaptor, "token GREATER_THAN_EQUAL");
+            adaptor, "token GREATER_THAN_EQUAL");
         RewriteRuleTokenStream stream_GREATER_THAN = new RewriteRuleTokenStream(adaptor,
-                "token GREATER_THAN");
+            "token GREATER_THAN");
         RewriteRuleTokenStream stream_LESS_THAN = new RewriteRuleTokenStream(adaptor,
-                "token LESS_THAN");
+            "token LESS_THAN");
         RewriteRuleSubtreeStream stream_constant = new RewriteRuleSubtreeStream(adaptor,
-                "rule constant");
+            "rule constant");
         try {
             // MOWLParser.g:173:2: ( LESS_THAN constant -> ^( LESS_THAN constant
             // ) | LESS_THAN_EQUAL constant -> ^( LESS_THAN_EQUAL constant ) |
@@ -3428,7 +3425,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                 // MOWLParser.g:174:3: LESS_THAN constant
                 {
                     LESS_THAN66 = (Token) match(input, LESS_THAN,
-                            FOLLOW_LESS_THAN_in_dataRangeFacet1565);
+                        FOLLOW_LESS_THAN_in_dataRangeFacet1565);
                     if (state.failed) {
                         return retval;
                     }
@@ -3460,7 +3457,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                        stream_LESS_THAN.nextNode(), root_1);
+                                    stream_LESS_THAN.nextNode(), root_1);
                                 adaptor.addChild(root_1, stream_constant.nextTree());
                                 adaptor.addChild(root_0, root_1);
                             }
@@ -3473,7 +3470,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                 // MOWLParser.g:175:5: LESS_THAN_EQUAL constant
                 {
                     LESS_THAN_EQUAL68 = (Token) match(input, LESS_THAN_EQUAL,
-                            FOLLOW_LESS_THAN_EQUAL_in_dataRangeFacet1581);
+                        FOLLOW_LESS_THAN_EQUAL_in_dataRangeFacet1581);
                     if (state.failed) {
                         return retval;
                     }
@@ -3506,7 +3503,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                        stream_LESS_THAN_EQUAL.nextNode(), root_1);
+                                    stream_LESS_THAN_EQUAL.nextNode(), root_1);
                                 adaptor.addChild(root_1, stream_constant.nextTree());
                                 adaptor.addChild(root_0, root_1);
                             }
@@ -3519,7 +3516,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                 // MOWLParser.g:176:5: GREATER_THAN constant
                 {
                     GREATER_THAN70 = (Token) match(input, GREATER_THAN,
-                            FOLLOW_GREATER_THAN_in_dataRangeFacet1598);
+                        FOLLOW_GREATER_THAN_in_dataRangeFacet1598);
                     if (state.failed) {
                         return retval;
                     }
@@ -3551,7 +3548,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                        stream_GREATER_THAN.nextNode(), root_1);
+                                    stream_GREATER_THAN.nextNode(), root_1);
                                 adaptor.addChild(root_1, stream_constant.nextTree());
                                 adaptor.addChild(root_0, root_1);
                             }
@@ -3564,7 +3561,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                 // MOWLParser.g:177:5: GREATER_THAN_EQUAL constant
                 {
                     GREATER_THAN_EQUAL72 = (Token) match(input, GREATER_THAN_EQUAL,
-                            FOLLOW_GREATER_THAN_EQUAL_in_dataRangeFacet1614);
+                        FOLLOW_GREATER_THAN_EQUAL_in_dataRangeFacet1614);
                     if (state.failed) {
                         return retval;
                     }
@@ -3597,7 +3594,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                        stream_GREATER_THAN_EQUAL.nextNode(), root_1);
+                                    stream_GREATER_THAN_EQUAL.nextNode(), root_1);
                                 adaptor.addChild(root_1, stream_constant.nextTree());
                                 adaptor.addChild(root_0, root_1);
                             }
@@ -3616,12 +3613,13 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
             throw e;
         } catch (RewriteEmptyStreamException e) {
             throw e;
-        } finally {}
+        }
         return retval;
     }
 
     // $ANTLR end "dataRangeFacet"
     public static class qualifiedRestriction_return extends ParserRuleReturnScope {
+
         OPPLSyntaxTree tree;
 
         @Override
@@ -3637,8 +3635,8 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
     // ^( ALL_RESTRICTION propertyExpression expression ) |
     // cardinalityRestriction -> ^( cardinalityRestriction ) | oneOf -> ^( oneOf
     // ) | valueRestriction -> ^( valueRestriction ) ) ;
-    public final OPPLScript_OPPLParser_MOWLParser.qualifiedRestriction_return
-            qualifiedRestriction() throws RecognitionException {
+    public final OPPLScript_OPPLParser_MOWLParser.qualifiedRestriction_return qualifiedRestriction()
+        throws RecognitionException {
         OPPLScript_OPPLParser_MOWLParser.qualifiedRestriction_return retval = new OPPLScript_OPPLParser_MOWLParser.qualifiedRestriction_return();
         retval.start = input.LT(1);
         OPPLSyntaxTree root_0 = null;
@@ -3652,19 +3650,19 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         OPPLScript_OPPLParser_MOWLParser.oneOf_return oneOf81 = null;
         OPPLScript_OPPLParser_MOWLParser.valueRestriction_return valueRestriction82 = null;
         RewriteRuleTokenStream stream_ONLY = new RewriteRuleTokenStream(adaptor,
-                "token ONLY");
+            "token ONLY");
         RewriteRuleTokenStream stream_SOME = new RewriteRuleTokenStream(adaptor,
-                "token SOME");
+            "token SOME");
         RewriteRuleSubtreeStream stream_expression = new RewriteRuleSubtreeStream(
-                adaptor, "rule expression");
+            adaptor, "rule expression");
         RewriteRuleSubtreeStream stream_oneOf = new RewriteRuleSubtreeStream(adaptor,
-                "rule oneOf");
+            "rule oneOf");
         RewriteRuleSubtreeStream stream_propertyExpression = new RewriteRuleSubtreeStream(
-                adaptor, "rule propertyExpression");
+            adaptor, "rule propertyExpression");
         RewriteRuleSubtreeStream stream_cardinalityRestriction = new RewriteRuleSubtreeStream(
-                adaptor, "rule cardinalityRestriction");
+            adaptor, "rule cardinalityRestriction");
         RewriteRuleSubtreeStream stream_valueRestriction = new RewriteRuleSubtreeStream(
-                adaptor, "rule valueRestriction");
+            adaptor, "rule valueRestriction");
         try {
             // MOWLParser.g:185:21: ( ( options {backtrack=true; } :
             // propertyExpression SOME expression -> ^( SOME_RESTRICTION
@@ -3702,7 +3700,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                             stream_propertyExpression.add(propertyExpression74.getTree());
                         }
                         SOME75 = (Token) match(input, SOME,
-                                FOLLOW_SOME_in_qualifiedRestriction1699);
+                            FOLLOW_SOME_in_qualifiedRestriction1699);
                         if (state.failed) {
                             return retval;
                         }
@@ -3735,12 +3733,12 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                                 // propertyExpression expression )
                                 {
                                     OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor
-                                            .nil();
+                                        .nil();
                                     root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                            adaptor.create(SOME_RESTRICTION,
-                                                    "SOME_RESTRICTION"), root_1);
+                                        adaptor.create(SOME_RESTRICTION,
+                                            "SOME_RESTRICTION"), root_1);
                                     adaptor.addChild(root_1,
-                                            stream_propertyExpression.nextTree());
+                                        stream_propertyExpression.nextTree());
                                     adaptor.addChild(root_1, stream_expression.nextTree());
                                     adaptor.addChild(root_0, root_1);
                                 }
@@ -3762,7 +3760,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                             stream_propertyExpression.add(propertyExpression77.getTree());
                         }
                         ONLY78 = (Token) match(input, ONLY,
-                                FOLLOW_ONLY_in_qualifiedRestriction1734);
+                            FOLLOW_ONLY_in_qualifiedRestriction1734);
                         if (state.failed) {
                             return retval;
                         }
@@ -3795,12 +3793,12 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                                 // propertyExpression expression )
                                 {
                                     OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor
-                                            .nil();
+                                        .nil();
                                     root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(adaptor
-                                            .create(ALL_RESTRICTION, "ALL_RESTRICTION"),
-                                            root_1);
+                                        .create(ALL_RESTRICTION, "ALL_RESTRICTION"),
+                                        root_1);
                                     adaptor.addChild(root_1,
-                                            stream_propertyExpression.nextTree());
+                                        stream_propertyExpression.nextTree());
                                     adaptor.addChild(root_1, stream_expression.nextTree());
                                     adaptor.addChild(root_0, root_1);
                                 }
@@ -3820,7 +3818,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                         }
                         if (state.backtracking == 0) {
                             stream_cardinalityRestriction.add(cardinalityRestriction80
-                                    .getTree());
+                                .getTree());
                         }
                         // AST REWRITE
                         // elements: cardinalityRestriction
@@ -3838,10 +3836,10 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                                 // cardinalityRestriction )
                                 {
                                     OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor
-                                            .nil();
+                                        .nil();
                                     root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                            stream_cardinalityRestriction.nextNode(),
-                                            root_1);
+                                        stream_cardinalityRestriction.nextNode(),
+                                        root_1);
                                     adaptor.addChild(root_0, root_1);
                                 }
                             }
@@ -3876,9 +3874,9 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                                 // MOWLParser.g:191:16: ^( oneOf )
                                 {
                                     OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor
-                                            .nil();
+                                        .nil();
                                     root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                            stream_oneOf.nextNode(), root_1);
+                                        stream_oneOf.nextNode(), root_1);
                                     adaptor.addChild(root_0, root_1);
                                 }
                             }
@@ -3913,9 +3911,9 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                                 // MOWLParser.g:192:27: ^( valueRestriction )
                                 {
                                     OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor
-                                            .nil();
+                                        .nil();
                                     root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                            stream_valueRestriction.nextNode(), root_1);
+                                        stream_valueRestriction.nextNode(), root_1);
                                     adaptor.addChild(root_0, root_1);
                                 }
                             }
@@ -3934,12 +3932,13 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
             throw e;
         } catch (RewriteEmptyStreamException e) {
             throw e;
-        } finally {}
+        }
         return retval;
     }
 
     // $ANTLR end "qualifiedRestriction"
     public static class propertyExpression_return extends ParserRuleReturnScope {
+
         OPPLSyntaxTree tree;
 
         @Override
@@ -3951,24 +3950,24 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
     // $ANTLR start "propertyExpression"
     // MOWLParser.g:196:1: propertyExpression : ( atomic -> ^( atomic ) |
     // complexPropertyExpression -> ^( complexPropertyExpression ) );
-    public final OPPLScript_OPPLParser_MOWLParser.propertyExpression_return
-            propertyExpression() throws RecognitionException {
+    public final OPPLScript_OPPLParser_MOWLParser.propertyExpression_return propertyExpression()
+        throws RecognitionException {
         OPPLScript_OPPLParser_MOWLParser.propertyExpression_return retval = new OPPLScript_OPPLParser_MOWLParser.propertyExpression_return();
         retval.start = input.LT(1);
         OPPLSyntaxTree root_0 = null;
         OPPLScript_OPPLParser.atomic_return atomic83 = null;
         OPPLScript_OPPLParser_MOWLParser.complexPropertyExpression_return complexPropertyExpression84 = null;
         RewriteRuleSubtreeStream stream_complexPropertyExpression = new RewriteRuleSubtreeStream(
-                adaptor, "rule complexPropertyExpression");
+            adaptor, "rule complexPropertyExpression");
         RewriteRuleSubtreeStream stream_atomic = new RewriteRuleSubtreeStream(adaptor,
-                "rule atomic");
+            "rule atomic");
         try {
             // MOWLParser.g:196:21: ( atomic -> ^( atomic ) |
             // complexPropertyExpression -> ^( complexPropertyExpression ) )
             int alt17 = 2;
             int LA17_0 = input.LA(1);
             if (LA17_0 >= IDENTIFIER && LA17_0 <= ENTITY_REFERENCE
-                    || LA17_0 == ESCLAMATION_MARK || LA17_0 == VARIABLE_NAME) {
+                || LA17_0 == ESCLAMATION_MARK || LA17_0 == VARIABLE_NAME) {
                 alt17 = 1;
             } else if (LA17_0 == INVERSE) {
                 alt17 = 2;
@@ -4009,7 +4008,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                        stream_atomic.nextNode(), root_1);
+                                    stream_atomic.nextNode(), root_1);
                                 adaptor.addChild(root_0, root_1);
                             }
                         }
@@ -4028,7 +4027,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     }
                     if (state.backtracking == 0) {
                         stream_complexPropertyExpression.add(complexPropertyExpression84
-                                .getTree());
+                            .getTree());
                     }
                     // AST REWRITE
                     // elements: complexPropertyExpression
@@ -4047,8 +4046,8 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                        stream_complexPropertyExpression.nextNode(),
-                                        root_1);
+                                    stream_complexPropertyExpression.nextNode(),
+                                    root_1);
                                 adaptor.addChild(root_0, root_1);
                             }
                         }
@@ -4066,12 +4065,13 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
             throw e;
         } catch (RewriteEmptyStreamException e) {
             throw e;
-        } finally {}
+        }
         return retval;
     }
 
     // $ANTLR end "propertyExpression"
     public static class cardinalityRestriction_return extends ParserRuleReturnScope {
+
         OPPLSyntaxTree tree;
 
         @Override
@@ -4085,8 +4085,8 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
     // propertyExpression restrictionKind INTEGER ( unary )? -> ^(
     // CARDINALITY_RESTRICTION restrictionKind INTEGER propertyExpression (
     // unary )? ) ;
-    public final OPPLScript_OPPLParser_MOWLParser.cardinalityRestriction_return
-            cardinalityRestriction() throws RecognitionException {
+    public final OPPLScript_OPPLParser_MOWLParser.cardinalityRestriction_return cardinalityRestriction()
+        throws RecognitionException {
         OPPLScript_OPPLParser_MOWLParser.cardinalityRestriction_return retval = new OPPLScript_OPPLParser_MOWLParser.cardinalityRestriction_return();
         retval.start = input.LT(1);
         OPPLSyntaxTree root_0 = null;
@@ -4095,13 +4095,13 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         OPPLScript_OPPLParser_MOWLParser.restrictionKind_return restrictionKind86 = null;
         OPPLScript_OPPLParser_MOWLParser.unary_return unary88 = null;
         RewriteRuleTokenStream stream_INTEGER = new RewriteRuleTokenStream(adaptor,
-                "token INTEGER");
+            "token INTEGER");
         RewriteRuleSubtreeStream stream_unary = new RewriteRuleSubtreeStream(adaptor,
-                "rule unary");
+            "rule unary");
         RewriteRuleSubtreeStream stream_propertyExpression = new RewriteRuleSubtreeStream(
-                adaptor, "rule propertyExpression");
+            adaptor, "rule propertyExpression");
         RewriteRuleSubtreeStream stream_restrictionKind = new RewriteRuleSubtreeStream(
-                adaptor, "rule restrictionKind");
+            adaptor, "rule restrictionKind");
         try {
             // MOWLParser.g:202:28: ( propertyExpression restrictionKind INTEGER
             // ( unary )? -> ^( CARDINALITY_RESTRICTION restrictionKind INTEGER
@@ -4128,7 +4128,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     stream_restrictionKind.add(restrictionKind86.getTree());
                 }
                 INTEGER87 = (Token) match(input, INTEGER,
-                        FOLLOW_INTEGER_in_cardinalityRestriction1877);
+                    FOLLOW_INTEGER_in_cardinalityRestriction1877);
                 if (state.failed) {
                     return retval;
                 }
@@ -4139,9 +4139,9 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                 int alt18 = 2;
                 int LA18_0 = input.LA(1);
                 if (LA18_0 == OPEN_CURLY_BRACES || LA18_0 == NOT || LA18_0 == INVERSE
-                        || LA18_0 == DBLQUOTE || LA18_0 >= IDENTIFIER
+                    || LA18_0 == DBLQUOTE || LA18_0 >= IDENTIFIER
                         && LA18_0 <= ENTITY_REFERENCE || LA18_0 == ESCLAMATION_MARK
-                        || LA18_0 == VARIABLE_NAME) {
+                    || LA18_0 == VARIABLE_NAME) {
                     alt18 = 1;
                 }
                 switch (alt18) {
@@ -4179,8 +4179,8 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                         {
                             OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                             root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(adaptor.create(
-                                    CARDINALITY_RESTRICTION, "CARDINALITY_RESTRICTION"),
-                                    root_1);
+                                CARDINALITY_RESTRICTION, "CARDINALITY_RESTRICTION"),
+                                root_1);
                             adaptor.addChild(root_1, stream_restrictionKind.nextTree());
                             adaptor.addChild(root_1, stream_INTEGER.nextNode());
                             adaptor.addChild(root_1, stream_propertyExpression.nextTree());
@@ -4204,12 +4204,13 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
             throw e;
         } catch (RewriteEmptyStreamException e) {
             throw e;
-        } finally {}
+        }
         return retval;
     }
 
     // $ANTLR end "cardinalityRestriction"
     public static class restrictionKind_return extends ParserRuleReturnScope {
+
         OPPLSyntaxTree tree;
 
         @Override
@@ -4221,8 +4222,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
     // $ANTLR start "restrictionKind"
     // MOWLParser.g:206:1: restrictionKind : ( MIN -> ^( MIN ) | MAX -> ^( MAX )
     // | EXACTLY -> ^( EXACTLY ) );
-    public final OPPLScript_OPPLParser_MOWLParser.restrictionKind_return
-            restrictionKind() throws RecognitionException {
+    public final OPPLScript_OPPLParser_MOWLParser.restrictionKind_return restrictionKind() throws RecognitionException {
         OPPLScript_OPPLParser_MOWLParser.restrictionKind_return retval = new OPPLScript_OPPLParser_MOWLParser.restrictionKind_return();
         retval.start = input.LT(1);
         OPPLSyntaxTree root_0 = null;
@@ -4230,11 +4230,11 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         Token MAX90 = null;
         Token EXACTLY91 = null;
         RewriteRuleTokenStream stream_MAX = new RewriteRuleTokenStream(adaptor,
-                "token MAX");
+            "token MAX");
         RewriteRuleTokenStream stream_MIN = new RewriteRuleTokenStream(adaptor,
-                "token MIN");
+            "token MIN");
         RewriteRuleTokenStream stream_EXACTLY = new RewriteRuleTokenStream(adaptor,
-                "token EXACTLY");
+            "token EXACTLY");
         try {
             // MOWLParser.g:206:17: ( MIN -> ^( MIN ) | MAX -> ^( MAX ) |
             // EXACTLY -> ^( EXACTLY ) )
@@ -4287,7 +4287,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                        stream_MIN.nextNode(), root_1);
+                                    stream_MIN.nextNode(), root_1);
                                 adaptor.addChild(root_0, root_1);
                             }
                         }
@@ -4321,7 +4321,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                        stream_MAX.nextNode(), root_1);
+                                    stream_MAX.nextNode(), root_1);
                                 adaptor.addChild(root_0, root_1);
                             }
                         }
@@ -4333,7 +4333,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                 // MOWLParser.g:209:7: EXACTLY
                 {
                     EXACTLY91 = (Token) match(input, EXACTLY,
-                            FOLLOW_EXACTLY_in_restrictionKind1940);
+                        FOLLOW_EXACTLY_in_restrictionKind1940);
                     if (state.failed) {
                         return retval;
                     }
@@ -4356,7 +4356,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                        stream_EXACTLY.nextNode(), root_1);
+                                    stream_EXACTLY.nextNode(), root_1);
                                 adaptor.addChild(root_0, root_1);
                             }
                         }
@@ -4374,12 +4374,13 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
             throw e;
         } catch (RewriteEmptyStreamException e) {
             throw e;
-        } finally {}
+        }
         return retval;
     }
 
     // $ANTLR end "restrictionKind"
     public static class oneOf_return extends ParserRuleReturnScope {
+
         OPPLSyntaxTree tree;
 
         @Override
@@ -4392,7 +4393,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
     // MOWLParser.g:213:1: oneOf : OPEN_CURLY_BRACES atomic ( COMMA atomic )*
     // CLOSED_CURLY_BRACES -> ^( ONE_OF ( atomic )+ ) ;
     public final OPPLScript_OPPLParser_MOWLParser.oneOf_return oneOf()
-            throws RecognitionException {
+        throws RecognitionException {
         OPPLScript_OPPLParser_MOWLParser.oneOf_return retval = new OPPLScript_OPPLParser_MOWLParser.oneOf_return();
         retval.start = input.LT(1);
         OPPLSyntaxTree root_0 = null;
@@ -4402,13 +4403,13 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         OPPLScript_OPPLParser.atomic_return atomic93 = null;
         OPPLScript_OPPLParser.atomic_return atomic95 = null;
         RewriteRuleTokenStream stream_COMMA = new RewriteRuleTokenStream(adaptor,
-                "token COMMA");
+            "token COMMA");
         RewriteRuleTokenStream stream_CLOSED_CURLY_BRACES = new RewriteRuleTokenStream(
-                adaptor, "token CLOSED_CURLY_BRACES");
+            adaptor, "token CLOSED_CURLY_BRACES");
         RewriteRuleTokenStream stream_OPEN_CURLY_BRACES = new RewriteRuleTokenStream(
-                adaptor, "token OPEN_CURLY_BRACES");
+            adaptor, "token OPEN_CURLY_BRACES");
         RewriteRuleSubtreeStream stream_atomic = new RewriteRuleSubtreeStream(adaptor,
-                "rule atomic");
+            "rule atomic");
         try {
             // MOWLParser.g:213:7: ( OPEN_CURLY_BRACES atomic ( COMMA atomic )*
             // CLOSED_CURLY_BRACES -> ^( ONE_OF ( atomic )+ ) )
@@ -4416,7 +4417,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
             // CLOSED_CURLY_BRACES
             {
                 OPEN_CURLY_BRACES92 = (Token) match(input, OPEN_CURLY_BRACES,
-                        FOLLOW_OPEN_CURLY_BRACES_in_oneOf1962);
+                    FOLLOW_OPEN_CURLY_BRACES_in_oneOf1962);
                 if (state.failed) {
                     return retval;
                 }
@@ -4444,7 +4445,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                         // MOWLParser.g:214:29: COMMA atomic
                         {
                             COMMA94 = (Token) match(input, COMMA,
-                                    FOLLOW_COMMA_in_oneOf1967);
+                                FOLLOW_COMMA_in_oneOf1967);
                             if (state.failed) {
                                 return retval;
                             }
@@ -4467,7 +4468,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     }
                 } while (true);
                 CLOSED_CURLY_BRACES96 = (Token) match(input, CLOSED_CURLY_BRACES,
-                        FOLLOW_CLOSED_CURLY_BRACES_in_oneOf1973);
+                    FOLLOW_CLOSED_CURLY_BRACES_in_oneOf1973);
                 if (state.failed) {
                     return retval;
                 }
@@ -4490,7 +4491,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                         {
                             OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                             root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                    adaptor.create(ONE_OF, "ONE_OF"), root_1);
+                                adaptor.create(ONE_OF, "ONE_OF"), root_1);
                             if (!stream_atomic.hasNext()) {
                                 throw new RewriteEarlyExitException();
                             }
@@ -4513,12 +4514,13 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
             throw e;
         } catch (RewriteEmptyStreamException e) {
             throw e;
-        } finally {}
+        }
         return retval;
     }
 
     // $ANTLR end "oneOf"
     public static class valueRestriction_return extends ParserRuleReturnScope {
+
         OPPLSyntaxTree tree;
 
         @Override
@@ -4530,8 +4532,8 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
     // $ANTLR start "valueRestriction"
     // MOWLParser.g:217:1: valueRestriction : propertyExpression VALUE value ->
     // ^( VALUE_RESTRICTION propertyExpression value ) ;
-    public final OPPLScript_OPPLParser_MOWLParser.valueRestriction_return
-            valueRestriction() throws RecognitionException {
+    public final OPPLScript_OPPLParser_MOWLParser.valueRestriction_return valueRestriction()
+        throws RecognitionException {
         OPPLScript_OPPLParser_MOWLParser.valueRestriction_return retval = new OPPLScript_OPPLParser_MOWLParser.valueRestriction_return();
         retval.start = input.LT(1);
         OPPLSyntaxTree root_0 = null;
@@ -4539,11 +4541,11 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         OPPLScript_OPPLParser_MOWLParser.propertyExpression_return propertyExpression97 = null;
         OPPLScript_OPPLParser_MOWLParser.value_return value99 = null;
         RewriteRuleTokenStream stream_VALUE = new RewriteRuleTokenStream(adaptor,
-                "token VALUE");
+            "token VALUE");
         RewriteRuleSubtreeStream stream_propertyExpression = new RewriteRuleSubtreeStream(
-                adaptor, "rule propertyExpression");
+            adaptor, "rule propertyExpression");
         RewriteRuleSubtreeStream stream_value = new RewriteRuleSubtreeStream(adaptor,
-                "rule value");
+            "rule value");
         try {
             // MOWLParser.g:217:18: ( propertyExpression VALUE value -> ^(
             // VALUE_RESTRICTION propertyExpression value ) )
@@ -4559,7 +4561,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     stream_propertyExpression.add(propertyExpression97.getTree());
                 }
                 VALUE98 = (Token) match(input, VALUE,
-                        FOLLOW_VALUE_in_valueRestriction1995);
+                    FOLLOW_VALUE_in_valueRestriction1995);
                 if (state.failed) {
                     return retval;
                 }
@@ -4593,7 +4595,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                         {
                             OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                             root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(adaptor.create(
-                                    VALUE_RESTRICTION, "VALUE_RESTRICTION"), root_1);
+                                VALUE_RESTRICTION, "VALUE_RESTRICTION"), root_1);
                             adaptor.addChild(root_1, stream_propertyExpression.nextTree());
                             adaptor.addChild(root_1, stream_value.nextTree());
                             adaptor.addChild(root_0, root_1);
@@ -4611,12 +4613,13 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
             throw e;
         } catch (RewriteEmptyStreamException e) {
             throw e;
-        } finally {}
+        }
         return retval;
     }
 
     // $ANTLR end "valueRestriction"
     public static class value_return extends ParserRuleReturnScope {
+
         OPPLSyntaxTree tree;
 
         @Override
@@ -4629,23 +4632,23 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
     // MOWLParser.g:220:1: value : ( atomic -> ^( atomic ) | constant -> ^(
     // constant ) );
     public final OPPLScript_OPPLParser_MOWLParser.value_return value()
-            throws RecognitionException {
+        throws RecognitionException {
         OPPLScript_OPPLParser_MOWLParser.value_return retval = new OPPLScript_OPPLParser_MOWLParser.value_return();
         retval.start = input.LT(1);
         OPPLSyntaxTree root_0 = null;
         OPPLScript_OPPLParser.atomic_return atomic100 = null;
         OPPLScript_OPPLParser_MOWLParser.constant_return constant101 = null;
         RewriteRuleSubtreeStream stream_constant = new RewriteRuleSubtreeStream(adaptor,
-                "rule constant");
+            "rule constant");
         RewriteRuleSubtreeStream stream_atomic = new RewriteRuleSubtreeStream(adaptor,
-                "rule atomic");
+            "rule atomic");
         try {
             // MOWLParser.g:220:6: ( atomic -> ^( atomic ) | constant -> ^(
             // constant ) )
             int alt21 = 2;
             int LA21_0 = input.LA(1);
             if (LA21_0 >= IDENTIFIER && LA21_0 <= ENTITY_REFERENCE
-                    || LA21_0 == ESCLAMATION_MARK || LA21_0 == VARIABLE_NAME) {
+                || LA21_0 == ESCLAMATION_MARK || LA21_0 == VARIABLE_NAME) {
                 alt21 = 1;
             } else if (LA21_0 == DBLQUOTE) {
                 alt21 = 2;
@@ -4686,7 +4689,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                        stream_atomic.nextNode(), root_1);
+                                    stream_atomic.nextNode(), root_1);
                                 adaptor.addChild(root_0, root_1);
                             }
                         }
@@ -4722,7 +4725,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                        stream_constant.nextNode(), root_1);
+                                    stream_constant.nextNode(), root_1);
                                 adaptor.addChild(root_0, root_1);
                             }
                         }
@@ -4740,12 +4743,13 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
             throw e;
         } catch (RewriteEmptyStreamException e) {
             throw e;
-        } finally {}
+        }
         return retval;
     }
 
     // $ANTLR end "value"
     public static class constant_return extends ParserRuleReturnScope {
+
         OPPLSyntaxTree tree;
 
         @Override
@@ -4759,7 +4763,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
     // IDENTIFIER )? ( POW type= IDENTIFIER )? -> ^( CONSTANT $constantValue (
     // ^( AT $language) )? ( $type)? ) ;
     public final OPPLScript_OPPLParser_MOWLParser.constant_return constant()
-            throws RecognitionException {
+        throws RecognitionException {
         OPPLScript_OPPLParser_MOWLParser.constant_return retval = new OPPLScript_OPPLParser_MOWLParser.constant_return();
         retval.start = input.LT(1);
         OPPLSyntaxTree root_0 = null;
@@ -4770,11 +4774,11 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         Token POW103 = null;
         RewriteRuleTokenStream stream_AT = new RewriteRuleTokenStream(adaptor, "token AT");
         RewriteRuleTokenStream stream_POW = new RewriteRuleTokenStream(adaptor,
-                "token POW");
+            "token POW");
         RewriteRuleTokenStream stream_IDENTIFIER = new RewriteRuleTokenStream(adaptor,
-                "token IDENTIFIER");
+            "token IDENTIFIER");
         RewriteRuleTokenStream stream_DBLQUOTE = new RewriteRuleTokenStream(adaptor,
-                "token DBLQUOTE");
+            "token DBLQUOTE");
         try {
             // MOWLParser.g:225:11: (constantValue= DBLQUOTE ( AT language=
             // IDENTIFIER )? ( POW type= IDENTIFIER )? -> ^( CONSTANT
@@ -4783,7 +4787,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
             // IDENTIFIER )? ( POW type= IDENTIFIER )?
             {
                 constantValue = (Token) match(input, DBLQUOTE,
-                        FOLLOW_DBLQUOTE_in_constant2062);
+                    FOLLOW_DBLQUOTE_in_constant2062);
                 if (state.failed) {
                     return retval;
                 }
@@ -4808,7 +4812,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                             stream_AT.add(AT102);
                         }
                         language = (Token) match(input, IDENTIFIER,
-                                FOLLOW_IDENTIFIER_in_constant2071);
+                            FOLLOW_IDENTIFIER_in_constant2071);
                         if (state.failed) {
                             return retval;
                         }
@@ -4836,7 +4840,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                             stream_POW.add(POW103);
                         }
                         type = (Token) match(input, IDENTIFIER,
-                                FOLLOW_IDENTIFIER_in_constant2083);
+                            FOLLOW_IDENTIFIER_in_constant2083);
                         if (state.failed) {
                             return retval;
                         }
@@ -4856,11 +4860,11 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                 if (state.backtracking == 0) {
                     retval.tree = root_0;
                     RewriteRuleTokenStream stream_constantValue = new RewriteRuleTokenStream(
-                            adaptor, "token constantValue", constantValue);
+                        adaptor, "token constantValue", constantValue);
                     RewriteRuleTokenStream stream_language = new RewriteRuleTokenStream(
-                            adaptor, "token language", language);
+                        adaptor, "token language", language);
                     RewriteRuleTokenStream stream_type = new RewriteRuleTokenStream(
-                            adaptor, "token type", type);
+                        adaptor, "token type", type);
                     root_0 = (OPPLSyntaxTree) adaptor.nil();
                     // 225:93: -> ^( CONSTANT $constantValue ( ^( AT $language)
                     // )? ( $type)? )
@@ -4870,16 +4874,16 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                         {
                             OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                             root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                    adaptor.create(CONSTANT, "CONSTANT"), root_1);
+                                adaptor.create(CONSTANT, "CONSTANT"), root_1);
                             adaptor.addChild(root_1, stream_constantValue.nextNode());
                             // MOWLParser.g:225:121: ( ^( AT $language) )?
                             if (stream_AT.hasNext() || stream_language.hasNext()) {
                                 // MOWLParser.g:225:122: ^( AT $language)
                                 {
                                     OPPLSyntaxTree root_2 = (OPPLSyntaxTree) adaptor
-                                            .nil();
+                                        .nil();
                                     root_2 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                            stream_AT.nextNode(), root_2);
+                                        stream_AT.nextNode(), root_2);
                                     adaptor.addChild(root_2, stream_language.nextNode());
                                     adaptor.addChild(root_1, root_2);
                                 }
@@ -4906,7 +4910,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
             throw e;
         } catch (RewriteEmptyStreamException e) {
             throw e;
-        } finally {}
+        }
         return retval;
     }
 
@@ -5068,7 +5072,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                 return;
             }
             match(input, SUB_PROPERTY_OF,
-                    FOLLOW_SUB_PROPERTY_OF_in_synpred14_MOWLParser778);
+                FOLLOW_SUB_PROPERTY_OF_in_synpred14_MOWLParser778);
             if (state.failed) {
                 return;
             }
@@ -5279,7 +5283,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     // propertyExpression
                     {
                         match(input, COMPOSITION,
-                                FOLLOW_COMPOSITION_in_synpred30_MOWLParser1414);
+                            FOLLOW_COMPOSITION_in_synpred30_MOWLParser1414);
                         if (state.failed) {
                             return;
                         }
@@ -5290,7 +5294,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                             return;
                         }
                         if (list_rest == null) {
-                            list_rest = new ArrayList<Object>();
+                            list_rest = new ArrayList<>();
                         }
                         list_rest.add(rest);
                     }
@@ -5324,7 +5328,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                 return;
             }
             match(input, OPEN_PARENTHESYS,
-                    FOLLOW_OPEN_PARENTHESYS_in_synpred31_MOWLParser1442);
+                FOLLOW_OPEN_PARENTHESYS_in_synpred31_MOWLParser1442);
             if (state.failed) {
                 return;
             }
@@ -5335,7 +5339,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                 return;
             }
             match(input, CLOSED_PARENTHESYS,
-                    FOLLOW_CLOSED_PARENTHESYS_in_synpred31_MOWLParser1446);
+                FOLLOW_CLOSED_PARENTHESYS_in_synpred31_MOWLParser1446);
             if (state.failed) {
                 return;
             }
@@ -5829,26 +5833,26 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
     static final String DFA2_eotS = "\26\uffff";
     static final String DFA2_eofS = "\11\uffff\1\10\14\uffff";
     static final String DFA2_minS = "\1\156\1\54\1\116\3\50\1\54\1\160\1\uffff\1\45\2\uffff\1\u0162\1"
-            + "\50\1\54\1\160\1\5\2\50\1\52\1\10\1\50";
+        + "\50\1\54\1\160\1\5\2\50\1\52\1\10\1\50";
     static final String DFA2_maxS = "\2\u01d0\1\116\3\u01d0\1\54\1\160\1\uffff\1\124\2\uffff\1\u0164"
-            + "\2\u01d0\1\u0164\1\5\2\u01d0\1\52\1\10\1\u01d0";
+        + "\2\u01d0\1\u0164\1\5\2\u01d0\1\52\1\10\1\u01d0";
     static final String DFA2_acceptS = "\10\uffff\1\2\1\uffff\1\1\1\3\12\uffff";
     static final String DFA2_specialS = "\26\uffff}>";
     static final String[] DFA2_transitionS = {
-            "\1\1\u0161\uffff\1\2",
-            "\1\3\1\4\147\uffff\1\6\u013a\uffff\1\5",
-            "\1\7",
-            "\1\12\3\uffff\2\10\100\uffff\1\13\46\uffff\1\10\u013a\uffff" + "\1\11",
-            "\1\12\3\uffff\2\10\100\uffff\1\13\46\uffff\1\10\u013a\uffff" + "\1\11",
-            "\1\12\3\uffff\2\10\40\uffff\1\14\37\uffff\1\13\46\uffff\1\10"
-                    + "\u013a\uffff\1\11", "\1\15", "\1\16", "",
-            "\1\10\41\uffff\1\10\6\uffff\1\17\4\uffff\2\10", "", "", "\1\21\1\22\1\20",
-            "\1\12\3\uffff\2\10\100\uffff\1\13\46\uffff\1\10\u013a\uffff" + "\1\11",
-            "\1\3\1\4\147\uffff\1\6\u013a\uffff\1\5", "\1\13\u00f1\uffff\3\10", "\1\23",
-            "\1\12\3\uffff\2\10\100\uffff\1\13\46\uffff\1\10\u013a\uffff" + "\1\11",
-            "\1\12\3\uffff\2\10\100\uffff\1\13\46\uffff\1\10\u013a\uffff" + "\1\11",
-            "\1\24", "\1\25",
-            "\1\12\3\uffff\2\10\100\uffff\1\13\46\uffff\1\10\u013a\uffff" + "\1\11" };
+        "\1\1\u0161\uffff\1\2",
+        "\1\3\1\4\147\uffff\1\6\u013a\uffff\1\5",
+        "\1\7",
+        "\1\12\3\uffff\2\10\100\uffff\1\13\46\uffff\1\10\u013a\uffff" + "\1\11",
+        "\1\12\3\uffff\2\10\100\uffff\1\13\46\uffff\1\10\u013a\uffff" + "\1\11",
+        "\1\12\3\uffff\2\10\40\uffff\1\14\37\uffff\1\13\46\uffff\1\10"
+            + "\u013a\uffff\1\11", "\1\15", "\1\16", "",
+        "\1\10\41\uffff\1\10\6\uffff\1\17\4\uffff\2\10", "", "", "\1\21\1\22\1\20",
+        "\1\12\3\uffff\2\10\100\uffff\1\13\46\uffff\1\10\u013a\uffff" + "\1\11",
+        "\1\3\1\4\147\uffff\1\6\u013a\uffff\1\5", "\1\13\u00f1\uffff\3\10", "\1\23",
+        "\1\12\3\uffff\2\10\100\uffff\1\13\46\uffff\1\10\u013a\uffff" + "\1\11",
+        "\1\12\3\uffff\2\10\100\uffff\1\13\46\uffff\1\10\u013a\uffff" + "\1\11",
+        "\1\24", "\1\25",
+        "\1\12\3\uffff\2\10\100\uffff\1\13\46\uffff\1\10\u013a\uffff" + "\1\11" };
     static final short[] DFA2_eot = DFA.unpackEncodedString(DFA2_eotS);
     static final short[] DFA2_eof = DFA.unpackEncodedString(DFA2_eofS);
     static final char[] DFA2_min = DFA.unpackEncodedStringToUnsignedChars(DFA2_minS);
@@ -5856,6 +5860,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
     static final short[] DFA2_accept = DFA.unpackEncodedString(DFA2_acceptS);
     static final short[] DFA2_special = DFA.unpackEncodedString(DFA2_specialS);
     static final short[][] DFA2_transition;
+
     static {
         int numStates = DFA2_transitionS.length;
         DFA2_transition = new short[numStates][];
@@ -5865,6 +5870,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
     }
 
     class DFA2 extends DFA {
+
         public DFA2(BaseRecognizer recognizer) {
             this.recognizer = recognizer;
             decisionNumber = 2;
@@ -5890,15 +5896,15 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
     static final String DFA5_acceptS = "\5\uffff\1\3\1\1\1\2\10\uffff";
     static final String DFA5_specialS = "\20\uffff}>";
     static final String[] DFA5_transitionS = {
-            "\1\5\37\uffff\1\1\1\2\147\uffff\1\4\u013a\uffff\1\3",
-            "\1\7\22\uffff\2\6\4\uffff\2\7\147\uffff\1\7\u013a\uffff\1\7",
-            "\1\7\22\uffff\2\6\4\uffff\2\7\147\uffff\1\7\u013a\uffff\1\7",
-            "\1\7\22\uffff\2\6\4\uffff\2\7\40\uffff\1\10\106\uffff\1\7\u013a"
-                    + "\uffff\1\7", "\1\11", "", "", "", "\1\13\1\14\1\12",
-            "\1\7\22\uffff\2\6\4\uffff\2\7\147\uffff\1\7\u013a\uffff\1\7", "\1\15",
-            "\1\7\22\uffff\2\6\4\uffff\2\7\147\uffff\1\7\u013a\uffff\1\7",
-            "\1\7\22\uffff\2\6\4\uffff\2\7\147\uffff\1\7\u013a\uffff\1\7", "\1\16",
-            "\1\17", "\1\7\22\uffff\2\6\4\uffff\2\7\147\uffff\1\7\u013a\uffff\1\7" };
+        "\1\5\37\uffff\1\1\1\2\147\uffff\1\4\u013a\uffff\1\3",
+        "\1\7\22\uffff\2\6\4\uffff\2\7\147\uffff\1\7\u013a\uffff\1\7",
+        "\1\7\22\uffff\2\6\4\uffff\2\7\147\uffff\1\7\u013a\uffff\1\7",
+        "\1\7\22\uffff\2\6\4\uffff\2\7\40\uffff\1\10\106\uffff\1\7\u013a"
+            + "\uffff\1\7", "\1\11", "", "", "", "\1\13\1\14\1\12",
+        "\1\7\22\uffff\2\6\4\uffff\2\7\147\uffff\1\7\u013a\uffff\1\7", "\1\15",
+        "\1\7\22\uffff\2\6\4\uffff\2\7\147\uffff\1\7\u013a\uffff\1\7",
+        "\1\7\22\uffff\2\6\4\uffff\2\7\147\uffff\1\7\u013a\uffff\1\7", "\1\16",
+        "\1\17", "\1\7\22\uffff\2\6\4\uffff\2\7\147\uffff\1\7\u013a\uffff\1\7" };
     static final short[] DFA5_eot = DFA.unpackEncodedString(DFA5_eotS);
     static final short[] DFA5_eof = DFA.unpackEncodedString(DFA5_eofS);
     static final char[] DFA5_min = DFA.unpackEncodedStringToUnsignedChars(DFA5_minS);
@@ -5906,6 +5912,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
     static final short[] DFA5_accept = DFA.unpackEncodedString(DFA5_acceptS);
     static final short[] DFA5_special = DFA.unpackEncodedString(DFA5_specialS);
     static final short[][] DFA5_transition;
+
     static {
         int numStates = DFA5_transitionS.length;
         DFA5_transition = new short[numStates][];
@@ -5915,6 +5922,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
     }
 
     class DFA5 extends DFA {
+
         public DFA5(BaseRecognizer recognizer) {
             this.recognizer = recognizer;
             decisionNumber = 5;
@@ -5940,10 +5948,10 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
     static final String DFA6_acceptS = "\12\uffff\1\1\1\2\1\3\1\4\1\5\1\6\1\7\1\10\1\11";
     static final String DFA6_specialS = "\1\uffff\1\0\1\1\1\2\1\3\1\4\1\5\1\6\1\7\1\10\11\uffff}>";
     static final String[] DFA6_transitionS = {
-            "\1\11\1\7\5\uffff\1\6\6\uffff\1\5\24\uffff\1\10\3\uffff\1\1"
-                    + "\1\2\147\uffff\1\4\u013a\uffff\1\3", "\1\uffff", "\1\uffff",
-            "\1\uffff", "\1\uffff", "\1\uffff", "\1\uffff", "\1\uffff", "\1\uffff",
-            "\1\uffff", "", "", "", "", "", "", "", "", "" };
+        "\1\11\1\7\5\uffff\1\6\6\uffff\1\5\24\uffff\1\10\3\uffff\1\1"
+            + "\1\2\147\uffff\1\4\u013a\uffff\1\3", "\1\uffff", "\1\uffff",
+        "\1\uffff", "\1\uffff", "\1\uffff", "\1\uffff", "\1\uffff", "\1\uffff",
+        "\1\uffff", "", "", "", "", "", "", "", "", "" };
     static final short[] DFA6_eot = DFA.unpackEncodedString(DFA6_eotS);
     static final short[] DFA6_eof = DFA.unpackEncodedString(DFA6_eofS);
     static final char[] DFA6_min = DFA.unpackEncodedStringToUnsignedChars(DFA6_minS);
@@ -5951,6 +5959,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
     static final short[] DFA6_accept = DFA.unpackEncodedString(DFA6_acceptS);
     static final short[] DFA6_special = DFA.unpackEncodedString(DFA6_specialS);
     static final short[][] DFA6_transition;
+
     static {
         int numStates = DFA6_transitionS.length;
         DFA6_transition = new short[numStates][];
@@ -5960,6 +5969,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
     }
 
     class DFA6 extends DFA {
+
         public DFA6(BaseRecognizer recognizer) {
             this.recognizer = recognizer;
             decisionNumber = 6;
@@ -5979,7 +5989,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
 
         @Override
         public int specialStateTransition(int __s, IntStream _input)
-                throws NoViableAltException {
+            throws NoViableAltException {
             TokenStream in = (TokenStream) _input;
             int s = __s;
             int _s = s;
@@ -6201,7 +6211,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                 return -1;
             }
             NoViableAltException nvae = new NoViableAltException(getDescription(), 6, _s,
-                    in);
+                in);
             error(nvae);
             throw nvae;
         }
@@ -6214,9 +6224,9 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
     static final String DFA8_acceptS = "\1\uffff\1\1\7\uffff\1\3\1\2";
     static final String DFA8_specialS = "\5\uffff\1\0\5\uffff}>";
     static final String[] DFA8_transitionS = {
-            "\1\11\1\1\5\uffff\1\1\6\uffff\1\5\24\uffff\1\1\3\uffff\2\1\147"
-                    + "\uffff\1\1\u013a\uffff\1\1", "", "", "", "", "\1\uffff", "", "",
-            "", "", "" };
+        "\1\11\1\1\5\uffff\1\1\6\uffff\1\5\24\uffff\1\1\3\uffff\2\1\147"
+            + "\uffff\1\1\u013a\uffff\1\1", "", "", "", "", "\1\uffff", "", "",
+        "", "", "" };
     static final short[] DFA8_eot = DFA.unpackEncodedString(DFA8_eotS);
     static final short[] DFA8_eof = DFA.unpackEncodedString(DFA8_eofS);
     static final char[] DFA8_min = DFA.unpackEncodedStringToUnsignedChars(DFA8_minS);
@@ -6224,6 +6234,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
     static final short[] DFA8_accept = DFA.unpackEncodedString(DFA8_acceptS);
     static final short[] DFA8_special = DFA.unpackEncodedString(DFA8_specialS);
     static final short[][] DFA8_transition;
+
     static {
         int numStates = DFA8_transitionS.length;
         DFA8_transition = new short[numStates][];
@@ -6233,6 +6244,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
     }
 
     class DFA8 extends DFA {
+
         public DFA8(BaseRecognizer recognizer) {
             this.recognizer = recognizer;
             decisionNumber = 8;
@@ -6252,7 +6264,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
 
         @Override
         public int specialStateTransition(int __s, IntStream _input)
-                throws NoViableAltException {
+            throws NoViableAltException {
             TokenStream in = (TokenStream) _input;
             int s = __s;
             int _s = s;
@@ -6278,7 +6290,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                 return -1;
             }
             NoViableAltException nvae = new NoViableAltException(getDescription(), 8, _s,
-                    in);
+                in);
             error(nvae);
             throw nvae;
         }
@@ -6291,9 +6303,9 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
     static final String DFA12_acceptS = "\7\uffff\1\4\1\6\1\1\1\5\1\7\1\2\1\3";
     static final String DFA12_specialS = "\1\uffff\1\0\1\1\1\2\1\3\1\4\1\5\7\uffff}>";
     static final String[] DFA12_transitionS = {
-            "\1\7\5\uffff\1\6\6\uffff\1\5\24\uffff\1\10\3\uffff\1\1\1\2\147"
-                    + "\uffff\1\4\u013a\uffff\1\3", "\1\uffff", "\1\uffff", "\1\uffff",
-            "\1\uffff", "\1\uffff", "\1\uffff", "", "", "", "", "", "", "" };
+        "\1\7\5\uffff\1\6\6\uffff\1\5\24\uffff\1\10\3\uffff\1\1\1\2\147"
+            + "\uffff\1\4\u013a\uffff\1\3", "\1\uffff", "\1\uffff", "\1\uffff",
+        "\1\uffff", "\1\uffff", "\1\uffff", "", "", "", "", "", "", "" };
     static final short[] DFA12_eot = DFA.unpackEncodedString(DFA12_eotS);
     static final short[] DFA12_eof = DFA.unpackEncodedString(DFA12_eofS);
     static final char[] DFA12_min = DFA.unpackEncodedStringToUnsignedChars(DFA12_minS);
@@ -6301,6 +6313,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
     static final short[] DFA12_accept = DFA.unpackEncodedString(DFA12_acceptS);
     static final short[] DFA12_special = DFA.unpackEncodedString(DFA12_specialS);
     static final short[][] DFA12_transition;
+
     static {
         int numStates = DFA12_transitionS.length;
         DFA12_transition = new short[numStates][];
@@ -6310,6 +6323,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
     }
 
     class DFA12 extends DFA {
+
         public DFA12(BaseRecognizer recognizer) {
             this.recognizer = recognizer;
             decisionNumber = 12;
@@ -6329,7 +6343,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
 
         @Override
         public int specialStateTransition(int __s, IntStream _input)
-                throws NoViableAltException {
+            throws NoViableAltException {
             TokenStream in = (TokenStream) _input;
             int s = __s;
             int _s = s;
@@ -6440,7 +6454,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                 return -1;
             }
             NoViableAltException nvae = new NoViableAltException(getDescription(), 12,
-                    _s, in);
+                _s, in);
             error(nvae);
             throw nvae;
         }
@@ -6453,9 +6467,9 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
     static final String DFA16_acceptS = "\6\uffff\1\4\1\1\1\2\1\3\1\5";
     static final String DFA16_specialS = "\1\uffff\1\0\1\1\1\2\1\3\1\4\5\uffff}>";
     static final String[] DFA16_transitionS = {
-            "\1\6\14\uffff\1\5\30\uffff\1\1\1\2\147\uffff\1\4\u013a\uffff" + "\1\3",
-            "\1\uffff", "\1\uffff", "\1\uffff", "\1\uffff", "\1\uffff", "", "", "", "",
-            "" };
+        "\1\6\14\uffff\1\5\30\uffff\1\1\1\2\147\uffff\1\4\u013a\uffff" + "\1\3",
+        "\1\uffff", "\1\uffff", "\1\uffff", "\1\uffff", "\1\uffff", "", "", "", "",
+        "" };
     static final short[] DFA16_eot = DFA.unpackEncodedString(DFA16_eotS);
     static final short[] DFA16_eof = DFA.unpackEncodedString(DFA16_eofS);
     static final char[] DFA16_min = DFA.unpackEncodedStringToUnsignedChars(DFA16_minS);
@@ -6463,6 +6477,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
     static final short[] DFA16_accept = DFA.unpackEncodedString(DFA16_acceptS);
     static final short[] DFA16_special = DFA.unpackEncodedString(DFA16_specialS);
     static final short[][] DFA16_transition;
+
     static {
         int numStates = DFA16_transitionS.length;
         DFA16_transition = new short[numStates][];
@@ -6472,6 +6487,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
     }
 
     class DFA16 extends DFA {
+
         public DFA16(BaseRecognizer recognizer) {
             this.recognizer = recognizer;
             decisionNumber = 16;
@@ -6491,7 +6507,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
 
         @Override
         public int specialStateTransition(int __s, IntStream _input)
-                throws NoViableAltException {
+            throws NoViableAltException {
             TokenStream in = (TokenStream) _input;
             int s = __s;
             int _s = s;
@@ -6597,490 +6613,490 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                 return -1;
             }
             NoViableAltException nvae = new NoViableAltException(getDescription(), 16,
-                    _s, in);
+                _s, in);
             error(nvae);
             throw nvae;
         }
     }
 
     public static final BitSet FOLLOW_iri_in_annotationAssertionAxiom311 = new BitSet(
-            new long[] { 0x0000300000000000L, 0x0000000000000000L, 0x0000000000200000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000010000L });
+        new long[] { 0x0000300000000000L, 0x0000000000000000L, 0x0000000000200000L,
+            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000010000L });
     public static final BitSet FOLLOW_atomic_in_annotationAssertionAxiom316 = new BitSet(
-            new long[] { 0x0000010000000000L });
+        new long[] { 0x0000010000000000L });
     public static final BitSet FOLLOW_constant_in_annotationAssertionAxiom322 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_iri_in_annotationAssertionAxiom350 = new BitSet(
-            new long[] { 0x0000300000000000L, 0x0000000000000000L, 0x0000000000200000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000010000L });
+        new long[] { 0x0000300000000000L, 0x0000000000000000L, 0x0000000000200000L,
+            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000010000L });
     public static final BitSet FOLLOW_atomic_in_annotationAssertionAxiom355 = new BitSet(
-            new long[] { 0x0000300000000000L, 0x0000000000000000L, 0x0000000000200000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000010000L });
+        new long[] { 0x0000300000000000L, 0x0000000000000000L, 0x0000000000200000L,
+            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000010000L });
     public static final BitSet FOLLOW_atomic_in_annotationAssertionAxiom361 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_iri_in_annotationAssertionAxiom393 = new BitSet(
-            new long[] { 0x0000300000000000L, 0x0000000000000000L, 0x0000000000200000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000010000L });
+        new long[] { 0x0000300000000000L, 0x0000000000000000L, 0x0000000000200000L,
+            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000010000L });
     public static final BitSet FOLLOW_atomic_in_annotationAssertionAxiom398 = new BitSet(
-            new long[] { 0x0000000000000000L, 0x0000400000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000010000L });
+        new long[] { 0x0000000000000000L, 0x0000400000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000010000L });
     public static final BitSet FOLLOW_iri_in_annotationAssertionAxiom404 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_disjunction_in_hasKeyAxiom462 = new BitSet(
-            new long[] { 0x0000000000000000L, 0x0000200000000000L });
+        new long[] { 0x0000000000000000L, 0x0000200000000000L });
     public static final BitSet FOLLOW_HAS_KEY_in_hasKeyAxiom464 = new BitSet(new long[] {
-            0x0000300000080000L, 0x0000000000000000L, 0x0000000000200000L,
-            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-            0x0000000000000000L, 0x0000000000010000L });
+        0x0000300000080000L, 0x0000000000000000L, 0x0000000000200000L,
+        0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+        0x0000000000000000L, 0x0000000000010000L });
     public static final BitSet FOLLOW_propertyExpression_in_hasKeyAxiom466 = new BitSet(
-            new long[] { 0x0000002000000002L });
+        new long[] { 0x0000002000000002L });
     public static final BitSet FOLLOW_COMMA_in_hasKeyAxiom469 = new BitSet(new long[] {
-            0x0000300000080000L, 0x0000000000000000L, 0x0000000000200000L,
-            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-            0x0000000000000000L, 0x0000000000010000L });
+        0x0000300000080000L, 0x0000000000000000L, 0x0000000000200000L,
+        0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+        0x0000000000000000L, 0x0000000000010000L });
     public static final BitSet FOLLOW_propertyExpression_in_hasKeyAxiom471 = new BitSet(
-            new long[] { 0x0000002000000002L });
+        new long[] { 0x0000002000000002L });
     public static final BitSet FOLLOW_atomic_in_assertionAxiom520 = new BitSet(
-            new long[] { 0x000000C000000000L });
+        new long[] { 0x000000C000000000L });
     public static final BitSet FOLLOW_INSTANCE_OF_in_assertionAxiom523 = new BitSet(
-            new long[] { 0x0000310000081060L, 0x0000000000000000L, 0x0000000000200000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000010000L });
+        new long[] { 0x0000310000081060L, 0x0000000000000000L, 0x0000000000200000L,
+            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000010000L });
     public static final BitSet FOLLOW_TYPES_in_assertionAxiom527 = new BitSet(new long[] {
-            0x0000310000081060L, 0x0000000000000000L, 0x0000000000200000L,
-            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-            0x0000000000000000L, 0x0000000000010000L });
+        0x0000310000081060L, 0x0000000000000000L, 0x0000000000200000L,
+        0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+        0x0000000000000000L, 0x0000000000010000L });
     public static final BitSet FOLLOW_expression_in_assertionAxiom530 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_atomic_in_assertionAxiom561 = new BitSet(
-            new long[] { 0x0000300000080000L, 0x0000000000000000L, 0x0000000000200000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000010000L });
+        new long[] { 0x0000300000080000L, 0x0000000000000000L, 0x0000000000200000L,
+            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000010000L });
     public static final BitSet FOLLOW_propertyExpression_in_assertionAxiom563 = new BitSet(
-            new long[] { 0x0000310000000000L, 0x0000000000000000L, 0x0000000000200000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000010000L });
+        new long[] { 0x0000310000000000L, 0x0000000000000000L, 0x0000000000200000L,
+            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000010000L });
     public static final BitSet FOLLOW_value_in_assertionAxiom566 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_NOT_in_assertionAxiom600 = new BitSet(new long[] {
-            0x0000300000001000L, 0x0000000000000000L, 0x0000000000200000L,
-            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-            0x0000000000000000L, 0x0000000000010000L });
+        0x0000300000001000L, 0x0000000000000000L, 0x0000000000200000L,
+        0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+        0x0000000000000000L, 0x0000000000010000L });
     public static final BitSet FOLLOW_assertionAxiom_in_assertionAxiom602 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_expression_in_binaryAxiom639 = new BitSet(
-            new long[] { 0x0000000000100000L });
+        new long[] { 0x0000000000100000L });
     public static final BitSet FOLLOW_SUBCLASS_OF_in_binaryAxiom641 = new BitSet(
-            new long[] { 0x0000310000081060L, 0x0000000000000000L, 0x0000000000200000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000010000L });
+        new long[] { 0x0000310000081060L, 0x0000000000000000L, 0x0000000000200000L,
+            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000010000L });
     public static final BitSet FOLLOW_expression_in_binaryAxiom648 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_expression_in_binaryAxiom686 = new BitSet(
-            new long[] { 0x0000000000400000L });
+        new long[] { 0x0000000000400000L });
     public static final BitSet FOLLOW_EQUIVALENT_TO_in_binaryAxiom688 = new BitSet(
-            new long[] { 0x0000310000081060L, 0x0000000000000000L, 0x0000000000200000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000010000L });
+        new long[] { 0x0000310000081060L, 0x0000000000000000L, 0x0000000000200000L,
+            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000010000L });
     public static final BitSet FOLLOW_expression_in_binaryAxiom694 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_expression_in_binaryAxiom731 = new BitSet(
-            new long[] { 0x0000000004000000L });
+        new long[] { 0x0000000004000000L });
     public static final BitSet FOLLOW_DISJOINT_WITH_in_binaryAxiom733 = new BitSet(
-            new long[] { 0x0000310000081060L, 0x0000000000000000L, 0x0000000000200000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000010000L });
+        new long[] { 0x0000310000081060L, 0x0000000000000000L, 0x0000000000200000L,
+            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000010000L });
     public static final BitSet FOLLOW_expression_in_binaryAxiom739 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_expression_in_binaryAxiom776 = new BitSet(
-            new long[] { 0x0000000000200000L });
+        new long[] { 0x0000000000200000L });
     public static final BitSet FOLLOW_SUB_PROPERTY_OF_in_binaryAxiom778 = new BitSet(
-            new long[] { 0x0000300000080000L, 0x0000000000000000L, 0x0000000000200000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000010000L });
+        new long[] { 0x0000300000080000L, 0x0000000000000000L, 0x0000000000200000L,
+            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000010000L });
     public static final BitSet FOLLOW_propertyExpression_in_binaryAxiom784 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_atomic_in_binaryAxiom821 = new BitSet(
-            new long[] { 0x0000000002000000L });
+        new long[] { 0x0000000002000000L });
     public static final BitSet FOLLOW_INVERSE_OF_in_binaryAxiom823 = new BitSet(
-            new long[] { 0x0000300000000000L, 0x0000000000000000L, 0x0000000000200000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000010000L });
+        new long[] { 0x0000300000000000L, 0x0000000000000000L, 0x0000000000200000L,
+            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000010000L });
     public static final BitSet FOLLOW_atomic_in_binaryAxiom829 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_atomic_in_binaryAxiom860 = new BitSet(
-            new long[] { 0x0000000000800000L });
+        new long[] { 0x0000000000800000L });
     public static final BitSet FOLLOW_SAME_AS_in_binaryAxiom862 = new BitSet(new long[] {
-            0x0000300000000000L, 0x0000000000000000L, 0x0000000000200000L,
-            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-            0x0000000000000000L, 0x0000000000010000L });
+        0x0000300000000000L, 0x0000000000000000L, 0x0000000000200000L,
+        0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+        0x0000000000000000L, 0x0000000000010000L });
     public static final BitSet FOLLOW_atomic_in_binaryAxiom869 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_atomic_in_binaryAxiom907 = new BitSet(
-            new long[] { 0x0000000001000000L });
+        new long[] { 0x0000000001000000L });
     public static final BitSet FOLLOW_DIFFERENT_FROM_in_binaryAxiom909 = new BitSet(
-            new long[] { 0x0000300000000000L, 0x0000000000000000L, 0x0000000000200000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000010000L });
+        new long[] { 0x0000300000000000L, 0x0000000000000000L, 0x0000000000200000L,
+            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000010000L });
     public static final BitSet FOLLOW_atomic_in_binaryAxiom916 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_atomic_in_binaryAxiom953 = new BitSet(
-            new long[] { 0x0000000008000000L });
+        new long[] { 0x0000000008000000L });
     public static final BitSet FOLLOW_DOMAIN_in_binaryAxiom956 = new BitSet(new long[] {
-            0x0000310000081060L, 0x0000000000000000L, 0x0000000000200000L,
-            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-            0x0000000000000000L, 0x0000000000010000L });
+        0x0000310000081060L, 0x0000000000000000L, 0x0000000000200000L,
+        0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+        0x0000000000000000L, 0x0000000000010000L });
     public static final BitSet FOLLOW_expression_in_binaryAxiom958 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_atomic_in_binaryAxiom994 = new BitSet(
-            new long[] { 0x0000000010000000L });
+        new long[] { 0x0000000010000000L });
     public static final BitSet FOLLOW_RANGE_in_binaryAxiom996 = new BitSet(new long[] {
-            0x0000310000081060L, 0x0000000000000000L, 0x0000000000200000L,
-            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-            0x0000000000000000L, 0x0000000000010000L });
+        0x0000310000081060L, 0x0000000000000000L, 0x0000000000200000L,
+        0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+        0x0000000000000000L, 0x0000000000010000L });
     public static final BitSet FOLLOW_expression_in_binaryAxiom998 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_unaryCharacteristic_in_unaryAxiom1072 = new BitSet(
-            new long[] { 0x0000310000081040L, 0x0000000000000000L, 0x0000000000200000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000010000L });
+        new long[] { 0x0000310000081040L, 0x0000000000000000L, 0x0000000000200000L,
+            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000010000L });
     public static final BitSet FOLLOW_unary_in_unaryAxiom1076 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_FUNCTIONAL_in_unaryCharacteristic1121 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_INVERSE_FUNCTIONAL_in_unaryCharacteristic1135 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_SYMMETRIC_in_unaryCharacteristic1149 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_ANTI_SYMMETRIC_in_unaryCharacteristic1163 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_REFLEXIVE_in_unaryCharacteristic1177 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_IRREFLEXIVE_in_unaryCharacteristic1191 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_TRANSITIVE_in_unaryCharacteristic1205 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_disjunction_in_expression1247 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_complexPropertyExpression_in_expression1260 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_OPEN_PARENTHESYS_in_expression1273 = new BitSet(
-            new long[] { 0x0000310000081060L, 0x0000000000000000L, 0x0000000000200000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000010000L });
+        new long[] { 0x0000310000081060L, 0x0000000000000000L, 0x0000000000200000L,
+            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000010000L });
     public static final BitSet FOLLOW_expression_in_expression1275 = new BitSet(
-            new long[] { 0x0000000000000100L });
+        new long[] { 0x0000000000000100L });
     public static final BitSet FOLLOW_CLOSED_PARENTHESYS_in_expression1277 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_conjunction_in_disjunction1307 = new BitSet(
-            new long[] { 0x0000000000000802L });
+        new long[] { 0x0000000000000802L });
     public static final BitSet FOLLOW_OR_in_disjunction1310 = new BitSet(new long[] {
-            0x0000310000081040L, 0x0000000000000000L, 0x0000000000200000L,
-            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-            0x0000000000000000L, 0x0000000000010000L });
+        0x0000310000081040L, 0x0000000000000000L, 0x0000000000200000L,
+        0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+        0x0000000000000000L, 0x0000000000010000L });
     public static final BitSet FOLLOW_conjunction_in_disjunction1312 = new BitSet(
-            new long[] { 0x0000000000000802L });
+        new long[] { 0x0000000000000802L });
     public static final BitSet FOLLOW_unary_in_conjunction1339 = new BitSet(
-            new long[] { 0x0000000000000402L });
+        new long[] { 0x0000000000000402L });
     public static final BitSet FOLLOW_AND_in_conjunction1342 = new BitSet(new long[] {
-            0x0000310000081040L, 0x0000000000000000L, 0x0000000000200000L,
-            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-            0x0000000000000000L, 0x0000000000010000L });
+        0x0000310000081040L, 0x0000000000000000L, 0x0000000000200000L,
+        0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+        0x0000000000000000L, 0x0000000000010000L });
     public static final BitSet FOLLOW_unary_in_conjunction1344 = new BitSet(
-            new long[] { 0x0000000000000402L });
+        new long[] { 0x0000000000000402L });
     public static final BitSet FOLLOW_INVERSE_in_complexPropertyExpression1365 = new BitSet(
-            new long[] { 0x0000000000000020L });
+        new long[] { 0x0000000000000020L });
     public static final BitSet FOLLOW_OPEN_PARENTHESYS_in_complexPropertyExpression1367 = new BitSet(
-            new long[] { 0x0000300000080000L, 0x0000000000000000L, 0x0000000000200000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000010000L });
+        new long[] { 0x0000300000080000L, 0x0000000000000000L, 0x0000000000200000L,
+            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000010000L });
     public static final BitSet FOLLOW_propertyExpression_in_complexPropertyExpression1369 = new BitSet(
-            new long[] { 0x0000000000000100L });
+        new long[] { 0x0000000000000100L });
     public static final BitSet FOLLOW_CLOSED_PARENTHESYS_in_complexPropertyExpression1371 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_propertyExpression_in_unary1411 = new BitSet(
-            new long[] { 0x0000000000000010L });
+        new long[] { 0x0000000000000010L });
     public static final BitSet FOLLOW_COMPOSITION_in_unary1414 = new BitSet(new long[] {
-            0x0000300000080000L, 0x0000000000000000L, 0x0000000000200000L,
-            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-            0x0000000000000000L, 0x0000000000010000L });
+        0x0000300000080000L, 0x0000000000000000L, 0x0000000000200000L,
+        0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+        0x0000000000000000L, 0x0000000000010000L });
     public static final BitSet FOLLOW_propertyExpression_in_unary1418 = new BitSet(
-            new long[] { 0x0000000000000012L });
+        new long[] { 0x0000000000000012L });
     public static final BitSet FOLLOW_NOT_in_unary1440 = new BitSet(
-            new long[] { 0x0000000000000020L });
+        new long[] { 0x0000000000000020L });
     public static final BitSet FOLLOW_OPEN_PARENTHESYS_in_unary1442 = new BitSet(
-            new long[] { 0x0000310000081060L, 0x0000000000000000L, 0x0000000000200000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000010000L });
-    public static final BitSet FOLLOW_expression_in_unary1444 = new BitSet(
-            new long[] { 0x0000000000000100L });
-    public static final BitSet FOLLOW_CLOSED_PARENTHESYS_in_unary1446 = new BitSet(
-            new long[] { 0x0000000000000002L });
-    public static final BitSet FOLLOW_NOT_in_unary1460 = new BitSet(new long[] {
-            0x0000300000000000L, 0x0000000000000000L, 0x0000000000200000L,
+        new long[] { 0x0000310000081060L, 0x0000000000000000L, 0x0000000000200000L,
             0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
             0x0000000000000000L, 0x0000000000010000L });
+    public static final BitSet FOLLOW_expression_in_unary1444 = new BitSet(
+        new long[] { 0x0000000000000100L });
+    public static final BitSet FOLLOW_CLOSED_PARENTHESYS_in_unary1446 = new BitSet(
+        new long[] { 0x0000000000000002L });
+    public static final BitSet FOLLOW_NOT_in_unary1460 = new BitSet(new long[] {
+        0x0000300000000000L, 0x0000000000000000L, 0x0000000000200000L,
+        0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+        0x0000000000000000L, 0x0000000000010000L });
     public static final BitSet FOLLOW_atomic_in_unary1462 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_qualifiedRestriction_in_unary1485 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_dataRange_in_unary1497 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_constant_in_unary1503 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_atomic_in_unary1509 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_IDENTIFIER_in_dataRange1526 = new BitSet(
-            new long[] { 0x0000000000000000L, 0x0000000000200000L });
+        new long[] { 0x0000000000000000L, 0x0000000000200000L });
     public static final BitSet FOLLOW_OPEN_SQUARE_BRACKET_in_dataRange1528 = new BitSet(
-            new long[] { 0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000007800000000L });
-    public static final BitSet FOLLOW_dataRangeFacet_in_dataRange1530 = new BitSet(
-            new long[] { 0x0000002000000000L, 0x0000000000400000L });
-    public static final BitSet FOLLOW_COMMA_in_dataRange1533 = new BitSet(new long[] {
-            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+        new long[] { 0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
             0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
             0x0000000000000000L, 0x0000007800000000L });
+    public static final BitSet FOLLOW_dataRangeFacet_in_dataRange1530 = new BitSet(
+        new long[] { 0x0000002000000000L, 0x0000000000400000L });
+    public static final BitSet FOLLOW_COMMA_in_dataRange1533 = new BitSet(new long[] {
+        0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+        0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+        0x0000000000000000L, 0x0000007800000000L });
     public static final BitSet FOLLOW_dataRangeFacet_in_dataRange1535 = new BitSet(
-            new long[] { 0x0000002000000000L, 0x0000000000400000L });
+        new long[] { 0x0000002000000000L, 0x0000000000400000L });
     public static final BitSet FOLLOW_CLOSED_SQUARE_BRACKET_in_dataRange1539 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_LESS_THAN_in_dataRangeFacet1565 = new BitSet(
-            new long[] { 0x0000010000000000L });
+        new long[] { 0x0000010000000000L });
     public static final BitSet FOLLOW_constant_in_dataRangeFacet1567 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_LESS_THAN_EQUAL_in_dataRangeFacet1581 = new BitSet(
-            new long[] { 0x0000010000000000L });
+        new long[] { 0x0000010000000000L });
     public static final BitSet FOLLOW_constant_in_dataRangeFacet1583 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_GREATER_THAN_in_dataRangeFacet1598 = new BitSet(
-            new long[] { 0x0000010000000000L });
+        new long[] { 0x0000010000000000L });
     public static final BitSet FOLLOW_constant_in_dataRangeFacet1600 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_GREATER_THAN_EQUAL_in_dataRangeFacet1614 = new BitSet(
-            new long[] { 0x0000010000000000L });
+        new long[] { 0x0000010000000000L });
     public static final BitSet FOLLOW_constant_in_dataRangeFacet1616 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_propertyExpression_in_qualifiedRestriction1696 = new BitSet(
-            new long[] { 0x0000000000002000L });
+        new long[] { 0x0000000000002000L });
     public static final BitSet FOLLOW_SOME_in_qualifiedRestriction1699 = new BitSet(
-            new long[] { 0x0000310000081060L, 0x0000000000000000L, 0x0000000000200000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000010000L });
-    public static final BitSet FOLLOW_expression_in_qualifiedRestriction1703 = new BitSet(
-            new long[] { 0x0000000000000002L });
-    public static final BitSet FOLLOW_propertyExpression_in_qualifiedRestriction1732 = new BitSet(
-            new long[] { 0x0000000000004000L });
-    public static final BitSet FOLLOW_ONLY_in_qualifiedRestriction1734 = new BitSet(
-            new long[] { 0x0000310000081060L, 0x0000000000000000L, 0x0000000000200000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000010000L });
-    public static final BitSet FOLLOW_expression_in_qualifiedRestriction1737 = new BitSet(
-            new long[] { 0x0000000000000002L });
-    public static final BitSet FOLLOW_cardinalityRestriction_in_qualifiedRestriction1756 = new BitSet(
-            new long[] { 0x0000000000000002L });
-    public static final BitSet FOLLOW_oneOf_in_qualifiedRestriction1770 = new BitSet(
-            new long[] { 0x0000000000000002L });
-    public static final BitSet FOLLOW_valueRestriction_in_qualifiedRestriction1784 = new BitSet(
-            new long[] { 0x0000000000000002L });
-    public static final BitSet FOLLOW_atomic_in_propertyExpression1816 = new BitSet(
-            new long[] { 0x0000000000000002L });
-    public static final BitSet FOLLOW_complexPropertyExpression_in_propertyExpression1830 = new BitSet(
-            new long[] { 0x0000000000000002L });
-    public static final BitSet FOLLOW_propertyExpression_in_cardinalityRestriction1872 = new BitSet(
-            new long[] { 0x0000000000038000L });
-    public static final BitSet FOLLOW_restrictionKind_in_cardinalityRestriction1875 = new BitSet(
-            new long[] { 0x0000040000000000L });
-    public static final BitSet FOLLOW_INTEGER_in_cardinalityRestriction1877 = new BitSet(
-            new long[] { 0x0000310000081042L, 0x0000000000000000L, 0x0000000000200000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000010000L });
-    public static final BitSet FOLLOW_unary_in_cardinalityRestriction1879 = new BitSet(
-            new long[] { 0x0000000000000002L });
-    public static final BitSet FOLLOW_MIN_in_restrictionKind1912 = new BitSet(
-            new long[] { 0x0000000000000002L });
-    public static final BitSet FOLLOW_MAX_in_restrictionKind1926 = new BitSet(
-            new long[] { 0x0000000000000002L });
-    public static final BitSet FOLLOW_EXACTLY_in_restrictionKind1940 = new BitSet(
-            new long[] { 0x0000000000000002L });
-    public static final BitSet FOLLOW_OPEN_CURLY_BRACES_in_oneOf1962 = new BitSet(
-            new long[] { 0x0000300000000000L, 0x0000000000000000L, 0x0000000000200000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000010000L });
-    public static final BitSet FOLLOW_atomic_in_oneOf1964 = new BitSet(
-            new long[] { 0x0000002000000080L });
-    public static final BitSet FOLLOW_COMMA_in_oneOf1967 = new BitSet(new long[] {
-            0x0000300000000000L, 0x0000000000000000L, 0x0000000000200000L,
+        new long[] { 0x0000310000081060L, 0x0000000000000000L, 0x0000000000200000L,
             0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
             0x0000000000000000L, 0x0000000000010000L });
+    public static final BitSet FOLLOW_expression_in_qualifiedRestriction1703 = new BitSet(
+        new long[] { 0x0000000000000002L });
+    public static final BitSet FOLLOW_propertyExpression_in_qualifiedRestriction1732 = new BitSet(
+        new long[] { 0x0000000000004000L });
+    public static final BitSet FOLLOW_ONLY_in_qualifiedRestriction1734 = new BitSet(
+        new long[] { 0x0000310000081060L, 0x0000000000000000L, 0x0000000000200000L,
+            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000010000L });
+    public static final BitSet FOLLOW_expression_in_qualifiedRestriction1737 = new BitSet(
+        new long[] { 0x0000000000000002L });
+    public static final BitSet FOLLOW_cardinalityRestriction_in_qualifiedRestriction1756 = new BitSet(
+        new long[] { 0x0000000000000002L });
+    public static final BitSet FOLLOW_oneOf_in_qualifiedRestriction1770 = new BitSet(
+        new long[] { 0x0000000000000002L });
+    public static final BitSet FOLLOW_valueRestriction_in_qualifiedRestriction1784 = new BitSet(
+        new long[] { 0x0000000000000002L });
+    public static final BitSet FOLLOW_atomic_in_propertyExpression1816 = new BitSet(
+        new long[] { 0x0000000000000002L });
+    public static final BitSet FOLLOW_complexPropertyExpression_in_propertyExpression1830 = new BitSet(
+        new long[] { 0x0000000000000002L });
+    public static final BitSet FOLLOW_propertyExpression_in_cardinalityRestriction1872 = new BitSet(
+        new long[] { 0x0000000000038000L });
+    public static final BitSet FOLLOW_restrictionKind_in_cardinalityRestriction1875 = new BitSet(
+        new long[] { 0x0000040000000000L });
+    public static final BitSet FOLLOW_INTEGER_in_cardinalityRestriction1877 = new BitSet(
+        new long[] { 0x0000310000081042L, 0x0000000000000000L, 0x0000000000200000L,
+            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000010000L });
+    public static final BitSet FOLLOW_unary_in_cardinalityRestriction1879 = new BitSet(
+        new long[] { 0x0000000000000002L });
+    public static final BitSet FOLLOW_MIN_in_restrictionKind1912 = new BitSet(
+        new long[] { 0x0000000000000002L });
+    public static final BitSet FOLLOW_MAX_in_restrictionKind1926 = new BitSet(
+        new long[] { 0x0000000000000002L });
+    public static final BitSet FOLLOW_EXACTLY_in_restrictionKind1940 = new BitSet(
+        new long[] { 0x0000000000000002L });
+    public static final BitSet FOLLOW_OPEN_CURLY_BRACES_in_oneOf1962 = new BitSet(
+        new long[] { 0x0000300000000000L, 0x0000000000000000L, 0x0000000000200000L,
+            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000010000L });
+    public static final BitSet FOLLOW_atomic_in_oneOf1964 = new BitSet(
+        new long[] { 0x0000002000000080L });
+    public static final BitSet FOLLOW_COMMA_in_oneOf1967 = new BitSet(new long[] {
+        0x0000300000000000L, 0x0000000000000000L, 0x0000000000200000L,
+        0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+        0x0000000000000000L, 0x0000000000010000L });
     public static final BitSet FOLLOW_atomic_in_oneOf1969 = new BitSet(
-            new long[] { 0x0000002000000080L });
+        new long[] { 0x0000002000000080L });
     public static final BitSet FOLLOW_CLOSED_CURLY_BRACES_in_oneOf1973 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_propertyExpression_in_valueRestriction1993 = new BitSet(
-            new long[] { 0x0000000000040000L });
+        new long[] { 0x0000000000040000L });
     public static final BitSet FOLLOW_VALUE_in_valueRestriction1995 = new BitSet(
-            new long[] { 0x0000310000000000L, 0x0000000000000000L, 0x0000000000200000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000010000L });
+        new long[] { 0x0000310000000000L, 0x0000000000000000L, 0x0000000000200000L,
+            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000010000L });
     public static final BitSet FOLLOW_value_in_valueRestriction1997 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_atomic_in_value2022 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_constant_in_value2037 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_DBLQUOTE_in_constant2062 = new BitSet(new long[] {
-            0x0000001000000002L, 0x0004000000000000L });
+        0x0000001000000002L, 0x0004000000000000L });
     public static final BitSet FOLLOW_AT_in_constant2065 = new BitSet(
-            new long[] { 0x0000100000000000L });
+        new long[] { 0x0000100000000000L });
     public static final BitSet FOLLOW_IDENTIFIER_in_constant2071 = new BitSet(
-            new long[] { 0x0000001000000002L });
+        new long[] { 0x0000001000000002L });
     public static final BitSet FOLLOW_POW_in_constant2077 = new BitSet(
-            new long[] { 0x0000100000000000L });
+        new long[] { 0x0000100000000000L });
     public static final BitSet FOLLOW_IDENTIFIER_in_constant2083 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_binaryAxiom_in_synpred1_MOWLParser232 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_assertionAxiom_in_synpred3_MOWLParser256 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_hasKeyAxiom_in_synpred4_MOWLParser268 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_COMMA_in_synpred7_MOWLParser469 = new BitSet(
-            new long[] { 0x0000300000080000L, 0x0000000000000000L, 0x0000000000200000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000010000L });
+        new long[] { 0x0000300000080000L, 0x0000000000000000L, 0x0000000000200000L,
+            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000010000L });
     public static final BitSet FOLLOW_propertyExpression_in_synpred7_MOWLParser471 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_expression_in_synpred11_MOWLParser639 = new BitSet(
-            new long[] { 0x0000000000100000L });
+        new long[] { 0x0000000000100000L });
     public static final BitSet FOLLOW_SUBCLASS_OF_in_synpred11_MOWLParser641 = new BitSet(
-            new long[] { 0x0000310000081060L, 0x0000000000000000L, 0x0000000000200000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000010000L });
+        new long[] { 0x0000310000081060L, 0x0000000000000000L, 0x0000000000200000L,
+            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000010000L });
     public static final BitSet FOLLOW_expression_in_synpred11_MOWLParser648 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_expression_in_synpred12_MOWLParser686 = new BitSet(
-            new long[] { 0x0000000000400000L });
+        new long[] { 0x0000000000400000L });
     public static final BitSet FOLLOW_EQUIVALENT_TO_in_synpred12_MOWLParser688 = new BitSet(
-            new long[] { 0x0000310000081060L, 0x0000000000000000L, 0x0000000000200000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000010000L });
+        new long[] { 0x0000310000081060L, 0x0000000000000000L, 0x0000000000200000L,
+            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000010000L });
     public static final BitSet FOLLOW_expression_in_synpred12_MOWLParser694 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_expression_in_synpred13_MOWLParser731 = new BitSet(
-            new long[] { 0x0000000004000000L });
+        new long[] { 0x0000000004000000L });
     public static final BitSet FOLLOW_DISJOINT_WITH_in_synpred13_MOWLParser733 = new BitSet(
-            new long[] { 0x0000310000081060L, 0x0000000000000000L, 0x0000000000200000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000010000L });
+        new long[] { 0x0000310000081060L, 0x0000000000000000L, 0x0000000000200000L,
+            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000010000L });
     public static final BitSet FOLLOW_expression_in_synpred13_MOWLParser739 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_expression_in_synpred14_MOWLParser776 = new BitSet(
-            new long[] { 0x0000000000200000L });
+        new long[] { 0x0000000000200000L });
     public static final BitSet FOLLOW_SUB_PROPERTY_OF_in_synpred14_MOWLParser778 = new BitSet(
-            new long[] { 0x0000300000080000L, 0x0000000000000000L, 0x0000000000200000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000010000L });
+        new long[] { 0x0000300000080000L, 0x0000000000000000L, 0x0000000000200000L,
+            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000010000L });
     public static final BitSet FOLLOW_propertyExpression_in_synpred14_MOWLParser784 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_atomic_in_synpred15_MOWLParser821 = new BitSet(
-            new long[] { 0x0000000002000000L });
+        new long[] { 0x0000000002000000L });
     public static final BitSet FOLLOW_INVERSE_OF_in_synpred15_MOWLParser823 = new BitSet(
-            new long[] { 0x0000300000000000L, 0x0000000000000000L, 0x0000000000200000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000010000L });
+        new long[] { 0x0000300000000000L, 0x0000000000000000L, 0x0000000000200000L,
+            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000010000L });
     public static final BitSet FOLLOW_atomic_in_synpred15_MOWLParser829 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_atomic_in_synpred16_MOWLParser860 = new BitSet(
-            new long[] { 0x0000000000800000L });
+        new long[] { 0x0000000000800000L });
     public static final BitSet FOLLOW_SAME_AS_in_synpred16_MOWLParser862 = new BitSet(
-            new long[] { 0x0000300000000000L, 0x0000000000000000L, 0x0000000000200000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000010000L });
+        new long[] { 0x0000300000000000L, 0x0000000000000000L, 0x0000000000200000L,
+            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000010000L });
     public static final BitSet FOLLOW_atomic_in_synpred16_MOWLParser869 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_atomic_in_synpred17_MOWLParser907 = new BitSet(
-            new long[] { 0x0000000001000000L });
+        new long[] { 0x0000000001000000L });
     public static final BitSet FOLLOW_DIFFERENT_FROM_in_synpred17_MOWLParser909 = new BitSet(
-            new long[] { 0x0000300000000000L, 0x0000000000000000L, 0x0000000000200000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000010000L });
+        new long[] { 0x0000300000000000L, 0x0000000000000000L, 0x0000000000200000L,
+            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000010000L });
     public static final BitSet FOLLOW_atomic_in_synpred17_MOWLParser916 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_atomic_in_synpred18_MOWLParser953 = new BitSet(
-            new long[] { 0x0000000008000000L });
+        new long[] { 0x0000000008000000L });
     public static final BitSet FOLLOW_DOMAIN_in_synpred18_MOWLParser956 = new BitSet(
-            new long[] { 0x0000310000081060L, 0x0000000000000000L, 0x0000000000200000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000010000L });
+        new long[] { 0x0000310000081060L, 0x0000000000000000L, 0x0000000000200000L,
+            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000010000L });
     public static final BitSet FOLLOW_expression_in_synpred18_MOWLParser958 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_disjunction_in_synpred25_MOWLParser1247 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_complexPropertyExpression_in_synpred26_MOWLParser1260 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_OR_in_synpred27_MOWLParser1310 = new BitSet(
-            new long[] { 0x0000310000081040L, 0x0000000000000000L, 0x0000000000200000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000010000L });
+        new long[] { 0x0000310000081040L, 0x0000000000000000L, 0x0000000000200000L,
+            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000010000L });
     public static final BitSet FOLLOW_conjunction_in_synpred27_MOWLParser1312 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_AND_in_synpred28_MOWLParser1342 = new BitSet(
-            new long[] { 0x0000310000081040L, 0x0000000000000000L, 0x0000000000200000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000010000L });
+        new long[] { 0x0000310000081040L, 0x0000000000000000L, 0x0000000000200000L,
+            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000010000L });
     public static final BitSet FOLLOW_unary_in_synpred28_MOWLParser1344 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_propertyExpression_in_synpred30_MOWLParser1411 = new BitSet(
-            new long[] { 0x0000000000000010L });
+        new long[] { 0x0000000000000010L });
     public static final BitSet FOLLOW_COMPOSITION_in_synpred30_MOWLParser1414 = new BitSet(
-            new long[] { 0x0000300000080000L, 0x0000000000000000L, 0x0000000000200000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000010000L });
+        new long[] { 0x0000300000080000L, 0x0000000000000000L, 0x0000000000200000L,
+            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000010000L });
     public static final BitSet FOLLOW_propertyExpression_in_synpred30_MOWLParser1418 = new BitSet(
-            new long[] { 0x0000000000000012L });
+        new long[] { 0x0000000000000012L });
     public static final BitSet FOLLOW_NOT_in_synpred31_MOWLParser1440 = new BitSet(
-            new long[] { 0x0000000000000020L });
+        new long[] { 0x0000000000000020L });
     public static final BitSet FOLLOW_OPEN_PARENTHESYS_in_synpred31_MOWLParser1442 = new BitSet(
-            new long[] { 0x0000310000081060L, 0x0000000000000000L, 0x0000000000200000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000010000L });
+        new long[] { 0x0000310000081060L, 0x0000000000000000L, 0x0000000000200000L,
+            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000010000L });
     public static final BitSet FOLLOW_expression_in_synpred31_MOWLParser1444 = new BitSet(
-            new long[] { 0x0000000000000100L });
+        new long[] { 0x0000000000000100L });
     public static final BitSet FOLLOW_CLOSED_PARENTHESYS_in_synpred31_MOWLParser1446 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_NOT_in_synpred32_MOWLParser1460 = new BitSet(
-            new long[] { 0x0000300000000000L, 0x0000000000000000L, 0x0000000000200000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000010000L });
+        new long[] { 0x0000300000000000L, 0x0000000000000000L, 0x0000000000200000L,
+            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000010000L });
     public static final BitSet FOLLOW_atomic_in_synpred32_MOWLParser1462 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_qualifiedRestriction_in_synpred33_MOWLParser1485 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_dataRange_in_synpred34_MOWLParser1497 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_propertyExpression_in_synpred41_MOWLParser1696 = new BitSet(
-            new long[] { 0x0000000000002000L });
+        new long[] { 0x0000000000002000L });
     public static final BitSet FOLLOW_SOME_in_synpred41_MOWLParser1699 = new BitSet(
-            new long[] { 0x0000310000081060L, 0x0000000000000000L, 0x0000000000200000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000010000L });
+        new long[] { 0x0000310000081060L, 0x0000000000000000L, 0x0000000000200000L,
+            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000010000L });
     public static final BitSet FOLLOW_expression_in_synpred41_MOWLParser1703 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_propertyExpression_in_synpred42_MOWLParser1732 = new BitSet(
-            new long[] { 0x0000000000004000L });
+        new long[] { 0x0000000000004000L });
     public static final BitSet FOLLOW_ONLY_in_synpred42_MOWLParser1734 = new BitSet(
-            new long[] { 0x0000310000081060L, 0x0000000000000000L, 0x0000000000200000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000010000L });
+        new long[] { 0x0000310000081060L, 0x0000000000000000L, 0x0000000000200000L,
+            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000010000L });
     public static final BitSet FOLLOW_expression_in_synpred42_MOWLParser1737 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_cardinalityRestriction_in_synpred43_MOWLParser1756 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
 }

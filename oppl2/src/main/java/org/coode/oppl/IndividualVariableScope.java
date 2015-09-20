@@ -34,29 +34,34 @@ import org.semanticweb.owlapi.model.OWLIndividual;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLRuntimeException;
 
-/** Represents a range limitations that could be added to a
+/**
+ * Represents a range limitations that could be added to a
  * {@link GeneratedVariable} instance with INDIVIDUAL {@link VariableType}, in
  * particular this restricts the possible values to the set of individuals that
  * are instances of a given OWLClassExpression
  * 
- * @author Luigi Iannone */
+ * @author Luigi Iannone
+ */
 public class IndividualVariableScope extends AbstractVariableScope<OWLClassExpression>
-        implements VariableScope<OWLClassExpression> {
-    private static Map<OWLClassExpression, IndividualVariableScope> cache = new HashMap<OWLClassExpression, IndividualVariableScope>();
+    implements VariableScope<OWLClassExpression> {
+
+    private static Map<OWLClassExpression, IndividualVariableScope> cache = new HashMap<>();
     private OWLClassExpression classExpression;
 
-    /** @param classExpression
-     *            classExpression
+    /**
+     * @param classExpression
+     *        classExpression
      * @param checker
-     *            checker */
+     *        checker
+     */
     IndividualVariableScope(OWLClassExpression classExpression,
-            VariableScopeChecker checker) {
+        VariableScopeChecker checker) {
         super(checker);
         this.classExpression = classExpression;
     }
 
     static IndividualVariableScope buildIndividualVariableScope(
-            OWLClassExpression classDescription, VariableScopeChecker checker) {
+        OWLClassExpression classDescription, VariableScopeChecker checker) {
         IndividualVariableScope toReturn = cache.get(classDescription);
         if (toReturn == null) {
             toReturn = new IndividualVariableScope(classDescription, checker);
@@ -65,13 +70,17 @@ public class IndividualVariableScope extends AbstractVariableScope<OWLClassExpre
         return toReturn;
     }
 
-    /** @return the description */
+    /**
+     * @return the description
+     */
     public OWLClassExpression getClassExpression() {
         return classExpression;
     }
 
-    /** @param classExpression
-     *            the description to set */
+    /**
+     * @param classExpression
+     *        the description to set
+     */
     public void setDescription(OWLClassExpression classExpression) {
         this.classExpression = classExpression;
     }
@@ -79,7 +88,7 @@ public class IndividualVariableScope extends AbstractVariableScope<OWLClassExpre
     @Override
     public boolean check(OWLObject owlObject) throws OWLRuntimeException {
         return owlObject instanceof OWLIndividual
-                && getChecker().check((OWLIndividual) owlObject, this);
+            && getChecker().check((OWLIndividual) owlObject, this);
     }
 
     @Override
@@ -95,7 +104,7 @@ public class IndividualVariableScope extends AbstractVariableScope<OWLClassExpre
     @Override
     public String render(ConstraintSystem constraintSystem) {
         ManchesterSyntaxRenderer renderer = constraintSystem.getOPPLFactory()
-                .getManchesterSyntaxRenderer(constraintSystem);
+            .getManchesterSyntaxRenderer(constraintSystem);
         getClassExpression().accept(renderer);
         return String.format("[%s %s]", getDirection(), renderer);
     }

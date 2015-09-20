@@ -26,10 +26,15 @@ import org.coode.oppl.function.ValueComputationParameters;
 import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLObject;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class PartialOWLObjectInstantiator extends AbstractOWLObjectInstantiator {
-    /** @param parameters
-     *            parameters */
+
+    /**
+     * @param parameters
+     *        parameters
+     */
     public PartialOWLObjectInstantiator(ValueComputationParameters parameters) {
         super(parameters);
     }
@@ -39,9 +44,9 @@ public class PartialOWLObjectInstantiator extends AbstractOWLObjectInstantiator 
         OWLLiteral toReturn = node;
         if (getParameters().getConstraintSystem().isVariable(node)) {
             Variable<?> variable = getParameters().getConstraintSystem().getVariable(
-                    node.getLiteral());
+                node.getLiteral());
             OWLLiteral assignmentValue = (OWLLiteral) getParameters().getBindingNode()
-                    .getAssignmentValue(variable, getParameters());
+                .getAssignmentValue(variable, getParameters());
             toReturn = assignmentValue == null ? node : assignmentValue;
         }
         return toReturn;

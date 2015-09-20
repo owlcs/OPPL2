@@ -28,25 +28,32 @@ import org.coode.patterns.PatternModel;
 import org.coode.patterns.UnsuitableOPPLScriptException;
 import org.protege.editor.owl.model.OWLModelManager;
 
-/** @author Luigi Iannone Jun 12, 2008 */
+/**
+ * @author Luigi Iannone Jun 12, 2008
+ */
 public class ProtegePatternModel extends PatternModel {
+
     private final OWLModelManager modelManager;
 
-    /** @param opplScript
-     *            opplScript
+    /**
+     * @param opplScript
+     *        opplScript
      * @param modelManager
-     *            modelManager
+     *        modelManager
      * @param f
-     *            f
+     *        f
      * @throws UnsuitableOPPLScriptException
-     *             UnsuitableOPPLScriptException */
+     *         UnsuitableOPPLScriptException
+     */
     public ProtegePatternModel(OPPLScript opplScript, OWLModelManager modelManager,
-            AbstractPatternModelFactory f) throws UnsuitableOPPLScriptException {
+        AbstractPatternModelFactory f) throws UnsuitableOPPLScriptException {
         super(opplScript, modelManager.getOWLOntologyManager(), f);
         this.modelManager = modelManager;
     }
 
-    /** @return the modelManager */
+    /**
+     * @return the modelManager
+     */
     public OWLModelManager getModelManager() {
         return modelManager;
     }

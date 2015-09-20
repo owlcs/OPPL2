@@ -24,19 +24,22 @@ package org.coode.patterns;
 
 import org.coode.oppl.OPPLScript;
 
-/** @author Luigi Iannone Nov 25, 2008 */
+/**
+ * @author Luigi Iannone Nov 25, 2008
+ */
 @SuppressWarnings("javadoc")
 public class UnsuitableOPPLScriptException extends PatternException {
+
     private static final long serialVersionUID = 20100L;
 
     public UnsuitableOPPLScriptException(OPPLScript opplScript) {
         super("The OPPL Script provided is unsuitable for creating a pattern: "
-                + opplScript.render());
+            + opplScript.render());
     }
 
     public UnsuitableOPPLScriptException(OPPLScript opplScript, String string) {
         super(
-                "Failed pattern creation as The OPPL Script provided is unsuitable for creating a pattern: "
-                        + opplScript.render() + " does not respect " + string);
+            "Failed pattern creation as The OPPL Script provided is unsuitable for creating a pattern: "
+                + opplScript.render() + " does not respect " + string);
     }
 }

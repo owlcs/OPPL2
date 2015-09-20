@@ -30,16 +30,21 @@ import org.coode.patterns.InstantiatedPatternModel;
 import org.protege.editor.owl.model.OWLModelManager;
 import org.semanticweb.owlapi.model.OWLObject;
 
-/** @author Luigi Iannone Jun 12, 2008 */
+/**
+ * @author Luigi Iannone Jun 12, 2008
+ */
 public class ProtegeInstantiatedPatternModel extends InstantiatedPatternModel {
+
     private final OWLModelManager modelManager;
 
-    /** @param patternModel
-     *            patternModel
+    /**
+     * @param patternModel
+     *        patternModel
      * @param handler
-     *            handler */
+     *        handler
+     */
     public ProtegeInstantiatedPatternModel(ProtegePatternModel patternModel,
-            RuntimeExceptionHandler handler) {
+        RuntimeExceptionHandler handler) {
         super(patternModel, handler);
         modelManager = patternModel.getModelManager();
     }
@@ -52,7 +57,7 @@ public class ProtegeInstantiatedPatternModel extends InstantiatedPatternModel {
     @Override
     public String render() {
         StringBuilder toReturn = new StringBuilder("$"
-                + getInstantiatedPatternLocalName() + "(");
+            + getInstantiatedPatternLocalName() + "(");
         boolean first = true;
         for (Variable<?> variable : getInputVariables()) {
             if (!first) {
@@ -70,11 +75,11 @@ public class ProtegeInstantiatedPatternModel extends InstantiatedPatternModel {
                     toReturn.append("{");
                     for (OWLObject instantiation : instantiationsValues) {
                         String instantiationRendering = modelManager
-                                .getRendering(instantiation);
+                            .getRendering(instantiation);
                         toReturn.append(firstInstantiation ? instantiationRendering
-                                : ", " + instantiationRendering);
+                            : ", " + instantiationRendering);
                         firstInstantiation = firstInstantiation ? false
-                                : firstInstantiation;
+                            : firstInstantiation;
                     }
                     toReturn.append("}");
                 }

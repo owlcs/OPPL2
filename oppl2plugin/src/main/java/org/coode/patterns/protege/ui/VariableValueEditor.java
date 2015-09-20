@@ -205,7 +205,7 @@ public abstract class VariableValueEditor extends JPanel implements VerifiedInpu
         ConstantVariableValueEditor(OWLEditorKit owlEditorKit, Variable<?> variable) {
             super(variable.getName(), owlEditorKit);
             setLayout(new BorderLayout());
-            owlConstantEditor = new org.coode.parsers.ui.ExpressionEditor<OWLLiteral>(
+            owlConstantEditor = new org.coode.parsers.ui.ExpressionEditor<>(
                 getOwlEditorKit().getOWLModelManager().getOWLOntologyManager(),
                 new OPPLExpressionChecker<OWLLiteral>(getOwlEditorKit()) {
 
@@ -250,7 +250,7 @@ public abstract class VariableValueEditor extends JPanel implements VerifiedInpu
     }
 
     protected final OWLEditorKit owlEditorKit;
-    private final List<InputVerificationStatusChangedListener> listeners = new ArrayList<InputVerificationStatusChangedListener>();
+    private final List<InputVerificationStatusChangedListener> listeners = new ArrayList<>();
     private final String title;
     private Set<OWLObject> variableValues = null;
 
@@ -293,7 +293,7 @@ public abstract class VariableValueEditor extends JPanel implements VerifiedInpu
      */
     protected final void setVariableValues(Set<? extends OWLObject> variableValues) {
         if (this.variableValues == null) {
-            this.variableValues = new HashSet<OWLObject>(variableValues.size());
+            this.variableValues = new HashSet<>(variableValues.size());
         }
         this.variableValues.clear();
         this.variableValues.addAll(variableValues);

@@ -1,4 +1,3 @@
-
 package org.coode.parsers.oppl.testcase.ui;
 
 import java.awt.BorderLayout;
@@ -16,22 +15,24 @@ import org.protege.editor.core.ui.util.ComponentFactory;
 import org.protege.editor.owl.ui.view.AbstractActiveOntologyViewComponent;
 import org.semanticweb.owlapi.model.OWLOntology;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class OPPLTestCaseView extends AbstractActiveOntologyViewComponent {
-    
+
     private static final long serialVersionUID = 20100L;
     private OPPLTestCaseList list;
     protected final OPPLTestCaseRunPanel testCaseRunPanel = new OPPLTestCaseRunPanel();
     private AbstractAllOPPLTestCaseAction runAllTestAction;
 
     @Override
-    protected void initialiseOntologyView() throws Exception {
+    protected void initialiseOntologyView() {
         setLayout(new BorderLayout());
         JSplitPane mainPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
         mainPanel.setDividerLocation(.5);
         mainPanel.setResizeWeight(.5);
         list = new OPPLTestCaseList(getOWLEditorKit()) {
-            
+
             private static final long serialVersionUID = 20100L;
 
             @Override
@@ -42,6 +43,7 @@ public class OPPLTestCaseView extends AbstractActiveOntologyViewComponent {
         list.setRootObject(new OPPLTestCaseAnnotationContainer(getOWLEditorKit()));
         JScrollPane listPane = ComponentFactory.createScrollPane(list);
         runAllTestAction = new AbstractAllOPPLTestCaseAction("Run All", getOWLEditorKit()) {
+
             private static final long serialVersionUID = 20100L;
 
             @Override
@@ -70,7 +72,7 @@ public class OPPLTestCaseView extends AbstractActiveOntologyViewComponent {
     }
 
     @Override
-    protected void updateView(OWLOntology activeOntology) throws Exception {
+    protected void updateView(OWLOntology activeOntology) {
         list.setRootObject(new OPPLTestCaseAnnotationContainer(getOWLEditorKit()));
     }
 }

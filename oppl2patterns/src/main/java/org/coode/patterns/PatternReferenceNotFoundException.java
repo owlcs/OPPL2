@@ -22,13 +22,16 @@
  */
 package org.coode.patterns;
 
-/** @author Luigi Iannone Jun 25, 2008 */
+/**
+ * @author Luigi Iannone Jun 25, 2008
+ */
 @SuppressWarnings("javadoc")
 public class PatternReferenceNotFoundException extends PatternException {
+
     private static final long serialVersionUID = 20100L;
 
     public PatternReferenceNotFoundException(String patternName) {
         super("The pattern referenced by $" + patternName
-                + " does not exist or could not be found");
+            + " does not exist or could not be found");
     }
 }

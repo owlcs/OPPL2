@@ -16,12 +16,12 @@ import org.semanticweb.owlapi.util.OWLObjectVisitorExAdapter;
 public class StructuralHashFunction extends OWLObjectVisitorExAdapter<Integer>implements
     HashFunction, OWLObjectVisitorEx<Integer> {
 
-    private final static Map<AxiomType<?>, Integer> axiomTypeHashCodes = new HashMap<AxiomType<?>, Integer>();
-    private final static Map<IRI, Integer> iriHashCodes = new HashMap<IRI, Integer>();
-    private final static Map<OWLEntity, Integer> entityHashCodes = new HashMap<OWLEntity, Integer>();
-    private final static EnumMap<OWLConstruct, Integer> constructHashCodes = new EnumMap<OWLConstruct, Integer>(
+    private final static Map<AxiomType<?>, Integer> axiomTypeHashCodes = new HashMap<>();
+    private final static Map<IRI, Integer> iriHashCodes = new HashMap<>();
+    private final static Map<OWLEntity, Integer> entityHashCodes = new HashMap<>();
+    private final static EnumMap<OWLConstruct, Integer> constructHashCodes = new EnumMap<>(
         OWLConstruct.class);
-    private final static Map<Integer, Integer> integerHashCodes = new HashMap<Integer, Integer>();
+    private final static Map<Integer, Integer> integerHashCodes = new HashMap<>();
     private static int maxPrime = 1;
 
     /**

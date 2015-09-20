@@ -37,25 +37,30 @@ import org.protege.editor.owl.OWLEditorKit;
 import org.protege.editor.owl.ui.renderer.OWLCellRenderer;
 import org.semanticweb.owlapi.model.OWLAxiomChange;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class ActionList extends OPPLMList {
+
     private static final long serialVersionUID = 20100L;
     private final OWLEditorKit owlEditorKit;
     private final boolean canAdd;
 
-    /** @param owlEditorKit
-     *            owlEditorKit
+    /**
+     * @param owlEditorKit
+     *        owlEditorKit
      * @param constraintSystem
-     *            constraintSystem
+     *        constraintSystem
      * @param canAdd
-     *            canAdd */
+     *        canAdd
+     */
     public ActionList(OWLEditorKit owlEditorKit, ConstraintSystem constraintSystem,
-            boolean canAdd) {
+        boolean canAdd) {
         this.owlEditorKit = owlEditorKit;
         setModel(new ActionListModel(canAdd));
         this.canAdd = canAdd;
         VariableOWLCellRenderer variableAxiomRenderer = new VariableOWLCellRenderer(
-                owlEditorKit, constraintSystem, new OWLCellRenderer(owlEditorKit));
+            owlEditorKit, constraintSystem, new OWLCellRenderer(owlEditorKit));
         setCellRenderer(variableAxiomRenderer);
     }
 
@@ -68,14 +73,15 @@ public class ActionList extends OPPLMList {
 
     @Override
     protected Border createListItemBorder(JList list, Object value, int index,
-            boolean isSelected, boolean cellHasFocus) {
+        boolean isSelected, boolean cellHasFocus) {
         Border border = super.createListItemBorder(list, value, index, isSelected,
-                cellHasFocus);
+            cellHasFocus);
         return BorderFactory.createCompoundBorder(border, new ActionBorder(
-                ((ActionListItem) value).getAxiomChange()));
+            ((ActionListItem) value).getAxiomChange()));
     }
 
     private static class ActionBorder implements Border {
+
         private static final String REMOVE = "Remove";
         private static final String ADD = "Add";
         private final OWLAxiomChange axiomChange;
@@ -87,7 +93,7 @@ public class ActionList extends OPPLMList {
         @Override
         public Insets getBorderInsets(Component c) {
             return new Insets(0, c.getFontMetrics(c.getFont())
-                    .getStringBounds(REMOVE, c.getGraphics()).getBounds().width + 8, 0, 0);
+                .getStringBounds(REMOVE, c.getGraphics()).getBounds().width + 8, 0, 0);
         }
 
         @Override
@@ -101,20 +107,22 @@ public class ActionList extends OPPLMList {
 
         @Override
         public void paintBorder(Component c, Graphics g, int x, int y, int width,
-                int height) {
+            int height) {
             Color oldColor = g.getColor();
             g.setColor(Color.DARK_GRAY);
             g.drawString(getString(), x + 4, y + 2 + g.getFontMetrics().getAscent()
-                    + g.getFontMetrics().getLeading());
+                + g.getFontMetrics().getLeading());
             g.setColor(oldColor);
         }
     }
 
-    /** @param constraintSystem
-     *            constraintSystem */
+    /**
+     * @param constraintSystem
+     *        constraintSystem
+     */
     public void setConstraintSystem(ConstraintSystem constraintSystem) {
         setCellRenderer(new VariableOWLCellRenderer(owlEditorKit, constraintSystem,
-                new OWLCellRenderer(owlEditorKit)));
+            new OWLCellRenderer(owlEditorKit)));
     }
 
     /**

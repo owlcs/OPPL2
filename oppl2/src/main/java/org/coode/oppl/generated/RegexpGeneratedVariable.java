@@ -14,27 +14,32 @@ import org.coode.oppl.variabletypes.VariableType;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLObject;
 
-/** @author Luigi Iannone
+/**
+ * @author Luigi Iannone
  * @param <O>
- *            type */
+ *        type
+ */
 public class RegexpGeneratedVariable<O extends OWLObject> implements Variable<O> {
+
     private final OPPLFunction<Pattern> patternGeneratingOPPLFunction;
     private final String name;
     private final VariableType<O> type;
     private final IRI iri;
 
-    /** @param name
-     *            name
+    /**
+     * @param name
+     *        name
      * @param type
-     *            type
+     *        type
      * @param patternGeneratingOPPLFunction
-     *            patternGeneratingOPPLFunction */
+     *        patternGeneratingOPPLFunction
+     */
     public RegexpGeneratedVariable(String name, VariableType<O> type,
-            OPPLFunction<Pattern> patternGeneratingOPPLFunction) {
+        OPPLFunction<Pattern> patternGeneratingOPPLFunction) {
         this.name = checkNotNull(name, "name");
         this.type = checkNotNull(type, "type");
         this.patternGeneratingOPPLFunction = checkNotNull(patternGeneratingOPPLFunction,
-                "patternGeneratingOPPLFunction");
+            "patternGeneratingOPPLFunction");
         this.iri = IRI.create(ManchesterVariableSyntax.NAMESPACE + this.getName());
     }
 
@@ -66,10 +71,12 @@ public class RegexpGeneratedVariable<O extends OWLObject> implements Variable<O>
     @Override
     public String render(ConstraintSystem constraintSystem) {
         return String.format("%s:%s= MATCH (%s)", this.getName(), this.getType(), this
-                .getPatternGeneratingOPPLFunction().render(constraintSystem));
+            .getPatternGeneratingOPPLFunction().render(constraintSystem));
     }
 
-    /** @return the patternGeneratingOPPLFunction */
+    /**
+     * @return the patternGeneratingOPPLFunction
+     */
     public OPPLFunction<Pattern> getPatternGeneratingOPPLFunction() {
         return this.patternGeneratingOPPLFunction;
     }

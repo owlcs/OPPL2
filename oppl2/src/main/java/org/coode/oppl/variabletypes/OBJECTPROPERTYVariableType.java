@@ -16,12 +16,17 @@ import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.util.OWLObjectVisitorExAdapter;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class OBJECTPROPERTYVariableType extends
-        AbstractVariableType<OWLObjectPropertyExpression> implements
-        VariableType<OWLObjectPropertyExpression> {
-    /** @param name
-     *            name */
+    AbstractVariableType<OWLObjectPropertyExpression>implements
+    VariableType<OWLObjectPropertyExpression> {
+
+    /**
+     * @param name
+     *        name
+     */
     public OBJECTPROPERTYVariableType(VariableTypeName name) {
         super(name, EnumSet.of(Direction.SUBPROPERTYOF, Direction.SUPERPROPERTYOF));
     }
@@ -37,18 +42,17 @@ public class OBJECTPROPERTYVariableType extends
     }
 
     @Override
-    public RegexpGeneratedVariable<? extends OWLObjectPropertyExpression>
-            getRegexpGeneratedVariable(String name,
-                    OPPLFunction<Pattern> patternGeneratingOPPLFunction) {
-        return new RegexpGeneratedVariable<OWLObjectPropertyExpression>(name,
-                VariableTypeFactory.getOBJECTPROPERTYTypeVariableType(),
-                patternGeneratingOPPLFunction);
+    public RegexpGeneratedVariable<? extends OWLObjectPropertyExpression> getRegexpGeneratedVariable(String name,
+        OPPLFunction<Pattern> patternGeneratingOPPLFunction) {
+        return new RegexpGeneratedVariable<>(name,
+            VariableTypeFactory.getOBJECTPROPERTYTypeVariableType(),
+            patternGeneratingOPPLFunction);
     }
 
     @Override
     public Set<OWLObjectPropertyExpression> getReferencedOWLObjects(
-            Collection<? extends OWLOntology> ontologies) {
-        Set<OWLObjectPropertyExpression> toReturn = new HashSet<OWLObjectPropertyExpression>();
+        Collection<? extends OWLOntology> ontologies) {
+        Set<OWLObjectPropertyExpression> toReturn = new HashSet<>();
         for (OWLOntology ontology : ontologies) {
             toReturn.addAll(ontology.getObjectPropertiesInSignature());
         }
@@ -58,6 +62,7 @@ public class OBJECTPROPERTYVariableType extends
     @Override
     public boolean isCompatibleWith(OWLObject o) {
         return o.accept(new OWLObjectVisitorExAdapter<Boolean>(false) {
+
             @Override
             public Boolean visit(OWLObjectProperty property) {
                 return true;

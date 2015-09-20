@@ -1,27 +1,38 @@
 package org.coode.oppl.search.solvability;
 
-/** @author Luigi Iannone
+/**
+ * @author Luigi Iannone
  * @param <O>
- *            type */
+ *        type
+ */
 public interface SolvabilitySearchNodeVisitorEx<O> {
-    /** @param solvedSearchNode
-     *            solvedSearchNode
-     * @return visitor value */
+
+    /**
+     * @param solvedSearchNode
+     *        solvedSearchNode
+     * @return visitor value
+     */
     O visitSolvedSearchNode(SolvedSearchNode solvedSearchNode);
 
-    /** @param unsolvableSearchNode
-     *            unsolvableSearchNode
-     * @return visitor value */
+    /**
+     * @param unsolvableSearchNode
+     *        unsolvableSearchNode
+     * @return visitor value
+     */
     O visitUnsolvableSearchNode(UnsolvableSearchNode unsolvableSearchNode);
 
-    /** @param solvableSearchNode
-     *            solvableSearchNode
-     * @return visitor value */
+    /**
+     * @param solvableSearchNode
+     *        solvableSearchNode
+     * @return visitor value
+     */
     O visitSolvableSearchNode(SolvableSearchNode solvableSearchNode);
 
-    /** @param noSolutionSolvableSearchNode
-     *            noSolutionSolvableSearchNode
-     * @return visitor value */
+    /**
+     * @param noSolutionSolvableSearchNode
+     *        noSolutionSolvableSearchNode
+     * @return visitor value
+     */
     O visitNoSolutionSolvableSearchNode(
-            NoSolutionSolvableSearchNode noSolutionSolvableSearchNode);
+        NoSolutionSolvableSearchNode noSolutionSolvableSearchNode);
 }

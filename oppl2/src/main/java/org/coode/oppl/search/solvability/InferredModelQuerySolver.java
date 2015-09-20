@@ -11,12 +11,17 @@ import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
 import org.semanticweb.owlapi.reasoner.NodeSet;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public final class InferredModelQuerySolver implements QuerySolver {
+
     private final OWLReasoner reasoner;
 
-    /** @param reasoner
-     *            reasoner */
+    /**
+     * @param reasoner
+     *        reasoner
+     */
     public InferredModelQuerySolver(OWLReasoner reasoner) {
         this.reasoner = checkNotNull(reasoner, "reasoner");
     }
@@ -44,7 +49,7 @@ public final class InferredModelQuerySolver implements QuerySolver {
     @Override
     public boolean hasNoSubClass(OWLClassExpression superClass) {
         Set<OWLClass> subClasses = reasoner.getSubClasses(superClass, false)
-                .getFlattened();
+            .getFlattened();
         subClasses.addAll(reasoner.getEquivalentClasses(superClass).getEntities());
         subClasses.remove(superClass);
         subClasses.removeAll(reasoner.getBottomClassNode().getEntities());
@@ -54,7 +59,7 @@ public final class InferredModelQuerySolver implements QuerySolver {
     @Override
     public boolean hasNoSuperClass(OWLClassExpression subClass) {
         Set<OWLClass> superClasses = reasoner.getSubClasses(subClass, false)
-                .getFlattened();
+            .getFlattened();
         superClasses.addAll(reasoner.getEquivalentClasses(subClass).getEntities());
         superClasses.remove(subClass);
         superClasses.removeAll(reasoner.getTopClassNode().getEntities());
@@ -63,9 +68,9 @@ public final class InferredModelQuerySolver implements QuerySolver {
 
     @Override
     public Set<OWLNamedIndividual> getNamedFillers(OWLNamedIndividual subject,
-            OWLObjectPropertyExpression objectProperty) {
+        OWLObjectPropertyExpression objectProperty) {
         NodeSet<OWLNamedIndividual> fillers = reasoner.getObjectPropertyValues(subject,
-                objectProperty);
+            objectProperty);
         return fillers.getFlattened();
     }
 }

@@ -20,44 +20,52 @@ import org.semanticweb.owlapi.model.OWLEntity;
 
 /** locality checker */
 public class LocalityCheckerActionListener extends LocalityChecker implements
-        ActionListener {
+    ActionListener {
+
     private static final String SAFETY_ANALYSIS_BREAKDOWN = "Safety analysis breakdown";
     protected final static int DIMENSION = 18;
     private final JButton resultButton;
 
-    /** @param kit
-     *            kit
+    /**
+     * @param kit
+     *        kit
      * @param signature
-     *            signature
+     *        signature
      * @param resultButton
-     *            resultButton
+     *        resultButton
      * @param handler
-     *            handler */
+     *        handler
+     */
     public LocalityCheckerActionListener(final OWLEditorKit kit,
-            Set<OWLEntity> signature, JButton resultButton,
-            RuntimeExceptionHandler handler) {
+        Set<OWLEntity> signature, JButton resultButton,
+        RuntimeExceptionHandler handler) {
         super(kit.getOWLModelManager().getOWLOntologyManager(), kit.getOWLModelManager()
-                .getReasoner(), signature, handler);
+            .getReasoner(), signature, handler);
         this.resultButton = resultButton;
         this.resultButton.setIcon(generateIcon(Color.gray));
         this.resultButton.setToolTipText("Check not executed yet");
         this.resultButton.setEnabled(false);
     }
 
-    /** @param color
-     *            color
-     * @return icon */
+    /**
+     * @param color
+     *        color
+     * @return icon
+     */
     public Icon generateIcon(final Color color) {
         return new Icon() {
-            /** Draw the icon at the specified location. Icon implementations may
+
+            /**
+             * Draw the icon at the specified location. Icon implementations may
              * use the Component argument to get properties useful for painting,
-             * e.g. the foreground or background color. */
+             * e.g. the foreground or background color.
+             */
             @Override
             public void paintIcon(Component c, Graphics g, int x, int y) {
                 Color oldColor = g.getColor();
                 Graphics2D g2 = (Graphics2D) g;
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                        RenderingHints.VALUE_ANTIALIAS_ON);
+                    RenderingHints.VALUE_ANTIALIAS_ON);
                 g2.setColor(color);
                 g2.fillOval(x + 2, y + 2, DIMENSION - 4, DIMENSION - 4);
                 g2.setColor(Color.LIGHT_GRAY);
@@ -65,17 +73,21 @@ public class LocalityCheckerActionListener extends LocalityChecker implements
                 g2.setColor(oldColor);
             }
 
-            /** Returns the icon's width.
+            /**
+             * Returns the icon's width.
              * 
-             * @return an int specifying the fixed width of the icon. */
+             * @return an int specifying the fixed width of the icon.
+             */
             @Override
             public int getIconWidth() {
                 return DIMENSION;
             }
 
-            /** Returns the icon's height.
+            /**
+             * Returns the icon's height.
              * 
-             * @return an int specifying the fixed height of the icon. */
+             * @return an int specifying the fixed height of the icon.
+             */
             @Override
             public int getIconHeight() {
                 return DIMENSION;
@@ -96,7 +108,9 @@ public class LocalityCheckerActionListener extends LocalityChecker implements
         }
     }
 
-    /** @return table model */
+    /**
+     * @return table model
+     */
     public TableModel print() {
         return new LocalityCheckResultTableModel(this);
     }

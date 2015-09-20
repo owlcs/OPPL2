@@ -1,101 +1,114 @@
 package org.coode.oppl.entity;
 
-import org.semanticweb.owlapi.model.IRI;
-import org.semanticweb.owlapi.model.OWLAnnotationProperty;
-import org.semanticweb.owlapi.model.OWLClass;
-import org.semanticweb.owlapi.model.OWLDataProperty;
-import org.semanticweb.owlapi.model.OWLEntity;
-import org.semanticweb.owlapi.model.OWLNamedIndividual;
-import org.semanticweb.owlapi.model.OWLObjectProperty;
+import org.semanticweb.owlapi.model.*;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public interface OWLEntityFactory {
-    /** @param shortName
-     *            shortName
+
+    /**
+     * @param shortName
+     *        shortName
      * @param baseIRI
-     *            baseIRI
+     *        baseIRI
      * @return creation set for class
      * @throws OWLEntityCreationException
-     *             OWLEntityCreationException */
+     *         OWLEntityCreationException
+     */
     OWLEntityCreationSet<OWLClass> createOWLClass(String shortName, IRI baseIRI)
-            throws OWLEntityCreationException;
+        throws OWLEntityCreationException;
 
-    /** @param shortName
-     *            shortName
+    /**
+     * @param shortName
+     *        shortName
      * @param baseIRI
-     *            baseIRI
+     *        baseIRI
      * @return creation set for object property
      * @throws OWLEntityCreationException
-     *             OWLEntityCreationException */
+     *         OWLEntityCreationException
+     */
     OWLEntityCreationSet<OWLObjectProperty> createOWLObjectProperty(String shortName,
-            IRI baseIRI) throws OWLEntityCreationException;
+        IRI baseIRI) throws OWLEntityCreationException;
 
-    /** @param shortName
-     *            shortName
+    /**
+     * @param shortName
+     *        shortName
      * @param baseIRI
-     *            baseIRI
+     *        baseIRI
      * @return creation set for annotation property
      * @throws OWLEntityCreationException
-     *             OWLEntityCreationException */
+     *         OWLEntityCreationException
+     */
     OWLEntityCreationSet<OWLAnnotationProperty> createOWLAnnotationProperty(
-            String shortName, IRI baseIRI) throws OWLEntityCreationException;
+        String shortName, IRI baseIRI) throws OWLEntityCreationException;
 
-    /** @param shortName
-     *            shortName
+    /**
+     * @param shortName
+     *        shortName
      * @param baseIRI
-     *            baseIRI
+     *        baseIRI
      * @return creation set for data property
      * @throws OWLEntityCreationException
-     *             OWLEntityCreationException */
+     *         OWLEntityCreationException
+     */
     OWLEntityCreationSet<OWLDataProperty> createOWLDataProperty(String shortName,
-            IRI baseIRI) throws OWLEntityCreationException;
+        IRI baseIRI) throws OWLEntityCreationException;
 
-    /** @param shortName
-     *            shortName
+    /**
+     * @param shortName
+     *        shortName
      * @param baseIRI
-     *            baseIRI
+     *        baseIRI
      * @return creation set for individual
      * @throws OWLEntityCreationException
-     *             OWLEntityCreationException */
+     *         OWLEntityCreationException
+     */
     OWLEntityCreationSet<OWLNamedIndividual> createOWLIndividual(String shortName,
-            IRI baseIRI) throws OWLEntityCreationException;
+        IRI baseIRI) throws OWLEntityCreationException;
 
-    /** @param type
-     *            type
+    /**
+     * @param type
+     *        type
      * @param shortName
-     *            shortName
+     *        shortName
      * @param baseIRI
-     *            baseIRI
+     *        baseIRI
      * @param <T>
-     *            class type
+     *        class type
      * @return creation set for entity
      * @throws OWLEntityCreationException
-     *             OWLEntityCreationException */
+     *         OWLEntityCreationException
+     */
     <T extends OWLEntity> OWLEntityCreationSet<T> createOWLEntity(Class<T> type,
-            String shortName, IRI baseIRI) throws OWLEntityCreationException;
+        String shortName, IRI baseIRI) throws OWLEntityCreationException;
 
-    /** @param type
-     *            type
+    /**
+     * @param type
+     *        type
      * @param shortName
-     *            shortName
+     *        shortName
      * @param baseIRI
-     *            baseIRI
+     *        baseIRI
      * @throws OWLEntityCreationException
-     *             OWLEntityCreationException */
+     *         OWLEntityCreationException
+     */
     void tryCreate(Class<? extends OWLEntity> type, String shortName, IRI baseIRI)
-            throws OWLEntityCreationException;
+        throws OWLEntityCreationException;
 
-    /** @param type
-     *            type
+    /**
+     * @param type
+     *        type
      * @param shortName
-     *            shortName
+     *        shortName
      * @param baseIRI
-     *            baseIRI
+     *        baseIRI
      * @param <T>
-     *            class type
+     *        class type
      * @return preview
      * @throws OWLEntityCreationException
-     *             OWLEntityCreationException */
+     *         OWLEntityCreationException
+     */
     <T extends OWLEntity> OWLEntityCreationSet<T> preview(Class<T> type,
-            String shortName, IRI baseIRI) throws OWLEntityCreationException;
+        String shortName, IRI baseIRI) throws OWLEntityCreationException;
 }

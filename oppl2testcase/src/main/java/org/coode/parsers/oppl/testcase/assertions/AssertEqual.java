@@ -7,17 +7,22 @@ import java.util.Set;
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.bindingtree.BindingNode;
 
-/** Asserts that the expression on the left is equal to the one on the right.
+/**
+ * Asserts that the expression on the left is equal to the one on the right.
  * 
- * @author Luigi Iannone */
+ * @author Luigi Iannone
+ */
 public class AssertEqual implements Assertion {
+
     private final AssertionExpression<?> left;
     private final AssertionExpression<?> right;
 
-    /** @param left
-     *            left
+    /**
+     * @param left
+     *        left
      * @param right
-     *            right */
+     *        right
+     */
     public AssertEqual(AssertionExpression<?> left, AssertionExpression<?> right) {
         this.left = checkNotNull(left, "left");
         this.right = checkNotNull(right, "right");
@@ -33,12 +38,16 @@ public class AssertEqual implements Assertion {
         return visitor.visitAssertEqual(this);
     }
 
-    /** @return the left */
+    /**
+     * @return the left
+     */
     public AssertionExpression<?> getLeft() {
         return left;
     }
 
-    /** @return the right */
+    /**
+     * @return the right
+     */
     public AssertionExpression<?> getRight() {
         return right;
     }
@@ -50,7 +59,7 @@ public class AssertEqual implements Assertion {
 
     @Override
     public boolean holds(Set<? extends BindingNode> bindings,
-            ConstraintSystem constraintSystem) {
+        ConstraintSystem constraintSystem) {
         Object leftObjects = getLeft().resolve(bindings, constraintSystem);
         Object rightObjects = getRight().resolve(bindings, constraintSystem);
         return leftObjects.equals(rightObjects);

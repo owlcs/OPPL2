@@ -6,14 +6,19 @@ import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.semanticweb.owlapi.model.OWLOntology;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class OPPLAssertedOWLAxiomSearchTree extends AbstractOPPLAxiomSearchTree {
-    /** @param constraintSystem
-     *            constraintSystem
+
+    /**
+     * @param constraintSystem
+     *        constraintSystem
      * @param runtimeExceptionHandler
-     *            runtimeExceptionHandler */
+     *        runtimeExceptionHandler
+     */
     public OPPLAssertedOWLAxiomSearchTree(ConstraintSystem constraintSystem,
-            RuntimeExceptionHandler runtimeExceptionHandler) {
+        RuntimeExceptionHandler runtimeExceptionHandler) {
         super(constraintSystem, runtimeExceptionHandler);
     }
 
@@ -21,7 +26,7 @@ public class OPPLAssertedOWLAxiomSearchTree extends AbstractOPPLAxiomSearchTree 
     protected boolean goalReached(OPPLOWLAxiomSearchNode start) {
         boolean found = false;
         Iterator<OWLOntology> iterator = getConstraintSystem().getOntologyManager()
-                .getOntologies().iterator();
+            .getOntologies().iterator();
         while (!found && iterator.hasNext()) {
             OWLOntology ontology = iterator.next();
             found = ontology.containsAxiom(start.getAxiom());

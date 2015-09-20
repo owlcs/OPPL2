@@ -13,21 +13,28 @@ import org.coode.oppl.function.SimpleValueComputationParameters;
 import org.coode.oppl.function.ValueComputationParameters;
 import org.semanticweb.owlapi.model.OWLObject;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class CountAssertionExpression implements AssertionExpression<Integer> {
+
     private final Variable<?> variable;
     private final RuntimeExceptionHandler handler;
 
-    /** @param variable
-     *            variable
+    /**
+     * @param variable
+     *        variable
      * @param handler
-     *            handler */
+     *        handler
+     */
     public CountAssertionExpression(Variable<?> variable, RuntimeExceptionHandler handler) {
         this.variable = checkNotNull(variable, "variable");
         this.handler = checkNotNull(handler, "handler");
     }
 
-    /** @return the variable */
+    /**
+     * @return the variable
+     */
     public Variable<?> getVariable() {
         return variable;
     }
@@ -49,11 +56,11 @@ public class CountAssertionExpression implements AssertionExpression<Integer> {
 
     @Override
     public Integer resolve(Set<? extends BindingNode> bindings,
-            ConstraintSystem constraintSystem) {
-        Set<OWLObject> values = new HashSet<OWLObject>(bindings.size());
+        ConstraintSystem constraintSystem) {
+        Set<OWLObject> values = new HashSet<>(bindings.size());
         for (BindingNode bindingNode : bindings) {
             ValueComputationParameters parameters = new SimpleValueComputationParameters(
-                    constraintSystem, bindingNode, getHandler());
+                constraintSystem, bindingNode, getHandler());
             OWLObject value = bindingNode.getAssignmentValue(getVariable(), parameters);
             if (value != null) {
                 values.add(value);
@@ -92,7 +99,9 @@ public class CountAssertionExpression implements AssertionExpression<Integer> {
         return true;
     }
 
-    /** @return the handler */
+    /**
+     * @return the handler
+     */
     public RuntimeExceptionHandler getHandler() {
         return handler;
     }

@@ -9,44 +9,48 @@ import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.oppl.utils.VariableExtractor;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public final class InferredSolvabilitySearchTree extends
-        AbstractSolvabilityOPPLOWLAxiomSearchTree {
-    /** @param constraintSystem
-     *            constraintSystem
+    AbstractSolvabilityOPPLOWLAxiomSearchTree {
+
+    /**
+     * @param constraintSystem
+     *        constraintSystem
      * @param runtimeExceptionHandler
-     *            runtimeExceptionHandler */
+     *        runtimeExceptionHandler
+     */
     public InferredSolvabilitySearchTree(ConstraintSystem constraintSystem,
-            RuntimeExceptionHandler runtimeExceptionHandler) {
+        RuntimeExceptionHandler runtimeExceptionHandler) {
         super(constraintSystem, runtimeExceptionHandler);
         OWLReasoner reasoner = constraintSystem.getReasoner();
         if (reasoner == null) {
             throw new IllegalArgumentException(
-                    "The reasoner cannot be null in the input constraint system");
+                "The reasoner cannot be null in the input constraint system");
         }
     }
 
     @Override
-    protected boolean
-            goalReachedUnsolvabelNode(UnsolvableSearchNode unsolvableSearchNode) {
+    protected boolean goalReachedUnsolvabelNode(UnsolvableSearchNode unsolvableSearchNode) {
         VariableExtractor variableExtractor = new VariableExtractor(
-                getConstraintSystem(), true);
+            getConstraintSystem(), true);
         Set<Variable<?>> extractVariables = variableExtractor
-                .extractVariables(unsolvableSearchNode.getAxiom());
+            .extractVariables(unsolvableSearchNode.getAxiom());
         return extractVariables.isEmpty() ? getConstraintSystem().getReasoner()
-                .isEntailed(unsolvableSearchNode.getAxiom()) : false;
+            .isEntailed(unsolvableSearchNode.getAxiom()) : false;
     }
 
     @Override
     protected AxiomSolvability getAxiomSolvability() {
         QuerySolver querySolver = new InferredModelQuerySolver(getConstraintSystem()
-                .getReasoner());
+            .getReasoner());
         return new MultipleAxiomSolvability(
-                Arrays.asList(
-                        new OWLClassSubClassOfAxiomSolvability(getConstraintSystem(),
-                                querySolver),
-                        new NoResultsAxiomSolvability(getConstraintSystem(), querySolver),
-                        new OWLObjectPropertyFillersAxiomSolvability(
-                                getConstraintSystem(), querySolver)));
+            Arrays.asList(
+                new OWLClassSubClassOfAxiomSolvability(getConstraintSystem(),
+                    querySolver),
+                new NoResultsAxiomSolvability(getConstraintSystem(), querySolver),
+                new OWLObjectPropertyFillersAxiomSolvability(
+                    getConstraintSystem(), querySolver)));
     }
 }

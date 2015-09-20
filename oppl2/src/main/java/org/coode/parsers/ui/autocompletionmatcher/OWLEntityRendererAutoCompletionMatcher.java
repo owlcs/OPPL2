@@ -14,29 +14,34 @@ import org.coode.parsers.OWLEntityRenderingCacheImpl;
 import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 
-/** Retrieves the OWL Entities whose rendering match the string to complete
+/**
+ * Retrieves the OWL Entities whose rendering match the string to complete
  * 
- * @author Luigi Iannone */
+ * @author Luigi Iannone
+ */
 public final class OWLEntityRendererAutoCompletionMatcher implements
-        AutoCompletionMatcher {
+    AutoCompletionMatcher {
+
     private final EntityFinder entityFinder;
     private final OWLEntityRenderer entityRenderer;
 
-    /** @param entityRenderer
-     *            entityRenderer
+    /**
+     * @param entityRenderer
+     *        entityRenderer
      * @param manager
-     *            manager */
+     *        manager
+     */
     public OWLEntityRendererAutoCompletionMatcher(OWLEntityRenderer entityRenderer,
-            OWLOntologyManager manager) {
+        OWLOntologyManager manager) {
         this.entityRenderer = checkNotNull(entityRenderer, "entityRenderer");
         checkNotNull(manager, "manager");
         entityFinder = new EntityFinderImpl(manager, new OWLEntityRenderingCacheImpl(
-                manager, entityRenderer), false);
+            manager, entityRenderer), false);
     }
 
     @Override
     public List<String> getMatches(String string2Complete) {
-        List<String> toReturn = new ArrayList<String>();
+        List<String> toReturn = new ArrayList<>();
         Set<OWLEntity> entities = entityFinder.getEntities(string2Complete);
         for (OWLEntity owlEntity : entities) {
             toReturn.add(entityRenderer.render(owlEntity));

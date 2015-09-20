@@ -38,26 +38,31 @@ import org.semanticweb.owlapi.model.OWLAxiomChange;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 
-/** @author Luigi Iannone Jul 3, 2008 */
+/**
+ * @author Luigi Iannone Jul 3, 2008
+ */
 public class NonClassPatternExecutor extends ChangeExtractor {
+
     private final InstantiatedPatternModel instantiatedPatternModel;
     private final IRI annotationIRI;
     private final OWLOntology ontology;
     private final OWLOntologyManager ontologyManager;
 
-    /** @param instantiatedPatternModel
-     *            instantiatedPatternModel
+    /**
+     * @param instantiatedPatternModel
+     *        instantiatedPatternModel
      * @param ontology
-     *            ontology
+     *        ontology
      * @param ontologyManager
-     *            ontologyManager
+     *        ontologyManager
      * @param annotationIRI
-     *            annotationIRI
+     *        annotationIRI
      * @param handler
-     *            handler */
+     *        handler
+     */
     public NonClassPatternExecutor(InstantiatedPatternModel instantiatedPatternModel,
-            OWLOntology ontology, OWLOntologyManager ontologyManager, IRI annotationIRI,
-            RuntimeExceptionHandler handler) {
+        OWLOntology ontology, OWLOntologyManager ontologyManager, IRI annotationIRI,
+        RuntimeExceptionHandler handler) {
         super(handler, true);
         this.instantiatedPatternModel = instantiatedPatternModel;
         this.annotationIRI = annotationIRI;
@@ -68,17 +73,17 @@ public class NonClassPatternExecutor extends ChangeExtractor {
     @Override
     public List<OWLAxiomChange> visit(OPPLScript script) {
         List<OWLAxiomChange> changes = script.getActions();
-        Set<OWLAxiomChange> p = new HashSet<OWLAxiomChange>(changes.size());
+        Set<OWLAxiomChange> p = new HashSet<>(changes.size());
         for (OWLAxiomChange axiomChange : changes) {
             ActionType actionType = axiomChange.isAddAxiom() ? ActionType.ADD
-                    : ActionType.REMOVE;
+                : ActionType.REMOVE;
             OWLAxiom axiom = axiomChange.getAxiom();
             Collection<? extends OWLAxiomChange> createdChanges = PatternActionFactory
-                    .createChange(actionType, axiom, instantiatedPatternModel,
-                            ontologyManager.getOWLDataFactory(), annotationIRI, ontology,
-                            getRuntimeExceptionHandler());
+                .createChange(actionType, axiom, instantiatedPatternModel,
+                    ontologyManager.getOWLDataFactory(), annotationIRI, ontology,
+                    getRuntimeExceptionHandler());
             p.addAll(createdChanges);
         }
-        return new ArrayList<OWLAxiomChange>(p);
+        return new ArrayList<>(p);
     }
 }

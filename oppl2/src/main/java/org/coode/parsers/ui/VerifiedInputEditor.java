@@ -22,20 +22,27 @@ package org.coode.parsers.ui;
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
-/** Author: drummond<br>
+/**
+ * Author: drummond<br>
  * http://www.cs.man.ac.uk/~drummond/<br>
  * <br>
  * <br>
  * The University Of Manchester<br>
  * Bio Health Informatics Group<br>
  * Date: Mar 14, 2008<br>
- * <br> */
+ * <br>
+ */
 public interface VerifiedInputEditor {
-    /** @param listener
-     *            listener */
+
+    /**
+     * @param listener
+     *        listener
+     */
     void addStatusChangedListener(InputVerificationStatusChangedListener listener);
 
-    /** @param listener
-     *            listener */
+    /**
+     * @param listener
+     *        listener
+     */
     void removeStatusChangedListener(InputVerificationStatusChangedListener listener);
 }

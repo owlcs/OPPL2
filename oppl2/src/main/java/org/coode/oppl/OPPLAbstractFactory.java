@@ -36,86 +36,114 @@ import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public interface OPPLAbstractFactory {
-    /** @return ontology */
+
+    /**
+     * @return ontology
+     */
     OWLOntology getOntology();
 
-    /** @return the OWLEntityChecker used by the factory */
+    /**
+     * @return the OWLEntityChecker used by the factory
+     */
     OWLEntityChecker getOWLEntityChecker();
 
-    /** @return the VariableScopeChecker used by the factory
+    /**
+     * @return the VariableScopeChecker used by the factory
      * @throws OPPLException
-     *             OPPLException
+     *         OPPLException
      * @throws NullReasonerException
-     *             if no reasoner is available for checking the scope */
+     *         if no reasoner is available for checking the scope
+     */
     VariableScopeChecker getVariableScopeChecker() throws OPPLException;
 
-    /** @param cs
-     *            the ConstraintSystem containing the variables. Cannot be
-     *            {@code null}.
+    /**
+     * @param cs
+     *        the ConstraintSystem containing the variables. Cannot be
+     *        {@code null}.
      * @return the OWLEntityRenderer instance used by this factory
      * @throws NullPointerException
-     *             when the input is {@code null}. */
+     *         when the input is {@code null}.
+     */
     OWLEntityRenderer getOWLEntityRenderer(ConstraintSystem cs);
 
-    /** @return the OWLEntityFactory used by this factory */
+    /**
+     * @return the OWLEntityFactory used by this factory
+     */
     OWLEntityFactory getOWLEntityFactory();
 
-    /** @param constraintSystem
-     *            constraintSystem
+    /**
+     * @param constraintSystem
+     *        constraintSystem
      * @param variables
-     *            variables
+     *        variables
      * @param opplQuery
-     *            opplQuery
+     *        opplQuery
      * @param actions
-     *            actions
+     *        actions
      * @return an instance of OPPLScript on the input ConstraintSystem with the
      *         input Variable instances the input OPPLQuery and the input set of
-     *         actions */
-    OPPLScript
-            buildOPPLScript(ConstraintSystem constraintSystem,
-                    List<Variable<?>> variables, OPPLQuery opplQuery,
-                    List<OWLAxiomChange> actions);
+     *         actions
+     */
+    OPPLScript buildOPPLScript(ConstraintSystem constraintSystem,
+        List<Variable<?>> variables, OPPLQuery opplQuery,
+        List<OWLAxiomChange> actions);
 
-    /** @param constraintSystem
-     *            constraintSystem
-     * @return a new blank OPPLQuery instance */
+    /**
+     * @param constraintSystem
+     *        constraintSystem
+     * @return a new blank OPPLQuery instance
+     */
     OPPLQuery buildNewQuery(ConstraintSystem constraintSystem);
 
-    /** Creates a fresh instance of ConstraintSystem
+    /**
+     * Creates a fresh instance of ConstraintSystem
      * 
-     * @return the created ConstraintSystem */
+     * @return the created ConstraintSystem
+     */
     ConstraintSystem createConstraintSystem();
 
-    /** @param cs
-     *            the ConstraintSystem containing all the variable that can be
-     *            rendered. Cannot be {@code null}.
+    /**
+     * @param cs
+     *        the ConstraintSystem containing all the variable that can be
+     *        rendered. Cannot be {@code null}.
      * @return the Manchester OWL Syntax renderer for this factory.
      * @throws NullPointerException
-     *             when the input is {@code null}. */
+     *         when the input is {@code null}.
+     */
     ManchesterSyntaxRenderer getManchesterSyntaxRenderer(ConstraintSystem cs);
 
-    /** @return the appropriate OWLDataFactory used by this OPPLAbstractFactory */
+    /**
+     * @return the appropriate OWLDataFactory used by this OPPLAbstractFactory
+     */
     OWLDataFactory getOWLDataFactory();
 
-    /** @return the OWLOntologyManager used by this OPPLAbstractFactory. */
+    /**
+     * @return the OWLOntologyManager used by this OPPLAbstractFactory.
+     */
     OWLOntologyManager getOntologyManager();
 
-    /** Builds an OPPLScript whose content is identical to the input one. Its
+    /**
+     * Builds an OPPLScript whose content is identical to the input one. Its
      * factory and reasoner will be set by this factory.
      * 
      * @param opplScript
-     *            . The starting OPPL Script whose content will be copied.
-     *            Cannot be {@code null}.
+     *        . The starting OPPL Script whose content will be copied. Cannot be
+     *        {@code null}.
      * @return an OPPLScript.
      * @throws NullPointerException
-     *             when the input is {@code null}. */
+     *         when the input is {@code null}.
+     */
     OPPLScript importOPPLScript(OPPLScript opplScript);
 
-    /** Retrieves a default IRI which will serve the purpose of an Ontology IRI
+    /**
+     * Retrieves a default IRI which will serve the purpose of an Ontology IRI
      * when the one returned by {@code this.getOntology()} is {@code null}.
      * 
-     * @return default ontology iri */
+     * @return default ontology iri
+     */
     IRI getDefaultOntologyIRI();
 }

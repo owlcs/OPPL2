@@ -11,6 +11,7 @@ import org.semanticweb.owlapi.model.OWLOntology;
 
 @SuppressWarnings("javadoc")
 public abstract class AbstractPatternTestCase extends BasePatternTestCase {
+
     protected void parseCorrect(String formula, OWLOntology o) {
         PatternOPPLScript script = this.parsePattern(formula, o);
         expectedCorrect(script);
@@ -30,7 +31,7 @@ public abstract class AbstractPatternTestCase extends BasePatternTestCase {
                 tph.executeNonClass(p);
             } else {
                 tph.executeClass(o.getOWLOntologyManager().getOWLDataFactory()
-                        .getOWLThing(), p);
+                    .getOWLThing(), p);
             }
         } catch (Exception e) {
             log(e);
@@ -39,14 +40,14 @@ public abstract class AbstractPatternTestCase extends BasePatternTestCase {
 
     protected PatternOPPLScript parsePattern(String pattern, OWLOntology o) {
         return this.parsePattern(pattern, o,
-                new AbstractExpectedErrorCheckerErrorListener());
+            new AbstractExpectedErrorCheckerErrorListener());
     }
 
     protected PatternOPPLScript parsePattern(String pattern, OWLOntology o,
-            ErrorListener errorListener) {
+        ErrorListener errorListener) {
         try {
             OPPLPatternParser p = new ParserFactory(o, o.getOWLOntologyManager())
-                    .build(errorListener);
+                .build(errorListener);
             PatternModel script = p.parse(pattern);
             return script;
         } catch (Exception e) {

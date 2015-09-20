@@ -3,17 +3,22 @@ package org.coode.oppl.utils;
 import java.util.ArrayList;
 import java.util.List;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class PrimeNumbersUtils {
-    /** Retrieves the first n prime numbers
+
+    /**
+     * Retrieves the first n prime numbers
      * 
      * @param n
-     *            a non-negative integer
-     * @return The first n prime numbers. */
+     *        a non-negative integer
+     * @return The first n prime numbers.
+     */
     public static List<Integer> getNPrimes(int n) {
         if (n < 0) {
             throw new IllegalArgumentException(
-                    "The input n must be >=0, it is in fact:  " + n);
+                "The input n must be >=0, it is in fact:  " + n);
         }
         int upperBound = n * 10;
         List<Integer> primes = runEratosthenesSieve(upperBound);
@@ -26,12 +31,14 @@ public class PrimeNumbersUtils {
         return primes.subList(0, n);
     }
 
-    /** @param upperBound
-     *            upperBound
-     * @return list of primes */
+    /**
+     * @param upperBound
+     *        upperBound
+     * @return list of primes
+     */
     public static List<Integer> runEratosthenesSieve(int upperBound) {
         int upperBoundSquareRoot = (int) Math.sqrt(upperBound);
-        List<Integer> toReturn = new ArrayList<Integer>(upperBound / 2);
+        List<Integer> toReturn = new ArrayList<>(upperBound / 2);
         boolean[] isComposite = new boolean[upperBound + 1];
         for (int m = 2; m <= upperBoundSquareRoot; m++) {
             if (!isComposite[m]) {
@@ -48,9 +55,11 @@ public class PrimeNumbersUtils {
         return toReturn;
     }
 
-    /** @param n
-     *            n
-     * @return next prime from n */
+    /**
+     * @param n
+     *        n
+     * @return next prime from n
+     */
     public static int getNextPrime(int n) {
         int toReturn = n + 1;
         boolean found = isPrime(toReturn);
@@ -61,9 +70,11 @@ public class PrimeNumbersUtils {
         return toReturn;
     }
 
-    /** @param n
-     *            n
-     * @return true if prime */
+    /**
+     * @param n
+     *        n
+     * @return true if prime
+     */
     public static boolean isPrime(int n) {
         // int dividersUpperbound = (int) Math.sqrt(n);
         // boolean found = false;
@@ -108,16 +119,18 @@ public class PrimeNumbersUtils {
         return (int) result; // Will not truncate since modulus is an int
     }
 
-    /** @param n
-     *            n
-     * @return true if prime */
+    /**
+     * @param n
+     *        n
+     * @return true if prime
+     */
     public static boolean millerRabin32(int n) {
         if (n <= 1) {
             return false;
         } else if (n == 2) {
             return true;
         } else if (millerRabinPass32(2, n) && (n <= 7 || millerRabinPass32(7, n))
-                && (n <= 61 || millerRabinPass32(61, n))) {
+            && (n <= 61 || millerRabinPass32(61, n))) {
             return true;
         } else {
             return false;

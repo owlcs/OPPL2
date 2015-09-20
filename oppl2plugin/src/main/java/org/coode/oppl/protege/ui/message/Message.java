@@ -1,24 +1,33 @@
 package org.coode.oppl.protege.ui.message;
 
-/** Generic Message
+/**
+ * Generic Message
  * 
- * @author Luigi Iannone */
+ * @author Luigi Iannone
+ */
 public interface Message {
-    /** @return the String containing the message text. */
+
+    /**
+     * @return the String containing the message text.
+     */
     String getMessageText();
 
-    /** Simple visitor pattern
+    /**
+     * Simple visitor pattern
      * 
      * @param visitor
-     *            visitor */
+     *        visitor
+     */
     void accept(MessageVisitor visitor);
 
-    /** Visitor pattern with parametric return value
+    /**
+     * Visitor pattern with parametric return value
      * 
      * @param <O>
-     *            the return type.
+     *        the return type.
      * @param visitor
-     *            the visiting entity. Cannot be {@code null}.
-     * @return the result of the visit. */
+     *        the visiting entity. Cannot be {@code null}.
+     * @return the result of the visit.
+     */
     <O> O accept(MessageVisitorEx<O> visitor);
 }

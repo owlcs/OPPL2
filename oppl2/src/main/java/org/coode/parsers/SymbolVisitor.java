@@ -1,20 +1,31 @@
 package org.coode.parsers;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public interface SymbolVisitor {
-    /** @param symbol
-     *            symbol */
+
+    /**
+     * @param symbol
+     *        symbol
+     */
     void visitSymbol(Symbol symbol);
 
-    /** @param owlEntitySymbol
-     *            owlEntitySymbol */
+    /**
+     * @param owlEntitySymbol
+     *        owlEntitySymbol
+     */
     void visitOWLEntity(OWLEntitySymbol owlEntitySymbol);
 
-    /** @param owlConstantSymbol
-     *            owlConstantSymbol */
+    /**
+     * @param owlConstantSymbol
+     *        owlConstantSymbol
+     */
     void visitOWLLiteral(OWLLiteralSymbol owlConstantSymbol);
 
-    /** @param iriSymbol
-     *            iriSymbol */
+    /**
+     * @param iriSymbol
+     *        iriSymbol
+     */
     void visitIRI(IRISymbol iriSymbol);
 }

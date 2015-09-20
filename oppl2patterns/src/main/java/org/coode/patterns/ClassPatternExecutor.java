@@ -32,37 +32,37 @@ import org.coode.oppl.ActionType;
 import org.coode.oppl.ChangeExtractor;
 import org.coode.oppl.OPPLScript;
 import org.coode.oppl.exceptions.RuntimeExceptionHandler;
-import org.semanticweb.owlapi.model.IRI;
-import org.semanticweb.owlapi.model.OWLAxiom;
-import org.semanticweb.owlapi.model.OWLAxiomChange;
-import org.semanticweb.owlapi.model.OWLClass;
-import org.semanticweb.owlapi.model.OWLOntology;
-import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.*;
 
-/** @author Luigi Iannone Jul 3, 2008 */
+/**
+ * @author Luigi Iannone Jul 3, 2008
+ */
 public class ClassPatternExecutor extends ChangeExtractor {
+
     private final InstantiatedPatternModel instantiatedPatternModel;
     private final OWLClass owlClass;
     private final IRI annotationIRI;
     private final OWLOntology ontology;
     private final OWLOntologyManager ontologyManager;
 
-    /** @param thisClass
-     *            thisClass
+    /**
+     * @param thisClass
+     *        thisClass
      * @param instantiatedPatternModel
-     *            instantiatedPatternModel
+     *        instantiatedPatternModel
      * @param ontology
-     *            ontology
+     *        ontology
      * @param ontologyManager
-     *            ontologyManager
+     *        ontologyManager
      * @param annotationIRI
-     *            annotationIRI
+     *        annotationIRI
      * @param runtimeExceptionHandler
-     *            runtimeExceptionHandler */
+     *        runtimeExceptionHandler
+     */
     public ClassPatternExecutor(OWLClass thisClass,
-            InstantiatedPatternModel instantiatedPatternModel, OWLOntology ontology,
-            OWLOntologyManager ontologyManager, IRI annotationIRI,
-            RuntimeExceptionHandler runtimeExceptionHandler) {
+        InstantiatedPatternModel instantiatedPatternModel, OWLOntology ontology,
+        OWLOntologyManager ontologyManager, IRI annotationIRI,
+        RuntimeExceptionHandler runtimeExceptionHandler) {
         super(runtimeExceptionHandler, true);
         owlClass = thisClass;
         this.instantiatedPatternModel = instantiatedPatternModel;
@@ -74,17 +74,17 @@ public class ClassPatternExecutor extends ChangeExtractor {
     @Override
     public List<OWLAxiomChange> visit(OPPLScript script) {
         List<OWLAxiomChange> changes = script.getActions();
-        Set<OWLAxiomChange> p = new HashSet<OWLAxiomChange>(changes.size());
+        Set<OWLAxiomChange> p = new HashSet<>(changes.size());
         for (OWLAxiomChange axiomChange : changes) {
             ActionType actionType = axiomChange.isAddAxiom() ? ActionType.ADD
-                    : ActionType.REMOVE;
+                : ActionType.REMOVE;
             OWLAxiom axiom = axiomChange.getAxiom();
             Collection<? extends OWLAxiomChange> createdChanges = PatternActionFactory
-                    .createChange(owlClass, actionType, axiom, instantiatedPatternModel,
-                            ontologyManager.getOWLDataFactory(), annotationIRI, ontology,
-                            getRuntimeExceptionHandler());
+                .createChange(owlClass, actionType, axiom, instantiatedPatternModel,
+                    ontologyManager.getOWLDataFactory(), annotationIRI, ontology,
+                    getRuntimeExceptionHandler());
             p.addAll(createdChanges);
         }
-        return new ArrayList<OWLAxiomChange>(p);
+        return new ArrayList<>(p);
     }
 }

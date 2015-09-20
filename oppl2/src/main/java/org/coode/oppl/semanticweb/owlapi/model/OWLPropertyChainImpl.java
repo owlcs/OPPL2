@@ -12,7 +12,7 @@ import org.semanticweb.owlapi.model.*;
 public class OWLPropertyChainImpl implements OWLPropertyChain {
 
     private static final long serialVersionUID = 20100L;
-    private final List<OWLObjectPropertyExpression> delegate = new ArrayList<OWLObjectPropertyExpression>();
+    private final List<OWLObjectPropertyExpression> delegate = new ArrayList<>();
 
     /**
      * @param delegate
@@ -170,7 +170,7 @@ public class OWLPropertyChainImpl implements OWLPropertyChain {
 
     @Override
     public Set<OWLEntity> getSignature() {
-        Set<OWLEntity> toReturn = new HashSet<OWLEntity>();
+        Set<OWLEntity> toReturn = new HashSet<>();
         for (OWLObjectPropertyExpression propertyExpression : delegate) {
             toReturn.addAll(propertyExpression.getSignature());
         }
@@ -214,7 +214,7 @@ public class OWLPropertyChainImpl implements OWLPropertyChain {
 
     @Override
     public Set<OWLObjectProperty> getObjectPropertiesInSignature() {
-        Set<OWLObjectProperty> toReturn = new HashSet<OWLObjectProperty>();
+        Set<OWLObjectProperty> toReturn = new HashSet<>();
         for (OWLObjectPropertyExpression propertyExpression : delegate) {
             toReturn.addAll(propertyExpression.getObjectPropertiesInSignature());
         }

@@ -9,25 +9,28 @@ import org.semanticweb.owlapi.model.OWLOntology;
 
 /** frame section row for equivalent classes */
 public class PatternOWLEquivalentClassesAxiomFrameSectionRow extends
-        OWLEquivalentClassesAxiomFrameSectionRow {
+    OWLEquivalentClassesAxiomFrameSectionRow {
+
     private final PatternModel generatingPatternModel;
 
-    /** @param owlEditorKit
-     *            owlEditorKit
+    /**
+     * @param owlEditorKit
+     *        owlEditorKit
      * @param section
-     *            section
+     *        section
      * @param ontology
-     *            ontology
+     *        ontology
      * @param rootObject
-     *            rootObject
+     *        rootObject
      * @param axiom
-     *            axiom
+     *        axiom
      * @param generatingPatternModel
-     *            generatingPatternModel */
+     *        generatingPatternModel
+     */
     public PatternOWLEquivalentClassesAxiomFrameSectionRow(OWLEditorKit owlEditorKit,
-            PatternOWLEquivalentClassesAxiomFrameSection section, OWLOntology ontology,
-            OWLClass rootObject, OWLEquivalentClassesAxiom axiom,
-            PatternModel generatingPatternModel) {
+        PatternOWLEquivalentClassesAxiomFrameSection section, OWLOntology ontology,
+        OWLClass rootObject, OWLEquivalentClassesAxiom axiom,
+        PatternModel generatingPatternModel) {
         super(owlEditorKit, section, ontology, rootObject, axiom);
         this.generatingPatternModel = generatingPatternModel;
     }
@@ -42,7 +45,9 @@ public class PatternOWLEquivalentClassesAxiomFrameSectionRow extends
         return false;
     }
 
-    /** @return the generatingPatternModel */
+    /**
+     * @return the generatingPatternModel
+     */
     public final PatternModel getGeneratingPatternModel() {
         return generatingPatternModel;
     }

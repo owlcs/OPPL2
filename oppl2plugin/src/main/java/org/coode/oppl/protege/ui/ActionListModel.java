@@ -30,10 +30,15 @@ import javax.swing.DefaultListModel;
 
 import org.semanticweb.owlapi.model.OWLAxiomChange;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class ActionListModel extends DefaultListModel {
-    /** @param canAdd
-     *            canAdd */
+
+    /**
+     * @param canAdd
+     *        canAdd
+     */
     public ActionListModel(boolean canAdd) {
         if (canAdd) {
             addElement(new ActionListSectionHeader());
@@ -42,20 +47,24 @@ public class ActionListModel extends DefaultListModel {
 
     private static final long serialVersionUID = 20100L;
 
-    /** @param axiomChange
-     *            axiomChange
+    /**
+     * @param axiomChange
+     *        axiomChange
      * @param isEditable
-     *            isEditable
+     *        isEditable
      * @param isDeleteable
-     *            isDeleteable */
+     *        isDeleteable
+     */
     public void addAction(OWLAxiomChange axiomChange, boolean isEditable,
-            boolean isDeleteable) {
+        boolean isDeleteable) {
         addElement(new ActionListItem(axiomChange, isEditable, isDeleteable));
     }
 
-    /** @return the changes */
+    /**
+     * @return the changes
+     */
     public List<OWLAxiomChange> getOWLAxiomChanges() {
-        List<OWLAxiomChange> toReturn = new ArrayList<OWLAxiomChange>();
+        List<OWLAxiomChange> toReturn = new ArrayList<>();
         Enumeration<? extends Object> elements = elements();
         while (elements.hasMoreElements()) {
             ActionListItem actionListItem = (ActionListItem) elements.nextElement();

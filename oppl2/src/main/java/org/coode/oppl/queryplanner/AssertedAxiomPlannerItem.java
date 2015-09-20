@@ -20,14 +20,19 @@ import org.coode.oppl.querymatching.AxiomQuery;
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.semanticweb.owlapi.model.OWLAxiom;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class AssertedAxiomPlannerItem extends AbstractQueryPlannerItem {
+
     private final OWLAxiom axiom;
 
-    /** @param constraintSystem
-     *            constraintSystem
+    /**
+     * @param constraintSystem
+     *        constraintSystem
      * @param axiom
-     *            axiom */
+     *        axiom
+     */
     public AssertedAxiomPlannerItem(ConstraintSystem constraintSystem, OWLAxiom axiom) {
         super(constraintSystem);
         this.axiom = checkNotNull(axiom, "axiom");
@@ -35,20 +40,20 @@ public class AssertedAxiomPlannerItem extends AbstractQueryPlannerItem {
 
     @Override
     public Set<BindingNode> match(Collection<? extends BindingNode> currentLeaves,
-            ExecutionMonitor executionMonitor,
-            RuntimeExceptionHandler runtimeExceptionHandler) {
-        Set<BindingNode> toReturn = new HashSet<BindingNode>();
+        ExecutionMonitor executionMonitor,
+        RuntimeExceptionHandler runtimeExceptionHandler) {
+        Set<BindingNode> toReturn = new HashSet<>();
         if (currentLeaves != null) {
             Iterator<? extends BindingNode> iterator = currentLeaves.iterator();
             while (!executionMonitor.isCancelled() && iterator.hasNext()) {
                 BindingNode bindingNode = iterator.next();
                 ValueComputationParameters parameters = new SimpleValueComputationParameters(
-                        getConstraintSystem(), bindingNode, runtimeExceptionHandler);
+                    getConstraintSystem(), bindingNode, runtimeExceptionHandler);
                 PartialOWLObjectInstantiator instantiator = new PartialOWLObjectInstantiator(
-                        parameters);
+                    parameters);
                 OWLAxiom instantiatedAxiom = (OWLAxiom) getAxiom().accept(instantiator);
                 Set<BindingNode> newLeaves = updateBindingsAssertedAxiom(
-                        instantiatedAxiom, runtimeExceptionHandler);
+                    instantiatedAxiom, runtimeExceptionHandler);
                 toReturn.addAll(merge(bindingNode, newLeaves));
             }
             if (executionMonitor.isCancelled()) {
@@ -56,20 +61,20 @@ public class AssertedAxiomPlannerItem extends AbstractQueryPlannerItem {
             }
         } else {
             toReturn.addAll(updateBindingsAssertedAxiom(getAxiom(),
-                    runtimeExceptionHandler));
+                runtimeExceptionHandler));
         }
         return toReturn;
     }
 
     private Set<BindingNode> updateBindingsAssertedAxiom(OWLAxiom ax,
-            RuntimeExceptionHandler runtimeExceptionHandler) {
+        RuntimeExceptionHandler runtimeExceptionHandler) {
         assert ax != null;
-        Set<BindingNode> toReturn = new HashSet<BindingNode>();
+        Set<BindingNode> toReturn = new HashSet<>();
         int initialSize = getConstraintSystem().getLeaves() == null ? 0
-                : getConstraintSystem().getLeaves().size();
+            : getConstraintSystem().getLeaves().size();
         Logging.getQueryLogger().log("Initial size: ", initialSize);
         AxiomQuery query = new AssertedSolvabilityBasedAxiomQuery(getConstraintSystem()
-                .getOntologyManager(), getConstraintSystem(), runtimeExceptionHandler);
+            .getOntologyManager(), getConstraintSystem(), runtimeExceptionHandler);
         ax.accept(query);
         toReturn.addAll(query.getLeaves());
         return toReturn;
@@ -85,7 +90,9 @@ public class AssertedAxiomPlannerItem extends AbstractQueryPlannerItem {
         return visitor.visitAssertedAxiomPlannerItem(this);
     }
 
-    /** @return the axiom */
+    /**
+     * @return the axiom
+     */
     public OWLAxiom getAxiom() {
         return axiom;
     }
@@ -93,7 +100,7 @@ public class AssertedAxiomPlannerItem extends AbstractQueryPlannerItem {
     @Override
     public String toString() {
         ManchesterSyntaxRenderer renderer = getConstraintSystem().getOPPLFactory()
-                .getManchesterSyntaxRenderer(getConstraintSystem());
+            .getManchesterSyntaxRenderer(getConstraintSystem());
         getAxiom().accept(renderer);
         return String.format("ASSERTED %s ", renderer.toString());
     }

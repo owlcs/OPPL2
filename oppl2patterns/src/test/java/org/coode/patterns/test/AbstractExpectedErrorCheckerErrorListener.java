@@ -6,11 +6,14 @@ import org.antlr.runtime.tree.RewriteEmptyStreamException;
 import org.coode.parsers.ErrorListener;
 import org.coode.parsers.Type;
 
-/** Extends this to check a particular error is expected. Override the method(s)
+/**
+ * Extends this to check a particular error is expected. Override the method(s)
  * corresponding to the expected error(s).
  * 
- * @author Luigi Iannone */
+ * @author Luigi Iannone
+ */
 public class AbstractExpectedErrorCheckerErrorListener implements ErrorListener {
+
     @Override
     public void unrecognisedSymbol(CommonTree t) {
         throw new RuntimeException(t.toString());

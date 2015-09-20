@@ -5,16 +5,21 @@ import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 import org.coode.parsers.oppl.testcase.OPPLTest;
 import org.coode.parsers.oppl.testcase.OPPLTestCase;
 
-/** Represents a report about a Test that has not been yet executed.
+/**
+ * Represents a report about a Test that has not been yet executed.
  * 
- * @author Luigi Iannone */
+ * @author Luigi Iannone
+ */
 public class UnexecutedTestReport extends AbstractReport {
+
     private final OPPLTest unexecutedTest;
 
-    /** @param opplTestCase
-     *            opplTestCase
+    /**
+     * @param opplTestCase
+     *        opplTestCase
      * @param unexecutedTest
-     *            unexecutedTest */
+     *        unexecutedTest
+     */
     public UnexecutedTestReport(OPPLTestCase opplTestCase, OPPLTest unexecutedTest) {
         super(opplTestCase);
         this.unexecutedTest = checkNotNull(unexecutedTest, "unexecutedTest");
@@ -30,7 +35,9 @@ public class UnexecutedTestReport extends AbstractReport {
         return visitor.visitUnexecutedTestReport(this);
     }
 
-    /** @return the unexecutedTest */
+    /**
+     * @return the unexecutedTest
+     */
     public OPPLTest getUnexecutedTest() {
         return unexecutedTest;
     }

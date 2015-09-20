@@ -37,34 +37,43 @@ import org.coode.parsers.ui.VerifiedInputEditor;
 import org.protege.editor.core.ui.util.ComponentFactory;
 import org.protege.editor.owl.OWLEditorKit;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class OPPLSelectClauseEditor extends JPanel implements VerifiedInputEditor {
+
     private static final long serialVersionUID = 20100L;
     private final OWLEditorKit owlEditorKit;
     private final ConstraintSystem constraintSystem;
-    private final Set<InputVerificationStatusChangedListener> listeners = new HashSet<InputVerificationStatusChangedListener>();
+    private final Set<InputVerificationStatusChangedListener> listeners = new HashSet<>();
     private final AxiomEditor axiomEditor;
     private final JCheckBox assertedCheckBox = new JCheckBox("ASSERTED");
     private OPPLSelectClauseListItem selectListItem;
 
-    /** @return the selectListItem */
+    /**
+     * @return the selectListItem
+     */
     public OPPLSelectClauseListItem getSelectListItem() {
         return selectListItem;
     }
 
-    /** @param selectListItem
-     *            the selectListItem to set */
+    /**
+     * @param selectListItem
+     *        the selectListItem to set
+     */
     public void setSelectListItem(OPPLSelectClauseListItem selectListItem) {
         assertedCheckBox.setSelected(selectListItem.isAsserted());
         axiomEditor.setOWLAxiom(selectListItem.getAxiom());
     }
 
-    /** @param owlEditorKit
-     *            owlEditorKit
+    /**
+     * @param owlEditorKit
+     *        owlEditorKit
      * @param constraintSystem
-     *            constraintSystem */
+     *        constraintSystem
+     */
     public OPPLSelectClauseEditor(OWLEditorKit owlEditorKit,
-            ConstraintSystem constraintSystem) {
+        ConstraintSystem constraintSystem) {
         setLayout(new BorderLayout());
         this.owlEditorKit = owlEditorKit;
         this.constraintSystem = constraintSystem;
@@ -73,15 +82,17 @@ public class OPPLSelectClauseEditor extends JPanel implements VerifiedInputEdito
         JPanel axiomEditorPanel = new JPanel(new BorderLayout());
         axiomEditorPanel.add(ComponentFactory.createScrollPane(axiomEditor));
         axiomEditor
-                .addStatusChangedListener(new InputVerificationStatusChangedListener() {
-                    @Override
-                    public void verifiedStatusChanged(boolean newState) {
-                        OPPLSelectClauseEditor.this.handleChange();
-                    }
-                });
+            .addStatusChangedListener(new InputVerificationStatusChangedListener() {
+
+                @Override
+                public void verifiedStatusChanged(boolean newState) {
+                    OPPLSelectClauseEditor.this.handleChange();
+                }
+            });
         this.add(axiomEditorPanel, BorderLayout.CENTER);
         // Setting up the Asserted flag
         assertedCheckBox.addActionListener(new ActionListener() {
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 OPPLSelectClauseEditor.this.handleChange();
@@ -102,7 +113,7 @@ public class OPPLSelectClauseEditor extends JPanel implements VerifiedInputEdito
 
     @Override
     public void removeStatusChangedListener(
-            InputVerificationStatusChangedListener listener) {
+        InputVerificationStatusChangedListener listener) {
         listeners.remove(listener);
     }
 
@@ -111,13 +122,15 @@ public class OPPLSelectClauseEditor extends JPanel implements VerifiedInputEdito
         boolean isValid = check();
         if (isValid) {
             selectListItem = new OPPLSelectClauseListItem(assertedCheckBox.getModel()
-                    .isSelected(), axiomEditor.getAxiom());
+                .isSelected(), axiomEditor.getAxiom());
         }
         notifyListeners(isValid);
     }
 
-    /** @param isValid
-     *            isValid */
+    /**
+     * @param isValid
+     *        isValid
+     */
     private void notifyListeners(boolean isValid) {
         for (InputVerificationStatusChangedListener listener : listeners) {
             listener.verifiedStatusChanged(isValid);

@@ -8,22 +8,27 @@ import java.util.List;
 import org.coode.parsers.OWLEntityRenderer;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class ManchesterOWLSyntaxSimpleAutoCompletionMatcher implements
-        AutoCompletionMatcher {
+    AutoCompletionMatcher {
+
     private final AutoCompletionMatcher delegate;
 
-    /** @param entityRenderer
-     *            entityRenderer
+    /**
+     * @param entityRenderer
+     *        entityRenderer
      * @param ontologyManager
-     *            ontologyManager */
+     *        ontologyManager
+     */
     public ManchesterOWLSyntaxSimpleAutoCompletionMatcher(
-            OWLEntityRenderer entityRenderer, OWLOntologyManager ontologyManager) {
+        OWLEntityRenderer entityRenderer, OWLOntologyManager ontologyManager) {
         checkNotNull(entityRenderer, "entityRenderer");
         checkNotNull(ontologyManager, "ontologyManager");
         delegate = new MultipleAutoCompletionMatcher(
-                Arrays.asList(new OWLEntityRendererAutoCompletionMatcher(entityRenderer,
-                        ontologyManager), new KeywordAutoCompletionMatcher(getKeywords())));
+            Arrays.asList(new OWLEntityRendererAutoCompletionMatcher(entityRenderer,
+                ontologyManager), new KeywordAutoCompletionMatcher(getKeywords())));
     }
 
     @Override
@@ -31,12 +36,14 @@ public class ManchesterOWLSyntaxSimpleAutoCompletionMatcher implements
         return delegate.getMatches(checkNotNull(string2Complete, "string2Complete"));
     }
 
-    /** @return keywords */
+    /**
+     * @return keywords
+     */
     public static List<String> getKeywords() {
         return Arrays.asList("sameAs", "disjointWith", "only", "subPropertyOf", "max",
-                "types", "inverseOf", "not", "and", "subClassOf", "differentFrom",
-                "equivalentTo", "some", "instanceOf", "HasKey", "Reflexive", "Symmetric",
-                "Asymmetric", "Transitive", "exactly", "range", "min", "value", "domain",
-                "INV", "InverseFunctional", "Irreflexive", "or", "Functional");
+            "types", "inverseOf", "not", "and", "subClassOf", "differentFrom",
+            "equivalentTo", "some", "instanceOf", "HasKey", "Reflexive", "Symmetric",
+            "Asymmetric", "Transitive", "exactly", "range", "min", "value", "domain",
+            "INV", "InverseFunctional", "Irreflexive", "or", "Functional");
     }
 }

@@ -2,8 +2,11 @@ package org.coode.oppl.entity;
 
 import org.semanticweb.owlapi.model.OWLEntity;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class OWLEntityRendererImpl implements OWLEntityRenderer {
+
     @Override
     public String render(OWLEntity entity) {
         try {
@@ -15,7 +18,7 @@ public class OWLEntityRendererImpl implements OWLEntityRenderer {
                     return entity.getIRI().toString();
                 }
                 return entity.getIRI().toURI().getPath()
-                        .substring(path.lastIndexOf("/") + 1);
+                    .substring(path.lastIndexOf("/") + 1);
             }
             return RenderingEscapeUtils.getEscapedRendering(rendering);
         } catch (Exception e) {

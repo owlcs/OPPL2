@@ -4,10 +4,15 @@ import org.coode.parsers.Symbol;
 import org.coode.parsers.SymbolVisitor;
 import org.coode.parsers.SymbolVisitorEx;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class CreateOnDemandIdentifier extends Symbol implements OPPLSymbol {
-    /** @param name
-     *            name */
+
+    /**
+     * @param name
+     *        name
+     */
     public CreateOnDemandIdentifier(String name) {
         super(name, CreateOnDemand.get());
     }
@@ -36,7 +41,7 @@ public class CreateOnDemandIdentifier extends Symbol implements OPPLSymbol {
         O toReturn = super.accept(visitor);
         if (OPPLSymbolVisitorEx.class.isAssignableFrom(visitor.getClass())) {
             toReturn = ((OPPLSymbolVisitorEx<O>) visitor)
-                    .visitCreateOnDemandIdentifier(this);
+                .visitCreateOnDemandIdentifier(this);
         }
         return toReturn;
     }

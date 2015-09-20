@@ -3,25 +3,8 @@ package org.coode.parsers.oppl.testcase;
 
 import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
-import org.antlr.runtime.BaseRecognizer;
-import org.antlr.runtime.BitSet;
-import org.antlr.runtime.DFA;
-import org.antlr.runtime.EarlyExitException;
-import org.antlr.runtime.IntStream;
-import org.antlr.runtime.MismatchedTokenException;
-import org.antlr.runtime.NoViableAltException;
-import org.antlr.runtime.Parser;
-import org.antlr.runtime.ParserRuleReturnScope;
-import org.antlr.runtime.RecognitionException;
-import org.antlr.runtime.RecognizerSharedState;
-import org.antlr.runtime.Token;
-import org.antlr.runtime.TokenStream;
-import org.antlr.runtime.tree.CommonTreeAdaptor;
-import org.antlr.runtime.tree.RewriteEarlyExitException;
-import org.antlr.runtime.tree.RewriteEmptyStreamException;
-import org.antlr.runtime.tree.RewriteRuleSubtreeStream;
-import org.antlr.runtime.tree.RewriteRuleTokenStream;
-import org.antlr.runtime.tree.TreeAdaptor;
+import org.antlr.runtime.*;
+import org.antlr.runtime.tree.*;
 import org.coode.oppl.log.Logger;
 import org.coode.oppl.log.Logging;
 import org.coode.parsers.ErrorListener;
@@ -29,44 +12,45 @@ import org.coode.parsers.oppl.OPPLSyntaxTree;
 
 @SuppressWarnings({ "javadoc", "incomplete-switch", "synthetic-access" })
 public class OPPLTestCaseCombinedParser extends Parser {
+
     public static final String[] tokenNames = new String[] { "<invalid>", "<EOR>",
-            "<DOWN>", "<UP>", "COMPOSITION", "OPEN_PARENTHESYS", "OPEN_CURLY_BRACES",
-            "CLOSED_CURLY_BRACES", "CLOSED_PARENTHESYS", "WHITESPACE", "AND", "OR",
-            "NOT", "SOME", "ONLY", "MIN", "MAX", "EXACTLY", "VALUE", "INVERSE",
-            "SUBCLASS_OF", "SUB_PROPERTY_OF", "EQUIVALENT_TO", "SAME_AS",
-            "DIFFERENT_FROM", "INVERSE_OF", "DISJOINT_WITH", "DOMAIN", "RANGE",
-            "FUNCTIONAL", "SYMMETRIC", "ANTI_SYMMETRIC", "REFLEXIVE", "IRREFLEXIVE",
-            "TRANSITIVE", "INVERSE_FUNCTIONAL", "POW", "COMMA", "INSTANCE_OF", "TYPES",
-            "DBLQUOTE", "DIGIT", "INTEGER", "LETTER", "IDENTIFIER", "ENTITY_REFERENCE",
-            "QUESTION_MARK", "Tokens", "SUB_CLASS_AXIOM", "EQUIVALENT_TO_AXIOM",
-            "DISJOINT_WITH_AXIOM", "SUB_PROPERTY_AXIOM", "SAME_AS_AXIOM",
-            "DIFFERENT_FROM_AXIOM", "UNARY_AXIOM", "DISJUNCTION", "CONJUNCTION",
-            "PROPERTY_CHAIN", "NEGATED_EXPRESSION", "NEGATED_ASSERTION",
-            "INVERSE_PROPERTY", "SOME_RESTRICTION", "ALL_RESTRICTION",
-            "VALUE_RESTRICTION", "CARDINALITY_RESTRICTION", "ONE_OF", "TYPE_ASSERTION",
-            "ROLE_ASSERTION", "INVERSE_OBJECT_PROPERTY_EXPRESSION", "EXPRESSION",
-            "CONSTANT", "WHERE", "NOT_EQUAL", "EQUAL", "IN", "SELECT", "ASSERTED",
-            "COLON", "DOT", "PLUS", "CREATE", "CREATE_INTERSECTION",
-            "CREATE_DISJUNCTION", "BEGIN", "END", "OPEN_SQUARE_BRACKET",
-            "CLOSED_SQUARE_BRACKET", "SUPER_CLASS_OF", "SUPER_PROPERTY_OF",
-            "VARIABLE_TYPE", "ADD", "REMOVE", "ASSERTED_CLAUSE", "PLAIN_CLAUSE",
-            "INEQUALITY_CONSTRAINT", "IN_SET_CONSTRAINT", "INPUT_VARIABLE_DEFINITION",
-            "GENERATED_VARIABLE_DEFINITION", "CREATE_OPPL_FUNCTION",
-            "VARIABLE_ATTRIBUTE", "OPPL_FUNCTION", "ACTIONS", "VARIABLE_DEFINITIONS",
-            "QUERY", "VARIABLE_SCOPE", "SUBPROPERTY_OF", "VARIABLE_IDENTIFIER",
-            "OPPL_STATEMENT", "HAS_KEY", "IRI", "ANNOTATION_ASSERTION",
-            "IRI_ATTRIBUTE_NAME", "AT", "SET", "DISJOINT_CLASSES", "DISJOINT_PROPERTIES",
-            "SAME_INDIVIDUAL", "DIFFERENT_INDIVIDUALS", "TO_LOWER_CASE", "TO_UPPER_CASE",
-            "ESCLAMATION_MARK", "MATCH", "ATTRIBUTE_SELECTOR", "VALUES", "RENDERING",
-            "GROUPS", "STRING_OPERATION", "VARIABLE_NAME", "REGEXP_CONSTRAINT", "FAIL",
-            "NAF_CONSTRAINT", "COUNT", "SEMICOLON", "INFERENCE", "CONTAINS",
-            "OPPL_TEST_CASE", "MESSAGE", "TEST", "ASSERT_EQUAL", "ASSERT_NOT_EQUAL",
-            "ASSERT_TRUE", "ASSERT_FALSE", "TEXT", "ASSERT", "STAR", "LESS_THAN",
-            "LESS_THAN_EQUAL", "GREATER_THAN", "GREATER_THAN_EQUAL", "ASSERT_LESS_THAN",
-            "ASSERT_LESS_THAN_EQUAL", "ASSERT_GREATER_THAN", "ASSERT_GREATER_THAN_EQUAL",
-            "BINDING", "DATA_RANGE", "602", "603", "604", "605", "606", "607", "608",
-            "609", "610", "611", "612", "613", "614", "615", "616", "617", "618", "619",
-            "620", "621", "622", "623", "624", "625", "626", "627" };
+        "<DOWN>", "<UP>", "COMPOSITION", "OPEN_PARENTHESYS", "OPEN_CURLY_BRACES",
+        "CLOSED_CURLY_BRACES", "CLOSED_PARENTHESYS", "WHITESPACE", "AND", "OR",
+        "NOT", "SOME", "ONLY", "MIN", "MAX", "EXACTLY", "VALUE", "INVERSE",
+        "SUBCLASS_OF", "SUB_PROPERTY_OF", "EQUIVALENT_TO", "SAME_AS",
+        "DIFFERENT_FROM", "INVERSE_OF", "DISJOINT_WITH", "DOMAIN", "RANGE",
+        "FUNCTIONAL", "SYMMETRIC", "ANTI_SYMMETRIC", "REFLEXIVE", "IRREFLEXIVE",
+        "TRANSITIVE", "INVERSE_FUNCTIONAL", "POW", "COMMA", "INSTANCE_OF", "TYPES",
+        "DBLQUOTE", "DIGIT", "INTEGER", "LETTER", "IDENTIFIER", "ENTITY_REFERENCE",
+        "QUESTION_MARK", "Tokens", "SUB_CLASS_AXIOM", "EQUIVALENT_TO_AXIOM",
+        "DISJOINT_WITH_AXIOM", "SUB_PROPERTY_AXIOM", "SAME_AS_AXIOM",
+        "DIFFERENT_FROM_AXIOM", "UNARY_AXIOM", "DISJUNCTION", "CONJUNCTION",
+        "PROPERTY_CHAIN", "NEGATED_EXPRESSION", "NEGATED_ASSERTION",
+        "INVERSE_PROPERTY", "SOME_RESTRICTION", "ALL_RESTRICTION",
+        "VALUE_RESTRICTION", "CARDINALITY_RESTRICTION", "ONE_OF", "TYPE_ASSERTION",
+        "ROLE_ASSERTION", "INVERSE_OBJECT_PROPERTY_EXPRESSION", "EXPRESSION",
+        "CONSTANT", "WHERE", "NOT_EQUAL", "EQUAL", "IN", "SELECT", "ASSERTED",
+        "COLON", "DOT", "PLUS", "CREATE", "CREATE_INTERSECTION",
+        "CREATE_DISJUNCTION", "BEGIN", "END", "OPEN_SQUARE_BRACKET",
+        "CLOSED_SQUARE_BRACKET", "SUPER_CLASS_OF", "SUPER_PROPERTY_OF",
+        "VARIABLE_TYPE", "ADD", "REMOVE", "ASSERTED_CLAUSE", "PLAIN_CLAUSE",
+        "INEQUALITY_CONSTRAINT", "IN_SET_CONSTRAINT", "INPUT_VARIABLE_DEFINITION",
+        "GENERATED_VARIABLE_DEFINITION", "CREATE_OPPL_FUNCTION",
+        "VARIABLE_ATTRIBUTE", "OPPL_FUNCTION", "ACTIONS", "VARIABLE_DEFINITIONS",
+        "QUERY", "VARIABLE_SCOPE", "SUBPROPERTY_OF", "VARIABLE_IDENTIFIER",
+        "OPPL_STATEMENT", "HAS_KEY", "IRI", "ANNOTATION_ASSERTION",
+        "IRI_ATTRIBUTE_NAME", "AT", "SET", "DISJOINT_CLASSES", "DISJOINT_PROPERTIES",
+        "SAME_INDIVIDUAL", "DIFFERENT_INDIVIDUALS", "TO_LOWER_CASE", "TO_UPPER_CASE",
+        "ESCLAMATION_MARK", "MATCH", "ATTRIBUTE_SELECTOR", "VALUES", "RENDERING",
+        "GROUPS", "STRING_OPERATION", "VARIABLE_NAME", "REGEXP_CONSTRAINT", "FAIL",
+        "NAF_CONSTRAINT", "COUNT", "SEMICOLON", "INFERENCE", "CONTAINS",
+        "OPPL_TEST_CASE", "MESSAGE", "TEST", "ASSERT_EQUAL", "ASSERT_NOT_EQUAL",
+        "ASSERT_TRUE", "ASSERT_FALSE", "TEXT", "ASSERT", "STAR", "LESS_THAN",
+        "LESS_THAN_EQUAL", "GREATER_THAN", "GREATER_THAN_EQUAL", "ASSERT_LESS_THAN",
+        "ASSERT_LESS_THAN_EQUAL", "ASSERT_GREATER_THAN", "ASSERT_GREATER_THAN_EQUAL",
+        "BINDING", "DATA_RANGE", "602", "603", "604", "605", "606", "607", "608",
+        "609", "610", "611", "612", "613", "614", "615", "616", "617", "618", "619",
+        "620", "621", "622", "623", "624", "625", "626", "627" };
     public static final int STAR = 482;
     public static final int HAS_KEY = 109;
     public static final int VALUE_RESTRICTION = 63;
@@ -272,17 +256,18 @@ public class OPPLTestCaseCombinedParser extends Parser {
     }
 
     protected void mismatch(IntStream in, int ttype,
-            @SuppressWarnings("unused") BitSet follow) throws RecognitionException {
+        @SuppressWarnings("unused") BitSet follow) throws RecognitionException {
         throw new MismatchedTokenException(ttype, in);
     }
 
     @Override
     public Object recoverFromMismatchedSet(IntStream in, RecognitionException e,
-            BitSet follow) throws RecognitionException {
+        BitSet follow) throws RecognitionException {
         throw e;
     }
 
     public static class testCase_return extends ParserRuleReturnScope {
+
         OPPLSyntaxTree tree;
 
         @Override
@@ -306,15 +291,15 @@ public class OPPLTestCaseCombinedParser extends Parser {
         OPPLTestCaseCombinedParser.statement_return statement3 = null;
         OPPLTestCaseCombinedParser.test_return test4 = null;
         RewriteRuleTokenStream stream_SEMICOLON = new RewriteRuleTokenStream(adaptor,
-                "token SEMICOLON");
+            "token SEMICOLON");
         RewriteRuleTokenStream stream_INFERENCE = new RewriteRuleTokenStream(adaptor,
-                "token INFERENCE");
+            "token INFERENCE");
         RewriteRuleSubtreeStream stream_statement = new RewriteRuleSubtreeStream(adaptor,
-                "rule statement");
+            "rule statement");
         RewriteRuleSubtreeStream stream_text = new RewriteRuleSubtreeStream(adaptor,
-                "rule text");
+            "rule text");
         RewriteRuleSubtreeStream stream_test = new RewriteRuleSubtreeStream(adaptor,
-                "rule test");
+            "rule test");
         try {
             // /Users/luigi/Documents/workspace/Parsers/src/OPPLTestCaseCombined.g:84:3:
             // (name= text SEMICOLON ( INFERENCE )? statement ( test )+ -> ^(
@@ -333,7 +318,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
                     stream_text.add(name.getTree());
                 }
                 SEMICOLON1 = (Token) match(input, SEMICOLON,
-                        FOLLOW_SEMICOLON_in_testCase180);
+                    FOLLOW_SEMICOLON_in_testCase180);
                 if (state.failed) {
                     return retval;
                 }
@@ -353,7 +338,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
                     // INFERENCE
                     {
                         INFERENCE2 = (Token) match(input, INFERENCE,
-                                FOLLOW_INFERENCE_in_testCase182);
+                            FOLLOW_INFERENCE_in_testCase182);
                         if (state.failed) {
                             return retval;
                         }
@@ -429,11 +414,11 @@ public class OPPLTestCaseCombinedParser extends Parser {
                         {
                             OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                             root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                    adaptor.create(OPPL_TEST_CASE, "OPPL_TEST_CASE"),
-                                    root_1);
+                                adaptor.create(OPPL_TEST_CASE, "OPPL_TEST_CASE"),
+                                root_1);
                             adaptor.addChild(root_1, adaptor.create(IDENTIFIER,
-                                    name != null ? input.toString(name.start, name.stop)
-                                            : null));
+                                name != null ? input.toString(name.start, name.stop)
+                                    : null));
                             // /Users/luigi/Documents/workspace/Parsers/src/OPPLTestCaseCombined.g:85:97:
                             // ( INFERENCE )?
                             if (stream_INFERENCE.hasNext()) {
@@ -473,6 +458,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
 
     // $ANTLR end "testCase"
     public static class test_return extends ParserRuleReturnScope {
+
         OPPLSyntaxTree tree;
 
         @Override
@@ -494,13 +480,13 @@ public class OPPLTestCaseCombinedParser extends Parser {
         OPPLTestCaseCombinedParser.text_return message = null;
         OPPLTestCaseCombinedParser.assertion_return assertion6 = null;
         RewriteRuleTokenStream stream_SEMICOLON = new RewriteRuleTokenStream(adaptor,
-                "token SEMICOLON");
+            "token SEMICOLON");
         RewriteRuleTokenStream stream_ASSERT = new RewriteRuleTokenStream(adaptor,
-                "token ASSERT");
+            "token ASSERT");
         RewriteRuleSubtreeStream stream_text = new RewriteRuleSubtreeStream(adaptor,
-                "rule text");
+            "rule text");
         RewriteRuleSubtreeStream stream_assertion = new RewriteRuleSubtreeStream(adaptor,
-                "rule assertion");
+            "rule assertion");
         try {
             // /Users/luigi/Documents/workspace/Parsers/src/OPPLTestCaseCombined.g:90:2:
             // ( ASSERT assertion ( SEMICOLON message= text )? -> ^( TEST
@@ -537,7 +523,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
                     // SEMICOLON message= text
                     {
                         SEMICOLON7 = (Token) match(input, SEMICOLON,
-                                FOLLOW_SEMICOLON_in_test226);
+                            FOLLOW_SEMICOLON_in_test226);
                         if (state.failed) {
                             return retval;
                         }
@@ -566,8 +552,8 @@ public class OPPLTestCaseCombinedParser extends Parser {
                 if (state.backtracking == 0) {
                     retval.tree = root_0;
                     RewriteRuleSubtreeStream stream_message = new RewriteRuleSubtreeStream(
-                            adaptor, "rule message", message != null ? message.tree
-                                    : null);
+                        adaptor, "rule message", message != null ? message.tree
+                            : null);
                     root_0 = (OPPLSyntaxTree) adaptor.nil();
                     // 91:47: -> ^( TEST assertion ( ^( MESSAGE[$message.text]
                     // $message) )? )
@@ -578,7 +564,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
                         {
                             OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                             root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                    adaptor.create(TEST, "TEST"), root_1);
+                                adaptor.create(TEST, "TEST"), root_1);
                             adaptor.addChild(root_1, stream_assertion.nextTree());
                             // /Users/luigi/Documents/workspace/Parsers/src/OPPLTestCaseCombined.g:91:67:
                             // ( ^( MESSAGE[$message.text] $message) )?
@@ -587,12 +573,12 @@ public class OPPLTestCaseCombinedParser extends Parser {
                                 // ^( MESSAGE[$message.text] $message)
                                 {
                                     OPPLSyntaxTree root_2 = (OPPLSyntaxTree) adaptor
-                                            .nil();
+                                        .nil();
                                     root_2 = (OPPLSyntaxTree) adaptor.becomeRoot(adaptor
-                                            .create(MESSAGE,
-                                                    message != null ? input.toString(
-                                                            message.start, message.stop)
-                                                            : null), root_2);
+                                        .create(MESSAGE,
+                                            message != null ? input.toString(
+                                                message.start, message.stop)
+                                                : null), root_2);
                                     adaptor.addChild(root_2, stream_message.nextTree());
                                     adaptor.addChild(root_1, root_2);
                                 }
@@ -623,6 +609,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
 
     // $ANTLR end "test"
     public static class assertion_return extends ParserRuleReturnScope {
+
         OPPLSyntaxTree tree;
 
         @Override
@@ -668,33 +655,33 @@ public class OPPLTestCaseCombinedParser extends Parser {
         OPPLTestCaseCombinedParser.assertionExpression_return assertionExpression18 = null;
         OPPLTestCaseCombinedParser.assertion_return assertion21 = null;
         RewriteRuleTokenStream stream_LESS_THAN_EQUAL = new RewriteRuleTokenStream(
-                adaptor, "token LESS_THAN_EQUAL");
+            adaptor, "token LESS_THAN_EQUAL");
         RewriteRuleTokenStream stream_VARIABLE_NAME = new RewriteRuleTokenStream(adaptor,
-                "token VARIABLE_NAME");
+            "token VARIABLE_NAME");
         RewriteRuleTokenStream stream_NOT = new RewriteRuleTokenStream(adaptor,
-                "token NOT");
+            "token NOT");
         RewriteRuleTokenStream stream_GREATER_THAN_EQUAL = new RewriteRuleTokenStream(
-                adaptor, "token GREATER_THAN_EQUAL");
+            adaptor, "token GREATER_THAN_EQUAL");
         RewriteRuleTokenStream stream_GREATER_THAN = new RewriteRuleTokenStream(adaptor,
-                "token GREATER_THAN");
+            "token GREATER_THAN");
         RewriteRuleTokenStream stream_CLOSED_PARENTHESYS = new RewriteRuleTokenStream(
-                adaptor, "token CLOSED_PARENTHESYS");
+            adaptor, "token CLOSED_PARENTHESYS");
         RewriteRuleTokenStream stream_COMMA = new RewriteRuleTokenStream(adaptor,
-                "token COMMA");
+            "token COMMA");
         RewriteRuleTokenStream stream_NOT_EQUAL = new RewriteRuleTokenStream(adaptor,
-                "token NOT_EQUAL");
+            "token NOT_EQUAL");
         RewriteRuleTokenStream stream_CONTAINS = new RewriteRuleTokenStream(adaptor,
-                "token CONTAINS");
+            "token CONTAINS");
         RewriteRuleTokenStream stream_EQUAL = new RewriteRuleTokenStream(adaptor,
-                "token EQUAL");
+            "token EQUAL");
         RewriteRuleTokenStream stream_OPEN_PARENTHESYS = new RewriteRuleTokenStream(
-                adaptor, "token OPEN_PARENTHESYS");
+            adaptor, "token OPEN_PARENTHESYS");
         RewriteRuleTokenStream stream_LESS_THAN = new RewriteRuleTokenStream(adaptor,
-                "token LESS_THAN");
+            "token LESS_THAN");
         RewriteRuleSubtreeStream stream_assertionExpression = new RewriteRuleSubtreeStream(
-                adaptor, "rule assertionExpression");
+            adaptor, "rule assertionExpression");
         RewriteRuleSubtreeStream stream_assertion = new RewriteRuleSubtreeStream(adaptor,
-                "rule assertion");
+            "rule assertion");
         try {
             // /Users/luigi/Documents/workspace/Parsers/src/OPPLTestCaseCombined.g:96:2:
             // (left= assertionExpression EQUAL right= assertionExpression -> ^(
@@ -753,9 +740,9 @@ public class OPPLTestCaseCombinedParser extends Parser {
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
                         RewriteRuleSubtreeStream stream_left = new RewriteRuleSubtreeStream(
-                                adaptor, "rule left", left != null ? left.tree : null);
+                            adaptor, "rule left", left != null ? left.tree : null);
                         RewriteRuleSubtreeStream stream_right = new RewriteRuleSubtreeStream(
-                                adaptor, "rule right", right != null ? right.tree : null);
+                            adaptor, "rule right", right != null ? right.tree : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 97:62: -> ^( ASSERT_EQUAL $left $right)
                         {
@@ -764,8 +751,8 @@ public class OPPLTestCaseCombinedParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                        adaptor.create(ASSERT_EQUAL, "ASSERT_EQUAL"),
-                                        root_1);
+                                    adaptor.create(ASSERT_EQUAL, "ASSERT_EQUAL"),
+                                    root_1);
                                 adaptor.addChild(root_1, stream_left.nextTree());
                                 adaptor.addChild(root_1, stream_right.nextTree());
                                 adaptor.addChild(root_0, root_1);
@@ -790,7 +777,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
                         stream_assertionExpression.add(left.getTree());
                     }
                     NOT_EQUAL9 = (Token) match(input, NOT_EQUAL,
-                            FOLLOW_NOT_EQUAL_in_assertion308);
+                        FOLLOW_NOT_EQUAL_in_assertion308);
                     if (state.failed) {
                         return retval;
                     }
@@ -816,9 +803,9 @@ public class OPPLTestCaseCombinedParser extends Parser {
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
                         RewriteRuleSubtreeStream stream_left = new RewriteRuleSubtreeStream(
-                                adaptor, "rule left", left != null ? left.tree : null);
+                            adaptor, "rule left", left != null ? left.tree : null);
                         RewriteRuleSubtreeStream stream_right = new RewriteRuleSubtreeStream(
-                                adaptor, "rule right", right != null ? right.tree : null);
+                            adaptor, "rule right", right != null ? right.tree : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 98:68: -> ^( ASSERT_NOT_EQUAL $left $right)
                         {
@@ -827,8 +814,8 @@ public class OPPLTestCaseCombinedParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(adaptor
-                                        .create(ASSERT_NOT_EQUAL, "ASSERT_NOT_EQUAL"),
-                                        root_1);
+                                    .create(ASSERT_NOT_EQUAL, "ASSERT_NOT_EQUAL"),
+                                    root_1);
                                 adaptor.addChild(root_1, stream_left.nextTree());
                                 adaptor.addChild(root_1, stream_right.nextTree());
                                 adaptor.addChild(root_0, root_1);
@@ -853,7 +840,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
                         stream_assertionExpression.add(left.getTree());
                     }
                     LESS_THAN10 = (Token) match(input, LESS_THAN,
-                            FOLLOW_LESS_THAN_in_assertion336);
+                        FOLLOW_LESS_THAN_in_assertion336);
                     if (state.failed) {
                         return retval;
                     }
@@ -879,9 +866,9 @@ public class OPPLTestCaseCombinedParser extends Parser {
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
                         RewriteRuleSubtreeStream stream_left = new RewriteRuleSubtreeStream(
-                                adaptor, "rule left", left != null ? left.tree : null);
+                            adaptor, "rule left", left != null ? left.tree : null);
                         RewriteRuleSubtreeStream stream_right = new RewriteRuleSubtreeStream(
-                                adaptor, "rule right", right != null ? right.tree : null);
+                            adaptor, "rule right", right != null ? right.tree : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 99:68: -> ^( ASSERT_LESS_THAN $left $right)
                         {
@@ -890,8 +877,8 @@ public class OPPLTestCaseCombinedParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(adaptor
-                                        .create(ASSERT_LESS_THAN, "ASSERT_LESS_THAN"),
-                                        root_1);
+                                    .create(ASSERT_LESS_THAN, "ASSERT_LESS_THAN"),
+                                    root_1);
                                 adaptor.addChild(root_1, stream_left.nextTree());
                                 adaptor.addChild(root_1, stream_right.nextTree());
                                 adaptor.addChild(root_0, root_1);
@@ -916,7 +903,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
                         stream_assertionExpression.add(left.getTree());
                     }
                     LESS_THAN_EQUAL11 = (Token) match(input, LESS_THAN_EQUAL,
-                            FOLLOW_LESS_THAN_EQUAL_in_assertion364);
+                        FOLLOW_LESS_THAN_EQUAL_in_assertion364);
                     if (state.failed) {
                         return retval;
                     }
@@ -942,9 +929,9 @@ public class OPPLTestCaseCombinedParser extends Parser {
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
                         RewriteRuleSubtreeStream stream_left = new RewriteRuleSubtreeStream(
-                                adaptor, "rule left", left != null ? left.tree : null);
+                            adaptor, "rule left", left != null ? left.tree : null);
                         RewriteRuleSubtreeStream stream_right = new RewriteRuleSubtreeStream(
-                                adaptor, "rule right", right != null ? right.tree : null);
+                            adaptor, "rule right", right != null ? right.tree : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 100:74: -> ^( ASSERT_LESS_THAN_EQUAL $left $right)
                         {
@@ -953,8 +940,8 @@ public class OPPLTestCaseCombinedParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(adaptor
-                                        .create(ASSERT_LESS_THAN_EQUAL,
-                                                "ASSERT_LESS_THAN_EQUAL"), root_1);
+                                    .create(ASSERT_LESS_THAN_EQUAL,
+                                        "ASSERT_LESS_THAN_EQUAL"), root_1);
                                 adaptor.addChild(root_1, stream_left.nextTree());
                                 adaptor.addChild(root_1, stream_right.nextTree());
                                 adaptor.addChild(root_0, root_1);
@@ -979,7 +966,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
                         stream_assertionExpression.add(left.getTree());
                     }
                     GREATER_THAN12 = (Token) match(input, GREATER_THAN,
-                            FOLLOW_GREATER_THAN_in_assertion394);
+                        FOLLOW_GREATER_THAN_in_assertion394);
                     if (state.failed) {
                         return retval;
                     }
@@ -1005,9 +992,9 @@ public class OPPLTestCaseCombinedParser extends Parser {
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
                         RewriteRuleSubtreeStream stream_left = new RewriteRuleSubtreeStream(
-                                adaptor, "rule left", left != null ? left.tree : null);
+                            adaptor, "rule left", left != null ? left.tree : null);
                         RewriteRuleSubtreeStream stream_right = new RewriteRuleSubtreeStream(
-                                adaptor, "rule right", right != null ? right.tree : null);
+                            adaptor, "rule right", right != null ? right.tree : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 101:71: -> ^( ASSERT_GREATER_THAN $left $right)
                         {
@@ -1016,8 +1003,8 @@ public class OPPLTestCaseCombinedParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(adaptor
-                                        .create(ASSERT_GREATER_THAN,
-                                                "ASSERT_GREATER_THAN"), root_1);
+                                    .create(ASSERT_GREATER_THAN,
+                                        "ASSERT_GREATER_THAN"), root_1);
                                 adaptor.addChild(root_1, stream_left.nextTree());
                                 adaptor.addChild(root_1, stream_right.nextTree());
                                 adaptor.addChild(root_0, root_1);
@@ -1042,7 +1029,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
                         stream_assertionExpression.add(left.getTree());
                     }
                     GREATER_THAN_EQUAL13 = (Token) match(input, GREATER_THAN_EQUAL,
-                            FOLLOW_GREATER_THAN_EQUAL_in_assertion424);
+                        FOLLOW_GREATER_THAN_EQUAL_in_assertion424);
                     if (state.failed) {
                         return retval;
                     }
@@ -1068,9 +1055,9 @@ public class OPPLTestCaseCombinedParser extends Parser {
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
                         RewriteRuleSubtreeStream stream_left = new RewriteRuleSubtreeStream(
-                                adaptor, "rule left", left != null ? left.tree : null);
+                            adaptor, "rule left", left != null ? left.tree : null);
                         RewriteRuleSubtreeStream stream_right = new RewriteRuleSubtreeStream(
-                                adaptor, "rule right", right != null ? right.tree : null);
+                            adaptor, "rule right", right != null ? right.tree : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 102:77: -> ^( ASSERT_GREATER_THAN_EQUAL $left $right)
                         {
@@ -1079,8 +1066,8 @@ public class OPPLTestCaseCombinedParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(adaptor
-                                        .create(ASSERT_GREATER_THAN_EQUAL,
-                                                "ASSERT_GREATER_THAN_EQUAL"), root_1);
+                                    .create(ASSERT_GREATER_THAN_EQUAL,
+                                        "ASSERT_GREATER_THAN_EQUAL"), root_1);
                                 adaptor.addChild(root_1, stream_left.nextTree());
                                 adaptor.addChild(root_1, stream_right.nextTree());
                                 adaptor.addChild(root_0, root_1);
@@ -1096,7 +1083,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
                 // assertionExpression )*
                 {
                     VARIABLE_NAME14 = (Token) match(input, VARIABLE_NAME,
-                            FOLLOW_VARIABLE_NAME_in_assertion449);
+                        FOLLOW_VARIABLE_NAME_in_assertion449);
                     if (state.failed) {
                         return retval;
                     }
@@ -1104,7 +1091,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
                         stream_VARIABLE_NAME.add(VARIABLE_NAME14);
                     }
                     CONTAINS15 = (Token) match(input, CONTAINS,
-                            FOLLOW_CONTAINS_in_assertion452);
+                        FOLLOW_CONTAINS_in_assertion452);
                     if (state.failed) {
                         return retval;
                     }
@@ -1134,7 +1121,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
                             // COMMA assertionExpression
                             {
                                 COMMA17 = (Token) match(input, COMMA,
-                                        FOLLOW_COMMA_in_assertion457);
+                                    FOLLOW_COMMA_in_assertion457);
                                 if (state.failed) {
                                     return retval;
                                 }
@@ -1149,7 +1136,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
                                 }
                                 if (state.backtracking == 0) {
                                     stream_assertionExpression.add(assertionExpression18
-                                            .getTree());
+                                        .getTree());
                                 }
                             }
                                 break;
@@ -1176,14 +1163,14 @@ public class OPPLTestCaseCombinedParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                        stream_CONTAINS.nextNode(), root_1);
+                                    stream_CONTAINS.nextNode(), root_1);
                                 adaptor.addChild(root_1, stream_VARIABLE_NAME.nextNode());
                                 if (!stream_assertionExpression.hasNext()) {
                                     throw new RewriteEarlyExitException();
                                 }
                                 while (stream_assertionExpression.hasNext()) {
                                     adaptor.addChild(root_1,
-                                            stream_assertionExpression.nextTree());
+                                        stream_assertionExpression.nextTree());
                                 }
                                 stream_assertionExpression.reset();
                                 adaptor.addChild(root_0, root_1);
@@ -1205,7 +1192,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
                         stream_NOT.add(NOT19);
                     }
                     OPEN_PARENTHESYS20 = (Token) match(input, OPEN_PARENTHESYS,
-                            FOLLOW_OPEN_PARENTHESYS_in_assertion480);
+                        FOLLOW_OPEN_PARENTHESYS_in_assertion480);
                     if (state.failed) {
                         return retval;
                     }
@@ -1222,7 +1209,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
                         stream_assertion.add(assertion21.getTree());
                     }
                     CLOSED_PARENTHESYS22 = (Token) match(input, CLOSED_PARENTHESYS,
-                            FOLLOW_CLOSED_PARENTHESYS_in_assertion484);
+                        FOLLOW_CLOSED_PARENTHESYS_in_assertion484);
                     if (state.failed) {
                         return retval;
                     }
@@ -1246,7 +1233,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                        stream_NOT.nextNode(), root_1);
+                                    stream_NOT.nextNode(), root_1);
                                 adaptor.addChild(root_1, stream_assertion.nextTree());
                                 adaptor.addChild(root_0, root_1);
                             }
@@ -1275,6 +1262,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
 
     // $ANTLR end "assertion"
     public static class assertionExpression_return extends ParserRuleReturnScope {
+
         OPPLSyntaxTree tree;
 
         @Override
@@ -1290,8 +1278,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
     // )+ ) | COUNT OPEN_PARENTHESYS VARIABLE_NAME CLOSED_PARENTHESYS -> ^(
     // COUNT VARIABLE_NAME ) | COUNT OPEN_PARENTHESYS STAR CLOSED_PARENTHESYS ->
     // ^( COUNT STAR ) | INTEGER | expression -> ^( EXPRESSION expression ) );
-    public final OPPLTestCaseCombinedParser.assertionExpression_return
-            assertionExpression() {
+    public final OPPLTestCaseCombinedParser.assertionExpression_return assertionExpression() {
         OPPLTestCaseCombinedParser.assertionExpression_return retval = new OPPLTestCaseCombinedParser.assertionExpression_return();
         retval.start = input.LT(1);
         OPPLSyntaxTree root_0 = null;
@@ -1313,21 +1300,21 @@ public class OPPLTestCaseCombinedParser extends Parser {
         OPPLTestCaseCombined_OPPLParser_MOWLParser.expression_return expression38 = null;
         OPPLSyntaxTree INTEGER37_tree = null;
         RewriteRuleTokenStream stream_STAR = new RewriteRuleTokenStream(adaptor,
-                "token STAR");
+            "token STAR");
         RewriteRuleTokenStream stream_VARIABLE_NAME = new RewriteRuleTokenStream(adaptor,
-                "token VARIABLE_NAME");
+            "token VARIABLE_NAME");
         RewriteRuleTokenStream stream_COUNT = new RewriteRuleTokenStream(adaptor,
-                "token COUNT");
+            "token COUNT");
         RewriteRuleTokenStream stream_COMMA = new RewriteRuleTokenStream(adaptor,
-                "token COMMA");
+            "token COMMA");
         RewriteRuleTokenStream stream_CLOSED_PARENTHESYS = new RewriteRuleTokenStream(
-                adaptor, "token CLOSED_PARENTHESYS");
+            adaptor, "token CLOSED_PARENTHESYS");
         RewriteRuleTokenStream stream_OPEN_PARENTHESYS = new RewriteRuleTokenStream(
-                adaptor, "token OPEN_PARENTHESYS");
+            adaptor, "token OPEN_PARENTHESYS");
         RewriteRuleSubtreeStream stream_expression = new RewriteRuleSubtreeStream(
-                adaptor, "rule expression");
+            adaptor, "rule expression");
         RewriteRuleSubtreeStream stream_bindingDescription = new RewriteRuleSubtreeStream(
-                adaptor, "rule bindingDescription");
+            adaptor, "rule bindingDescription");
         try {
             // /Users/luigi/Documents/workspace/Parsers/src/OPPLTestCaseCombined.g:108:2:
             // ( COUNT OPEN_PARENTHESYS bindingDescription ( COMMA
@@ -1354,7 +1341,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
                                     return retval;
                                 }
                                 NoViableAltException nvae = new NoViableAltException("",
-                                        7, 5, input);
+                                    7, 5, input);
                                 throw nvae;
                             }
                         } else if (LA7_4 == STAR) {
@@ -1365,7 +1352,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
                                 return retval;
                             }
                             NoViableAltException nvae = new NoViableAltException("", 7,
-                                    4, input);
+                                4, input);
                             throw nvae;
                         }
                     } else {
@@ -1374,7 +1361,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
                             return retval;
                         }
                         NoViableAltException nvae = new NoViableAltException("", 7, 1,
-                                input);
+                            input);
                         throw nvae;
                     }
                 }
@@ -1410,7 +1397,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
                 // bindingDescription )* CLOSED_PARENTHESYS
                 {
                     COUNT23 = (Token) match(input, COUNT,
-                            FOLLOW_COUNT_in_assertionExpression505);
+                        FOLLOW_COUNT_in_assertionExpression505);
                     if (state.failed) {
                         return retval;
                     }
@@ -1418,7 +1405,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
                         stream_COUNT.add(COUNT23);
                     }
                     OPEN_PARENTHESYS24 = (Token) match(input, OPEN_PARENTHESYS,
-                            FOLLOW_OPEN_PARENTHESYS_in_assertionExpression507);
+                        FOLLOW_OPEN_PARENTHESYS_in_assertionExpression507);
                     if (state.failed) {
                         return retval;
                     }
@@ -1448,7 +1435,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
                             // COMMA bindingDescription
                             {
                                 COMMA26 = (Token) match(input, COMMA,
-                                        FOLLOW_COMMA_in_assertionExpression512);
+                                    FOLLOW_COMMA_in_assertionExpression512);
                                 if (state.failed) {
                                     return retval;
                                 }
@@ -1463,7 +1450,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
                                 }
                                 if (state.backtracking == 0) {
                                     stream_bindingDescription.add(bindingDescription27
-                                            .getTree());
+                                        .getTree());
                                 }
                             }
                                 break;
@@ -1472,7 +1459,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
                         }
                     } while (true);
                     CLOSED_PARENTHESYS28 = (Token) match(input, CLOSED_PARENTHESYS,
-                            FOLLOW_CLOSED_PARENTHESYS_in_assertionExpression518);
+                        FOLLOW_CLOSED_PARENTHESYS_in_assertionExpression518);
                     if (state.failed) {
                         return retval;
                     }
@@ -1496,13 +1483,13 @@ public class OPPLTestCaseCombinedParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                        stream_COUNT.nextNode(), root_1);
+                                    stream_COUNT.nextNode(), root_1);
                                 if (!stream_bindingDescription.hasNext()) {
                                     throw new RewriteEarlyExitException();
                                 }
                                 while (stream_bindingDescription.hasNext()) {
                                     adaptor.addChild(root_1,
-                                            stream_bindingDescription.nextTree());
+                                        stream_bindingDescription.nextTree());
                                 }
                                 stream_bindingDescription.reset();
                                 adaptor.addChild(root_0, root_1);
@@ -1517,7 +1504,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
                 // COUNT OPEN_PARENTHESYS VARIABLE_NAME CLOSED_PARENTHESYS
                 {
                     COUNT29 = (Token) match(input, COUNT,
-                            FOLLOW_COUNT_in_assertionExpression532);
+                        FOLLOW_COUNT_in_assertionExpression532);
                     if (state.failed) {
                         return retval;
                     }
@@ -1525,7 +1512,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
                         stream_COUNT.add(COUNT29);
                     }
                     OPEN_PARENTHESYS30 = (Token) match(input, OPEN_PARENTHESYS,
-                            FOLLOW_OPEN_PARENTHESYS_in_assertionExpression534);
+                        FOLLOW_OPEN_PARENTHESYS_in_assertionExpression534);
                     if (state.failed) {
                         return retval;
                     }
@@ -1533,7 +1520,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
                         stream_OPEN_PARENTHESYS.add(OPEN_PARENTHESYS30);
                     }
                     VARIABLE_NAME31 = (Token) match(input, VARIABLE_NAME,
-                            FOLLOW_VARIABLE_NAME_in_assertionExpression536);
+                        FOLLOW_VARIABLE_NAME_in_assertionExpression536);
                     if (state.failed) {
                         return retval;
                     }
@@ -1541,7 +1528,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
                         stream_VARIABLE_NAME.add(VARIABLE_NAME31);
                     }
                     CLOSED_PARENTHESYS32 = (Token) match(input, CLOSED_PARENTHESYS,
-                            FOLLOW_CLOSED_PARENTHESYS_in_assertionExpression538);
+                        FOLLOW_CLOSED_PARENTHESYS_in_assertionExpression538);
                     if (state.failed) {
                         return retval;
                     }
@@ -1565,7 +1552,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                        stream_COUNT.nextNode(), root_1);
+                                    stream_COUNT.nextNode(), root_1);
                                 adaptor.addChild(root_1, stream_VARIABLE_NAME.nextNode());
                                 adaptor.addChild(root_0, root_1);
                             }
@@ -1579,7 +1566,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
                 // COUNT OPEN_PARENTHESYS STAR CLOSED_PARENTHESYS
                 {
                     COUNT33 = (Token) match(input, COUNT,
-                            FOLLOW_COUNT_in_assertionExpression551);
+                        FOLLOW_COUNT_in_assertionExpression551);
                     if (state.failed) {
                         return retval;
                     }
@@ -1587,7 +1574,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
                         stream_COUNT.add(COUNT33);
                     }
                     OPEN_PARENTHESYS34 = (Token) match(input, OPEN_PARENTHESYS,
-                            FOLLOW_OPEN_PARENTHESYS_in_assertionExpression553);
+                        FOLLOW_OPEN_PARENTHESYS_in_assertionExpression553);
                     if (state.failed) {
                         return retval;
                     }
@@ -1595,7 +1582,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
                         stream_OPEN_PARENTHESYS.add(OPEN_PARENTHESYS34);
                     }
                     STAR35 = (Token) match(input, STAR,
-                            FOLLOW_STAR_in_assertionExpression555);
+                        FOLLOW_STAR_in_assertionExpression555);
                     if (state.failed) {
                         return retval;
                     }
@@ -1603,7 +1590,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
                         stream_STAR.add(STAR35);
                     }
                     CLOSED_PARENTHESYS36 = (Token) match(input, CLOSED_PARENTHESYS,
-                            FOLLOW_CLOSED_PARENTHESYS_in_assertionExpression557);
+                        FOLLOW_CLOSED_PARENTHESYS_in_assertionExpression557);
                     if (state.failed) {
                         return retval;
                     }
@@ -1627,7 +1614,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                        stream_COUNT.nextNode(), root_1);
+                                    stream_COUNT.nextNode(), root_1);
                                 adaptor.addChild(root_1, stream_STAR.nextNode());
                                 adaptor.addChild(root_0, root_1);
                             }
@@ -1642,7 +1629,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
                 {
                     root_0 = (OPPLSyntaxTree) adaptor.nil();
                     INTEGER37 = (Token) match(input, INTEGER,
-                            FOLLOW_INTEGER_in_assertionExpression570);
+                        FOLLOW_INTEGER_in_assertionExpression570);
                     if (state.failed) {
                         return retval;
                     }
@@ -1682,7 +1669,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                        adaptor.create(EXPRESSION, "EXPRESSION"), root_1);
+                                    adaptor.create(EXPRESSION, "EXPRESSION"), root_1);
                                 adaptor.addChild(root_1, stream_expression.nextTree());
                                 adaptor.addChild(root_0, root_1);
                             }
@@ -1711,6 +1698,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
 
     // $ANTLR end "assertionExpression"
     public static class bindingDescription_return extends ParserRuleReturnScope {
+
         OPPLSyntaxTree tree;
 
         @Override
@@ -1723,8 +1711,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
     // /Users/luigi/Documents/workspace/Parsers/src/OPPLTestCaseCombined.g:117:1:
     // bindingDescription : VARIABLE_NAME EQUAL expression -> ^( BINDING
     // VARIABLE_NAME ^( EXPRESSION expression ) ) ;
-    public final OPPLTestCaseCombinedParser.bindingDescription_return
-            bindingDescription() {
+    public final OPPLTestCaseCombinedParser.bindingDescription_return bindingDescription() {
         OPPLTestCaseCombinedParser.bindingDescription_return retval = new OPPLTestCaseCombinedParser.bindingDescription_return();
         retval.start = input.LT(1);
         OPPLSyntaxTree root_0 = null;
@@ -1732,11 +1719,11 @@ public class OPPLTestCaseCombinedParser extends Parser {
         Token EQUAL40 = null;
         OPPLTestCaseCombined_OPPLParser_MOWLParser.expression_return expression41 = null;
         RewriteRuleTokenStream stream_VARIABLE_NAME = new RewriteRuleTokenStream(adaptor,
-                "token VARIABLE_NAME");
+            "token VARIABLE_NAME");
         RewriteRuleTokenStream stream_EQUAL = new RewriteRuleTokenStream(adaptor,
-                "token EQUAL");
+            "token EQUAL");
         RewriteRuleSubtreeStream stream_expression = new RewriteRuleSubtreeStream(
-                adaptor, "rule expression");
+            adaptor, "rule expression");
         try {
             // /Users/luigi/Documents/workspace/Parsers/src/OPPLTestCaseCombined.g:118:2:
             // ( VARIABLE_NAME EQUAL expression -> ^( BINDING VARIABLE_NAME ^(
@@ -1745,7 +1732,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
             // VARIABLE_NAME EQUAL expression
             {
                 VARIABLE_NAME39 = (Token) match(input, VARIABLE_NAME,
-                        FOLLOW_VARIABLE_NAME_in_bindingDescription600);
+                    FOLLOW_VARIABLE_NAME_in_bindingDescription600);
                 if (state.failed) {
                     return retval;
                 }
@@ -1753,7 +1740,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
                     stream_VARIABLE_NAME.add(VARIABLE_NAME39);
                 }
                 EQUAL40 = (Token) match(input, EQUAL,
-                        FOLLOW_EQUAL_in_bindingDescription602);
+                    FOLLOW_EQUAL_in_bindingDescription602);
                 if (state.failed) {
                     return retval;
                 }
@@ -1787,14 +1774,14 @@ public class OPPLTestCaseCombinedParser extends Parser {
                         {
                             OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                             root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                    adaptor.create(BINDING, "BINDING"), root_1);
+                                adaptor.create(BINDING, "BINDING"), root_1);
                             adaptor.addChild(root_1, stream_VARIABLE_NAME.nextNode());
                             // /Users/luigi/Documents/workspace/Parsers/src/OPPLTestCaseCombined.g:119:62:
                             // ^( EXPRESSION expression )
                             {
                                 OPPLSyntaxTree root_2 = (OPPLSyntaxTree) adaptor.nil();
                                 root_2 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                        adaptor.create(EXPRESSION, "EXPRESSION"), root_2);
+                                    adaptor.create(EXPRESSION, "EXPRESSION"), root_2);
                                 adaptor.addChild(root_2, stream_expression.nextTree());
                                 adaptor.addChild(root_1, root_2);
                             }
@@ -1823,6 +1810,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
 
     // $ANTLR end "bindingDescription"
     public static class text_return extends ParserRuleReturnScope {
+
         OPPLSyntaxTree tree;
 
         @Override
@@ -1840,7 +1828,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
         OPPLSyntaxTree root_0 = null;
         OPPLTestCaseCombinedParser.textBit_return t = null;
         RewriteRuleSubtreeStream stream_textBit = new RewriteRuleSubtreeStream(adaptor,
-                "rule textBit");
+            "rule textBit");
         StringBuilder builder = new StringBuilder();
         try {
             // /Users/luigi/Documents/workspace/Parsers/src/OPPLTestCaseCombined.g:130:1:
@@ -1855,9 +1843,9 @@ public class OPPLTestCaseCombinedParser extends Parser {
                     int alt8 = 2;
                     int LA8_0 = input.LA(1);
                     if (LA8_0 >= AND && LA8_0 <= INVERSE || LA8_0 >= DOMAIN
-                            && LA8_0 <= INVERSE_FUNCTIONAL || LA8_0 == TYPES
-                            || LA8_0 == INTEGER || LA8_0 == IDENTIFIER || LA8_0 == EQUAL
-                            || LA8_0 == VARIABLE_NAME || LA8_0 == COUNT) {
+                        && LA8_0 <= INVERSE_FUNCTIONAL || LA8_0 == TYPES
+                        || LA8_0 == INTEGER || LA8_0 == IDENTIFIER || LA8_0 == EQUAL
+                        || LA8_0 == VARIABLE_NAME || LA8_0 == COUNT) {
                         alt8 = 1;
                     }
                     switch (alt8) {
@@ -1876,7 +1864,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
                             }
                             if (state.backtracking == 0) {
                                 builder.append(t != null ? input
-                                        .toString(t.start, t.stop) : null);
+                                    .toString(t.start, t.stop) : null);
                                 builder.append(" ");
                             }
                         }
@@ -1911,7 +1899,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
                         {
                             OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                             root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                    adaptor.create(TEXT, builder.toString()), root_1);
+                                adaptor.create(TEXT, builder.toString()), root_1);
                             if (!stream_textBit.hasNext()) {
                                 throw new RewriteEarlyExitException();
                             }
@@ -1944,6 +1932,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
 
     // $ANTLR end "text"
     public static class textBit_return extends ParserRuleReturnScope {
+
         OPPLSyntaxTree tree;
 
         @Override
@@ -1999,54 +1988,54 @@ public class OPPLTestCaseCombinedParser extends Parser {
         Token COUNT65 = null;
         Token EQUAL66 = null;
         RewriteRuleTokenStream stream_INTEGER = new RewriteRuleTokenStream(adaptor,
-                "token INTEGER");
+            "token INTEGER");
         RewriteRuleTokenStream stream_TRANSITIVE = new RewriteRuleTokenStream(adaptor,
-                "token TRANSITIVE");
+            "token TRANSITIVE");
         RewriteRuleTokenStream stream_ANTI_SYMMETRIC = new RewriteRuleTokenStream(
-                adaptor, "token ANTI_SYMMETRIC");
+            adaptor, "token ANTI_SYMMETRIC");
         RewriteRuleTokenStream stream_EXACTLY = new RewriteRuleTokenStream(adaptor,
-                "token EXACTLY");
+            "token EXACTLY");
         RewriteRuleTokenStream stream_ONLY = new RewriteRuleTokenStream(adaptor,
-                "token ONLY");
+            "token ONLY");
         RewriteRuleTokenStream stream_MAX = new RewriteRuleTokenStream(adaptor,
-                "token MAX");
+            "token MAX");
         RewriteRuleTokenStream stream_RANGE = new RewriteRuleTokenStream(adaptor,
-                "token RANGE");
+            "token RANGE");
         RewriteRuleTokenStream stream_TYPES = new RewriteRuleTokenStream(adaptor,
-                "token TYPES");
+            "token TYPES");
         RewriteRuleTokenStream stream_COUNT = new RewriteRuleTokenStream(adaptor,
-                "token COUNT");
+            "token COUNT");
         RewriteRuleTokenStream stream_NOT = new RewriteRuleTokenStream(adaptor,
-                "token NOT");
+            "token NOT");
         RewriteRuleTokenStream stream_MIN = new RewriteRuleTokenStream(adaptor,
-                "token MIN");
+            "token MIN");
         RewriteRuleTokenStream stream_VALUE = new RewriteRuleTokenStream(adaptor,
-                "token VALUE");
+            "token VALUE");
         RewriteRuleTokenStream stream_AND = new RewriteRuleTokenStream(adaptor,
-                "token AND");
+            "token AND");
         RewriteRuleTokenStream stream_DOMAIN = new RewriteRuleTokenStream(adaptor,
-                "token DOMAIN");
+            "token DOMAIN");
         RewriteRuleTokenStream stream_INVERSE = new RewriteRuleTokenStream(adaptor,
-                "token INVERSE");
+            "token INVERSE");
         RewriteRuleTokenStream stream_VARIABLE_NAME = new RewriteRuleTokenStream(adaptor,
-                "token VARIABLE_NAME");
+            "token VARIABLE_NAME");
         RewriteRuleTokenStream stream_INVERSE_FUNCTIONAL = new RewriteRuleTokenStream(
-                adaptor, "token INVERSE_FUNCTIONAL");
+            adaptor, "token INVERSE_FUNCTIONAL");
         RewriteRuleTokenStream stream_IDENTIFIER = new RewriteRuleTokenStream(adaptor,
-                "token IDENTIFIER");
+            "token IDENTIFIER");
         RewriteRuleTokenStream stream_SOME = new RewriteRuleTokenStream(adaptor,
-                "token SOME");
+            "token SOME");
         RewriteRuleTokenStream stream_IRREFLEXIVE = new RewriteRuleTokenStream(adaptor,
-                "token IRREFLEXIVE");
+            "token IRREFLEXIVE");
         RewriteRuleTokenStream stream_EQUAL = new RewriteRuleTokenStream(adaptor,
-                "token EQUAL");
+            "token EQUAL");
         RewriteRuleTokenStream stream_OR = new RewriteRuleTokenStream(adaptor, "token OR");
         RewriteRuleTokenStream stream_REFLEXIVE = new RewriteRuleTokenStream(adaptor,
-                "token REFLEXIVE");
+            "token REFLEXIVE");
         RewriteRuleTokenStream stream_SYMMETRIC = new RewriteRuleTokenStream(adaptor,
-                "token SYMMETRIC");
+            "token SYMMETRIC");
         RewriteRuleTokenStream stream_FUNCTIONAL = new RewriteRuleTokenStream(adaptor,
-                "token FUNCTIONAL");
+            "token FUNCTIONAL");
         try {
             // /Users/luigi/Documents/workspace/Parsers/src/OPPLTestCaseCombined.g:139:2:
             // ( IDENTIFIER -> ^( TEXT[$IDENTIFIER.text] ) | VARIABLE_NAME -> ^(
@@ -2181,7 +2170,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
                 // IDENTIFIER
                 {
                     IDENTIFIER42 = (Token) match(input, IDENTIFIER,
-                            FOLLOW_IDENTIFIER_in_textBit675);
+                        FOLLOW_IDENTIFIER_in_textBit675);
                     if (state.failed) {
                         return retval;
                     }
@@ -2205,9 +2194,9 @@ public class OPPLTestCaseCombinedParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(adaptor
-                                        .create(TEXT,
-                                                IDENTIFIER42 != null ? IDENTIFIER42
-                                                        .getText() : null), root_1);
+                                    .create(TEXT,
+                                        IDENTIFIER42 != null ? IDENTIFIER42
+                                            .getText() : null), root_1);
                                 adaptor.addChild(root_0, root_1);
                             }
                         }
@@ -2220,7 +2209,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
                 // VARIABLE_NAME
                 {
                     VARIABLE_NAME43 = (Token) match(input, VARIABLE_NAME,
-                            FOLLOW_VARIABLE_NAME_in_textBit690);
+                        FOLLOW_VARIABLE_NAME_in_textBit690);
                     if (state.failed) {
                         return retval;
                     }
@@ -2244,7 +2233,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                        adaptor.create(TEXT, "TEXT"), root_1);
+                                    adaptor.create(TEXT, "TEXT"), root_1);
                                 adaptor.addChild(root_1, stream_VARIABLE_NAME.nextNode());
                                 adaptor.addChild(root_0, root_1);
                             }
@@ -2258,7 +2247,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
                 // FUNCTIONAL
                 {
                     FUNCTIONAL44 = (Token) match(input, FUNCTIONAL,
-                            FOLLOW_FUNCTIONAL_in_textBit706);
+                        FOLLOW_FUNCTIONAL_in_textBit706);
                     if (state.failed) {
                         return retval;
                     }
@@ -2282,9 +2271,9 @@ public class OPPLTestCaseCombinedParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(adaptor
-                                        .create(TEXT,
-                                                FUNCTIONAL44 != null ? FUNCTIONAL44
-                                                        .getText() : null), root_1);
+                                    .create(TEXT,
+                                        FUNCTIONAL44 != null ? FUNCTIONAL44
+                                            .getText() : null), root_1);
                                 adaptor.addChild(root_0, root_1);
                             }
                         }
@@ -2297,7 +2286,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
                 // INVERSE_FUNCTIONAL
                 {
                     INVERSE_FUNCTIONAL45 = (Token) match(input, INVERSE_FUNCTIONAL,
-                            FOLLOW_INVERSE_FUNCTIONAL_in_textBit721);
+                        FOLLOW_INVERSE_FUNCTIONAL_in_textBit721);
                     if (state.failed) {
                         return retval;
                     }
@@ -2321,12 +2310,12 @@ public class OPPLTestCaseCombinedParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor
-                                        .becomeRoot(
-                                                adaptor.create(
-                                                        TEXT,
-                                                        INVERSE_FUNCTIONAL45 != null ? INVERSE_FUNCTIONAL45
-                                                                .getText() : null),
-                                                root_1);
+                                    .becomeRoot(
+                                        adaptor.create(
+                                            TEXT,
+                                            INVERSE_FUNCTIONAL45 != null ? INVERSE_FUNCTIONAL45
+                                                .getText() : null),
+                                        root_1);
                                 adaptor.addChild(root_0, root_1);
                             }
                         }
@@ -2339,7 +2328,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
                 // SYMMETRIC
                 {
                     SYMMETRIC46 = (Token) match(input, SYMMETRIC,
-                            FOLLOW_SYMMETRIC_in_textBit736);
+                        FOLLOW_SYMMETRIC_in_textBit736);
                     if (state.failed) {
                         return retval;
                     }
@@ -2363,9 +2352,9 @@ public class OPPLTestCaseCombinedParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(adaptor
-                                        .create(TEXT,
-                                                SYMMETRIC46 != null ? SYMMETRIC46
-                                                        .getText() : null), root_1);
+                                    .create(TEXT,
+                                        SYMMETRIC46 != null ? SYMMETRIC46
+                                            .getText() : null), root_1);
                                 adaptor.addChild(root_0, root_1);
                             }
                         }
@@ -2378,7 +2367,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
                 // ANTI_SYMMETRIC
                 {
                     ANTI_SYMMETRIC47 = (Token) match(input, ANTI_SYMMETRIC,
-                            FOLLOW_ANTI_SYMMETRIC_in_textBit751);
+                        FOLLOW_ANTI_SYMMETRIC_in_textBit751);
                     if (state.failed) {
                         return retval;
                     }
@@ -2402,12 +2391,12 @@ public class OPPLTestCaseCombinedParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor
-                                        .becomeRoot(
-                                                adaptor.create(
-                                                        TEXT,
-                                                        ANTI_SYMMETRIC47 != null ? ANTI_SYMMETRIC47
-                                                                .getText() : null),
-                                                root_1);
+                                    .becomeRoot(
+                                        adaptor.create(
+                                            TEXT,
+                                            ANTI_SYMMETRIC47 != null ? ANTI_SYMMETRIC47
+                                                .getText() : null),
+                                        root_1);
                                 adaptor.addChild(root_0, root_1);
                             }
                         }
@@ -2420,7 +2409,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
                 // REFLEXIVE
                 {
                     REFLEXIVE48 = (Token) match(input, REFLEXIVE,
-                            FOLLOW_REFLEXIVE_in_textBit766);
+                        FOLLOW_REFLEXIVE_in_textBit766);
                     if (state.failed) {
                         return retval;
                     }
@@ -2444,9 +2433,9 @@ public class OPPLTestCaseCombinedParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(adaptor
-                                        .create(TEXT,
-                                                REFLEXIVE48 != null ? REFLEXIVE48
-                                                        .getText() : null), root_1);
+                                    .create(TEXT,
+                                        REFLEXIVE48 != null ? REFLEXIVE48
+                                            .getText() : null), root_1);
                                 adaptor.addChild(root_0, root_1);
                             }
                         }
@@ -2459,7 +2448,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
                 // IRREFLEXIVE
                 {
                     IRREFLEXIVE49 = (Token) match(input, IRREFLEXIVE,
-                            FOLLOW_IRREFLEXIVE_in_textBit781);
+                        FOLLOW_IRREFLEXIVE_in_textBit781);
                     if (state.failed) {
                         return retval;
                     }
@@ -2483,9 +2472,9 @@ public class OPPLTestCaseCombinedParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(adaptor
-                                        .create(TEXT,
-                                                IRREFLEXIVE49 != null ? IRREFLEXIVE49
-                                                        .getText() : null), root_1);
+                                    .create(TEXT,
+                                        IRREFLEXIVE49 != null ? IRREFLEXIVE49
+                                            .getText() : null), root_1);
                                 adaptor.addChild(root_0, root_1);
                             }
                         }
@@ -2498,7 +2487,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
                 // TRANSITIVE
                 {
                     TRANSITIVE50 = (Token) match(input, TRANSITIVE,
-                            FOLLOW_TRANSITIVE_in_textBit797);
+                        FOLLOW_TRANSITIVE_in_textBit797);
                     if (state.failed) {
                         return retval;
                     }
@@ -2522,9 +2511,9 @@ public class OPPLTestCaseCombinedParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(adaptor
-                                        .create(TEXT,
-                                                TRANSITIVE50 != null ? TRANSITIVE50
-                                                        .getText() : null), root_1);
+                                    .create(TEXT,
+                                        TRANSITIVE50 != null ? TRANSITIVE50
+                                            .getText() : null), root_1);
                                 adaptor.addChild(root_0, root_1);
                             }
                         }
@@ -2560,9 +2549,9 @@ public class OPPLTestCaseCombinedParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                        adaptor.create(TEXT,
-                                                NOT51 != null ? NOT51.getText() : null),
-                                        root_1);
+                                    adaptor.create(TEXT,
+                                        NOT51 != null ? NOT51.getText() : null),
+                                    root_1);
                                 adaptor.addChild(root_0, root_1);
                             }
                         }
@@ -2598,9 +2587,9 @@ public class OPPLTestCaseCombinedParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                        adaptor.create(TEXT,
-                                                AND52 != null ? AND52.getText() : null),
-                                        root_1);
+                                    adaptor.create(TEXT,
+                                        AND52 != null ? AND52.getText() : null),
+                                    root_1);
                                 adaptor.addChild(root_0, root_1);
                             }
                         }
@@ -2636,9 +2625,9 @@ public class OPPLTestCaseCombinedParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                        adaptor.create(TEXT,
-                                                OR53 != null ? OR53.getText() : null),
-                                        root_1);
+                                    adaptor.create(TEXT,
+                                        OR53 != null ? OR53.getText() : null),
+                                    root_1);
                                 adaptor.addChild(root_0, root_1);
                             }
                         }
@@ -2674,10 +2663,10 @@ public class OPPLTestCaseCombinedParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor
-                                        .becomeRoot(
-                                                adaptor.create(TEXT,
-                                                        SOME54 != null ? SOME54.getText()
-                                                                : null), root_1);
+                                    .becomeRoot(
+                                        adaptor.create(TEXT,
+                                            SOME54 != null ? SOME54.getText()
+                                                : null), root_1);
                                 adaptor.addChild(root_0, root_1);
                             }
                         }
@@ -2713,10 +2702,10 @@ public class OPPLTestCaseCombinedParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor
-                                        .becomeRoot(
-                                                adaptor.create(TEXT,
-                                                        ONLY55 != null ? ONLY55.getText()
-                                                                : null), root_1);
+                                    .becomeRoot(
+                                        adaptor.create(TEXT,
+                                            ONLY55 != null ? ONLY55.getText()
+                                                : null), root_1);
                                 adaptor.addChild(root_0, root_1);
                             }
                         }
@@ -2752,9 +2741,9 @@ public class OPPLTestCaseCombinedParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                        adaptor.create(TEXT,
-                                                MIN56 != null ? MIN56.getText() : null),
-                                        root_1);
+                                    adaptor.create(TEXT,
+                                        MIN56 != null ? MIN56.getText() : null),
+                                    root_1);
                                 adaptor.addChild(root_0, root_1);
                             }
                         }
@@ -2790,9 +2779,9 @@ public class OPPLTestCaseCombinedParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                        adaptor.create(TEXT,
-                                                MAX57 != null ? MAX57.getText() : null),
-                                        root_1);
+                                    adaptor.create(TEXT,
+                                        MAX57 != null ? MAX57.getText() : null),
+                                    root_1);
                                 adaptor.addChild(root_0, root_1);
                             }
                         }
@@ -2805,7 +2794,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
                 // EXACTLY
                 {
                     EXACTLY58 = (Token) match(input, EXACTLY,
-                            FOLLOW_EXACTLY_in_textBit920);
+                        FOLLOW_EXACTLY_in_textBit920);
                     if (state.failed) {
                         return retval;
                     }
@@ -2829,9 +2818,9 @@ public class OPPLTestCaseCombinedParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(adaptor
-                                        .create(TEXT,
-                                                EXACTLY58 != null ? EXACTLY58.getText()
-                                                        : null), root_1);
+                                    .create(TEXT,
+                                        EXACTLY58 != null ? EXACTLY58.getText()
+                                            : null), root_1);
                                 adaptor.addChild(root_0, root_1);
                             }
                         }
@@ -2867,8 +2856,8 @@ public class OPPLTestCaseCombinedParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(adaptor
-                                        .create(TEXT, VALUE59 != null ? VALUE59.getText()
-                                                : null), root_1);
+                                    .create(TEXT, VALUE59 != null ? VALUE59.getText()
+                                        : null), root_1);
                                 adaptor.addChild(root_0, root_1);
                             }
                         }
@@ -2881,7 +2870,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
                 // INVERSE
                 {
                     INVERSE60 = (Token) match(input, INVERSE,
-                            FOLLOW_INVERSE_in_textBit956);
+                        FOLLOW_INVERSE_in_textBit956);
                     if (state.failed) {
                         return retval;
                     }
@@ -2905,9 +2894,9 @@ public class OPPLTestCaseCombinedParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(adaptor
-                                        .create(TEXT,
-                                                INVERSE60 != null ? INVERSE60.getText()
-                                                        : null), root_1);
+                                    .create(TEXT,
+                                        INVERSE60 != null ? INVERSE60.getText()
+                                            : null), root_1);
                                 adaptor.addChild(root_0, root_1);
                             }
                         }
@@ -2943,9 +2932,9 @@ public class OPPLTestCaseCombinedParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(adaptor
-                                        .create(TEXT,
-                                                DOMAIN61 != null ? DOMAIN61.getText()
-                                                        : null), root_1);
+                                    .create(TEXT,
+                                        DOMAIN61 != null ? DOMAIN61.getText()
+                                            : null), root_1);
                                 adaptor.addChild(root_0, root_1);
                             }
                         }
@@ -2981,8 +2970,8 @@ public class OPPLTestCaseCombinedParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(adaptor
-                                        .create(TEXT, RANGE62 != null ? RANGE62.getText()
-                                                : null), root_1);
+                                    .create(TEXT, RANGE62 != null ? RANGE62.getText()
+                                        : null), root_1);
                                 adaptor.addChild(root_0, root_1);
                             }
                         }
@@ -3018,8 +3007,8 @@ public class OPPLTestCaseCombinedParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(adaptor
-                                        .create(TEXT, TYPES63 != null ? TYPES63.getText()
-                                                : null), root_1);
+                                    .create(TEXT, TYPES63 != null ? TYPES63.getText()
+                                        : null), root_1);
                                 adaptor.addChild(root_0, root_1);
                             }
                         }
@@ -3032,7 +3021,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
                 // INTEGER
                 {
                     INTEGER64 = (Token) match(input, INTEGER,
-                            FOLLOW_INTEGER_in_textBit1028);
+                        FOLLOW_INTEGER_in_textBit1028);
                     if (state.failed) {
                         return retval;
                     }
@@ -3056,9 +3045,9 @@ public class OPPLTestCaseCombinedParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(adaptor
-                                        .create(TEXT,
-                                                INTEGER64 != null ? INTEGER64.getText()
-                                                        : null), root_1);
+                                    .create(TEXT,
+                                        INTEGER64 != null ? INTEGER64.getText()
+                                            : null), root_1);
                                 adaptor.addChild(root_0, root_1);
                             }
                         }
@@ -3094,8 +3083,8 @@ public class OPPLTestCaseCombinedParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(adaptor
-                                        .create(TEXT, COUNT65 != null ? COUNT65.getText()
-                                                : null), root_1);
+                                    .create(TEXT, COUNT65 != null ? COUNT65.getText()
+                                        : null), root_1);
                                 adaptor.addChild(root_0, root_1);
                             }
                         }
@@ -3131,8 +3120,8 @@ public class OPPLTestCaseCombinedParser extends Parser {
                             {
                                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                                 root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(adaptor
-                                        .create(TEXT, EQUAL66 != null ? EQUAL66.getText()
-                                                : null), root_1);
+                                    .create(TEXT, EQUAL66 != null ? EQUAL66.getText()
+                                        : null), root_1);
                                 adaptor.addChild(root_0, root_1);
                             }
                         }
@@ -3160,6 +3149,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
 
     // $ANTLR end "textBit"
     public static class statement_return extends ParserRuleReturnScope {
+
         OPPLSyntaxTree tree;
 
         @Override
@@ -3179,9 +3169,9 @@ public class OPPLTestCaseCombinedParser extends Parser {
         OPPLTestCaseCombined_OPPLParser.variableDefinitions_return variableDefinitions67 = null;
         OPPLTestCaseCombined_OPPLParser.query_return query68 = null;
         RewriteRuleSubtreeStream stream_query = new RewriteRuleSubtreeStream(adaptor,
-                "rule query");
+            "rule query");
         RewriteRuleSubtreeStream stream_variableDefinitions = new RewriteRuleSubtreeStream(
-                adaptor, "rule variableDefinitions");
+            adaptor, "rule variableDefinitions");
         try {
             // /Users/luigi/Documents/workspace/Parsers/src/OPPLTestCaseCombined.g:168:3:
             // ( ( variableDefinitions )? query -> ^( OPPL_STATEMENT (
@@ -3209,7 +3199,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
                         }
                         if (state.backtracking == 0) {
                             stream_variableDefinitions.add(variableDefinitions67
-                                    .getTree());
+                                .getTree());
                         }
                     }
                         break;
@@ -3241,13 +3231,13 @@ public class OPPLTestCaseCombinedParser extends Parser {
                         {
                             OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
                             root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(
-                                    adaptor.create(OPPL_STATEMENT, "OPPL_STATEMENT"),
-                                    root_1);
+                                adaptor.create(OPPL_STATEMENT, "OPPL_STATEMENT"),
+                                root_1);
                             // /Users/luigi/Documents/workspace/Parsers/src/OPPLTestCaseCombined.g:169:53:
                             // ( variableDefinitions )?
                             if (stream_variableDefinitions.hasNext()) {
                                 adaptor.addChild(root_1,
-                                        stream_variableDefinitions.nextTree());
+                                    stream_variableDefinitions.nextTree());
                             }
                             stream_variableDefinitions.reset();
                             adaptor.addChild(root_1, stream_query.nextTree());
@@ -3277,7 +3267,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
     // $ANTLR end "statement"
     // $ANTLR start synpred4_OPPLTestCaseCombined
     public final void synpred4_OPPLTestCaseCombined_fragment()
-            throws RecognitionException {
+        throws RecognitionException {
         // /Users/luigi/Documents/workspace/Parsers/src/OPPLTestCaseCombined.g:97:3:
         // (left= assertionExpression EQUAL right= assertionExpression )
         // /Users/luigi/Documents/workspace/Parsers/src/OPPLTestCaseCombined.g:97:3:
@@ -3305,7 +3295,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
     // $ANTLR end synpred4_OPPLTestCaseCombined
     // $ANTLR start synpred5_OPPLTestCaseCombined
     public final void synpred5_OPPLTestCaseCombined_fragment()
-            throws RecognitionException {
+        throws RecognitionException {
         // /Users/luigi/Documents/workspace/Parsers/src/OPPLTestCaseCombined.g:98:5:
         // (left= assertionExpression NOT_EQUAL right= assertionExpression )
         // /Users/luigi/Documents/workspace/Parsers/src/OPPLTestCaseCombined.g:98:5:
@@ -3333,7 +3323,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
     // $ANTLR end synpred5_OPPLTestCaseCombined
     // $ANTLR start synpred6_OPPLTestCaseCombined
     public final void synpred6_OPPLTestCaseCombined_fragment()
-            throws RecognitionException {
+        throws RecognitionException {
         // /Users/luigi/Documents/workspace/Parsers/src/OPPLTestCaseCombined.g:99:5:
         // (left= assertionExpression LESS_THAN right= assertionExpression )
         // /Users/luigi/Documents/workspace/Parsers/src/OPPLTestCaseCombined.g:99:5:
@@ -3361,7 +3351,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
     // $ANTLR end synpred6_OPPLTestCaseCombined
     // $ANTLR start synpred7_OPPLTestCaseCombined
     public final void synpred7_OPPLTestCaseCombined_fragment()
-            throws RecognitionException {
+        throws RecognitionException {
         // /Users/luigi/Documents/workspace/Parsers/src/OPPLTestCaseCombined.g:100:5:
         // (left= assertionExpression LESS_THAN_EQUAL right= assertionExpression
         // )
@@ -3375,7 +3365,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
                 return;
             }
             match(input, LESS_THAN_EQUAL,
-                    FOLLOW_LESS_THAN_EQUAL_in_synpred7_OPPLTestCaseCombined364);
+                FOLLOW_LESS_THAN_EQUAL_in_synpred7_OPPLTestCaseCombined364);
             if (state.failed) {
                 return;
             }
@@ -3391,7 +3381,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
     // $ANTLR end synpred7_OPPLTestCaseCombined
     // $ANTLR start synpred8_OPPLTestCaseCombined
     public final void synpred8_OPPLTestCaseCombined_fragment()
-            throws RecognitionException {
+        throws RecognitionException {
         // /Users/luigi/Documents/workspace/Parsers/src/OPPLTestCaseCombined.g:101:5:
         // (left= assertionExpression GREATER_THAN right= assertionExpression )
         // /Users/luigi/Documents/workspace/Parsers/src/OPPLTestCaseCombined.g:101:5:
@@ -3404,7 +3394,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
                 return;
             }
             match(input, GREATER_THAN,
-                    FOLLOW_GREATER_THAN_in_synpred8_OPPLTestCaseCombined394);
+                FOLLOW_GREATER_THAN_in_synpred8_OPPLTestCaseCombined394);
             if (state.failed) {
                 return;
             }
@@ -3420,7 +3410,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
     // $ANTLR end synpred8_OPPLTestCaseCombined
     // $ANTLR start synpred9_OPPLTestCaseCombined
     public final void synpred9_OPPLTestCaseCombined_fragment()
-            throws RecognitionException {
+        throws RecognitionException {
         // /Users/luigi/Documents/workspace/Parsers/src/OPPLTestCaseCombined.g:102:5:
         // (left= assertionExpression GREATER_THAN_EQUAL right=
         // assertionExpression )
@@ -3435,7 +3425,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
                 return;
             }
             match(input, GREATER_THAN_EQUAL,
-                    FOLLOW_GREATER_THAN_EQUAL_in_synpred9_OPPLTestCaseCombined424);
+                FOLLOW_GREATER_THAN_EQUAL_in_synpred9_OPPLTestCaseCombined424);
             if (state.failed) {
                 return;
             }
@@ -3451,7 +3441,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
     // $ANTLR end synpred9_OPPLTestCaseCombined
     // $ANTLR start synpred11_OPPLTestCaseCombined
     public final void synpred11_OPPLTestCaseCombined_fragment()
-            throws RecognitionException {
+        throws RecognitionException {
         // /Users/luigi/Documents/workspace/Parsers/src/OPPLTestCaseCombined.g:103:5:
         // ( VARIABLE_NAME CONTAINS assertionExpression ( COMMA
         // assertionExpression )* )
@@ -3460,7 +3450,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
         // assertionExpression )*
         {
             match(input, VARIABLE_NAME,
-                    FOLLOW_VARIABLE_NAME_in_synpred11_OPPLTestCaseCombined449);
+                FOLLOW_VARIABLE_NAME_in_synpred11_OPPLTestCaseCombined449);
             if (state.failed) {
                 return;
             }
@@ -3488,7 +3478,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
                     // COMMA assertionExpression
                     {
                         match(input, COMMA,
-                                FOLLOW_COMMA_in_synpred11_OPPLTestCaseCombined457);
+                            FOLLOW_COMMA_in_synpred11_OPPLTestCaseCombined457);
                         if (state.failed) {
                             return;
                         }
@@ -3510,102 +3500,102 @@ public class OPPLTestCaseCombinedParser extends Parser {
     // $ANTLR end synpred11_OPPLTestCaseCombined
     // Delegated rules
     public OPPLTestCaseCombined_OPPLParser_MOWLParser.expression_return expression()
-            throws RecognitionException {
+        throws RecognitionException {
         return gMOWLParser.expression();
     }
 
     public OPPLTestCaseCombined_OPPLParser.stringExpression_return stringExpression()
-            throws RecognitionException {
+        throws RecognitionException {
         return gOPPLParser.stringExpression();
     }
 
     public OPPLTestCaseCombined_OPPLParser.action_return action()
-            throws RecognitionException {
+        throws RecognitionException {
         return gOPPLParser.action();
     }
 
     public OPPLTestCaseCombined_OPPLParser_MOWLParser.unaryAxiom_return unaryAxiom()
-            throws RecognitionException {
+        throws RecognitionException {
         return gMOWLParser.unaryAxiom();
     }
 
     public OPPLTestCaseCombined_OPPLParser_MOWLParser.constant_return constant()
-            throws RecognitionException {
+        throws RecognitionException {
         return gMOWLParser.constant();
     }
 
-    public OPPLTestCaseCombined_OPPLParser_MOWLParser.complexPropertyExpression_return
-            complexPropertyExpression() throws RecognitionException {
+    public OPPLTestCaseCombined_OPPLParser_MOWLParser.complexPropertyExpression_return complexPropertyExpression()
+        throws RecognitionException {
         return gMOWLParser.complexPropertyExpression();
     }
 
     public OPPLTestCaseCombined_OPPLParser.atomic_return atomic()
-            throws RecognitionException {
+        throws RecognitionException {
         return gOPPLParser.atomic();
     }
 
-    public OPPLTestCaseCombined_OPPLParser_MOWLParser.restrictionKind_return
-            restrictionKind() throws RecognitionException {
+    public OPPLTestCaseCombined_OPPLParser_MOWLParser.restrictionKind_return restrictionKind()
+        throws RecognitionException {
         return gMOWLParser.restrictionKind();
     }
 
     public OPPLTestCaseCombined_OPPLParser.axiom_return axiom()
-            throws RecognitionException {
+        throws RecognitionException {
         return gOPPLParser.axiom();
     }
 
-    public OPPLTestCaseCombined_OPPLParser_MOWLParser.propertyExpression_return
-            propertyExpression() throws RecognitionException {
+    public OPPLTestCaseCombined_OPPLParser_MOWLParser.propertyExpression_return propertyExpression()
+        throws RecognitionException {
         return gMOWLParser.propertyExpression();
     }
 
     public OPPLTestCaseCombined_OPPLParser.query_return query()
-            throws RecognitionException {
+        throws RecognitionException {
         return gOPPLParser.query();
     }
 
-    public OPPLTestCaseCombined_OPPLParser.variableDefinitions_return
-            variableDefinitions() throws RecognitionException {
+    public OPPLTestCaseCombined_OPPLParser.variableDefinitions_return variableDefinitions()
+        throws RecognitionException {
         return gOPPLParser.variableDefinitions();
     }
 
     public OPPLTestCaseCombined_OPPLParser_MOWLParser.binaryAxiom_return binaryAxiom()
-            throws RecognitionException {
+        throws RecognitionException {
         return gMOWLParser.binaryAxiom();
     }
 
     public OPPLTestCaseCombined_OPPLParser.variableDefinition_return variableDefinition()
-            throws RecognitionException {
+        throws RecognitionException {
         return gOPPLParser.variableDefinition();
     }
 
     public OPPLTestCaseCombined_OPPLParser.constraint_return constraint()
-            throws RecognitionException {
+        throws RecognitionException {
         return gOPPLParser.constraint();
     }
 
-    public OPPLTestCaseCombined_OPPLParser_MOWLParser.valueRestriction_return
-            valueRestriction() throws RecognitionException {
+    public OPPLTestCaseCombined_OPPLParser_MOWLParser.valueRestriction_return valueRestriction()
+        throws RecognitionException {
         return gMOWLParser.valueRestriction();
     }
 
-    public OPPLTestCaseCombined_OPPLParser_MOWLParser.cardinalityRestriction_return
-            cardinalityRestriction() throws RecognitionException {
+    public OPPLTestCaseCombined_OPPLParser_MOWLParser.cardinalityRestriction_return cardinalityRestriction()
+        throws RecognitionException {
         return gMOWLParser.cardinalityRestriction();
     }
 
     public OPPLTestCaseCombined_OPPLParser.opplFunction_return opplFunction()
-            throws RecognitionException {
+        throws RecognitionException {
         return gOPPLParser.opplFunction();
     }
 
     public OPPLTestCaseCombined_OPPLParser_MOWLParser.hasKeyAxiom_return hasKeyAxiom()
-            throws RecognitionException {
+        throws RecognitionException {
         return gMOWLParser.hasKeyAxiom();
     }
 
     public OPPLTestCaseCombined_OPPLParser_MOWLParser.dataRange_return dataRange()
-            throws RecognitionException {
+        throws RecognitionException {
         return gMOWLParser.dataRange();
     }
 
@@ -3613,108 +3603,108 @@ public class OPPLTestCaseCombinedParser extends Parser {
         return gOPPLParser.iri();
     }
 
-    public OPPLTestCaseCombined_OPPLParser.variableAttributeReference_return
-            variableAttributeReference() throws RecognitionException {
+    public OPPLTestCaseCombined_OPPLParser.variableAttributeReference_return variableAttributeReference()
+        throws RecognitionException {
         return gOPPLParser.variableAttributeReference();
     }
 
     public OPPLTestCaseCombined_OPPLParser.regexp_return regexp()
-            throws RecognitionException {
+        throws RecognitionException {
         return gOPPLParser.regexp();
     }
 
     public OPPLTestCaseCombined_OPPLParser_MOWLParser.conjunction_return conjunction()
-            throws RecognitionException {
+        throws RecognitionException {
         return gMOWLParser.conjunction();
     }
 
     public OPPLTestCaseCombined_OPPLParser.variableScope_return variableScope()
-            throws RecognitionException {
+        throws RecognitionException {
         return gOPPLParser.variableScope();
     }
 
-    public OPPLTestCaseCombined_OPPLParser_MOWLParser.qualifiedRestriction_return
-            qualifiedRestriction() throws RecognitionException {
+    public OPPLTestCaseCombined_OPPLParser_MOWLParser.qualifiedRestriction_return qualifiedRestriction()
+        throws RecognitionException {
         return gMOWLParser.qualifiedRestriction();
     }
 
     public OPPLTestCaseCombined_OPPLParser_MOWLParser.value_return value()
-            throws RecognitionException {
+        throws RecognitionException {
         return gMOWLParser.value();
     }
 
-    public OPPLTestCaseCombined_OPPLParser.simpleStringExpression_return
-            simpleStringExpression() throws RecognitionException {
+    public OPPLTestCaseCombined_OPPLParser.simpleStringExpression_return simpleStringExpression()
+        throws RecognitionException {
         return gOPPLParser.simpleStringExpression();
     }
 
     public OPPLTestCaseCombined_OPPLParser_MOWLParser.oneOf_return oneOf()
-            throws RecognitionException {
+        throws RecognitionException {
         return gMOWLParser.oneOf();
     }
 
     public OPPLTestCaseCombined_OPPLParser.attributeSelector_return attributeSelector()
-            throws RecognitionException {
+        throws RecognitionException {
         return gOPPLParser.attributeSelector();
     }
 
     public OPPLTestCaseCombined_OPPLParser.lowerUpperCase_return lowerUpperCase()
-            throws RecognitionException {
+        throws RecognitionException {
         return gOPPLParser.lowerUpperCase();
     }
 
-    public OPPLTestCaseCombined_OPPLParser_MOWLParser.annotationAssertionAxiom_return
-            annotationAssertionAxiom() throws RecognitionException {
+    public OPPLTestCaseCombined_OPPLParser_MOWLParser.annotationAssertionAxiom_return annotationAssertionAxiom()
+        throws RecognitionException {
         return gMOWLParser.annotationAssertionAxiom();
     }
 
     public OPPLTestCaseCombined_OPPLParser.selectClause_return selectClause()
-            throws RecognitionException {
+        throws RecognitionException {
         return gOPPLParser.selectClause();
     }
 
     public OPPLTestCaseCombined_OPPLParser.nAryAxiom_return nAryAxiom()
-            throws RecognitionException {
+        throws RecognitionException {
         return gOPPLParser.nAryAxiom();
     }
 
-    public OPPLTestCaseCombined_OPPLParser_MOWLParser.assertionAxiom_return
-            assertionAxiom() throws RecognitionException {
+    public OPPLTestCaseCombined_OPPLParser_MOWLParser.assertionAxiom_return assertionAxiom()
+        throws RecognitionException {
         return gMOWLParser.assertionAxiom();
     }
 
-    public OPPLTestCaseCombined_OPPLParser_MOWLParser.dataRangeFacet_return
-            dataRangeFacet() throws RecognitionException {
+    public OPPLTestCaseCombined_OPPLParser_MOWLParser.dataRangeFacet_return dataRangeFacet()
+        throws RecognitionException {
         return gMOWLParser.dataRangeFacet();
     }
 
-    public OPPLTestCaseCombined_OPPLParser_MOWLParser.unaryCharacteristic_return
-            unaryCharacteristic() throws RecognitionException {
+    public OPPLTestCaseCombined_OPPLParser_MOWLParser.unaryCharacteristic_return unaryCharacteristic()
+        throws RecognitionException {
         return gMOWLParser.unaryCharacteristic();
     }
 
     public OPPLTestCaseCombined_OPPLParser.actions_return actions()
-            throws RecognitionException {
+        throws RecognitionException {
         return gOPPLParser.actions();
     }
 
     public OPPLTestCaseCombined_OPPLParser.createIdentifier_return createIdentifier()
-            throws RecognitionException {
+        throws RecognitionException {
         return gOPPLParser.createIdentifier();
     }
 
     public OPPLTestCaseCombined_OPPLParser.stringOperation_return stringOperation()
-            throws RecognitionException {
+        throws RecognitionException {
         return gOPPLParser.stringOperation();
     }
 
     public OPPLTestCaseCombined_OPPLParser_MOWLParser.unary_return unary()
-            throws RecognitionException {
+        throws RecognitionException {
         return gMOWLParser.unary();
     }
 
     public OPPLTestCaseCombined_OPPLParser_MOWLParser.disjunction_return disjunction()
-            throws RecognitionException {
+        throws RecognitionException {
         return gMOWLParser.disjunction();
     }
 
@@ -3725,7 +3715,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
         int start = input.mark();
         try {
             synpred11_OPPLTestCaseCombined_fragment(); // can never throw
-                                                       // exception
+ // exception
         } catch (RecognitionException re) {
             logger.info("impossible: ", re);
         }
@@ -3741,7 +3731,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
         int start = input.mark();
         try {
             synpred5_OPPLTestCaseCombined_fragment(); // can never throw
-                                                      // exception
+ // exception
         } catch (RecognitionException re) {
             logger.info("impossible: ", re);
         }
@@ -3757,7 +3747,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
         int start = input.mark();
         try {
             synpred8_OPPLTestCaseCombined_fragment(); // can never throw
-                                                      // exception
+ // exception
         } catch (RecognitionException re) {
             logger.info("impossible: ", re);
         }
@@ -3773,7 +3763,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
         int start = input.mark();
         try {
             synpred6_OPPLTestCaseCombined_fragment(); // can never throw
-                                                      // exception
+ // exception
         } catch (RecognitionException re) {
             logger.info("impossible: ", re);
         }
@@ -3789,7 +3779,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
         int start = input.mark();
         try {
             synpred4_OPPLTestCaseCombined_fragment(); // can never throw
-                                                      // exception
+ // exception
         } catch (RecognitionException re) {
             logger.info("impossible: ", re);
         }
@@ -3805,7 +3795,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
         int start = input.mark();
         try {
             synpred9_OPPLTestCaseCombined_fragment(); // can never throw
-                                                      // exception
+ // exception
         } catch (RecognitionException re) {
             logger.info("impossible: ", re);
         }
@@ -3821,7 +3811,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
         int start = input.mark();
         try {
             synpred7_OPPLTestCaseCombined_fragment(); // can never throw
-                                                      // exception
+ // exception
         } catch (RecognitionException re) {
             logger.info("impossible: ", re);
         }
@@ -3840,11 +3830,11 @@ public class OPPLTestCaseCombinedParser extends Parser {
     static final String DFA5_acceptS = "\14\uffff\1\1\1\2\1\3\1\4\1\5\1\6\1\7\1\10";
     static final String DFA5_specialS = "\1\uffff\1\0\1\1\1\2\1\3\1\4\1\5\1\6\1\7\1\10\1\11\1\12\10\uffff}>";
     static final String[] DFA5_transitionS = {
-            "\1\13\1\11\5\uffff\1\10\6\uffff\1\7\24\uffff\1\12\1\uffff\1"
-                    + "\2\1\uffff\1\3\1\4\147\uffff\1\6\u013a\uffff\1\5\3\uffff\1\1",
-            "\1\uffff", "\1\uffff", "\1\uffff", "\1\uffff", "\1\uffff", "\1\uffff",
-            "\1\uffff", "\1\uffff", "\1\uffff", "\1\uffff", "\1\uffff", "", "", "", "",
-            "", "", "", "" };
+        "\1\13\1\11\5\uffff\1\10\6\uffff\1\7\24\uffff\1\12\1\uffff\1"
+            + "\2\1\uffff\1\3\1\4\147\uffff\1\6\u013a\uffff\1\5\3\uffff\1\1",
+        "\1\uffff", "\1\uffff", "\1\uffff", "\1\uffff", "\1\uffff", "\1\uffff",
+        "\1\uffff", "\1\uffff", "\1\uffff", "\1\uffff", "\1\uffff", "", "", "", "",
+        "", "", "", "" };
     static final short[] DFA5_eot = DFA.unpackEncodedString(DFA5_eotS);
     static final short[] DFA5_eof = DFA.unpackEncodedString(DFA5_eofS);
     static final char[] DFA5_min = DFA.unpackEncodedStringToUnsignedChars(DFA5_minS);
@@ -3852,6 +3842,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
     static final short[] DFA5_accept = DFA.unpackEncodedString(DFA5_acceptS);
     static final short[] DFA5_special = DFA.unpackEncodedString(DFA5_specialS);
     static final short[][] DFA5_transition;
+
     static {
         int numStates = DFA5_transitionS.length;
         DFA5_transition = new short[numStates][];
@@ -3861,6 +3852,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
     }
 
     class DFA5 extends DFA {
+
         public DFA5(BaseRecognizer recognizer) {
             this.recognizer = recognizer;
             decisionNumber = 5;
@@ -3880,7 +3872,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
 
         @Override
         public int specialStateTransition(int __s, IntStream _input)
-                throws NoViableAltException {
+            throws NoViableAltException {
             TokenStream in = (TokenStream) _input;
             int s = __s;
             int _s = s;
@@ -4148,306 +4140,306 @@ public class OPPLTestCaseCombinedParser extends Parser {
                 return -1;
             }
             NoViableAltException nvae = new NoViableAltException(getDescription(), 5, _s,
-                    in);
+                in);
             error(nvae);
             throw nvae;
         }
     }
 
     public static final BitSet FOLLOW_text_in_testCase178 = new BitSet(new long[] {
-            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-            0x0000000000000000L, 0x0000000000200000L });
+        0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+        0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+        0x0000000000000000L, 0x0000000000200000L });
     public static final BitSet FOLLOW_SEMICOLON_in_testCase180 = new BitSet(new long[] {
-            0x0000000000000000L, 0x0000000000000800L, 0x0000000000000000L,
-            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-            0x0000000000000000L, 0x0000000000410000L });
+        0x0000000000000000L, 0x0000000000000800L, 0x0000000000000000L,
+        0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+        0x0000000000000000L, 0x0000000000410000L });
     public static final BitSet FOLLOW_INFERENCE_in_testCase182 = new BitSet(new long[] {
-            0x0000000000000000L, 0x0000000000000800L, 0x0000000000000000L,
+        0x0000000000000000L, 0x0000000000000800L, 0x0000000000000000L,
+        0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+        0x0000000000000000L, 0x0000000000410000L });
+    public static final BitSet FOLLOW_statement_in_testCase186 = new BitSet(new long[] {
+        0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+        0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+        0x0000000000000000L, 0x0000000200000000L });
+    public static final BitSet FOLLOW_test_in_testCase189 = new BitSet(new long[] {
+        0x0000000000000002L, 0x0000000000000000L, 0x0000000000000000L,
+        0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+        0x0000000000000000L, 0x0000000200000000L });
+    public static final BitSet FOLLOW_ASSERT_in_test221 = new BitSet(new long[] {
+        0x0000350000081060L, 0x0000000000000000L, 0x0000000000200000L,
+        0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+        0x0000000000000000L, 0x0000000000110000L });
+    public static final BitSet FOLLOW_assertion_in_test223 = new BitSet(new long[] {
+        0x0000000000000002L, 0x0000000000000000L, 0x0000000000000000L,
+        0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+        0x0000000000000000L, 0x0000000000200000L });
+    public static final BitSet FOLLOW_SEMICOLON_in_test226 = new BitSet(new long[] {
+        0x0000148FF80FFC00L, 0x0000000000000200L, 0x0000000000000000L,
+        0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+        0x0000000000000000L, 0x0000000000110000L });
+    public static final BitSet FOLLOW_text_in_test231 = new BitSet(
+        new long[] { 0x0000000000000002L });
+    public static final BitSet FOLLOW_assertionExpression_in_assertion278 = new BitSet(
+        new long[] { 0x0000000000000000L, 0x0000000000000200L });
+    public static final BitSet FOLLOW_EQUAL_in_assertion280 = new BitSet(new long[] {
+        0x0000350000081060L, 0x0000000000000000L, 0x0000000000200000L,
+        0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+        0x0000000000000000L, 0x0000000000110000L });
+    public static final BitSet FOLLOW_assertionExpression_in_assertion285 = new BitSet(
+        new long[] { 0x0000000000000002L });
+    public static final BitSet FOLLOW_assertionExpression_in_assertion306 = new BitSet(
+        new long[] { 0x0000000000000000L, 0x0000000000000100L });
+    public static final BitSet FOLLOW_NOT_EQUAL_in_assertion308 = new BitSet(new long[] {
+        0x0000350000081060L, 0x0000000000000000L, 0x0000000000200000L,
+        0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+        0x0000000000000000L, 0x0000000000110000L });
+    public static final BitSet FOLLOW_assertionExpression_in_assertion313 = new BitSet(
+        new long[] { 0x0000000000000002L });
+    public static final BitSet FOLLOW_assertionExpression_in_assertion334 = new BitSet(
+        new long[] { 0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000800000000L });
+    public static final BitSet FOLLOW_LESS_THAN_in_assertion336 = new BitSet(new long[] {
+        0x0000350000081060L, 0x0000000000000000L, 0x0000000000200000L,
+        0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+        0x0000000000000000L, 0x0000000000110000L });
+    public static final BitSet FOLLOW_assertionExpression_in_assertion341 = new BitSet(
+        new long[] { 0x0000000000000002L });
+    public static final BitSet FOLLOW_assertionExpression_in_assertion362 = new BitSet(
+        new long[] { 0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000001000000000L });
+    public static final BitSet FOLLOW_LESS_THAN_EQUAL_in_assertion364 = new BitSet(
+        new long[] { 0x0000350000081060L, 0x0000000000000000L, 0x0000000000200000L,
+            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000110000L });
+    public static final BitSet FOLLOW_assertionExpression_in_assertion369 = new BitSet(
+        new long[] { 0x0000000000000002L });
+    public static final BitSet FOLLOW_assertionExpression_in_assertion392 = new BitSet(
+        new long[] { 0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000002000000000L });
+    public static final BitSet FOLLOW_GREATER_THAN_in_assertion394 = new BitSet(
+        new long[] { 0x0000350000081060L, 0x0000000000000000L, 0x0000000000200000L,
+            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000110000L });
+    public static final BitSet FOLLOW_assertionExpression_in_assertion399 = new BitSet(
+        new long[] { 0x0000000000000002L });
+    public static final BitSet FOLLOW_assertionExpression_in_assertion422 = new BitSet(
+        new long[] { 0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000004000000000L });
+    public static final BitSet FOLLOW_GREATER_THAN_EQUAL_in_assertion424 = new BitSet(
+        new long[] { 0x0000350000081060L, 0x0000000000000000L, 0x0000000000200000L,
+            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000110000L });
+    public static final BitSet FOLLOW_assertionExpression_in_assertion429 = new BitSet(
+        new long[] { 0x0000000000000002L });
+    public static final BitSet FOLLOW_VARIABLE_NAME_in_assertion449 = new BitSet(
+        new long[] { 0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000800000L });
+    public static final BitSet FOLLOW_CONTAINS_in_assertion452 = new BitSet(new long[] {
+        0x0000350000081060L, 0x0000000000000000L, 0x0000000000200000L,
+        0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+        0x0000000000000000L, 0x0000000000110000L });
+    public static final BitSet FOLLOW_assertionExpression_in_assertion454 = new BitSet(
+        new long[] { 0x0000002000000002L });
+    public static final BitSet FOLLOW_COMMA_in_assertion457 = new BitSet(new long[] {
+        0x0000350000081060L, 0x0000000000000000L, 0x0000000000200000L,
+        0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+        0x0000000000000000L, 0x0000000000110000L });
+    public static final BitSet FOLLOW_assertionExpression_in_assertion459 = new BitSet(
+        new long[] { 0x0000002000000002L });
+    public static final BitSet FOLLOW_NOT_in_assertion478 = new BitSet(
+        new long[] { 0x0000000000000020L });
+    public static final BitSet FOLLOW_OPEN_PARENTHESYS_in_assertion480 = new BitSet(
+        new long[] { 0x0000350000081060L, 0x0000000000000000L, 0x0000000000200000L,
+            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000110000L });
+    public static final BitSet FOLLOW_assertion_in_assertion482 = new BitSet(
+        new long[] { 0x0000000000000100L });
+    public static final BitSet FOLLOW_CLOSED_PARENTHESYS_in_assertion484 = new BitSet(
+        new long[] { 0x0000000000000002L });
+    public static final BitSet FOLLOW_COUNT_in_assertionExpression505 = new BitSet(
+        new long[] { 0x0000000000000020L });
+    public static final BitSet FOLLOW_OPEN_PARENTHESYS_in_assertionExpression507 = new BitSet(
+        new long[] { 0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000010000L });
+    public static final BitSet FOLLOW_bindingDescription_in_assertionExpression509 = new BitSet(
+        new long[] { 0x0000002000000100L });
+    public static final BitSet FOLLOW_COMMA_in_assertionExpression512 = new BitSet(
+        new long[] { 0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000010000L });
+    public static final BitSet FOLLOW_bindingDescription_in_assertionExpression514 = new BitSet(
+        new long[] { 0x0000002000000100L });
+    public static final BitSet FOLLOW_CLOSED_PARENTHESYS_in_assertionExpression518 = new BitSet(
+        new long[] { 0x0000000000000002L });
+    public static final BitSet FOLLOW_COUNT_in_assertionExpression532 = new BitSet(
+        new long[] { 0x0000000000000020L });
+    public static final BitSet FOLLOW_OPEN_PARENTHESYS_in_assertionExpression534 = new BitSet(
+        new long[] { 0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000010000L });
+    public static final BitSet FOLLOW_VARIABLE_NAME_in_assertionExpression536 = new BitSet(
+        new long[] { 0x0000000000000100L });
+    public static final BitSet FOLLOW_CLOSED_PARENTHESYS_in_assertionExpression538 = new BitSet(
+        new long[] { 0x0000000000000002L });
+    public static final BitSet FOLLOW_COUNT_in_assertionExpression551 = new BitSet(
+        new long[] { 0x0000000000000020L });
+    public static final BitSet FOLLOW_OPEN_PARENTHESYS_in_assertionExpression553 = new BitSet(
+        new long[] { 0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000400000000L });
+    public static final BitSet FOLLOW_STAR_in_assertionExpression555 = new BitSet(
+        new long[] { 0x0000000000000100L });
+    public static final BitSet FOLLOW_CLOSED_PARENTHESYS_in_assertionExpression557 = new BitSet(
+        new long[] { 0x0000000000000002L });
+    public static final BitSet FOLLOW_INTEGER_in_assertionExpression570 = new BitSet(
+        new long[] { 0x0000000000000002L });
+    public static final BitSet FOLLOW_expression_in_assertionExpression577 = new BitSet(
+        new long[] { 0x0000000000000002L });
+    public static final BitSet FOLLOW_VARIABLE_NAME_in_bindingDescription600 = new BitSet(
+        new long[] { 0x0000000000000000L, 0x0000000000000200L });
+    public static final BitSet FOLLOW_EQUAL_in_bindingDescription602 = new BitSet(
+        new long[] { 0x0000350000081060L, 0x0000000000000000L, 0x0000000000200000L,
+            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000110000L });
+    public static final BitSet FOLLOW_expression_in_bindingDescription604 = new BitSet(
+        new long[] { 0x0000000000000002L });
+    public static final BitSet FOLLOW_textBit_in_text643 = new BitSet(new long[] {
+        0x0000148FF80FFC02L, 0x0000000000000200L, 0x0000000000000000L,
+        0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+        0x0000000000000000L, 0x0000000000110000L });
+    public static final BitSet FOLLOW_IDENTIFIER_in_textBit675 = new BitSet(
+        new long[] { 0x0000000000000002L });
+    public static final BitSet FOLLOW_VARIABLE_NAME_in_textBit690 = new BitSet(
+        new long[] { 0x0000000000000002L });
+    public static final BitSet FOLLOW_FUNCTIONAL_in_textBit706 = new BitSet(
+        new long[] { 0x0000000000000002L });
+    public static final BitSet FOLLOW_INVERSE_FUNCTIONAL_in_textBit721 = new BitSet(
+        new long[] { 0x0000000000000002L });
+    public static final BitSet FOLLOW_SYMMETRIC_in_textBit736 = new BitSet(
+        new long[] { 0x0000000000000002L });
+    public static final BitSet FOLLOW_ANTI_SYMMETRIC_in_textBit751 = new BitSet(
+        new long[] { 0x0000000000000002L });
+    public static final BitSet FOLLOW_REFLEXIVE_in_textBit766 = new BitSet(
+        new long[] { 0x0000000000000002L });
+    public static final BitSet FOLLOW_IRREFLEXIVE_in_textBit781 = new BitSet(
+        new long[] { 0x0000000000000002L });
+    public static final BitSet FOLLOW_TRANSITIVE_in_textBit797 = new BitSet(
+        new long[] { 0x0000000000000002L });
+    public static final BitSet FOLLOW_NOT_in_textBit812 = new BitSet(
+        new long[] { 0x0000000000000002L });
+    public static final BitSet FOLLOW_AND_in_textBit827 = new BitSet(
+        new long[] { 0x0000000000000002L });
+    public static final BitSet FOLLOW_OR_in_textBit842 = new BitSet(
+        new long[] { 0x0000000000000002L });
+    public static final BitSet FOLLOW_SOME_in_textBit857 = new BitSet(
+        new long[] { 0x0000000000000002L });
+    public static final BitSet FOLLOW_ONLY_in_textBit872 = new BitSet(
+        new long[] { 0x0000000000000002L });
+    public static final BitSet FOLLOW_MIN_in_textBit887 = new BitSet(
+        new long[] { 0x0000000000000002L });
+    public static final BitSet FOLLOW_MAX_in_textBit902 = new BitSet(
+        new long[] { 0x0000000000000002L });
+    public static final BitSet FOLLOW_EXACTLY_in_textBit920 = new BitSet(
+        new long[] { 0x0000000000000002L });
+    public static final BitSet FOLLOW_VALUE_in_textBit938 = new BitSet(
+        new long[] { 0x0000000000000002L });
+    public static final BitSet FOLLOW_INVERSE_in_textBit956 = new BitSet(
+        new long[] { 0x0000000000000002L });
+    public static final BitSet FOLLOW_DOMAIN_in_textBit974 = new BitSet(
+        new long[] { 0x0000000000000002L });
+    public static final BitSet FOLLOW_RANGE_in_textBit992 = new BitSet(
+        new long[] { 0x0000000000000002L });
+    public static final BitSet FOLLOW_TYPES_in_textBit1007 = new BitSet(
+        new long[] { 0x0000000000000002L });
+    public static final BitSet FOLLOW_INTEGER_in_textBit1028 = new BitSet(
+        new long[] { 0x0000000000000002L });
+    public static final BitSet FOLLOW_COUNT_in_textBit1049 = new BitSet(
+        new long[] { 0x0000000000000002L });
+    public static final BitSet FOLLOW_EQUAL_in_textBit1067 = new BitSet(
+        new long[] { 0x0000000000000002L });
+    public static final BitSet FOLLOW_variableDefinitions_in_statement1096 = new BitSet(
+        new long[] { 0x0000000000000000L, 0x0000000000000800L, 0x0000000000000000L,
             0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
             0x0000000000000000L, 0x0000000000410000L });
-    public static final BitSet FOLLOW_statement_in_testCase186 = new BitSet(new long[] {
-            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-            0x0000000000000000L, 0x0000000200000000L });
-    public static final BitSet FOLLOW_test_in_testCase189 = new BitSet(new long[] {
-            0x0000000000000002L, 0x0000000000000000L, 0x0000000000000000L,
-            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-            0x0000000000000000L, 0x0000000200000000L });
-    public static final BitSet FOLLOW_ASSERT_in_test221 = new BitSet(new long[] {
-            0x0000350000081060L, 0x0000000000000000L, 0x0000000000200000L,
-            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-            0x0000000000000000L, 0x0000000000110000L });
-    public static final BitSet FOLLOW_assertion_in_test223 = new BitSet(new long[] {
-            0x0000000000000002L, 0x0000000000000000L, 0x0000000000000000L,
-            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-            0x0000000000000000L, 0x0000000000200000L });
-    public static final BitSet FOLLOW_SEMICOLON_in_test226 = new BitSet(new long[] {
-            0x0000148FF80FFC00L, 0x0000000000000200L, 0x0000000000000000L,
-            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-            0x0000000000000000L, 0x0000000000110000L });
-    public static final BitSet FOLLOW_text_in_test231 = new BitSet(
-            new long[] { 0x0000000000000002L });
-    public static final BitSet FOLLOW_assertionExpression_in_assertion278 = new BitSet(
-            new long[] { 0x0000000000000000L, 0x0000000000000200L });
-    public static final BitSet FOLLOW_EQUAL_in_assertion280 = new BitSet(new long[] {
-            0x0000350000081060L, 0x0000000000000000L, 0x0000000000200000L,
-            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-            0x0000000000000000L, 0x0000000000110000L });
-    public static final BitSet FOLLOW_assertionExpression_in_assertion285 = new BitSet(
-            new long[] { 0x0000000000000002L });
-    public static final BitSet FOLLOW_assertionExpression_in_assertion306 = new BitSet(
-            new long[] { 0x0000000000000000L, 0x0000000000000100L });
-    public static final BitSet FOLLOW_NOT_EQUAL_in_assertion308 = new BitSet(new long[] {
-            0x0000350000081060L, 0x0000000000000000L, 0x0000000000200000L,
-            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-            0x0000000000000000L, 0x0000000000110000L });
-    public static final BitSet FOLLOW_assertionExpression_in_assertion313 = new BitSet(
-            new long[] { 0x0000000000000002L });
-    public static final BitSet FOLLOW_assertionExpression_in_assertion334 = new BitSet(
-            new long[] { 0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000800000000L });
-    public static final BitSet FOLLOW_LESS_THAN_in_assertion336 = new BitSet(new long[] {
-            0x0000350000081060L, 0x0000000000000000L, 0x0000000000200000L,
-            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-            0x0000000000000000L, 0x0000000000110000L });
-    public static final BitSet FOLLOW_assertionExpression_in_assertion341 = new BitSet(
-            new long[] { 0x0000000000000002L });
-    public static final BitSet FOLLOW_assertionExpression_in_assertion362 = new BitSet(
-            new long[] { 0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000001000000000L });
-    public static final BitSet FOLLOW_LESS_THAN_EQUAL_in_assertion364 = new BitSet(
-            new long[] { 0x0000350000081060L, 0x0000000000000000L, 0x0000000000200000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000110000L });
-    public static final BitSet FOLLOW_assertionExpression_in_assertion369 = new BitSet(
-            new long[] { 0x0000000000000002L });
-    public static final BitSet FOLLOW_assertionExpression_in_assertion392 = new BitSet(
-            new long[] { 0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000002000000000L });
-    public static final BitSet FOLLOW_GREATER_THAN_in_assertion394 = new BitSet(
-            new long[] { 0x0000350000081060L, 0x0000000000000000L, 0x0000000000200000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000110000L });
-    public static final BitSet FOLLOW_assertionExpression_in_assertion399 = new BitSet(
-            new long[] { 0x0000000000000002L });
-    public static final BitSet FOLLOW_assertionExpression_in_assertion422 = new BitSet(
-            new long[] { 0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000004000000000L });
-    public static final BitSet FOLLOW_GREATER_THAN_EQUAL_in_assertion424 = new BitSet(
-            new long[] { 0x0000350000081060L, 0x0000000000000000L, 0x0000000000200000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000110000L });
-    public static final BitSet FOLLOW_assertionExpression_in_assertion429 = new BitSet(
-            new long[] { 0x0000000000000002L });
-    public static final BitSet FOLLOW_VARIABLE_NAME_in_assertion449 = new BitSet(
-            new long[] { 0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000800000L });
-    public static final BitSet FOLLOW_CONTAINS_in_assertion452 = new BitSet(new long[] {
-            0x0000350000081060L, 0x0000000000000000L, 0x0000000000200000L,
-            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-            0x0000000000000000L, 0x0000000000110000L });
-    public static final BitSet FOLLOW_assertionExpression_in_assertion454 = new BitSet(
-            new long[] { 0x0000002000000002L });
-    public static final BitSet FOLLOW_COMMA_in_assertion457 = new BitSet(new long[] {
-            0x0000350000081060L, 0x0000000000000000L, 0x0000000000200000L,
-            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-            0x0000000000000000L, 0x0000000000110000L });
-    public static final BitSet FOLLOW_assertionExpression_in_assertion459 = new BitSet(
-            new long[] { 0x0000002000000002L });
-    public static final BitSet FOLLOW_NOT_in_assertion478 = new BitSet(
-            new long[] { 0x0000000000000020L });
-    public static final BitSet FOLLOW_OPEN_PARENTHESYS_in_assertion480 = new BitSet(
-            new long[] { 0x0000350000081060L, 0x0000000000000000L, 0x0000000000200000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000110000L });
-    public static final BitSet FOLLOW_assertion_in_assertion482 = new BitSet(
-            new long[] { 0x0000000000000100L });
-    public static final BitSet FOLLOW_CLOSED_PARENTHESYS_in_assertion484 = new BitSet(
-            new long[] { 0x0000000000000002L });
-    public static final BitSet FOLLOW_COUNT_in_assertionExpression505 = new BitSet(
-            new long[] { 0x0000000000000020L });
-    public static final BitSet FOLLOW_OPEN_PARENTHESYS_in_assertionExpression507 = new BitSet(
-            new long[] { 0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000010000L });
-    public static final BitSet FOLLOW_bindingDescription_in_assertionExpression509 = new BitSet(
-            new long[] { 0x0000002000000100L });
-    public static final BitSet FOLLOW_COMMA_in_assertionExpression512 = new BitSet(
-            new long[] { 0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000010000L });
-    public static final BitSet FOLLOW_bindingDescription_in_assertionExpression514 = new BitSet(
-            new long[] { 0x0000002000000100L });
-    public static final BitSet FOLLOW_CLOSED_PARENTHESYS_in_assertionExpression518 = new BitSet(
-            new long[] { 0x0000000000000002L });
-    public static final BitSet FOLLOW_COUNT_in_assertionExpression532 = new BitSet(
-            new long[] { 0x0000000000000020L });
-    public static final BitSet FOLLOW_OPEN_PARENTHESYS_in_assertionExpression534 = new BitSet(
-            new long[] { 0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000010000L });
-    public static final BitSet FOLLOW_VARIABLE_NAME_in_assertionExpression536 = new BitSet(
-            new long[] { 0x0000000000000100L });
-    public static final BitSet FOLLOW_CLOSED_PARENTHESYS_in_assertionExpression538 = new BitSet(
-            new long[] { 0x0000000000000002L });
-    public static final BitSet FOLLOW_COUNT_in_assertionExpression551 = new BitSet(
-            new long[] { 0x0000000000000020L });
-    public static final BitSet FOLLOW_OPEN_PARENTHESYS_in_assertionExpression553 = new BitSet(
-            new long[] { 0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000400000000L });
-    public static final BitSet FOLLOW_STAR_in_assertionExpression555 = new BitSet(
-            new long[] { 0x0000000000000100L });
-    public static final BitSet FOLLOW_CLOSED_PARENTHESYS_in_assertionExpression557 = new BitSet(
-            new long[] { 0x0000000000000002L });
-    public static final BitSet FOLLOW_INTEGER_in_assertionExpression570 = new BitSet(
-            new long[] { 0x0000000000000002L });
-    public static final BitSet FOLLOW_expression_in_assertionExpression577 = new BitSet(
-            new long[] { 0x0000000000000002L });
-    public static final BitSet FOLLOW_VARIABLE_NAME_in_bindingDescription600 = new BitSet(
-            new long[] { 0x0000000000000000L, 0x0000000000000200L });
-    public static final BitSet FOLLOW_EQUAL_in_bindingDescription602 = new BitSet(
-            new long[] { 0x0000350000081060L, 0x0000000000000000L, 0x0000000000200000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000110000L });
-    public static final BitSet FOLLOW_expression_in_bindingDescription604 = new BitSet(
-            new long[] { 0x0000000000000002L });
-    public static final BitSet FOLLOW_textBit_in_text643 = new BitSet(new long[] {
-            0x0000148FF80FFC02L, 0x0000000000000200L, 0x0000000000000000L,
-            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-            0x0000000000000000L, 0x0000000000110000L });
-    public static final BitSet FOLLOW_IDENTIFIER_in_textBit675 = new BitSet(
-            new long[] { 0x0000000000000002L });
-    public static final BitSet FOLLOW_VARIABLE_NAME_in_textBit690 = new BitSet(
-            new long[] { 0x0000000000000002L });
-    public static final BitSet FOLLOW_FUNCTIONAL_in_textBit706 = new BitSet(
-            new long[] { 0x0000000000000002L });
-    public static final BitSet FOLLOW_INVERSE_FUNCTIONAL_in_textBit721 = new BitSet(
-            new long[] { 0x0000000000000002L });
-    public static final BitSet FOLLOW_SYMMETRIC_in_textBit736 = new BitSet(
-            new long[] { 0x0000000000000002L });
-    public static final BitSet FOLLOW_ANTI_SYMMETRIC_in_textBit751 = new BitSet(
-            new long[] { 0x0000000000000002L });
-    public static final BitSet FOLLOW_REFLEXIVE_in_textBit766 = new BitSet(
-            new long[] { 0x0000000000000002L });
-    public static final BitSet FOLLOW_IRREFLEXIVE_in_textBit781 = new BitSet(
-            new long[] { 0x0000000000000002L });
-    public static final BitSet FOLLOW_TRANSITIVE_in_textBit797 = new BitSet(
-            new long[] { 0x0000000000000002L });
-    public static final BitSet FOLLOW_NOT_in_textBit812 = new BitSet(
-            new long[] { 0x0000000000000002L });
-    public static final BitSet FOLLOW_AND_in_textBit827 = new BitSet(
-            new long[] { 0x0000000000000002L });
-    public static final BitSet FOLLOW_OR_in_textBit842 = new BitSet(
-            new long[] { 0x0000000000000002L });
-    public static final BitSet FOLLOW_SOME_in_textBit857 = new BitSet(
-            new long[] { 0x0000000000000002L });
-    public static final BitSet FOLLOW_ONLY_in_textBit872 = new BitSet(
-            new long[] { 0x0000000000000002L });
-    public static final BitSet FOLLOW_MIN_in_textBit887 = new BitSet(
-            new long[] { 0x0000000000000002L });
-    public static final BitSet FOLLOW_MAX_in_textBit902 = new BitSet(
-            new long[] { 0x0000000000000002L });
-    public static final BitSet FOLLOW_EXACTLY_in_textBit920 = new BitSet(
-            new long[] { 0x0000000000000002L });
-    public static final BitSet FOLLOW_VALUE_in_textBit938 = new BitSet(
-            new long[] { 0x0000000000000002L });
-    public static final BitSet FOLLOW_INVERSE_in_textBit956 = new BitSet(
-            new long[] { 0x0000000000000002L });
-    public static final BitSet FOLLOW_DOMAIN_in_textBit974 = new BitSet(
-            new long[] { 0x0000000000000002L });
-    public static final BitSet FOLLOW_RANGE_in_textBit992 = new BitSet(
-            new long[] { 0x0000000000000002L });
-    public static final BitSet FOLLOW_TYPES_in_textBit1007 = new BitSet(
-            new long[] { 0x0000000000000002L });
-    public static final BitSet FOLLOW_INTEGER_in_textBit1028 = new BitSet(
-            new long[] { 0x0000000000000002L });
-    public static final BitSet FOLLOW_COUNT_in_textBit1049 = new BitSet(
-            new long[] { 0x0000000000000002L });
-    public static final BitSet FOLLOW_EQUAL_in_textBit1067 = new BitSet(
-            new long[] { 0x0000000000000002L });
-    public static final BitSet FOLLOW_variableDefinitions_in_statement1096 = new BitSet(
-            new long[] { 0x0000000000000000L, 0x0000000000000800L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000410000L });
     public static final BitSet FOLLOW_query_in_statement1099 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_assertionExpression_in_synpred4_OPPLTestCaseCombined278 = new BitSet(
-            new long[] { 0x0000000000000000L, 0x0000000000000200L });
+        new long[] { 0x0000000000000000L, 0x0000000000000200L });
     public static final BitSet FOLLOW_EQUAL_in_synpred4_OPPLTestCaseCombined280 = new BitSet(
-            new long[] { 0x0000350000081060L, 0x0000000000000000L, 0x0000000000200000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000110000L });
+        new long[] { 0x0000350000081060L, 0x0000000000000000L, 0x0000000000200000L,
+            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000110000L });
     public static final BitSet FOLLOW_assertionExpression_in_synpred4_OPPLTestCaseCombined285 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_assertionExpression_in_synpred5_OPPLTestCaseCombined306 = new BitSet(
-            new long[] { 0x0000000000000000L, 0x0000000000000100L });
+        new long[] { 0x0000000000000000L, 0x0000000000000100L });
     public static final BitSet FOLLOW_NOT_EQUAL_in_synpred5_OPPLTestCaseCombined308 = new BitSet(
-            new long[] { 0x0000350000081060L, 0x0000000000000000L, 0x0000000000200000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000110000L });
+        new long[] { 0x0000350000081060L, 0x0000000000000000L, 0x0000000000200000L,
+            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000110000L });
     public static final BitSet FOLLOW_assertionExpression_in_synpred5_OPPLTestCaseCombined313 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_assertionExpression_in_synpred6_OPPLTestCaseCombined334 = new BitSet(
-            new long[] { 0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000800000000L });
+        new long[] { 0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000800000000L });
     public static final BitSet FOLLOW_LESS_THAN_in_synpred6_OPPLTestCaseCombined336 = new BitSet(
-            new long[] { 0x0000350000081060L, 0x0000000000000000L, 0x0000000000200000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000110000L });
+        new long[] { 0x0000350000081060L, 0x0000000000000000L, 0x0000000000200000L,
+            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000110000L });
     public static final BitSet FOLLOW_assertionExpression_in_synpred6_OPPLTestCaseCombined341 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_assertionExpression_in_synpred7_OPPLTestCaseCombined362 = new BitSet(
-            new long[] { 0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000001000000000L });
+        new long[] { 0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000001000000000L });
     public static final BitSet FOLLOW_LESS_THAN_EQUAL_in_synpred7_OPPLTestCaseCombined364 = new BitSet(
-            new long[] { 0x0000350000081060L, 0x0000000000000000L, 0x0000000000200000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000110000L });
+        new long[] { 0x0000350000081060L, 0x0000000000000000L, 0x0000000000200000L,
+            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000110000L });
     public static final BitSet FOLLOW_assertionExpression_in_synpred7_OPPLTestCaseCombined369 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_assertionExpression_in_synpred8_OPPLTestCaseCombined392 = new BitSet(
-            new long[] { 0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000002000000000L });
+        new long[] { 0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000002000000000L });
     public static final BitSet FOLLOW_GREATER_THAN_in_synpred8_OPPLTestCaseCombined394 = new BitSet(
-            new long[] { 0x0000350000081060L, 0x0000000000000000L, 0x0000000000200000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000110000L });
+        new long[] { 0x0000350000081060L, 0x0000000000000000L, 0x0000000000200000L,
+            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000110000L });
     public static final BitSet FOLLOW_assertionExpression_in_synpred8_OPPLTestCaseCombined399 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_assertionExpression_in_synpred9_OPPLTestCaseCombined422 = new BitSet(
-            new long[] { 0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000004000000000L });
+        new long[] { 0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000004000000000L });
     public static final BitSet FOLLOW_GREATER_THAN_EQUAL_in_synpred9_OPPLTestCaseCombined424 = new BitSet(
-            new long[] { 0x0000350000081060L, 0x0000000000000000L, 0x0000000000200000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000110000L });
+        new long[] { 0x0000350000081060L, 0x0000000000000000L, 0x0000000000200000L,
+            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000110000L });
     public static final BitSet FOLLOW_assertionExpression_in_synpred9_OPPLTestCaseCombined429 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_VARIABLE_NAME_in_synpred11_OPPLTestCaseCombined449 = new BitSet(
-            new long[] { 0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000800000L });
+        new long[] { 0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000800000L });
     public static final BitSet FOLLOW_CONTAINS_in_synpred11_OPPLTestCaseCombined452 = new BitSet(
-            new long[] { 0x0000350000081060L, 0x0000000000000000L, 0x0000000000200000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000110000L });
+        new long[] { 0x0000350000081060L, 0x0000000000000000L, 0x0000000000200000L,
+            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000110000L });
     public static final BitSet FOLLOW_assertionExpression_in_synpred11_OPPLTestCaseCombined454 = new BitSet(
-            new long[] { 0x0000002000000002L });
+        new long[] { 0x0000002000000002L });
     public static final BitSet FOLLOW_COMMA_in_synpred11_OPPLTestCaseCombined457 = new BitSet(
-            new long[] { 0x0000350000081060L, 0x0000000000000000L, 0x0000000000200000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000110000L });
+        new long[] { 0x0000350000081060L, 0x0000000000000000L, 0x0000000000200000L,
+            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000000110000L });
     public static final BitSet FOLLOW_assertionExpression_in_synpred11_OPPLTestCaseCombined459 = new BitSet(
-            new long[] { 0x0000002000000002L });
+        new long[] { 0x0000002000000002L });
 }

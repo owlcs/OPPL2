@@ -7,19 +7,22 @@ import org.antlr.runtime.tree.RewriteEmptyStreamException;
 import org.coode.parsers.ErrorListener;
 import org.coode.parsers.Type;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public final class SystemErrorEcho implements ErrorListener {
+
     @Override
     public void unrecognisedSymbol(CommonTree t) {
         System.err.println("Unrecognised token " + t.getText() + " at line "
-                + t.getLine() + " position " + t.getCharPositionInLine());
+            + t.getLine() + " position " + t.getCharPositionInLine());
     }
 
     @Override
     public void incompatibleSymbolType(CommonTree t, Type type, CommonTree expression) {
         System.err.println("Incompatible type " + type + " for token " + t.getText()
-                + " in expression " + expression + " at line " + t.getLine()
-                + " position " + t.getCharPositionInLine());
+            + " in expression " + expression + " at line " + t.getLine()
+            + " position " + t.getCharPositionInLine());
     }
 
     @Override
@@ -31,9 +34,9 @@ public final class SystemErrorEcho implements ErrorListener {
     public void recognitionException(RecognitionException e) {
         Token token = e.token;
         String message = String
-                .format("Recognition exception when parsing  token: %s line %d position %d message: %s",
-                        token.getText(), token.getLine(), token.getCharPositionInLine(),
-                        e.getMessage());
+            .format("Recognition exception when parsing  token: %s line %d position %d message: %s",
+                token.getText(), token.getLine(), token.getCharPositionInLine(),
+                e.getMessage());
         System.err.println(message + " unexpected token code " + e.getUnexpectedType());
     }
 
@@ -55,20 +58,20 @@ public final class SystemErrorEcho implements ErrorListener {
         }
         builder.append("]");
         System.err.println("Recognition exception " + e.getMessage() + " "
-                + e.getUnexpectedType() + " for token names " + builder.toString());
+            + e.getUnexpectedType() + " for token names " + builder.toString());
     }
 
     @Override
     public void illegalToken(CommonTree t, String message) {
         System.err.println("Illegal token " + t.getText() + " at line " + t.getLine()
-                + " position " + t.getCharPositionInLine() + ": " + message);
+            + " position " + t.getCharPositionInLine() + ": " + message);
     }
 
     @Override
     public void incompatibleSymbols(CommonTree parentExpression,
-            CommonTree... expressions) {
+        CommonTree... expressions) {
         StringBuilder message = new StringBuilder("Incompatible children in "
-                + parentExpression.getText());
+            + parentExpression.getText());
         boolean first = true;
         for (CommonTree token : expressions) {
             String comma = first ? "" : ", ";

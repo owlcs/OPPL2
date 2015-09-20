@@ -10,8 +10,11 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class ProgressPanel extends JPanel {
+
     private static final long serialVersionUID = 20100L;
 
     /** init gui only */
@@ -25,12 +28,14 @@ public class ProgressPanel extends JPanel {
         pb.setIndeterminate(true);
         setBackground(Color.WHITE);
         this.add(pb, new GridBagConstraints(0, 0, 1, 1, 0, 0,
-                GridBagConstraints.BASELINE, GridBagConstraints.NONE, new Insets(0, 0, 0,
-                        0), 0, 0));
+            GridBagConstraints.BASELINE, GridBagConstraints.NONE, new Insets(0, 0, 0,
+                0), 0, 0));
     }
 
-    /** @param args
-     *            args */
+    /**
+     * @param args
+     *        args
+     */
     public static void main(String[] args) {
         JFrame frame = new JFrame();
         frame.getContentPane().setLayout(new BorderLayout());

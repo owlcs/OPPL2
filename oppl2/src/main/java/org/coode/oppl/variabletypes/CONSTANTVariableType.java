@@ -16,11 +16,16 @@ import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.util.OWLObjectVisitorExAdapter;
 
-/** @author Luigi Iannone */
-public class CONSTANTVariableType extends AbstractVariableType<OWLLiteral> implements
-        VariableType<OWLLiteral> {
-    /** @param name
-     *            name */
+/**
+ * @author Luigi Iannone
+ */
+public class CONSTANTVariableType extends AbstractVariableType<OWLLiteral>implements
+    VariableType<OWLLiteral> {
+
+    /**
+     * @param name
+     *        name
+     */
     public CONSTANTVariableType(VariableTypeName name) {
         super(name, EnumSet.noneOf(Direction.class));
     }
@@ -37,16 +42,16 @@ public class CONSTANTVariableType extends AbstractVariableType<OWLLiteral> imple
 
     @Override
     public RegexpGeneratedVariable<? extends OWLLiteral> getRegexpGeneratedVariable(
-            String name, OPPLFunction<Pattern> patternGeneratingOPPLFunction) {
-        return new RegexpGeneratedVariable<OWLLiteral>(name,
-                VariableTypeFactory.getCONSTANTVariableType(),
-                patternGeneratingOPPLFunction);
+        String name, OPPLFunction<Pattern> patternGeneratingOPPLFunction) {
+        return new RegexpGeneratedVariable<>(name,
+            VariableTypeFactory.getCONSTANTVariableType(),
+            patternGeneratingOPPLFunction);
     }
 
     @Override
     public Set<OWLLiteral> getReferencedOWLObjects(
-            Collection<? extends OWLOntology> ontologies) {
-        Set<OWLLiteral> toReturn = new HashSet<OWLLiteral>();
+        Collection<? extends OWLOntology> ontologies) {
+        Set<OWLLiteral> toReturn = new HashSet<>();
         for (OWLOntology ontology : ontologies) {
             for (OWLAxiom axiom : ontology.getAxioms()) {
                 toReturn.addAll(OWLObjectExtractor.getAllOWLLiterals(axiom));
@@ -58,7 +63,8 @@ public class CONSTANTVariableType extends AbstractVariableType<OWLLiteral> imple
     @Override
     public boolean isCompatibleWith(OWLObject o) {
         OWLObjectVisitorExAdapter<Boolean> visitor = new OWLObjectVisitorExAdapter<Boolean>(
-                false) {
+            false) {
+
             @Override
             public Boolean visit(OWLLiteral literal) {
                 return true;

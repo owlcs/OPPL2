@@ -11,21 +11,26 @@ import org.coode.oppl.bindingtree.BindingNode;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLObject;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class SolvableSearchNode extends SolvabilitySearchNode {
-    private final Set<OWLObject> values = new HashSet<OWLObject>();
+
+    private final Set<OWLObject> values = new HashSet<>();
     private final Variable<?> variable;
 
-    /** @param variable
-     *            variable
+    /**
+     * @param variable
+     *        variable
      * @param axiom
-     *            axiom
+     *        axiom
      * @param bindingNode
-     *            bindingNode
+     *        bindingNode
      * @param values
-     *            values */
+     *        values
+     */
     public SolvableSearchNode(Variable<?> variable, OWLAxiom axiom,
-            BindingNode bindingNode, Collection<? extends OWLObject> values) {
+        BindingNode bindingNode, Collection<? extends OWLObject> values) {
         super(axiom, bindingNode);
         this.variable = checkNotNull(variable, "variable");
         this.values.addAll(checkNotNull(values, "values"));
@@ -41,12 +46,16 @@ public class SolvableSearchNode extends SolvabilitySearchNode {
         return visitor.visitSolvableSearchNode(this);
     }
 
-    /** @return the values */
+    /**
+     * @return the values
+     */
     public Set<OWLObject> getValues() {
-        return new HashSet<OWLObject>(values);
+        return new HashSet<>(values);
     }
 
-    /** @return the variable */
+    /**
+     * @return the variable
+     */
     public Variable<?> getVariable() {
         return variable;
     }

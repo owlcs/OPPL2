@@ -7,20 +7,25 @@ import org.coode.oppl.ConstraintSystem;
 import org.protege.editor.core.ui.list.MListItem;
 import org.protege.editor.owl.OWLEditorKit;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class OPPLConstraintListItem implements MListItem {
+
     private final AbstractConstraint constraint;
     private final OWLEditorKit owlEditorKit;
     private final ConstraintSystem constraintSystem;
 
-    /** @param owlEditorKit
-     *            owlEditorKit
+    /**
+     * @param owlEditorKit
+     *        owlEditorKit
      * @param constraint
-     *            constraint
+     *        constraint
      * @param constraintSystem
-     *            constraintSystem */
+     *        constraintSystem
+     */
     protected OPPLConstraintListItem(OWLEditorKit owlEditorKit,
-            AbstractConstraint constraint, ConstraintSystem constraintSystem) {
+        AbstractConstraint constraint, ConstraintSystem constraintSystem) {
         this.owlEditorKit = checkNotNull(owlEditorKit, "owlEditorKit");
         this.constraint = checkNotNull(constraint, "constraint");
         this.constraintSystem = checkNotNull(constraintSystem, "constraintSystem");
@@ -84,7 +89,9 @@ public class OPPLConstraintListItem implements MListItem {
         return true;
     }
 
-    /** @return the constraint */
+    /**
+     * @return the constraint
+     */
     public AbstractConstraint getConstraint() {
         return constraint;
     }
@@ -124,12 +131,16 @@ public class OPPLConstraintListItem implements MListItem {
         return true;
     }
 
-    /** @return the owlEditorKit */
+    /**
+     * @return the owlEditorKit
+     */
     protected OWLEditorKit getOwlEditorKit() {
         return owlEditorKit;
     }
 
-    /** @return the constraintSystem */
+    /**
+     * @return the constraintSystem
+     */
     protected ConstraintSystem getConstraintSystem() {
         return constraintSystem;
     }

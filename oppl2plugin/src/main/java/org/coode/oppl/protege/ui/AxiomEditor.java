@@ -45,10 +45,13 @@ import org.protege.editor.owl.OWLEditorKit;
 import org.protege.editor.owl.ui.renderer.OWLCellRenderer;
 import org.semanticweb.owlapi.model.OWLAxiom;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class AxiomEditor extends JPanel implements VerifiedInputEditor {
+
     private static final long serialVersionUID = 20100L;
-    private final Set<InputVerificationStatusChangedListener> listeners = new HashSet<InputVerificationStatusChangedListener>();
+    private final Set<InputVerificationStatusChangedListener> listeners = new HashSet<>();
     private final ExpressionEditor<OWLAxiom> editor;
     private final OWLEditorKit owlEditorKit;
     private final ConstraintSystem constraintSystem;
@@ -59,27 +62,29 @@ public class AxiomEditor extends JPanel implements VerifiedInputEditor {
         this.owlEditorKit = owlEditorKit;
         this.constraintSystem = constraintSystem;
         expressionChecker = new OPPLExpressionChecker<OWLAxiom>(this.owlEditorKit) {
+
             @Override
             protected OWLAxiom parse(String text) {
                 AbstractParserFactory factory = ProtegeParserFactory
-                        .getInstance(getOWLEditorKit());
+                    .getInstance(getOWLEditorKit());
                 OPPLParser parser = factory.build(getListener());
                 OPPLSymbolTable symbolTable = parser.getSymbolTableFactory()
-                        .createSymbolTable();
+                    .createSymbolTable();
                 symbolTable
-                        .importConstraintSystem(AxiomEditor.this.getConstraintSystem());
+                    .importConstraintSystem(AxiomEditor.this.getConstraintSystem());
                 OWLAxiom toReturn = parser.parseAxiom(text, symbolTable);
                 return toReturn;
             }
         };
         setLayout(new BorderLayout());
-        editor = new ExpressionEditor<OWLAxiom>(this.owlEditorKit.getOWLModelManager()
-                .getOWLOntologyManager(), expressionChecker);
+        editor = new ExpressionEditor<>(this.owlEditorKit.getOWLModelManager()
+            .getOWLOntologyManager(), expressionChecker);
         // Deactivating auto completions
         for (KeyListener l : editor.getKeyListeners()) {
             editor.removeKeyListener(l);
         }
         editor.addStatusChangedListener(new InputVerificationStatusChangedListener() {
+
             @Override
             public void verifiedStatusChanged(boolean newState) {
                 AxiomEditor.this.check();
@@ -106,7 +111,7 @@ public class AxiomEditor extends JPanel implements VerifiedInputEditor {
 
     @Override
     public void removeStatusChangedListener(
-            InputVerificationStatusChangedListener listener) {
+        InputVerificationStatusChangedListener listener) {
         listeners.remove(listener);
     }
 
@@ -116,7 +121,9 @@ public class AxiomEditor extends JPanel implements VerifiedInputEditor {
         }
     }
 
-    /** @return axiom */
+    /**
+     * @return axiom
+     */
     public OWLAxiom getAxiom() {
         return axiom;
     }
@@ -125,15 +132,19 @@ public class AxiomEditor extends JPanel implements VerifiedInputEditor {
         editor.setText("");
     }
 
-    /** @param anOWLAxiom
-     *            anOWLAxiom */
+    /**
+     * @param anOWLAxiom
+     *        anOWLAxiom
+     */
     public void setOWLAxiom(OWLAxiom anOWLAxiom) {
         VariableOWLCellRenderer renderer = new VariableOWLCellRenderer(owlEditorKit,
-                constraintSystem, new OWLCellRenderer(owlEditorKit));
+            constraintSystem, new OWLCellRenderer(owlEditorKit));
         editor.setText(renderer.getRendering(anOWLAxiom));
     }
 
-    /** @return the constraintSystem */
+    /**
+     * @return the constraintSystem
+     */
     public ConstraintSystem getConstraintSystem() {
         return constraintSystem;
     }

@@ -5,8 +5,11 @@ import org.coode.parsers.oppl.VariableIRI;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.util.OWLObjectVisitorAdapter;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class IRIVisitorAdapter extends OWLObjectVisitorAdapter implements IRIVisitor {
+
     @Override
     public void visitIRI(IRI iri) {}
 

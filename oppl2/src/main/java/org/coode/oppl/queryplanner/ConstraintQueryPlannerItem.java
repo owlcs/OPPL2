@@ -16,31 +16,36 @@ import org.coode.oppl.function.SimpleValueComputationParameters;
 import org.coode.oppl.function.ValueComputationParameters;
 import org.coode.oppl.querymatching.ConstraintChecker;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class ConstraintQueryPlannerItem extends AbstractQueryPlannerItem {
+
     private final AbstractConstraint constraint;
 
-    /** @param constraintSystem
-     *            constraintSystem
+    /**
+     * @param constraintSystem
+     *        constraintSystem
      * @param constraint
-     *            constraint */
+     *        constraint
+     */
     public ConstraintQueryPlannerItem(ConstraintSystem constraintSystem,
-            AbstractConstraint constraint) {
+        AbstractConstraint constraint) {
         super(constraintSystem);
         this.constraint = checkNotNull(constraint, "constraint");
     }
 
     @Override
     public Set<BindingNode> match(Collection<? extends BindingNode> currentLeaves,
-            ExecutionMonitor executionMonitor,
-            RuntimeExceptionHandler runtimeExceptionHandler) {
-        Set<BindingNode> toReturn = new HashSet<BindingNode>(currentLeaves.size());
+        ExecutionMonitor executionMonitor,
+        RuntimeExceptionHandler runtimeExceptionHandler) {
+        Set<BindingNode> toReturn = new HashSet<>(currentLeaves.size());
         Iterator<? extends BindingNode> it = currentLeaves.iterator();
         BindingNode leaf;
         while (!executionMonitor.isCancelled() && it.hasNext()) {
             leaf = it.next();
             boolean holdingLeaf = checkConstraint(leaf, getConstraint(),
-                    runtimeExceptionHandler);
+                runtimeExceptionHandler);
             if (!holdingLeaf) {
                 it.remove();
             }
@@ -55,10 +60,10 @@ public class ConstraintQueryPlannerItem extends AbstractQueryPlannerItem {
     }
 
     private boolean checkConstraint(BindingNode leaf, AbstractConstraint c,
-            RuntimeExceptionHandler runtimeExceptionHandler) {
+        RuntimeExceptionHandler runtimeExceptionHandler) {
         boolean hold = true;
         ValueComputationParameters parameters = new SimpleValueComputationParameters(
-                getConstraintSystem(), leaf, runtimeExceptionHandler);
+            getConstraintSystem(), leaf, runtimeExceptionHandler);
         ConstraintChecker constraintChecker = new ConstraintChecker(parameters);
         hold = c.accept(constraintChecker);
         return hold;
@@ -74,7 +79,9 @@ public class ConstraintQueryPlannerItem extends AbstractQueryPlannerItem {
         return visitor.visitConstraintQueryPlannerItem(this);
     }
 
-    /** @return the constraint */
+    /**
+     * @return the constraint
+     */
     public AbstractConstraint getConstraint() {
         return constraint;
     }

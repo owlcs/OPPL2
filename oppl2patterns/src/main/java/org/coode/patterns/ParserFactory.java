@@ -10,15 +10,20 @@ import org.coode.patterns.OPPLPatternParser.AbstractParserFactory;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class ParserFactory implements AbstractParserFactory {
+
     private final OWLOntology ontology;
     private final OWLOntologyManager ontologyManager;
 
-    /** @param ontology
-     *            ontology
+    /**
+     * @param ontology
+     *        ontology
      * @param ontologyManager
-     *            ontologyManager */
+     *        ontologyManager
+     */
     public ParserFactory(OWLOntology ontology, OWLOntologyManager ontologyManager) {
         this.ontology = checkNotNull(ontology, "ontology");
         this.ontologyManager = checkNotNull(ontologyManager, "ontologyManager");
@@ -27,15 +32,15 @@ public class ParserFactory implements AbstractParserFactory {
     @Override
     public OPPLPatternParser build(ErrorListener errorListener) {
         return new OPPLPatternParser(getPatternFactory(), errorListener,
-                new SimpleSymbolTableFactory(getOntologyManager()));
+            new SimpleSymbolTableFactory(getOntologyManager()));
     }
 
     @Override
     public OPPLPatternParser build(Collection<? extends String> visitedPatterns,
-            ErrorListener errorListener) {
+        ErrorListener errorListener) {
         return new OPPLPatternParser(getPatternFactory(), errorListener,
-                new SimpleSymbolTableFactory(getOntologyManager()),
-                new VisitedPatternReferenceResolver(visitedPatterns));
+            new SimpleSymbolTableFactory(getOntologyManager()),
+            new VisitedPatternReferenceResolver(visitedPatterns));
     }
 
     @Override
@@ -43,12 +48,16 @@ public class ParserFactory implements AbstractParserFactory {
         return new PatternModelFactory(getOntology(), getOntologyManager());
     }
 
-    /** @return the ontologyManager */
+    /**
+     * @return the ontologyManager
+     */
     public OWLOntologyManager getOntologyManager() {
         return ontologyManager;
     }
 
-    /** @return the ontology */
+    /**
+     * @return the ontology
+     */
     public OWLOntology getOntology() {
         return ontology;
     }

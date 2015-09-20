@@ -2,52 +2,41 @@ package org.coode.parsers;
 
 import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
-import org.semanticweb.owlapi.model.OWLAnnotationProperty;
-import org.semanticweb.owlapi.model.OWLAxiomChange;
-import org.semanticweb.owlapi.model.OWLClass;
-import org.semanticweb.owlapi.model.OWLDataProperty;
-import org.semanticweb.owlapi.model.OWLDatatype;
-import org.semanticweb.owlapi.model.OWLEntity;
-import org.semanticweb.owlapi.model.OWLEntityVisitor;
-import org.semanticweb.owlapi.model.OWLNamedIndividual;
-import org.semanticweb.owlapi.model.OWLObjectProperty;
-import org.semanticweb.owlapi.model.OWLOntology;
-import org.semanticweb.owlapi.model.OWLOntologyChange;
-import org.semanticweb.owlapi.model.OWLOntologyChangeListener;
-import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.*;
 import org.semanticweb.owlapi.vocab.OWL2Datatype;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class OWLEntityRenderingCacheImpl implements OWLEntityRenderingCache {
-    protected Map<String, OWLClass> owlClassMap = new HashMap<String, OWLClass>();
-    protected Map<String, OWLObjectProperty> owlObjectPropertyMap = new HashMap<String, OWLObjectProperty>();
-    protected Map<String, OWLDataProperty> owlDataPropertyMap = new HashMap<String, OWLDataProperty>();
-    protected Map<String, OWLNamedIndividual> owlIndividualMap = new HashMap<String, OWLNamedIndividual>();
-    protected Map<String, OWLDatatype> owlDatatypeMap = new HashMap<String, OWLDatatype>();
-    protected Map<String, OWLAnnotationProperty> owlAnnotationPropertyMap = new HashMap<String, OWLAnnotationProperty>();
-    protected Map<OWLEntity, String> entityRenderingMap = new HashMap<OWLEntity, String>();
+
+    protected Map<String, OWLClass> owlClassMap = new HashMap<>();
+    protected Map<String, OWLObjectProperty> owlObjectPropertyMap = new HashMap<>();
+    protected Map<String, OWLDataProperty> owlDataPropertyMap = new HashMap<>();
+    protected Map<String, OWLNamedIndividual> owlIndividualMap = new HashMap<>();
+    protected Map<String, OWLDatatype> owlDatatypeMap = new HashMap<>();
+    protected Map<String, OWLAnnotationProperty> owlAnnotationPropertyMap = new HashMap<>();
+    protected Map<OWLEntity, String> entityRenderingMap = new HashMap<>();
     protected final OWLOntologyManager manager;
     protected final OWLEntityRenderer entityRenderer;
     protected OWLOntologyChangeListener listener = new OWLOntologyChangeListener() {
+
         @Override
         public void ontologiesChanged(List<? extends OWLOntologyChange> changes) {
             OWLEntityRenderingCacheImpl.this.processChanges(changes);
         }
     };
 
-    /** @param manager
-     *            manager
+    /**
+     * @param manager
+     *        manager
      * @param entityRenderer
-     *            entityRenderer */
+     *        entityRenderer
+     */
     public OWLEntityRenderingCacheImpl(OWLOntologyManager manager,
-            OWLEntityRenderer entityRenderer) {
+        OWLEntityRenderer entityRenderer) {
         this.manager = checkNotNull(manager, "manager");
         this.entityRenderer = checkNotNull(entityRenderer, "entityRenderer");
         this.manager.addOntologyChangeListener(listener);
@@ -91,7 +80,7 @@ public class OWLEntityRenderingCacheImpl implements OWLEntityRenderingCache {
             EnumSet<OWL2Datatype> allDataTypes = EnumSet.allOf(OWL2Datatype.class);
             for (OWL2Datatype dt : allDataTypes) {
                 OWLDatatype owlDatatype = manager.getOWLDataFactory().getOWLDatatype(
-                        dt.getIRI());
+                    dt.getIRI());
                 this.addRendering(owlDatatype, owlDatatypeMap);
             }
         }
@@ -171,6 +160,7 @@ public class OWLEntityRenderingCacheImpl implements OWLEntityRenderingCache {
     @Override
     public void addRendering(OWLEntity owlEntity) {
         owlEntity.accept(new OWLEntityVisitor() {
+
             @Override
             public void visit(OWLDataProperty entity) {
                 OWLEntityRenderingCacheImpl.this.addRendering(entity, owlDataPropertyMap);
@@ -179,7 +169,7 @@ public class OWLEntityRenderingCacheImpl implements OWLEntityRenderingCache {
             @Override
             public void visit(OWLObjectProperty entity) {
                 OWLEntityRenderingCacheImpl.this.addRendering(entity,
-                        owlObjectPropertyMap);
+                    owlObjectPropertyMap);
             }
 
             @Override
@@ -200,7 +190,7 @@ public class OWLEntityRenderingCacheImpl implements OWLEntityRenderingCache {
             @Override
             public void visit(OWLAnnotationProperty property) {
                 OWLEntityRenderingCacheImpl.this.addRendering(property,
-                        owlAnnotationPropertyMap);
+                    owlAnnotationPropertyMap);
             }
         });
     }
@@ -218,6 +208,7 @@ public class OWLEntityRenderingCacheImpl implements OWLEntityRenderingCache {
         final String oldRendering = entityRenderingMap.get(owlEntity);
         entityRenderingMap.remove(owlEntity);
         owlEntity.accept(new OWLEntityVisitor() {
+
             @Override
             public void visit(OWLClass entity) {
                 owlClassMap.remove(oldRendering);
@@ -292,9 +283,9 @@ public class OWLEntityRenderingCacheImpl implements OWLEntityRenderingCache {
 
     @Override
     public Set<String> getOWLEntityRenderings() {
-        Set<String> renderings = new HashSet<String>(owlClassMap.size()
-                + owlObjectPropertyMap.size() + owlDataPropertyMap.size()
-                + owlIndividualMap.size() + owlDatatypeMap.size());
+        Set<String> renderings = new HashSet<>(owlClassMap.size()
+            + owlObjectPropertyMap.size() + owlDataPropertyMap.size()
+            + owlIndividualMap.size() + owlDatatypeMap.size());
         renderings.addAll(owlClassMap.keySet());
         renderings.addAll(owlObjectPropertyMap.keySet());
         renderings.addAll(owlDataPropertyMap.keySet());
