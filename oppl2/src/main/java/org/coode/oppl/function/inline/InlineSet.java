@@ -9,20 +9,8 @@ import java.util.Set;
 
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.ManchesterVariableSyntax;
-import org.coode.oppl.function.Adapter;
-import org.coode.oppl.function.Aggregandum;
-import org.coode.oppl.function.OPPLFunction;
-import org.coode.oppl.function.OPPLFunctionVisitor;
-import org.coode.oppl.function.OPPLFunctionVisitorEx;
-import org.coode.oppl.function.ValueComputationParameters;
-import org.coode.oppl.variabletypes.ANNOTATIONPROPERTYVariableType;
-import org.coode.oppl.variabletypes.CLASSVariableType;
-import org.coode.oppl.variabletypes.CONSTANTVariableType;
-import org.coode.oppl.variabletypes.DATAPROPERTYVariableType;
-import org.coode.oppl.variabletypes.INDIVIDUALVariableType;
-import org.coode.oppl.variabletypes.OBJECTPROPERTYVariableType;
-import org.coode.oppl.variabletypes.VariableType;
-import org.coode.oppl.variabletypes.VariableTypeVisitorEx;
+import org.coode.oppl.function.*;
+import org.coode.oppl.variabletypes.*;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLObject;
@@ -47,58 +35,47 @@ public final class InlineSet<O extends OWLObject> implements Set<O>, OPPLFunctio
             Collection<? extends Aggregandum<Collection<? extends O>>> aggregandums,
             final OWLDataFactory dataFactory, final ConstraintSystem constraintSystem) {
         this.aggregandums.addAll(checkNotNull(aggregandums, "aggregandums"));
+        for (Aggregandum<Collection<? extends O>> a : this.aggregandums) {
+            final String render = a.render(constraintSystem);
+            final IRI rendered = IRI.create(String.format("%s#%s", ManchesterVariableSyntax.NAMESPACE, render));
         this.delegate.add(variableType.accept(new VariableTypeVisitorEx<O>() {
             @Override
             @SuppressWarnings("unchecked")
-            public O visitCLASSVariableType(CLASSVariableType classVariableType) {
-                return (O) dataFactory.getOWLClass(IRI.create(String.format("%s#%s",
-                        ManchesterVariableSyntax.NAMESPACE,
-                        InlineSet.this.render(constraintSystem))));
+                public O visitCLASSVariableType(CLASSVariableType v) {
+                    return (O) dataFactory.getOWLClass(rendered);
             }
 
             @Override
             @SuppressWarnings("unchecked")
-            public O visitOBJECTPROPERTYVariableType(
-                    OBJECTPROPERTYVariableType objectpropertyVariableType) {
-                return (O) dataFactory.getOWLObjectProperty(IRI.create(String.format(
-                        "%s#%s", ManchesterVariableSyntax.NAMESPACE,
-                        InlineSet.this.render(constraintSystem))));
+                public O visitOBJECTPROPERTYVariableType(OBJECTPROPERTYVariableType v) {
+                    return (O) dataFactory.getOWLObjectProperty(rendered);
             }
 
             @Override
             @SuppressWarnings("unchecked")
-            public O visitDATAPROPERTYVariableType(
-                    DATAPROPERTYVariableType datapropertyVariableType) {
-                return (O) dataFactory.getOWLDataProperty(IRI.create(String.format(
-                        "%s#%s", ManchesterVariableSyntax.NAMESPACE,
-                        InlineSet.this.render(constraintSystem))));
+                public O visitDATAPROPERTYVariableType(DATAPROPERTYVariableType v) {
+                    return (O) dataFactory.getOWLDataProperty(rendered);
             }
 
             @Override
             @SuppressWarnings("unchecked")
-            public O visitINDIVIDUALVariableType(
-                    INDIVIDUALVariableType individualVariableType) {
-                return (O) dataFactory.getOWLNamedIndividual(IRI.create(String.format(
-                        "%s#%s", ManchesterVariableSyntax.NAMESPACE,
-                        InlineSet.this.render(constraintSystem))));
+                public O visitINDIVIDUALVariableType(INDIVIDUALVariableType v) {
+                    return (O) dataFactory.getOWLNamedIndividual(rendered);
             }
 
             @Override
             @SuppressWarnings("unchecked")
-            public O visitCONSTANTVariableType(CONSTANTVariableType constantVariableType) {
-                return (O) dataFactory.getOWLLiteral(InlineSet.this
-                        .render(constraintSystem));
+                public O visitCONSTANTVariableType(CONSTANTVariableType v) {
+                    return (O) dataFactory.getOWLLiteral(render);
             }
 
             @Override
             @SuppressWarnings("unchecked")
-            public O visitANNOTATIONPROPERTYVariableType(
-                    ANNOTATIONPROPERTYVariableType annotationpropertyVariableType) {
-                return (O) dataFactory.getOWLAnnotationProperty(IRI.create(String.format(
-                        "%s#%s", ManchesterVariableSyntax.NAMESPACE,
-                        InlineSet.this.render(constraintSystem))));
+                public O visitANNOTATIONPROPERTYVariableType(ANNOTATIONPROPERTYVariableType v) {
+                    return (O) dataFactory.getOWLAnnotationProperty(rendered);
             }
         }));
+    }
     }
 
     /** @return aggregandums */
