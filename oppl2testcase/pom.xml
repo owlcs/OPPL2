@@ -4,16 +4,16 @@
 	<packaging>jar</packaging>
 	<name>OPPL 2 Test Case</name>
 	<groupId>net.sourceforge.owlapi</groupId>
-	<version>3.0.0-SNAPSHOT</version>
+	<version>3.0.0</version>
 	<parent>
 		<groupId>net.sourceforge.owlapi</groupId>
 		<artifactId>oppl2-parent</artifactId>
-		<version>3.0.0-SNAPSHOT</version>
+		<version>3.0.0</version>
 	</parent>
 	<dependencies>
 		<dependency>
 			<groupId>net.sourceforge.owlapi</groupId>
-			<version>3.0.0-SNAPSHOT</version>
+			<version>3.0.0</version>
 			<artifactId>oppl2-oppl2</artifactId>
 		</dependency>
 	</dependencies>
