@@ -272,7 +272,7 @@ public class PatternModelList extends AbstractAnnotationsList<PatternAnnotationC
 
     @Override
     protected List<MListButton> getListItemButtons(MListItem item) {
-        List<MListButton> listItemButtons = super.getListItemButtons(item);
+        List<MListButton> listItemButtons = new ArrayList<MListButton>(super.getListItemButtons(item));
         if (item instanceof PatternListItem) {
             final PatternModel patternModel = ((PatternListItem) item).getPatternModel();
             if (!patternModel.isClassPattern()) {
