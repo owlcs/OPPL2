@@ -1,34 +1,120 @@
 package org.coode.oppl.utils;
 
 import static org.coode.oppl.utils.ArgCheck.checkNotNull;
-import static org.coode.oppl.utils.OWLPrimitiveSelector.*;
+import static org.coode.oppl.utils.OWLPrimitiveSelector.getAllOWLAnnotationPropertySelector;
+import static org.coode.oppl.utils.OWLPrimitiveSelector.getAllOWLClassSelector;
+import static org.coode.oppl.utils.OWLPrimitiveSelector.getAllOWLConstantSelector;
+import static org.coode.oppl.utils.OWLPrimitiveSelector.getAllOWLDataPropertySelector;
+import static org.coode.oppl.utils.OWLPrimitiveSelector.getAllOWLDatatypeSelector;
+import static org.coode.oppl.utils.OWLPrimitiveSelector.getAllOWLEntitySelector;
+import static org.coode.oppl.utils.OWLPrimitiveSelector.getAllOWLIndividualSelector;
+import static org.coode.oppl.utils.OWLPrimitiveSelector.getAllOWLObjectPropertySelector;
+import static org.coode.oppl.utils.OWLPrimitiveSelector.getAllPrimitiveSelector;
 
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.semanticweb.owlapi.model.*;
-import org.semanticweb.owlapi.util.OWLObjectVisitorExAdapter;
+import org.semanticweb.owlapi.model.OWLAnnotation;
+import org.semanticweb.owlapi.model.OWLAnnotationAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLAnnotationProperty;
+import org.semanticweb.owlapi.model.OWLAsymmetricObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLCardinalityRestriction;
+import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLClassExpression;
+import org.semanticweb.owlapi.model.OWLDataAllValuesFrom;
+import org.semanticweb.owlapi.model.OWLDataComplementOf;
+import org.semanticweb.owlapi.model.OWLDataExactCardinality;
+import org.semanticweb.owlapi.model.OWLDataHasValue;
+import org.semanticweb.owlapi.model.OWLDataMaxCardinality;
+import org.semanticweb.owlapi.model.OWLDataMinCardinality;
+import org.semanticweb.owlapi.model.OWLDataOneOf;
+import org.semanticweb.owlapi.model.OWLDataProperty;
+import org.semanticweb.owlapi.model.OWLDataPropertyAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLDataPropertyDomainAxiom;
+import org.semanticweb.owlapi.model.OWLDataPropertyRangeAxiom;
+import org.semanticweb.owlapi.model.OWLDataSomeValuesFrom;
+import org.semanticweb.owlapi.model.OWLDatatype;
+import org.semanticweb.owlapi.model.OWLDeclarationAxiom;
+import org.semanticweb.owlapi.model.OWLDifferentIndividualsAxiom;
+import org.semanticweb.owlapi.model.OWLDisjointClassesAxiom;
+import org.semanticweb.owlapi.model.OWLDisjointDataPropertiesAxiom;
+import org.semanticweb.owlapi.model.OWLDisjointObjectPropertiesAxiom;
+import org.semanticweb.owlapi.model.OWLDisjointUnionAxiom;
+import org.semanticweb.owlapi.model.OWLEntity;
+import org.semanticweb.owlapi.model.OWLEquivalentClassesAxiom;
+import org.semanticweb.owlapi.model.OWLEquivalentDataPropertiesAxiom;
+import org.semanticweb.owlapi.model.OWLEquivalentObjectPropertiesAxiom;
+import org.semanticweb.owlapi.model.OWLFunctionalDataPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLFunctionalObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLHasValueRestriction;
+import org.semanticweb.owlapi.model.OWLIndividual;
+import org.semanticweb.owlapi.model.OWLInverseFunctionalObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLInverseObjectPropertiesAxiom;
+import org.semanticweb.owlapi.model.OWLIrreflexiveObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLLiteral;
+import org.semanticweb.owlapi.model.OWLNamedIndividual;
+import org.semanticweb.owlapi.model.OWLNaryBooleanClassExpression;
+import org.semanticweb.owlapi.model.OWLNaryClassAxiom;
+import org.semanticweb.owlapi.model.OWLNaryIndividualAxiom;
+import org.semanticweb.owlapi.model.OWLNaryPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLNegativeDataPropertyAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLNegativeObjectPropertyAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLObjectAllValuesFrom;
+import org.semanticweb.owlapi.model.OWLObjectComplementOf;
+import org.semanticweb.owlapi.model.OWLObjectExactCardinality;
+import org.semanticweb.owlapi.model.OWLObjectHasSelf;
+import org.semanticweb.owlapi.model.OWLObjectHasValue;
+import org.semanticweb.owlapi.model.OWLObjectIntersectionOf;
+import org.semanticweb.owlapi.model.OWLObjectInverseOf;
+import org.semanticweb.owlapi.model.OWLObjectMaxCardinality;
+import org.semanticweb.owlapi.model.OWLObjectMinCardinality;
+import org.semanticweb.owlapi.model.OWLObjectOneOf;
+import org.semanticweb.owlapi.model.OWLObjectProperty;
+import org.semanticweb.owlapi.model.OWLObjectPropertyAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLObjectPropertyDomainAxiom;
+import org.semanticweb.owlapi.model.OWLObjectPropertyRangeAxiom;
+import org.semanticweb.owlapi.model.OWLObjectSomeValuesFrom;
+import org.semanticweb.owlapi.model.OWLObjectUnionOf;
+import org.semanticweb.owlapi.model.OWLObjectVisitorEx;
+import org.semanticweb.owlapi.model.OWLPropertyAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLPropertyDomainAxiom;
+import org.semanticweb.owlapi.model.OWLPropertyRangeAxiom;
+import org.semanticweb.owlapi.model.OWLQuantifiedRestriction;
+import org.semanticweb.owlapi.model.OWLReflexiveObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLSameIndividualAxiom;
+import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
+import org.semanticweb.owlapi.model.OWLSubDataPropertyOfAxiom;
+import org.semanticweb.owlapi.model.OWLSubObjectPropertyOfAxiom;
+import org.semanticweb.owlapi.model.OWLSubPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLSubPropertyChainOfAxiom;
+import org.semanticweb.owlapi.model.OWLSymmetricObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLTransitiveObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLUnaryPropertyAxiom;
+import org.semanticweb.owlapi.model.SWRLRule;
 
 /**
  * Extracts from an OWLObject a particular kind of OWLObject component.
  * 
  * @author Luigi Iannone
- * @param <O>
- *        type
+ * @param <O> type
  */
-public final class OWLObjectExtractor<O extends OWLObject> extends
-    OWLObjectVisitorExAdapter<Set<O>>implements OWLObjectVisitorEx<Set<O>> {
+public final class OWLObjectExtractor<O extends OWLObject> implements OWLObjectVisitorEx<Set<O>> {
 
     private final OWLObjectVisitorEx<Boolean> selector;
 
     /**
-     * @param selector
-     *        selector
+     * @param selector selector
      */
     private OWLObjectExtractor(OWLObjectVisitorEx<Boolean> selector) {
-        super(Collections.<O> emptySet());
         this.selector = checkNotNull(selector, "selector");
+    }
+
+    @Override
+    public <T> Set<O> doDefault(T object) {
+        return Collections.<O>emptySet();
     }
 
     @Override
@@ -66,8 +152,7 @@ public final class OWLObjectExtractor<O extends OWLObject> extends
     }
 
     /**
-     * @param axiom
-     *        axiom
+     * @param axiom axiom
      * @return set of objects
      */
     private Set<O> visitOWLPropertyAssertionAxiom(OWLPropertyAssertionAxiom<?, ?> axiom) {
@@ -84,8 +169,7 @@ public final class OWLObjectExtractor<O extends OWLObject> extends
     }
 
     /**
-     * @param axiom
-     *        axiom
+     * @param axiom axiom
      * @return set of objects
      */
     private Set<O> visitCharacteristicAxiom(OWLUnaryPropertyAxiom<?> axiom) {
@@ -103,8 +187,7 @@ public final class OWLObjectExtractor<O extends OWLObject> extends
     }
 
     /**
-     * @param axiom
-     *        axiom
+     * @param axiom axiom
      * @return set of objects
      */
     private Set<O> visitOWLNAryClassAxiom(OWLNaryClassAxiom axiom) {
@@ -121,8 +204,7 @@ public final class OWLObjectExtractor<O extends OWLObject> extends
     }
 
     /**
-     * @param axiom
-     *        axiom
+     * @param axiom axiom
      * @return set of objects
      */
     private Set<O> visitOWLPropertyDomainAxiom(OWLPropertyDomainAxiom<?> axiom) {
@@ -143,8 +225,7 @@ public final class OWLObjectExtractor<O extends OWLObject> extends
     }
 
     /**
-     * @param axiom
-     *        axiom
+     * @param axiom axiom
      * @return set of objects
      */
     private Set<O> visitOWLNaryPropertyAxiom(OWLNaryPropertyAxiom<?> axiom) {
@@ -166,8 +247,7 @@ public final class OWLObjectExtractor<O extends OWLObject> extends
     }
 
     /**
-     * @param axiom
-     *        axiom
+     * @param axiom axiom
      * @return set of objects
      */
     private Set<O> visitOWLNaryIndividualAxiom(OWLNaryIndividualAxiom axiom) {
@@ -194,8 +274,7 @@ public final class OWLObjectExtractor<O extends OWLObject> extends
     }
 
     /**
-     * @param axiom
-     *        axiom
+     * @param axiom axiom
      * @return set of objects
      */
     private Set<O> visitOWLPropertyRangeAxiom(OWLPropertyRangeAxiom<?, ?> axiom) {
@@ -221,8 +300,7 @@ public final class OWLObjectExtractor<O extends OWLObject> extends
     }
 
     /**
-     * @param axiom
-     *        axiom
+     * @param axiom axiom
      * @return set of objects
      */
     private Set<O> visitOWLSubPropertyAxiom(OWLSubPropertyAxiom<?> axiom) {
@@ -335,14 +413,13 @@ public final class OWLObjectExtractor<O extends OWLObject> extends
     }
 
     /**
-     * @param owlObject
-     *        owlObject
+     * @param owlObject owlObject
      * @return set of objects
      */
     @SuppressWarnings("unchecked")
     private Set<O> visitPrimitive(OWLObject owlObject) {
         Set<O> toReturn = new HashSet<>();
-        if (owlObject.accept(getSelector())) {
+        if (owlObject.accept(getSelector()).booleanValue()) {
             toReturn.add((O) owlObject);
         }
         return toReturn;
@@ -354,8 +431,7 @@ public final class OWLObjectExtractor<O extends OWLObject> extends
     }
 
     /**
-     * @param desc
-     *        desc
+     * @param desc desc
      * @return set of objects
      */
     private Set<O> visitOWLNaryBooleanExpression(OWLNaryBooleanClassExpression desc) {
@@ -382,8 +458,7 @@ public final class OWLObjectExtractor<O extends OWLObject> extends
     }
 
     /**
-     * @param desc
-     *        desc
+     * @param desc desc
      * @return set of objects
      */
     private Set<O> visitOWLQuantifiedRestriction(OWLQuantifiedRestriction<?> desc) {
@@ -404,8 +479,7 @@ public final class OWLObjectExtractor<O extends OWLObject> extends
     }
 
     /**
-     * @param desc
-     *        desc
+     * @param desc desc
      * @return set of objects
      */
     private Set<O> visitOWLValueRestriction(OWLHasValueRestriction<?> desc) {
@@ -431,8 +505,7 @@ public final class OWLObjectExtractor<O extends OWLObject> extends
     }
 
     /**
-     * @param desc
-     *        desc
+     * @param desc desc
      * @return set of objects
      */
     private Set<O> visitOWLCardinalityRestriction(OWLCardinalityRestriction<?> desc) {
@@ -540,8 +613,7 @@ public final class OWLObjectExtractor<O extends OWLObject> extends
     }
 
     /**
-     * @param owlObject
-     *        owlObject
+     * @param owlObject owlObject
      * @return all classes
      */
     public static Set<OWLClass> getAllClasses(OWLObject owlObject) {
@@ -549,8 +621,7 @@ public final class OWLObjectExtractor<O extends OWLObject> extends
     }
 
     /**
-     * @param owlObject
-     *        owlObject
+     * @param owlObject owlObject
      * @return all object properties
      */
     public static Set<OWLObjectProperty> getAllOWLObjectProperties(OWLObject owlObject) {
@@ -558,8 +629,7 @@ public final class OWLObjectExtractor<O extends OWLObject> extends
     }
 
     /**
-     * @param owlObject
-     *        owlObject
+     * @param owlObject owlObject
      * @return all data properties
      */
     public static Set<OWLDataProperty> getAllOWLDataProperties(OWLObject owlObject) {
@@ -567,8 +637,7 @@ public final class OWLObjectExtractor<O extends OWLObject> extends
     }
 
     /**
-     * @param owlObject
-     *        owlObject
+     * @param owlObject owlObject
      * @return all individuals
      */
     public static Set<OWLNamedIndividual> getAllOWLIndividuals(OWLObject owlObject) {
@@ -576,8 +645,7 @@ public final class OWLObjectExtractor<O extends OWLObject> extends
     }
 
     /**
-     * @param owlObject
-     *        owlObject
+     * @param owlObject owlObject
      * @return all datatypes
      */
     public static Set<OWLDatatype> getAllOWLDatatypes(OWLObject owlObject) {
@@ -585,8 +653,7 @@ public final class OWLObjectExtractor<O extends OWLObject> extends
     }
 
     /**
-     * @param owlObject
-     *        owlObject
+     * @param owlObject owlObject
      * @return all literals
      */
     public static Set<OWLLiteral> getAllOWLLiterals(OWLObject owlObject) {
@@ -594,8 +661,7 @@ public final class OWLObjectExtractor<O extends OWLObject> extends
     }
 
     /**
-     * @param owlObject
-     *        owlObject
+     * @param owlObject owlObject
      * @return all all entities
      */
     public static Set<OWLEntity> getAllOWLEntities(OWLObject owlObject) {
@@ -603,8 +669,7 @@ public final class OWLObjectExtractor<O extends OWLObject> extends
     }
 
     /**
-     * @param owlObject
-     *        owlObject
+     * @param owlObject owlObject
      * @return all primitives
      */
     public static Set<OWLObject> getAllOWLPrimitives(OWLObject owlObject) {
@@ -612,20 +677,16 @@ public final class OWLObjectExtractor<O extends OWLObject> extends
     }
 
     /**
-     * @param owlObject
-     *        owlObject
+     * @param owlObject owlObject
      * @return all annotation properties
      */
-    public static Set<OWLAnnotationProperty> getAllAnnotationProperties(
-        OWLObject owlObject) {
+    public static Set<OWLAnnotationProperty> getAllAnnotationProperties(OWLObject owlObject) {
         return getAll(owlObject, getAllOWLAnnotationPropertySelector());
     }
 
     /**
-     * @param owlObject
-     *        owlObject
-     * @param extractor
-     *        extractor
+     * @param owlObject owlObject
+     * @param extractor extractor
      * @return all types of owl objects
      */
     private static <T extends OWLObject> Set<T> getAll(OWLObject owlObject,

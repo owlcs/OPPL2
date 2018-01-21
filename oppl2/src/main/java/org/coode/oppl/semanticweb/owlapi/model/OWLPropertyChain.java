@@ -8,4 +8,7 @@ import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
 /**
  * @author Luigi Iannone
  */
-public interface OWLPropertyChain extends List<OWLObjectPropertyExpression>, OWLObject {}
+public interface OWLPropertyChain extends OWLObject {
+    /** @return property chain */
+    List<OWLObjectPropertyExpression> list();
+}

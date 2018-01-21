@@ -27,7 +27,13 @@ import java.util.Set;
 
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.Variable;
-import org.coode.oppl.variabletypes.*;
+import org.coode.oppl.variabletypes.ANNOTATIONPROPERTYVariableType;
+import org.coode.oppl.variabletypes.CLASSVariableType;
+import org.coode.oppl.variabletypes.CONSTANTVariableType;
+import org.coode.oppl.variabletypes.DATAPROPERTYVariableType;
+import org.coode.oppl.variabletypes.INDIVIDUALVariableType;
+import org.coode.oppl.variabletypes.OBJECTPROPERTYVariableType;
+import org.coode.oppl.variabletypes.VariableTypeVisitorEx;
 
 /**
  * Contains some utility method for matching variable names
@@ -37,31 +43,21 @@ import org.coode.oppl.variabletypes.*;
 public class OPPLVariableMatcher {
 
     /**
-     * @param name
-     *        name
-     * @param constraintSystem
-     *        constraintSystem
-     * @param matchClasses
-     *        matchClasses
-     * @param matchObjectProperties
-     *        matchObjectProperties
-     * @param matchDataProperties
-     *        matchDataProperties
-     * @param matchIndividuals
-     *        matchIndividuals
-     * @param matchConstants
-     *        matchConstants
-     * @param matchAnnotationProperty
-     *        matchAnnotationProperty
-     * @return the Set of Variable instances whose names start with the input
-     *         String from the input ConstraintSystem, provided their type has
-     *         to be included.
+     * @param name name
+     * @param constraintSystem constraintSystem
+     * @param matchClasses matchClasses
+     * @param matchObjectProperties matchObjectProperties
+     * @param matchDataProperties matchDataProperties
+     * @param matchIndividuals matchIndividuals
+     * @param matchConstants matchConstants
+     * @param matchAnnotationProperty matchAnnotationProperty
+     * @return the Set of Variable instances whose names start with the input String from the input
+     *         ConstraintSystem, provided their type has to be included.
      */
-    public static Set<Variable<?>> matches(final String name,
-        ConstraintSystem constraintSystem, final boolean matchClasses,
-        final boolean matchObjectProperties, final boolean matchDataProperties,
-        final boolean matchIndividuals, final boolean matchConstants,
-        final boolean matchAnnotationProperty) {
+    public static Set<Variable<?>> matches(final String name, ConstraintSystem constraintSystem,
+        final boolean matchClasses, final boolean matchObjectProperties,
+        final boolean matchDataProperties, final boolean matchIndividuals,
+        final boolean matchConstants, final boolean matchAnnotationProperty) {
         Set<Variable<?>> variables = constraintSystem.getVariables();
         Set<Variable<?>> toReturn = new HashSet<>(variables.size());
         VariableTypeVisitorEx<Boolean> visitor = new VariableTypeVisitorEx<Boolean>() {
@@ -90,8 +86,7 @@ public class OPPLVariableMatcher {
             }
 
             @Override
-            public Boolean visitCONSTANTVariableType(
-                CONSTANTVariableType constantVariableType) {
+            public Boolean visitCONSTANTVariableType(CONSTANTVariableType constantVariableType) {
                 return Boolean.valueOf(matchConstants);
             }
 
@@ -103,7 +98,7 @@ public class OPPLVariableMatcher {
         };
         for (Variable<?> variable : variables) {
             if (variable != null && variable.getName().startsWith(name)
-                && variable.getType().accept(visitor)) {
+                && variable.getType().accept(visitor).booleanValue()) {
                 toReturn.add(variable);
             }
         }

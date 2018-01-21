@@ -24,10 +24,8 @@ public class ConstraintQueryPlannerItem extends AbstractQueryPlannerItem {
     private final AbstractConstraint constraint;
 
     /**
-     * @param constraintSystem
-     *        constraintSystem
-     * @param constraint
-     *        constraint
+     * @param constraintSystem constraintSystem
+     * @param constraint constraint
      */
     public ConstraintQueryPlannerItem(ConstraintSystem constraintSystem,
         AbstractConstraint constraint) {
@@ -37,15 +35,14 @@ public class ConstraintQueryPlannerItem extends AbstractQueryPlannerItem {
 
     @Override
     public Set<BindingNode> match(Collection<? extends BindingNode> currentLeaves,
-        ExecutionMonitor executionMonitor,
-        RuntimeExceptionHandler runtimeExceptionHandler) {
+        ExecutionMonitor executionMonitor, RuntimeExceptionHandler runtimeExceptionHandler) {
         Set<BindingNode> toReturn = new HashSet<>(currentLeaves.size());
         Iterator<? extends BindingNode> it = currentLeaves.iterator();
         BindingNode leaf;
         while (!executionMonitor.isCancelled() && it.hasNext()) {
             leaf = it.next();
-            boolean holdingLeaf = checkConstraint(leaf, getConstraint(),
-                runtimeExceptionHandler);
+            boolean holdingLeaf =
+                checkConstraint(leaf, getConstraint(), runtimeExceptionHandler).booleanValue();
             if (!holdingLeaf) {
                 it.remove();
             }
@@ -59,14 +56,12 @@ public class ConstraintQueryPlannerItem extends AbstractQueryPlannerItem {
         return toReturn;
     }
 
-    private boolean checkConstraint(BindingNode leaf, AbstractConstraint c,
+    private Boolean checkConstraint(BindingNode leaf, AbstractConstraint c,
         RuntimeExceptionHandler runtimeExceptionHandler) {
-        boolean hold = true;
         ValueComputationParameters parameters = new SimpleValueComputationParameters(
             getConstraintSystem(), leaf, runtimeExceptionHandler);
         ConstraintChecker constraintChecker = new ConstraintChecker(parameters);
-        hold = c.accept(constraintChecker);
-        return hold;
+        return c.accept(constraintChecker);
     }
 
     @Override

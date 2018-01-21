@@ -5,7 +5,19 @@ import java.util.List;
 
 import org.coode.oppl.entity.OWLEntityCreationException;
 import org.coode.oppl.entity.OWLEntityCreationSet;
-import org.semanticweb.owlapi.model.*;
+import org.semanticweb.owlapi.model.AddAxiom;
+import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLAnnotation;
+import org.semanticweb.owlapi.model.OWLAnnotationAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLAnnotationProperty;
+import org.semanticweb.owlapi.model.OWLAxiomChange;
+import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLDataProperty;
+import org.semanticweb.owlapi.model.OWLDeclarationAxiom;
+import org.semanticweb.owlapi.model.OWLEntity;
+import org.semanticweb.owlapi.model.OWLNamedIndividual;
+import org.semanticweb.owlapi.model.OWLObjectProperty;
+import org.semanticweb.owlapi.model.OWLOntologyChange;
 
 /**
  * @author Luigi Iannone
@@ -15,49 +27,44 @@ public class EntityFactory implements org.coode.oppl.entity.OWLEntityFactory {
     private final OPPLAbstractFactory factory;
 
     /**
-     * @param f
-     *        f
+     * @param f f
      */
     public EntityFactory(OPPLAbstractFactory f) {
         factory = f;
     }
 
     /**
-     * @param shortName
-     *        shortName
+     * @param shortName shortName
      * @return iri
      */
     private IRI buildIRI(String shortName) {
-        IRI ontologyIRI = factory.getOntology().getOntologyID().getOntologyIRI().orNull();
-        return ontologyIRI == null ? IRI.create(String.format("%s#%s", factory
-            .getDefaultOntologyIRI().toString(), shortName)) : IRI.create(String
-                .format("%s#%s", ontologyIRI.toString(), shortName));
+        IRI ontologyIRI = factory.getOntology().getOntologyID().getOntologyIRI().orElse(null);
+        return ontologyIRI == null
+            ? IRI.create(
+                String.format("%s#%s", factory.getDefaultOntologyIRI().toString(), shortName))
+            : IRI.create(String.format("%s#%s", ontologyIRI.toString(), shortName));
     }
 
     /**
-     * @param label
-     *        label
-     * @return a valid IRI fragment built from the input string (which can be
-     *         either a valid fragment or a string suitable to be used as label)
-     *         The relevant grammar (from http://www.ietf.org/rfc/rfc2396.txt)
-     *         is: <br>
+     * @param label label
+     * @return a valid IRI fragment built from the input string (which can be either a valid
+     *         fragment or a string suitable to be used as label) The relevant grammar (from
+     *         http://www.ietf.org/rfc/rfc2396.txt) is: <br>
      *         IRIc = reserved | unreserved | escaped<br>
-     *         reserved = ";" | "/" | "?" | ":" | "@" | "&" | "=" | "+" | "$" |
-     *         ","<br>
+     *         reserved = ";" | "/" | "?" | ":" | "@" | "&" | "=" | "+" | "$" | ","<br>
      *         unreserved = alphanum | mark<br>
      *         mark = "-" | "_" | "." | "!" | "~" | "*" | "'" | "(" | ")"<br>
      *         escaped = "%" hex hex<br>
-     *         hex = digit | "A" | "B" | "C" | "D" | "E" | "F" | "a" | "b" | "c"
-     *         | "d" | "e" | "f"<br>
+     *         hex = digit | "A" | "B" | "C" | "D" | "E" | "F" | "a" | "b" | "c" | "d" | "e" |
+     *         "f"<br>
      *         alphanum = alpha | digit<br>
      *         alpha = lowalpha | upalpha<br>
-     *         however, to simplify the method and remove ambiguities (i.e., '
-     *         and , are used in the Manchester syntax grammar as well), only
-     *         alphanumeric characters will be left in, while any other
-     *         character will be replaced by "_"; sequences of one or more
+     *         however, to simplify the method and remove ambiguities (i.e., ' and , are used in the
+     *         Manchester syntax grammar as well), only alphanumeric characters will be left in,
+     *         while any other character will be replaced by "_"; sequences of one or more
      *         underscores will be trimmed to one.
      */
-    private String buildFragment(String label) {
+    private static String buildFragment(String label) {
         StringBuilder b = new StringBuilder(label);
         for (int i = 0; i < b.length(); i++) {
             char c = b.charAt(i);
@@ -69,17 +76,14 @@ public class EntityFactory implements org.coode.oppl.entity.OWLEntityFactory {
     }
 
     /** characters which will be removed from labels */
-    private static final char[] forbiddenCharacters = new char[] { '\'', '>', '<', '`',
-        '"' };
+    private static final char[] forbiddenCharacters = new char[] {'\'', '>', '<', '`', '"'};
 
     /**
-     * @param label
-     *        label
-     * @return the original string purged of characters which are not supposed
-     *         to belong to a label (e.g., ' ", etc). Complete list is in the
-     *         forbiddenCharacters list.
+     * @param label label
+     * @return the original string purged of characters which are not supposed to belong to a label
+     *         (e.g., ' ", etc). Complete list is in the forbiddenCharacters list.
      */
-    private String buildLabelString(String label) {
+    private static String buildLabelString(String label) {
         String toReturn = label.trim();
         for (char c : forbiddenCharacters) {
             toReturn = toReturn.replace(c + "", "");
@@ -105,8 +109,8 @@ public class EntityFactory implements org.coode.oppl.entity.OWLEntityFactory {
         String realShortName = buildFragment(label);
         IRI anIRI = buildIRI(realShortName);
         T entity = this.getOWLEntity(type, anIRI);
-        OWLDeclarationAxiom declarationAxiom = factory.getOWLDataFactory()
-            .getOWLDeclarationAxiom(entity);
+        OWLDeclarationAxiom declarationAxiom =
+            factory.getOWLDataFactory().getOWLDeclarationAxiom(entity);
         List<OWLOntologyChange> changes = new ArrayList<>();
         changes.add(new AddAxiom(factory.getOntology(), declarationAxiom));
         if (!realShortName.equals(shortName)) {
@@ -114,13 +118,12 @@ public class EntityFactory implements org.coode.oppl.entity.OWLEntityFactory {
             // suitable as fragment, i.e., an alternate representation gives
             // more information
             OWLAnnotationProperty rdfsLabel = factory.getOWLDataFactory().getRDFSLabel();
-            OWLAnnotation owlAnnotation = factory.getOWLDataFactory().getOWLAnnotation(
-                rdfsLabel, factory.getOWLDataFactory().getOWLLiteral(label));
-            OWLAnnotationAssertionAxiom owlAnnotationAssertionAxiom = factory
-                .getOWLDataFactory().getOWLAnnotationAssertionAxiom(entity.getIRI(),
-                    owlAnnotation);
-            OWLAxiomChange extraChange = new AddAxiom(factory.getOntology(),
-                owlAnnotationAssertionAxiom);
+            OWLAnnotation owlAnnotation = factory.getOWLDataFactory().getOWLAnnotation(rdfsLabel,
+                factory.getOWLDataFactory().getOWLLiteral(label));
+            OWLAnnotationAssertionAxiom owlAnnotationAssertionAxiom = factory.getOWLDataFactory()
+                .getOWLAnnotationAssertionAxiom(entity.getIRI(), owlAnnotation);
+            OWLAxiomChange extraChange =
+                new AddAxiom(factory.getOntology(), owlAnnotationAssertionAxiom);
             changes.add(extraChange);
         }
         return new OWLEntityCreationSet<>(entity, changes);
@@ -133,14 +136,14 @@ public class EntityFactory implements org.coode.oppl.entity.OWLEntityFactory {
     }
 
     @Override
-    public OWLEntityCreationSet<OWLObjectProperty> createOWLObjectProperty(
-        String shortName, IRI baseIRI) {
+    public OWLEntityCreationSet<OWLObjectProperty> createOWLObjectProperty(String shortName,
+        IRI baseIRI) {
         return this.createOWLEntity(OWLObjectProperty.class, shortName, baseIRI);
     }
 
     @Override
-    public OWLEntityCreationSet<OWLAnnotationProperty> createOWLAnnotationProperty(
-        String shortName, IRI baseIRI) {
+    public OWLEntityCreationSet<OWLAnnotationProperty> createOWLAnnotationProperty(String shortName,
+        IRI baseIRI) {
         return this.createOWLEntity(OWLAnnotationProperty.class, shortName, baseIRI);
     }
 
@@ -159,12 +162,12 @@ public class EntityFactory implements org.coode.oppl.entity.OWLEntityFactory {
     }
 
     private boolean isValidNewID(IRI baseIRI) {
-        return baseIRI.equals(factory.getOntology().getOntologyID().getOntologyIRI().orNull());
+        return baseIRI.equals(factory.getOntology().getOntologyID().getOntologyIRI().orElse(null));
     }
 
     @Override
-    public <T extends OWLEntity> OWLEntityCreationSet<T> preview(Class<T> type,
-        String shortName, IRI baseIRI) {
+    public <T extends OWLEntity> OWLEntityCreationSet<T> preview(Class<T> type, String shortName,
+        IRI baseIRI) {
         return this.createOWLEntity(type, shortName, baseIRI);
     }
 
@@ -172,8 +175,8 @@ public class EntityFactory implements org.coode.oppl.entity.OWLEntityFactory {
     public void tryCreate(Class<? extends OWLEntity> type, String shortName, IRI baseIRI)
         throws OWLEntityCreationException {
         if (!isValidNewID(baseIRI)) {
-            throw new OWLEntityCreationException("Invalid name: " + shortName + "for an "
-                + type.getName());
+            throw new OWLEntityCreationException(
+                "Invalid name: " + shortName + "for an " + type.getName());
         }
     }
 }

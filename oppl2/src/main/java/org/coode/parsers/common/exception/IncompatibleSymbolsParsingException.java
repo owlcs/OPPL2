@@ -12,20 +12,17 @@ public class IncompatibleSymbolsParsingException extends ParsingException {
     private final Set<String> incompatibleSymbols = new HashSet<>();
 
     /**
-     * @param parentExpression
-     *        parentExpression
-     * @param line
-     *        line
-     * @param charPositionInLine
-     *        charPositionInLine
-     * @param incompatibleSymbols
-     *        incompatibleSymbols
+     * @param parentExpression parentExpression
+     * @param line line
+     * @param charPositionInLine charPositionInLine
+     * @param incompatibleSymbols incompatibleSymbols
      */
     public IncompatibleSymbolsParsingException(String parentExpression, int line,
         int charPositionInLine, String... incompatibleSymbols) {
-        super(String.format(
-            "Incompatible symbols  at line %d char position in line %d for %s", line,
-            charPositionInLine, parentExpression), line, charPositionInLine);
+        super(
+            String.format("Incompatible symbols  at line %d char position in line %d for %s",
+                Integer.valueOf(line), Integer.valueOf(charPositionInLine), parentExpression),
+            line, charPositionInLine);
         for (String string : incompatibleSymbols) {
             this.incompatibleSymbols.add(string);
         }

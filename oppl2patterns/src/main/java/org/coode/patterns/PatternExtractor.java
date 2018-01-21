@@ -27,21 +27,23 @@ import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.coode.parsers.ErrorListener;
-import org.coode.parsers.oppl.OPPLSyntaxTree;
-import org.coode.parsers.oppl.patterns.OPPLPatternsSymbolTable;
 import org.coode.patterns.OPPLPatternParser.PatternReferenceResolver;
-import org.semanticweb.owlapi.model.*;
-import org.semanticweb.owlapi.util.OWLObjectVisitorExAdapter;
+import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLAnnotation;
+import org.semanticweb.owlapi.model.OWLAnnotationObjectVisitorEx;
+import org.semanticweb.owlapi.model.OWLLiteral;
+import org.semanticweb.owlapi.model.OWLObjectVisitorEx;
+import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 /**
  * @author Luigi Iannone
  */
-public class PatternExtractor extends OWLObjectVisitorExAdapter<PatternOPPLScript>
-    implements OWLAnnotationObjectVisitorEx<PatternOPPLScript> {
+public class PatternExtractor implements OWLObjectVisitorEx<PatternOPPLScript>,
+    OWLAnnotationObjectVisitorEx<PatternOPPLScript> {
 
     private final OWLOntologyManager ontologyManager;
     private final OWLOntology ontology;
@@ -49,56 +51,45 @@ public class PatternExtractor extends OWLObjectVisitorExAdapter<PatternOPPLScrip
     private final Set<OWLAnnotation> visited = new HashSet<>();
 
     /**
-     * @param ontology
-     *        ontology
-     * @param owlOntologyManager
-     *        owlOntologyManager
-     * @param errorListener
-     *        errorListener
-     * @param visited
-     *        visited
+     * @param ontology ontology
+     * @param owlOntologyManager owlOntologyManager
+     * @param errorListener errorListener
+     * @param visited visited
      */
     public PatternExtractor(OWLOntology ontology, OWLOntologyManager owlOntologyManager,
         ErrorListener errorListener, Set<OWLAnnotation> visited) {
-        super(null);
         this.ontology = checkNotNull(ontology, "ontology");
         ontologyManager = checkNotNull(owlOntologyManager, "owlOntologyManager");
         this.errorListener = checkNotNull(errorListener, "errorListener");
         this.visited.addAll(visited);
     }
 
+    @Override
+    public <T> PatternOPPLScript doDefault(T object) {
+        return null;
+    }
+
     /**
-     * @param ontology
-     *        ontology
-     * @param owlOntologyManager
-     *        owlOntologyManager
-     * @param listener
-     *        listener
+     * @param ontology ontology
+     * @param owlOntologyManager owlOntologyManager
+     * @param listener listener
      */
     public PatternExtractor(OWLOntology ontology, OWLOntologyManager owlOntologyManager,
         ErrorListener listener) {
-        this(ontology, owlOntologyManager, listener, Collections
-            .<OWLAnnotation> emptySet());
+        this(ontology, owlOntologyManager, listener, Collections.<OWLAnnotation>emptySet());
     }
 
     @Override
     public PatternOPPLScript visit(OWLAnnotation annotation) {
         PatternOPPLScript toReturn = null;
         if (visited.isEmpty() || !visited.contains(annotation)) {
-            if (PatternModel.NAMESPACE.equals(annotation.getProperty().getIRI()
-                .getNamespace())) {
-                String value = annotation.getValue().accept(
-                    new OWLObjectVisitorExAdapter<String>(null) {
-
-                        @Override
-                        public String visit(OWLLiteral literal) {
-                            return literal.getLiteral();
-                        }
-                    });
+            if (PatternModel.NAMESPACE.equals(annotation.getProperty().getIRI().getNamespace())) {
+                String value =
+                    annotation.getValue().literalValue().map(OWLLiteral::getLiteral).orElse(null);
                 if (value != null) {
                     String patternName = annotation.getProperty().getIRI().getFragment();
-                    ParserFactory parserFactory = new ParserFactory(getOntology(),
-                        getOntologyManager());
+                    ParserFactory parserFactory =
+                        new ParserFactory(getOntology(), getOntologyManager());
                     OPPLPatternParser parser = parserFactory.build(getErrorListener());
                     Set<String> visitedPatternNames = getVisitedPatternNames();
                     visitedPatternNames.add(patternName);
@@ -112,8 +103,8 @@ public class PatternExtractor extends OWLObjectVisitorExAdapter<PatternOPPLScrip
                 }
             }
         } else {
-            getErrorListener().reportThrowable(
-                new RuntimeException("Cyclic reference detected "), 0, 0, 0);
+            getErrorListener().reportThrowable(new RuntimeException("Cyclic reference detected "),
+                0, 0, 0);
         }
         return toReturn;
     }
@@ -150,17 +141,9 @@ public class PatternExtractor extends OWLObjectVisitorExAdapter<PatternOPPLScrip
         return errorListener;
     }
 
-    private PatternReferenceResolver getPatternReferenceResolver(
+    private static PatternReferenceResolver getPatternReferenceResolver(
         final Collection<? extends String> done) {
-        return new PatternReferenceResolver() {
-
-            @Override
-            public void resolvePattern(OPPLSyntaxTree reference, String patternName,
-                PatternConstraintSystem constraintSystem,
-                OPPLPatternsSymbolTable symbolTable, List<Object>... args) {
-                symbolTable.resolvePattern(reference, patternName, constraintSystem,
-                    new HashSet<>(done), args);
-            }
-        };
+        return (reference, patternName, constraintSystem, symbolTable, args) -> symbolTable
+            .resolvePattern(reference, patternName, constraintSystem, new HashSet<>(done), args);
     }
 }

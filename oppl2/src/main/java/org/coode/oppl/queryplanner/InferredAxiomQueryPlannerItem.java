@@ -30,10 +30,8 @@ public class InferredAxiomQueryPlannerItem extends AbstractQueryPlannerItem {
     private final OWLAxiom axiom;
 
     /**
-     * @param constraintSystem
-     *        constraintSystem
-     * @param axiom
-     *        axiom
+     * @param constraintSystem constraintSystem
+     * @param axiom axiom
      */
     public InferredAxiomQueryPlannerItem(ConstraintSystem constraintSystem, OWLAxiom axiom) {
         super(constraintSystem);
@@ -49,8 +47,7 @@ public class InferredAxiomQueryPlannerItem extends AbstractQueryPlannerItem {
 
     @Override
     public Set<BindingNode> match(Collection<? extends BindingNode> currentLeaves,
-        ExecutionMonitor executionMonitor,
-        RuntimeExceptionHandler runtimeExceptionHandler) {
+        ExecutionMonitor executionMonitor, RuntimeExceptionHandler runtimeExceptionHandler) {
         Set<BindingNode> toReturn = new HashSet<>();
         if (currentLeaves != null) {
             Iterator<? extends BindingNode> iterator = currentLeaves.iterator();
@@ -58,11 +55,11 @@ public class InferredAxiomQueryPlannerItem extends AbstractQueryPlannerItem {
                 BindingNode bindingNode = iterator.next();
                 ValueComputationParameters parameters = new SimpleValueComputationParameters(
                     getConstraintSystem(), bindingNode, runtimeExceptionHandler);
-                PartialOWLObjectInstantiator instantiator = new PartialOWLObjectInstantiator(
-                    parameters);
+                PartialOWLObjectInstantiator instantiator =
+                    new PartialOWLObjectInstantiator(parameters);
                 OWLAxiom instantiatedAxiom = (OWLAxiom) getAxiom().accept(instantiator);
-                Set<BindingNode> newLeaves = updateBindings(instantiatedAxiom,
-                    runtimeExceptionHandler);
+                Set<BindingNode> newLeaves =
+                    updateBindings(instantiatedAxiom, runtimeExceptionHandler);
                 toReturn.addAll(merge(bindingNode, newLeaves));
             }
             if (executionMonitor.isCancelled()) {
@@ -80,13 +77,12 @@ public class InferredAxiomQueryPlannerItem extends AbstractQueryPlannerItem {
         Set<BindingNode> toReturn = new HashSet<>();
         int initialSize = getConstraintSystem().getLeaves() == null ? 0
             : getConstraintSystem().getLeaves().size();
-        Logging.getQueryLogger().fine("Initial size: ", initialSize);
-        AxiomQuery query = getConstraintSystem().getReasoner() == null
-            || !ax.isLogicalAxiom() ? new AssertedSolvabilityBasedAxiomQuery(
-                getConstraintSystem().getOntologyManager(), getConstraintSystem(),
-                runtimeExceptionHandler)
-                : new InferredSolvabilityBasedTreeSearchAxiomQuery(getConstraintSystem(),
-                    runtimeExceptionHandler);
+        Logging.getQueryLogger().fine("Initial size: ", Integer.valueOf(initialSize));
+        AxiomQuery query = getConstraintSystem().getReasoner() == null || !ax.isLogicalAxiom()
+            ? new AssertedSolvabilityBasedAxiomQuery(getConstraintSystem().getOntologyManager(),
+                getConstraintSystem(), runtimeExceptionHandler)
+            : new InferredSolvabilityBasedTreeSearchAxiomQuery(getConstraintSystem(),
+                runtimeExceptionHandler);
         Logging.getQueryTestLogging().fine("Used engine: ", query.getClass().getName());
         ax.accept(query);
         toReturn.addAll(query.getLeaves());

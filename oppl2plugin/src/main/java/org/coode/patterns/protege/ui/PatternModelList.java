@@ -32,7 +32,15 @@ import org.protege.editor.core.ui.util.InputVerificationStatusChangedListener;
 import org.protege.editor.core.ui.util.VerifyingOptionPane;
 import org.protege.editor.owl.OWLEditorKit;
 import org.protege.editor.owl.ui.list.AbstractAnnotationsList;
-import org.semanticweb.owlapi.model.*;
+import org.semanticweb.owlapi.model.AddOntologyAnnotation;
+import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLAnnotation;
+import org.semanticweb.owlapi.model.OWLAxiomChange;
+import org.semanticweb.owlapi.model.OWLDataFactory;
+import org.semanticweb.owlapi.model.OWLLiteral;
+import org.semanticweb.owlapi.model.OWLOntologyChange;
+import org.semanticweb.owlapi.model.OWLOntologyChangeException;
+import org.semanticweb.owlapi.model.RemoveOntologyAnnotation;
 import org.semanticweb.owlapi.util.SimpleShortFormProvider;
 
 /**
@@ -45,8 +53,7 @@ public class PatternModelList extends AbstractAnnotationsList<PatternAnnotationC
         private final PatternModel patternModel;
 
         /**
-         * @param patternModel
-         *        patternModel
+         * @param patternModel patternModel
          */
         public InstantiateActionListener(PatternModel patternModel) {
             this.patternModel = patternModel;
@@ -62,8 +69,7 @@ public class PatternModelList extends AbstractAnnotationsList<PatternAnnotationC
             final int prime = 31;
             int result = 1;
             result = prime * result + getOuterType().hashCode();
-            result = prime * result
-                + (patternModel == null ? 0 : patternModel.hashCode());
+            result = prime * result + (patternModel == null ? 0 : patternModel.hashCode());
             return result;
         }
 
@@ -100,16 +106,13 @@ public class PatternModelList extends AbstractAnnotationsList<PatternAnnotationC
     /**
      * @author Luigi Iannone
      */
-    public final class PatternListItem extends AnnotationsListItem implements
-        HasPatternModel {
+    public final class PatternListItem extends AnnotationsListItem implements HasPatternModel {
 
         private final PatternModel patternModel;
 
         /**
-         * @param annot
-         *        annot
-         * @param patternModel
-         *        patternModel
+         * @param annot annot
+         * @param patternModel patternModel
          */
         public PatternListItem(OWLAnnotation annot, PatternModel patternModel) {
             super(annot);
@@ -126,22 +129,21 @@ public class PatternModelList extends AbstractAnnotationsList<PatternAnnotationC
             // don't need to check the section as only the direct imports can be
             // added
             getEditor().setEditedObject(patternModel);
-            int ret = JOptionPaneEx.showValidatingConfirmDialog(getOWLEditorKit()
-                .getWorkspace(), "Pattern Editor", getEditor().getEditorComponent(),
-                getEditor(), JOptionPane.PLAIN_MESSAGE, JOptionPane.OK_CANCEL_OPTION,
-                getComponentPopupMenu());
+            int ret = JOptionPaneEx.showValidatingConfirmDialog(getOWLEditorKit().getWorkspace(),
+                "Pattern Editor", getEditor().getEditorComponent(), getEditor(),
+                JOptionPane.PLAIN_MESSAGE, JOptionPane.OK_CANCEL_OPTION, getComponentPopupMenu());
             if (ret == JOptionPane.OK_OPTION) {
                 PatternModel pm = getEditor().getEditedObject();
                 OWLDataFactory dataFactory = getOWLEditorKit().getOWLModelManager()
                     .getOWLOntologyManager().getOWLDataFactory();
-                OWLLiteral literal = dataFactory.getOWLLiteral(pm
-                    .render(new SimpleShortFormProvider()));
+                OWLLiteral literal =
+                    dataFactory.getOWLLiteral(pm.render(new SimpleShortFormProvider()));
                 IRI annotationIRI = pm.getIRI();
-                OWLAnnotation newAnnotation = dataFactory.getOWLAnnotation(
-                    dataFactory.getOWLAnnotationProperty(annotationIRI), literal);
+                OWLAnnotation newAnnotation = dataFactory
+                    .getOWLAnnotation(dataFactory.getOWLAnnotationProperty(annotationIRI), literal);
                 if (!newAnnotation.equals(getAnnotation())) {
-                    List<OWLOntologyChange> changes = getReplaceChanges(getAnnotation(),
-                        newAnnotation);
+                    List<OWLOntologyChange> changes =
+                        getReplaceChanges(getAnnotation(), newAnnotation);
                     getOWLEditorKit().getModelManager().applyChanges(changes);
                 }
             }
@@ -167,24 +169,23 @@ public class PatternModelList extends AbstractAnnotationsList<PatternAnnotationC
     private final RuntimeExceptionHandler runtimeExceptionHandler;
 
     /**
-     * @param eKit
-     *        eKit
+     * @param eKit eKit
      */
     public PatternModelList(OWLEditorKit eKit) {
         super(eKit);
         // Have to do this as the super class does not expose the OWLEdtorKit
         owlEditorKit = eKit;
         patternEditor = createPatternEditor();
-        runtimeExceptionHandler = new ShowMessageRuntimeExceptionHandler(
-            getOWLEditorKit().getOWLWorkspace());
+        runtimeExceptionHandler =
+            new ShowMessageRuntimeExceptionHandler(getOWLEditorKit().getOWLWorkspace());
     }
 
     /**
      * @return pattern editor
      */
     private PatternEditor createPatternEditor() {
-        return new PatternEditor(getOWLEditorKit(), ProtegeParserFactory.getInstance(
-            getOWLEditorKit()).getPatternFactory());
+        return new PatternEditor(getOWLEditorKit(),
+            ProtegeParserFactory.getInstance(getOWLEditorKit()).getPatternFactory());
     }
 
     @Override
@@ -211,10 +212,9 @@ public class PatternModelList extends AbstractAnnotationsList<PatternAnnotationC
     }
 
     @Override
-    protected Border createListItemBorder(JList l, Object value, int index,
-        boolean isSelected, boolean cellHasFocus) {
-        Border border = super.createListItemBorder(l, value, index, isSelected,
-            cellHasFocus);
+    protected Border createListItemBorder(JList l, Object value, int index, boolean isSelected,
+        boolean cellHasFocus) {
+        Border border = super.createListItemBorder(l, value, index, isSelected, cellHasFocus);
         Border toReturn = border;
         if (value instanceof PatternModelList.PatternListItem) {
             PatternModel patternModel = ((PatternListItem) value).getPatternModel();
@@ -244,21 +244,20 @@ public class PatternModelList extends AbstractAnnotationsList<PatternAnnotationC
     @Override
     protected void handleAdd() {
         getEditor().setEditedObject(null);
-        int ret = JOptionPaneEx.showValidatingConfirmDialog(PatternModelList.this
-            .getOWLEditorKit().getWorkspace(), "Pattern Editor",
+        int ret = JOptionPaneEx.showValidatingConfirmDialog(
+            PatternModelList.this.getOWLEditorKit().getWorkspace(), "Pattern Editor",
             PatternModelList.this.getEditor().getEditorComponent(),
             PatternModelList.this.getEditor(), JOptionPane.PLAIN_MESSAGE,
-            JOptionPane.OK_CANCEL_OPTION, PatternModelList.this
-                .getComponentPopupMenu());
+            JOptionPane.OK_CANCEL_OPTION, PatternModelList.this.getComponentPopupMenu());
         if (ret == JOptionPane.OK_OPTION) {
             PatternModel patternModel = getEditor().getEditedObject();
-            OWLDataFactory dataFactory = getOWLEditorKit().getOWLModelManager()
-                .getOWLOntologyManager().getOWLDataFactory();
-            OWLLiteral literal = dataFactory.getOWLLiteral(patternModel
-                .render(new SimpleShortFormProvider()));
+            OWLDataFactory dataFactory =
+                getOWLEditorKit().getOWLModelManager().getOWLOntologyManager().getOWLDataFactory();
+            OWLLiteral literal =
+                dataFactory.getOWLLiteral(patternModel.render(new SimpleShortFormProvider()));
             IRI annotationIRI = patternModel.getIRI();
-            OWLAnnotation annotation = dataFactory.getOWLAnnotation(
-                dataFactory.getOWLAnnotationProperty(annotationIRI), literal);
+            OWLAnnotation annotation = dataFactory
+                .getOWLAnnotation(dataFactory.getOWLAnnotationProperty(annotationIRI), literal);
             getOWLEditorKit().getModelManager().applyChanges(getAddChanges(annotation));
         }
     }
@@ -280,14 +279,14 @@ public class PatternModelList extends AbstractAnnotationsList<PatternAnnotationC
 
     @Override
     protected List<MListButton> getListItemButtons(MListItem item) {
-        List<MListButton> listItemButtons = new ArrayList<MListButton>(super.getListItemButtons(item));
+        List<MListButton> listItemButtons =
+            new ArrayList<MListButton>(super.getListItemButtons(item));
         if (item instanceof PatternListItem) {
             final PatternModel patternModel = ((PatternListItem) item).getPatternModel();
             if (!patternModel.isClassPattern()) {
-                ActionListener actionListener = new InstantiateActionListener(
-                    patternModel);
-                InstantiatePatternButton instantiateButton = new InstantiatePatternButton(
-                    actionListener);
+                ActionListener actionListener = new InstantiateActionListener(patternModel);
+                InstantiatePatternButton instantiateButton =
+                    new InstantiatePatternButton(actionListener);
                 if (!listItemButtons.contains(instantiateButton)) {
                     listItemButtons.add(instantiateButton);
                 }
@@ -304,25 +303,17 @@ public class PatternModelList extends AbstractAnnotationsList<PatternAnnotationC
     }
 
     protected void showInstantiationEditorDialog(final PatternModel patternModel) {
-        final PatternInstantiationEditor editor = new PatternInstantiationEditor(
-            getOWLEditorKit(), patternModel.getPatternModelFactory());
+        final PatternInstantiationEditor editor = new PatternInstantiationEditor(getOWLEditorKit(),
+            patternModel.getPatternModelFactory());
         final JComponent editorComponent = editor.getEditorComponent();
-        final VerifyingOptionPane optionPane = new VerifyingOptionPane(
-            editor.getEditorComponent());
-        final InputVerificationStatusChangedListener verificationListener = new InputVerificationStatusChangedListener() {
-
-            @Override
-            public void verifiedStatusChanged(boolean verified) {
-                optionPane.setOKEnabled(verified);
-            }
-        };
-        InstantiatedPatternModel instantiatedPatternModel = patternModel
-            .getPatternModelFactory().createInstantiatedPatternModel(patternModel,
-                getRuntimeExceptionHandler());
+        final VerifyingOptionPane optionPane = new VerifyingOptionPane(editor.getEditorComponent());
+        final InputVerificationStatusChangedListener verificationListener =
+            verified -> optionPane.setOKEnabled(verified);
+        InstantiatedPatternModel instantiatedPatternModel = patternModel.getPatternModelFactory()
+            .createInstantiatedPatternModel(patternModel, getRuntimeExceptionHandler());
         editor.setInstantiatedPatternModel(instantiatedPatternModel);
         editor.addStatusChangedListener(verificationListener);
-        final JDialog dlg = optionPane.createDialog(getOWLEditorKit().getWorkspace(),
-            null);
+        final JDialog dlg = optionPane.createDialog(getOWLEditorKit().getWorkspace(), null);
         dlg.setModal(true);
         dlg.setTitle(patternModel.getName());
         dlg.setResizable(true);
@@ -334,7 +325,7 @@ public class PatternModelList extends AbstractAnnotationsList<PatternAnnotationC
             public void componentHidden(ComponentEvent e) {
                 Object retVal = optionPane.getValue();
                 editorComponent.setPreferredSize(editorComponent.getSize());
-                if (retVal != null && retVal.equals(JOptionPane.OK_OPTION)) {
+                if (retVal != null && retVal.equals(Integer.valueOf(JOptionPane.OK_OPTION))) {
                     PatternModelList.this.handleInstantiation(editor, patternModel);
                 }
                 editor.removeStatusChangedListener(verificationListener);
@@ -347,15 +338,13 @@ public class PatternModelList extends AbstractAnnotationsList<PatternAnnotationC
     protected void handleInstantiation(PatternInstantiationEditor editor,
         PatternModel patternModel) {
         NonClassPatternExecutor patternExecutor = new NonClassPatternExecutor(
-            editor.getEditedObject(), getOWLEditorKit().getModelManager()
-                .getActiveOntology(), getOWLEditorKit().getModelManager()
-                    .getOWLOntologyManager(), patternModel.getIRI(),
+            editor.getEditedObject(), getOWLEditorKit().getModelManager().getActiveOntology(),
+            getOWLEditorKit().getModelManager().getOWLOntologyManager(), patternModel.getIRI(),
             getRuntimeExceptionHandler());
         List<OWLAxiomChange> changes = patternExecutor.visit(patternModel);
         for (OWLAxiomChange change : changes) {
             try {
-                getOWLEditorKit().getModelManager().getOWLOntologyManager()
-                    .applyChange(change);
+                getOWLEditorKit().getModelManager().getOWLOntologyManager().applyChange(change);
             } catch (OWLOntologyChangeException e) {
                 e.printStackTrace();
             }

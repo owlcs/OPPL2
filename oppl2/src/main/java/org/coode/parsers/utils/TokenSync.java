@@ -2,8 +2,20 @@ package org.coode.parsers.utils;
 
 import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -22,8 +34,7 @@ public class TokenSync {
         private int max = 0;
 
         /**
-         * @param path
-         *        path
+         * @param path path
          */
         public TokenMap(String path) {
             this.path = checkNotNull(path, "path");
@@ -53,8 +64,8 @@ public class TokenSync {
                         if (matches) {
                             final String tokenName = matcher.group(1);
                             final int type = Integer.parseInt(matcher.group(2));
-                            map.put(type, tokenName);
-                            inverseMap.put(tokenName, type);
+                            map.put(Integer.valueOf(type), tokenName);
+                            inverseMap.put(tokenName, Integer.valueOf(type));
                             max = Math.max(max, type);
                         }
                     }
@@ -87,7 +98,7 @@ public class TokenSync {
         }
 
         public String getTokenText(int key) {
-            return map.get(key);
+            return map.get(Integer.valueOf(key));
         }
 
         public Integer getType(String string) {
@@ -101,46 +112,42 @@ public class TokenSync {
         public void sync(TokenMap reference) {
             checkNotNull(reference, "reference");
             for (Integer key : reference.getKeys()) {
-                String tokenText = reference.getTokenText(key);
+                String tokenText = reference.getTokenText(key.intValue());
                 Integer myKey = getType(tokenText);
                 if (containsTokenText(tokenText) && !key.equals(myKey)) {
                     changeKey(tokenText, myKey, key);
                 } else if (!isEmptyKey(key)
-                    && tokenText.compareTo(getTokenText(key)) != 0) {
+                    && tokenText.compareTo(getTokenText(key.intValue())) != 0) {
                     // If the key is occupied in this token map by some other
                     // token
                     max++;
                     max = Math.max(reference.getMax(), max);
-                    String tokenText2move = getTokenText(key);
+                    String tokenText2move = getTokenText(key.intValue());
                     map.remove(key);
-                    map.put(max, tokenText2move);
-                    inverseMap.put(tokenText2move, max);
+                    map.put(Integer.valueOf(max), tokenText2move);
+                    inverseMap.put(tokenText2move, Integer.valueOf(max));
                 }
             }
             removeDuplicates(reference);
         }
 
         /**
-         * @param reference
-         *        reference
+         * @param reference reference
          */
         private void removeDuplicates(TokenMap reference) {
             for (Integer key : reference.getKeys()) {
-                String tokenText = reference.getTokenText(key);
+                String tokenText = reference.getTokenText(key.intValue());
                 this.removeDuplicates(key, tokenText);
             }
         }
 
         /**
-         * @param referenceKey
-         *        referenceKey
-         * @param tokenText
-         *        tokenText
+         * @param referenceKey referenceKey
+         * @param tokenText tokenText
          */
         private void removeDuplicates(Integer referenceKey, String tokenText) {
             for (Object thisKey : map.keySet().toArray()) {
-                if (tokenText.compareTo(map.get(thisKey)) == 0
-                    && !thisKey.equals(referenceKey)) {
+                if (tokenText.compareTo(map.get(thisKey)) == 0 && !thisKey.equals(referenceKey)) {
                     map.remove(thisKey);
                     inverseMap.put(tokenText, referenceKey);
                 }
@@ -148,12 +155,11 @@ public class TokenSync {
         }
 
         /**
-         * @param key
-         *        key
+         * @param key key
          * @return true if key is empty
          */
         private boolean isEmptyKey(Integer key) {
-            return getTokenText(key) == null;
+            return getTokenText(key.intValue()) == null;
         }
 
         private void changeKey(String tokenText, Integer fromKey, Integer toKey) {
@@ -181,12 +187,9 @@ public class TokenSync {
     private boolean synced = false;
 
     /**
-     * @param referencePath
-     *        referencePath
-     * @param toSync
-     *        toSync
-     * @param others
-     *        others
+     * @param referencePath referencePath
+     * @param toSync toSync
+     * @param others others
      */
     public TokenSync(String referencePath, String toSync, String... others) {
         checkNotNull(referencePath, "referencePath");
@@ -209,18 +212,15 @@ public class TokenSync {
     }
 
     /**
-     * @throws FileNotFoundException
-     *         FileNotFoundException
+     * @throws FileNotFoundException FileNotFoundException
      */
     public void save() throws FileNotFoundException {
         this.save(false);
     }
 
     /**
-     * @param forceSync
-     *        forceSync
-     * @throws FileNotFoundException
-     *         FileNotFoundException
+     * @param forceSync forceSync
+     * @throws FileNotFoundException FileNotFoundException
      */
     public void save(boolean forceSync) throws FileNotFoundException {
         if (forceSync) {
@@ -233,8 +233,7 @@ public class TokenSync {
     }
 
     /**
-     * @param args
-     *        args
+     * @param args args
      */
     public static void main(String[] args) {
         if (args.length >= 2) {

@@ -3,7 +3,6 @@ package org.coode.parsers.oppl.testcase.assertions;
 import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -14,8 +13,8 @@ import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.coode.parsers.oppl.testcase.AbstractOPPLTestCaseFactory;
 
 /**
- * Represents the count of the occurrences a particular set of assignments in
- * the results of the query.
+ * Represents the count of the occurrences a particular set of assignments in the results of the
+ * query.
  * 
  * @author Luigi Iannone
  */
@@ -26,12 +25,9 @@ public class BindingNodeCountAssertionExpression implements AssertionExpression<
     private final ConstraintSystem constraintSystem;
 
     /**
-     * @param bindingNode
-     *        bindingNode
-     * @param constraintSystem
-     *        constraintSystem
-     * @param testCaseFactory
-     *        testCaseFactory
+     * @param bindingNode bindingNode
+     * @param constraintSystem constraintSystem
+     * @param testCaseFactory testCaseFactory
      */
     public BindingNodeCountAssertionExpression(BindingNode bindingNode,
         ConstraintSystem constraintSystem, AbstractOPPLTestCaseFactory testCaseFactory) {
@@ -59,7 +55,7 @@ public class BindingNodeCountAssertionExpression implements AssertionExpression<
                 count++;
             }
         }
-        return count;
+        return Integer.valueOf(count);
     }
 
     /**
@@ -80,23 +76,16 @@ public class BindingNodeCountAssertionExpression implements AssertionExpression<
     public String toString() {
         StringBuilder b = new StringBuilder("count(");
         boolean first = true;
-        TreeSet<Assignment> sortedAssignment = new TreeSet<>(
-            new Comparator<Assignment>() {
-
-                @Override
-                public int compare(Assignment o1, Assignment o2) {
-                    return o1.getAssignedVariable().getName()
-                        .compareTo(o2.getAssignedVariable().getName());
-                }
-            });
+        TreeSet<Assignment> sortedAssignment = new TreeSet<>((o1, o2) -> o1.getAssignedVariable()
+            .getName().compareTo(o2.getAssignedVariable().getName()));
         sortedAssignment.addAll(getBindingNode().getAssignments());
         for (Assignment a : sortedAssignment) {
             String comma = first ? "" : ", ";
             ManchesterSyntaxRenderer renderer = getTestCaseFactory().getOPPLFactory()
                 .getManchesterSyntaxRenderer(getConstraintSystem());
             a.getAssignment().accept(renderer);
-            b.append(String.format("%s%s = %s", comma, a.getAssignedVariable().getName(),
-                renderer));
+            b.append(
+                String.format("%s%s = %s", comma, a.getAssignedVariable().getName(), renderer));
             first = false;
         }
         b.append(")");

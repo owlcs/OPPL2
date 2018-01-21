@@ -5,40 +5,56 @@ import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import org.coode.oppl.function.inline.InlineSet;
-import org.semanticweb.owlapi.model.*;
+import org.semanticweb.owlapi.model.AxiomType;
+import org.semanticweb.owlapi.model.OWLAnnotation;
+import org.semanticweb.owlapi.model.OWLAnnotationProperty;
+import org.semanticweb.owlapi.model.OWLAnonymousIndividual;
+import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLAxiomVisitor;
+import org.semanticweb.owlapi.model.OWLAxiomVisitorEx;
+import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLClassExpression;
+import org.semanticweb.owlapi.model.OWLDataProperty;
+import org.semanticweb.owlapi.model.OWLDatatype;
+import org.semanticweb.owlapi.model.OWLDisjointClassesAxiom;
+import org.semanticweb.owlapi.model.OWLEntity;
+import org.semanticweb.owlapi.model.OWLNamedIndividual;
+import org.semanticweb.owlapi.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLObjectProperty;
+import org.semanticweb.owlapi.model.OWLObjectVisitor;
+import org.semanticweb.owlapi.model.OWLObjectVisitorEx;
+import org.semanticweb.owlapi.model.OWLPairwiseVisitor;
+import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 
 /**
  * @author Luigi Iannone
  */
-public class OPPLOWLDisjointClassesAxiom extends
-    AbstractInlineSetAxiom<OWLClassExpression>implements OWLDisjointClassesAxiom {
+public class OPPLOWLDisjointClassesAxiom extends AbstractInlineSetAxiom<OWLClassExpression>
+    implements OWLDisjointClassesAxiom {
 
     private static final long serialVersionUID = 20100L;
     private final OWLDisjointClassesAxiom delegate;
     private final boolean shouldExpandAsPairWise;
 
     /**
-     * @param dataFactory
-     *        dataFactory
-     * @param classExpressions
-     *        classExpressions
-     * @param annotations
-     *        annotations
-     * @param shouldExpandAsPairWise
-     *        shouldExpandAsPairWise
+     * @param dataFactory dataFactory
+     * @param classExpressions classExpressions
+     * @param annotations annotations
+     * @param shouldExpandAsPairWise shouldExpandAsPairWise
      */
     public OPPLOWLDisjointClassesAxiom(OPPLOWLDataFactory dataFactory,
-        InlineSet<OWLClassExpression> classExpressions,
-        Set<? extends OWLAnnotation> annotations, boolean shouldExpandAsPairWise) {
+        InlineSet<OWLClassExpression> classExpressions, Collection<OWLAnnotation> annotations,
+        boolean shouldExpandAsPairWise) {
         super(classExpressions);
         checkNotNull(dataFactory, "dataFactory");
         checkNotNull(classExpressions, "classExpressions");
         checkNotNull(annotations, "annotations");
         this.shouldExpandAsPairWise = shouldExpandAsPairWise;
-        delegate = dataFactory.getDelegate().getOWLDisjointClassesAxiom(classExpressions,
-            annotations);
+        delegate =
+            dataFactory.getDelegate().getOWLDisjointClassesAxiom(classExpressions, annotations);
     }
 
     /**
@@ -65,17 +81,17 @@ public class OPPLOWLDisjointClassesAxiom extends
     }
 
     @Override
-    public Set<OWLClassExpression> getClassExpressions() {
-        return delegate.getClassExpressions();
+    public Stream<OWLClassExpression> classExpressions() {
+        return delegate.classExpressions();
     }
 
     @Override
-    public Set<OWLSubClassOfAxiom> asOWLSubClassOfAxioms() {
+    public Collection<OWLSubClassOfAxiom> asOWLSubClassOfAxioms() {
         return delegate.asOWLSubClassOfAxioms();
     }
 
     @Override
-    public Set<OWLDisjointClassesAxiom> asPairwiseAxioms() {
+    public Collection<OWLDisjointClassesAxiom> asPairwiseAxioms() {
         return delegate.asPairwiseAxioms();
     }
 
@@ -165,11 +181,6 @@ public class OPPLOWLDisjointClassesAxiom extends
     }
 
     @Override
-    public OWLAxiom getAnnotatedAxiom(Set<OWLAnnotation> annotations) {
-        return delegate.getAnnotatedAxiom(annotations);
-    }
-
-    @Override
     public boolean equalsIgnoreAnnotations(OWLAxiom axiom) {
         return delegate.equalsIgnoreAnnotations(axiom);
     }
@@ -205,7 +216,7 @@ public class OPPLOWLDisjointClassesAxiom extends
     }
 
     @Override
-    public boolean isOfType(Set<AxiomType<?>> types) {
+    public boolean isOfType(Collection<AxiomType<?>> types) {
         return delegate.isOfType(types);
     }
 
@@ -240,12 +251,17 @@ public class OPPLOWLDisjointClassesAxiom extends
     }
 
     @Override
-    public Set<OWLDisjointClassesAxiom> splitToAnnotatedPairs() {
+    public Collection<OWLDisjointClassesAxiom> splitToAnnotatedPairs() {
         return delegate.splitToAnnotatedPairs();
     }
 
     @Override
     public <T> Collection<T> walkPairwise(OWLPairwiseVisitor<T, OWLClassExpression> visitor) {
         return delegate.walkPairwise(visitor);
+    }
+
+    @Override
+    public <T extends OWLAxiom> T getAnnotatedAxiom(Stream<OWLAnnotation> annotations) {
+        return delegate.getAnnotatedAxiom(annotations);
     }
 }

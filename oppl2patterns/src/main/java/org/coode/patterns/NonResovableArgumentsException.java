@@ -31,9 +31,10 @@ import java.util.List;
 @SuppressWarnings("javadoc")
 public class NonResovableArgumentsException extends PatternException {
 
+    @SafeVarargs
     public NonResovableArgumentsException(String patternName, List<Object>... args) {
-        super("One of the arguments " + Arrays.toString(args)
-            + " is not instantiated for pattern: " + patternName + " ");
+        super("One of the arguments " + Arrays.toString(args) + " is not instantiated for pattern: "
+            + patternName + " ");
     }
 
     private static final long serialVersionUID = 20100L;

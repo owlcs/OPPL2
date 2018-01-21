@@ -43,8 +43,7 @@ public class LeafBrusher implements BindingVisitor {
     private final Map<Variable<?>, Set<OWLObject>> bindings = new HashMap<>();
 
     /**
-     * @param bindings
-     *        bindings
+     * @param bindings bindings
      */
     public LeafBrusher(Map<Variable<?>, Set<OWLObject>> bindings) {
         this.bindings.putAll(checkNotNull(bindings, "bindings"));
@@ -71,11 +70,10 @@ public class LeafBrusher implements BindingVisitor {
     }
 
     /**
-     * @param nodes
-     *        nodes
+     * @param nodes nodes
      * @return true if all nodes are leaves
      */
-    private boolean allLeaves(Set<BindingNode> nodes) {
+    private static boolean allLeaves(Set<BindingNode> nodes) {
         Iterator<BindingNode> it = nodes.iterator();
         BindingNode generatedChild;
         boolean allLeaves = true;
@@ -106,8 +104,8 @@ public class LeafBrusher implements BindingVisitor {
                 for (OWLObject owlObject : values) {
                     if (!(owlObject instanceof OWLOntology)) {
                         Assignment extraAssignment = new Assignment(variable, owlObject);
-                        BindingNode newNode = new BindingNode(node.getAssignments(),
-                            unassignedVariables);
+                        BindingNode newNode =
+                            new BindingNode(node.getAssignments(), unassignedVariables);
                         newNode.addAssignment(extraAssignment);
                         toReturn.add(newNode);
                     }

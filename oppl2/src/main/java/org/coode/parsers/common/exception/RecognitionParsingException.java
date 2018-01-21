@@ -12,27 +12,23 @@ public class RecognitionParsingException extends ParsingException {
     private final Set<String> symbols = new HashSet<>();
 
     /**
-     * @param line
-     *        line
-     * @param charPositionInLine
-     *        charPositionInLine
+     * @param line line
+     * @param charPositionInLine charPositionInLine
      */
     public RecognitionParsingException(int line, int charPositionInLine) {
         this(line, charPositionInLine, (String[]) null);
     }
 
     /**
-     * @param line
-     *        line
-     * @param charPositionInLine
-     *        charPositionInLine
-     * @param symbols
-     *        symbols
+     * @param line line
+     * @param charPositionInLine charPositionInLine
+     * @param symbols symbols
      */
-    public RecognitionParsingException(int line, int charPositionInLine,
-        String... symbols) {
-        super(String.format("Recognition exception at line %d char position in line %d",
-            line, charPositionInLine), line, charPositionInLine);
+    public RecognitionParsingException(int line, int charPositionInLine, String... symbols) {
+        super(
+            String.format("Recognition exception at line %d char position in line %d",
+                Integer.valueOf(line), Integer.valueOf(charPositionInLine)),
+            line, charPositionInLine);
         if (symbols != null) {
             for (String string : symbols) {
                 this.symbols.add(string);

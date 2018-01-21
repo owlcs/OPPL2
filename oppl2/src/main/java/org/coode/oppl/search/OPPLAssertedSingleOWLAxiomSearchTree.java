@@ -2,7 +2,12 @@ package org.coode.oppl.search;
 
 import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.PartialOWLObjectInstantiator;
@@ -15,15 +20,39 @@ import org.coode.oppl.function.SimpleValueComputationParameters;
 import org.coode.oppl.function.ValueComputationParameters;
 import org.coode.oppl.utils.AbstractVariableVisitorExAdapter;
 import org.coode.oppl.utils.OWLObjectExtractor;
-import org.coode.oppl.variabletypes.*;
-import org.semanticweb.owlapi.model.*;
-import org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter;
+import org.coode.oppl.variabletypes.ANNOTATIONPROPERTYVariableType;
+import org.coode.oppl.variabletypes.CLASSVariableType;
+import org.coode.oppl.variabletypes.CONSTANTVariableType;
+import org.coode.oppl.variabletypes.DATAPROPERTYVariableType;
+import org.coode.oppl.variabletypes.INDIVIDUALVariableType;
+import org.coode.oppl.variabletypes.InputVariable;
+import org.coode.oppl.variabletypes.OBJECTPROPERTYVariableType;
+import org.coode.oppl.variabletypes.VariableTypeVisitorEx;
+import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLAnnotationAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLAnnotationProperty;
+import org.semanticweb.owlapi.model.OWLAnnotationSubject;
+import org.semanticweb.owlapi.model.OWLAnnotationSubjectVisitor;
+import org.semanticweb.owlapi.model.OWLAnonymousIndividual;
+import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLAxiomVisitor;
+import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLDataProperty;
+import org.semanticweb.owlapi.model.OWLDatatype;
+import org.semanticweb.owlapi.model.OWLEntity;
+import org.semanticweb.owlapi.model.OWLEntityVisitor;
+import org.semanticweb.owlapi.model.OWLIndividual;
+import org.semanticweb.owlapi.model.OWLLiteral;
+import org.semanticweb.owlapi.model.OWLNamedIndividual;
+import org.semanticweb.owlapi.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLObjectProperty;
+import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLRuntimeException;
 
 /**
  * @author Luigi Iannone
  */
-public class OPPLAssertedSingleOWLAxiomSearchTree extends
-    SearchTree<OPPLOWLAxiomSearchNode> {
+public class OPPLAssertedSingleOWLAxiomSearchTree extends SearchTree<OPPLOWLAxiomSearchNode> {
 
     protected final ConstraintSystem constraintSystem;
     protected final RuntimeExceptionHandler runtimeExceptionHandler;
@@ -36,19 +65,15 @@ public class OPPLAssertedSingleOWLAxiomSearchTree extends
     protected final Set<OWLAnnotationProperty> allAnnotationProperties = new HashSet<>();
 
     /**
-     * @param targetAxiom
-     *        targetAxiom
-     * @param constraintSystem
-     *        constraintSystem
-     * @param runtimeExceptionHandler
-     *        runtimeExceptionHandler
+     * @param targetAxiom targetAxiom
+     * @param constraintSystem constraintSystem
+     * @param runtimeExceptionHandler runtimeExceptionHandler
      */
     public OPPLAssertedSingleOWLAxiomSearchTree(OWLAxiom targetAxiom,
-        ConstraintSystem constraintSystem,
-        RuntimeExceptionHandler runtimeExceptionHandler) {
+        ConstraintSystem constraintSystem, RuntimeExceptionHandler runtimeExceptionHandler) {
         this.constraintSystem = checkNotNull(constraintSystem, "constraintSystem");
-        this.runtimeExceptionHandler = checkNotNull(runtimeExceptionHandler,
-            "runtimeExceptionHandler");
+        this.runtimeExceptionHandler =
+            checkNotNull(runtimeExceptionHandler, "runtimeExceptionHandler");
         this.targetAxiom = targetAxiom;
         initAssignableValues();
     }
@@ -62,20 +87,18 @@ public class OPPLAssertedSingleOWLAxiomSearchTree extends
             getConstraintSystem(), binding, getRuntimeExceptionHandler());
         if (!variables.isEmpty()) {
             Variable<?> variable = variables.iterator().next();
-            Collection<OWLObject> values = new HashSet<>(getAssignableValues(
-                variable, parameters));
+            Collection<OWLObject> values = new HashSet<>(getAssignableValues(variable, parameters));
             for (OWLObject value : values) {
                 Assignment assignment = new Assignment(variable, value);
                 BindingNode childBinding = new BindingNode(binding);
                 childBinding.addAssignment(assignment);
                 ValueComputationParameters childParameters = new SimpleValueComputationParameters(
                     getConstraintSystem(), childBinding, getRuntimeExceptionHandler());
-                PartialOWLObjectInstantiator instantiator = new PartialOWLObjectInstantiator(
-                    childParameters);
-                OWLAxiom instantiatedAxiom = (OWLAxiom) node.getAxiom().accept(
-                    instantiator);
-                OPPLOWLAxiomSearchNode child = new OPPLOWLAxiomSearchNode(
-                    instantiatedAxiom, childBinding);
+                PartialOWLObjectInstantiator instantiator =
+                    new PartialOWLObjectInstantiator(childParameters);
+                OWLAxiom instantiatedAxiom = (OWLAxiom) node.getAxiom().accept(instantiator);
+                OPPLOWLAxiomSearchNode child =
+                    new OPPLOWLAxiomSearchNode(instantiatedAxiom, childBinding);
                 toReturn.add(child);
             }
         }
@@ -87,70 +110,70 @@ public class OPPLAssertedSingleOWLAxiomSearchTree extends
         return targetAxiom.getAxiomWithoutAnnotations().equals(start.getAxiom());
     }
 
-    private final VariableTypeVisitorEx<Set<? extends OWLObject>> assignableValuesVisitor = new VariableTypeVisitorEx<Set<? extends OWLObject>>() {
+    private final VariableTypeVisitorEx<Set<? extends OWLObject>> assignableValuesVisitor =
+        new VariableTypeVisitorEx<Set<? extends OWLObject>>() {
 
-        @Override
-        public Set<? extends OWLObject> visitCLASSVariableType(
-            CLASSVariableType classVariableType) {
-            return allClasses;
-        }
+            @Override
+            public Set<? extends OWLObject> visitCLASSVariableType(
+                CLASSVariableType classVariableType) {
+                return allClasses;
+            }
 
-        @Override
-        public Set<? extends OWLObject> visitOBJECTPROPERTYVariableType(
-            OBJECTPROPERTYVariableType objectpropertyVariableType) {
-            return allObjectProperties;
-        }
+            @Override
+            public Set<? extends OWLObject> visitOBJECTPROPERTYVariableType(
+                OBJECTPROPERTYVariableType objectpropertyVariableType) {
+                return allObjectProperties;
+            }
 
-        @Override
-        public Set<? extends OWLObject> visitDATAPROPERTYVariableType(
-            DATAPROPERTYVariableType datapropertyVariableType) {
-            return allDataProperties;
-        }
+            @Override
+            public Set<? extends OWLObject> visitDATAPROPERTYVariableType(
+                DATAPROPERTYVariableType datapropertyVariableType) {
+                return allDataProperties;
+            }
 
-        @Override
-        public Set<? extends OWLObject> visitINDIVIDUALVariableType(
-            INDIVIDUALVariableType individualVariableType) {
-            return allIndividuals;
-        }
+            @Override
+            public Set<? extends OWLObject> visitINDIVIDUALVariableType(
+                INDIVIDUALVariableType individualVariableType) {
+                return allIndividuals;
+            }
 
-        @Override
-        public Set<? extends OWLObject> visitCONSTANTVariableType(
-            CONSTANTVariableType constantVariableType) {
-            return allConstants;
-        }
+            @Override
+            public Set<? extends OWLObject> visitCONSTANTVariableType(
+                CONSTANTVariableType constantVariableType) {
+                return allConstants;
+            }
 
-        @Override
-        public Set<? extends OWLObject> visitANNOTATIONPROPERTYVariableType(
-            ANNOTATIONPROPERTYVariableType annotationpropertyVariableType) {
-            return allAnnotationProperties;
-        }
-    };
+            @Override
+            public Set<? extends OWLObject> visitANNOTATIONPROPERTYVariableType(
+                ANNOTATIONPROPERTYVariableType annotationpropertyVariableType) {
+                return allAnnotationProperties;
+            }
+        };
 
     private Collection<? extends OWLObject> getAssignableValues(Variable<?> variable,
         ValueComputationParameters parameters) {
         Set<OWLObject> toReturn = new HashSet<>();
-        toReturn.addAll(variable.accept(new AssignableValueExtractor(
-            assignableValuesVisitor, parameters)));
+        toReturn.addAll(
+            variable.accept(new AssignableValueExtractor(assignableValuesVisitor, parameters)));
         Iterator<OWLObject> iterator = toReturn.iterator();
         while (iterator.hasNext()) {
             final OWLObject owlObject = iterator.next();
-            boolean inScope = variable
-                .accept(new AbstractVariableVisitorExAdapter<Boolean>(true) {
+            boolean inScope =
+                variable.accept(new AbstractVariableVisitorExAdapter<Boolean>(Boolean.TRUE) {
 
                     @Override
                     public <P extends OWLObject> Boolean visit(InputVariable<P> v) {
                         VariableScope<?> variableScope = v.getVariableScope();
                         try {
-                            return variableScope == null
-                                || variableScope.check(owlObject);
+                            return Boolean
+                                .valueOf(variableScope == null || variableScope.check(owlObject));
                         } catch (OWLRuntimeException e) {
-                            OPPLAssertedSingleOWLAxiomSearchTree.this
-                                .getRuntimeExceptionHandler()
+                            OPPLAssertedSingleOWLAxiomSearchTree.this.getRuntimeExceptionHandler()
                                 .handleOWLRuntimeException(e);
-                            return false;
+                            return Boolean.FALSE;
                         }
                     }
-                });
+                }).booleanValue();
             if (!inScope) {
                 iterator.remove();
             }
@@ -160,10 +183,10 @@ public class OPPLAssertedSingleOWLAxiomSearchTree extends
 
     private void initAssignableValues() {
         extractFromLogicAxiom();
-        getTargetAxiom().accept(new OWLAxiomVisitorAdapter() {
+        getTargetAxiom().accept(new OWLAxiomVisitor() {
 
             @Override
-            protected void handleDefault(OWLObject axiom) {
+            public void doDefault(Object axiom) {
                 OPPLAssertedSingleOWLAxiomSearchTree.this.extractFromLogicAxiom();
             }
 
@@ -179,11 +202,10 @@ public class OPPLAssertedSingleOWLAxiomSearchTree extends
                     @Override
                     public void visit(IRI iri) {
                         Set<OWLOntology> ontologies = OPPLAssertedSingleOWLAxiomSearchTree.this
-                            .getConstraintSystem().getOntologyManager()
-                            .getOntologies();
+                            .getConstraintSystem().getOntologyManager().getOntologies();
                         for (OWLOntology ontology : ontologies) {
-                            Set<OWLEntity> entitiesInSignature = ontology
-                                .getEntitiesInSignature(iri);
+                            Set<OWLEntity> entitiesInSignature =
+                                ontology.getEntitiesInSignature(iri);
                             for (OWLEntity entity : entitiesInSignature) {
                                 entity.accept(new OWLEntityVisitor() {
 
@@ -225,14 +247,12 @@ public class OPPLAssertedSingleOWLAxiomSearchTree extends
 
     protected void extractFromLogicAxiom() {
         allClasses.addAll(OWLObjectExtractor.getAllClasses(getTargetAxiom()));
-        allDataProperties.addAll(OWLObjectExtractor
-            .getAllOWLDataProperties(getTargetAxiom()));
-        allObjectProperties.addAll(OWLObjectExtractor
-            .getAllOWLObjectProperties(getTargetAxiom()));
+        allDataProperties.addAll(OWLObjectExtractor.getAllOWLDataProperties(getTargetAxiom()));
+        allObjectProperties.addAll(OWLObjectExtractor.getAllOWLObjectProperties(getTargetAxiom()));
         allIndividuals.addAll(OWLObjectExtractor.getAllOWLIndividuals(getTargetAxiom()));
         allConstants.addAll(OWLObjectExtractor.getAllOWLLiterals(getTargetAxiom()));
-        allAnnotationProperties.addAll(OWLObjectExtractor
-            .getAllAnnotationProperties(getTargetAxiom()));
+        allAnnotationProperties
+            .addAll(OWLObjectExtractor.getAllAnnotationProperties(getTargetAxiom()));
     }
 
     /**

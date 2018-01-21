@@ -11,14 +11,12 @@ public class PrimeNumbersUtils {
     /**
      * Retrieves the first n prime numbers
      * 
-     * @param n
-     *        a non-negative integer
+     * @param n a non-negative integer
      * @return The first n prime numbers.
      */
     public static List<Integer> getNPrimes(int n) {
         if (n < 0) {
-            throw new IllegalArgumentException(
-                "The input n must be >=0, it is in fact:  " + n);
+            throw new IllegalArgumentException("The input n must be >=0, it is in fact:  " + n);
         }
         int upperBound = n * 10;
         List<Integer> primes = runEratosthenesSieve(upperBound);
@@ -32,8 +30,7 @@ public class PrimeNumbersUtils {
     }
 
     /**
-     * @param upperBound
-     *        upperBound
+     * @param upperBound upperBound
      * @return list of primes
      */
     public static List<Integer> runEratosthenesSieve(int upperBound) {
@@ -49,15 +46,14 @@ public class PrimeNumbersUtils {
         }
         for (int m = 1; m <= upperBound; m++) {
             if (!isComposite[m]) {
-                toReturn.add(m);
+                toReturn.add(Integer.valueOf(m));
             }
         }
         return toReturn;
     }
 
     /**
-     * @param n
-     *        n
+     * @param n n
      * @return next prime from n
      */
     public static int getNextPrime(int n) {
@@ -71,8 +67,7 @@ public class PrimeNumbersUtils {
     }
 
     /**
-     * @param n
-     *        n
+     * @param n n
      * @return true if prime
      */
     public static boolean isPrime(int n) {
@@ -120,8 +115,7 @@ public class PrimeNumbersUtils {
     }
 
     /**
-     * @param n
-     *        n
+     * @param n n
      * @return true if prime
      */
     public static boolean millerRabin32(int n) {

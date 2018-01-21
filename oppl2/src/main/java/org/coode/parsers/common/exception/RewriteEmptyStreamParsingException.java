@@ -8,14 +8,13 @@ public class RewriteEmptyStreamParsingException extends ParsingException {
     private static final long serialVersionUID = 20100L;
 
     /**
-     * @param line
-     *        line
-     * @param charPositionInLine
-     *        charPositionInLine
+     * @param line line
+     * @param charPositionInLine charPositionInLine
      */
     public RewriteEmptyStreamParsingException(int line, int charPositionInLine) {
-        super(String.format(
-            "Rewriting an empty stream at line %d char position in line %d", line,
-            charPositionInLine), line, charPositionInLine);
+        super(
+            String.format("Rewriting an empty stream at line %d char position in line %d",
+                Integer.valueOf(line), Integer.valueOf(charPositionInLine)),
+            line, charPositionInLine);
     }
 }

@@ -15,8 +15,7 @@ public class IntegerAssertionExpression implements AssertionExpression<Integer> 
     private final int intValue;
 
     /**
-     * @param intValue
-     *        intValue
+     * @param intValue intValue
      */
     public IntegerAssertionExpression(int intValue) {
         this.intValue = intValue;
@@ -45,9 +44,8 @@ public class IntegerAssertionExpression implements AssertionExpression<Integer> 
     }
 
     @Override
-    public Integer resolve(Set<? extends BindingNode> bindings,
-        ConstraintSystem constraintSystem) {
-        return getIntValue();
+    public Integer resolve(Set<? extends BindingNode> bindings, ConstraintSystem constraintSystem) {
+        return Integer.valueOf(getIntValue());
     }
 
     @Override

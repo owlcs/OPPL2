@@ -11,18 +11,40 @@ import org.coode.oppl.bindingtree.BindingNode;
 import org.semanticweb.owlapi.model.OWLAxiom;
 
 /**
- * Applies a set of solvability strategies, until either a node is solved or the
- * strategies are exhausted.
+ * Applies a set of solvability strategies, until either a node is solved or the strategies are
+ * exhausted.
  * 
  * @author Luigi Iannone
  */
 public class MultipleAxiomSolvability implements AxiomSolvability {
 
+    static class FalseUnsolvable implements SolvabilitySearchNodeVisitorEx<Boolean> {
+        @Override
+        public Boolean visitSolvableSearchNode(SolvableSearchNode solvableSearchNode) {
+            return Boolean.TRUE;
+        }
+
+        @Override
+        public Boolean visitSolvedSearchNode(SolvedSearchNode solvedSearchNode) {
+            return Boolean.TRUE;
+        }
+
+        @Override
+        public Boolean visitNoSolutionSolvableSearchNode(
+            NoSolutionSolvableSearchNode noSolutionSolvableSearchNode) {
+            return Boolean.TRUE;
+        }
+
+        @Override
+        public Boolean visitUnsolvableSearchNode(UnsolvableSearchNode unsolvableSearchNode) {
+            return Boolean.FALSE;
+        }
+    }
+
     private final Set<AxiomSolvability> delegates = new HashSet<>();
 
     /**
-     * @param delegates
-     *        delegates
+     * @param delegates delegates
      */
     public MultipleAxiomSolvability(Collection<? extends AxiomSolvability> delegates) {
         this.delegates.addAll(checkNotNull(delegates, "delegates"));
@@ -40,34 +62,12 @@ public class MultipleAxiomSolvability implements AxiomSolvability {
         while (!solved && iterator.hasNext()) {
             AxiomSolvability axiomSolvability = iterator.next();
             toReturn = axiomSolvability.getSolvabilitySearchNode(owlAxiom, bindingNode);
-            solved = toReturn != null && toReturn.accept(new SolvabilitySearchNodeVisitorEx<Boolean>() {
-
-                @Override
-                public Boolean visitSolvableSearchNode(
-                    SolvableSearchNode solvableSearchNode) {
-                    return true;
-                }
-
-                @Override
-                public Boolean visitSolvedSearchNode(SolvedSearchNode solvedSearchNode) {
-                    return true;
-                }
-
-                @Override
-                public Boolean visitNoSolutionSolvableSearchNode(
-                    NoSolutionSolvableSearchNode noSolutionSolvableSearchNode) {
-                    return true;
-                }
-
-                @Override
-                public Boolean visitUnsolvableSearchNode(
-                    UnsolvableSearchNode unsolvableSearchNode) {
-                    return false;
-                }
-            });
+            solved = toReturn != null && toReturn.accept(FALSE_UNSOLVABLE).booleanValue();
         }
         return toReturn;
     }
+
+    private static final FalseUnsolvable FALSE_UNSOLVABLE = new FalseUnsolvable();
 
     /**
      * @return the delegates

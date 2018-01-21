@@ -12,8 +12,21 @@ import java.util.regex.PatternSyntaxException;
 
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.function.inline.InlineSet;
-import org.coode.oppl.variabletypes.*;
-import org.semanticweb.owlapi.model.*;
+import org.coode.oppl.variabletypes.ANNOTATIONPROPERTYVariableType;
+import org.coode.oppl.variabletypes.CLASSVariableType;
+import org.coode.oppl.variabletypes.CONSTANTVariableType;
+import org.coode.oppl.variabletypes.DATAPROPERTYVariableType;
+import org.coode.oppl.variabletypes.INDIVIDUALVariableType;
+import org.coode.oppl.variabletypes.OBJECTPROPERTYVariableType;
+import org.coode.oppl.variabletypes.VariableType;
+import org.coode.oppl.variabletypes.VariableTypeVisitorEx;
+import org.semanticweb.owlapi.model.OWLAnnotationProperty;
+import org.semanticweb.owlapi.model.OWLClassExpression;
+import org.semanticweb.owlapi.model.OWLDataPropertyExpression;
+import org.semanticweb.owlapi.model.OWLIndividual;
+import org.semanticweb.owlapi.model.OWLLiteral;
+import org.semanticweb.owlapi.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 
 /**
@@ -22,10 +35,8 @@ import org.semanticweb.owlapi.util.ShortFormProvider;
 public class Adapter {
 
     /**
-     * @param value
-     *        value
-     * @param <O>
-     *        function type
+     * @param value value
+     * @param <O> function type
      * @return oppl function
      */
     public static <O> OPPLFunction<O> buildObjectAdater(O value) {
@@ -33,10 +44,8 @@ public class Adapter {
     }
 
     /**
-     * @param collection
-     *        collection
-     * @param <O>
-     *        aggregate type
+     * @param collection collection
+     * @param <O> aggregate type
      * @return aggregandum set
      */
     public static <O extends OWLObject> Set<Aggregandum<Collection<? extends O>>> buildOWLObjectCollectionAdapter(
@@ -49,20 +58,17 @@ public class Adapter {
     }
 
     /**
-     * @param singleton
-     *        singleton
-     * @param <I>
-     *        aggregate type
+     * @param singleton singleton
+     * @param <I> aggregate type
      * @return aggregandum
      */
-    public static <I> Aggregandum<I> buildSingletonAggregandum(
-        final OPPLFunction<I> singleton) {
+    public static <I> Aggregandum<I> buildSingletonAggregandum(final OPPLFunction<I> singleton) {
         checkNotNull(singleton, "singleton");
         return new Aggregandum<I>() {
 
             @Override
             public Set<OPPLFunction<I>> getOPPLFunctions() {
-                return Collections.<OPPLFunction<I>> singleton(singleton);
+                return Collections.<OPPLFunction<I>>singleton(singleton);
             }
 
             @Override
@@ -83,10 +89,8 @@ public class Adapter {
     }
 
     /**
-     * @param singleton
-     *        singleton
-     * @param <I>
-     *        aggregate type
+     * @param singleton singleton
+     * @param <I> aggregate type
      * @return aggregandum of collection
      */
     public static <I> Aggregandum<Collection<? extends I>> buildAggregandumOfCollection(
@@ -97,35 +101,35 @@ public class Adapter {
 
             @Override
             public Set<OPPLFunction<Collection<? extends I>>> getOPPLFunctions() {
-                OPPLFunction<Collection<? extends I>> s = new OPPLFunction<Collection<? extends I>>() {
+                OPPLFunction<Collection<? extends I>> s =
+                    new OPPLFunction<Collection<? extends I>>() {
 
-                    @Override
-                    public Collection<? extends I> compute(
-                        ValueComputationParameters params) {
-                        I value = adapted.compute(params);
-                        return Collections.singleton(value);
-                    }
+                        @Override
+                        public Collection<? extends I> compute(ValueComputationParameters params) {
+                            I value = adapted.compute(params);
+                            return Collections.singleton(value);
+                        }
 
-                    @Override
-                    public <P> P accept(OPPLFunctionVisitorEx<P> visitor) {
-                        return adapted.accept(visitor);
-                    }
+                        @Override
+                        public <P> P accept(OPPLFunctionVisitorEx<P> visitor) {
+                            return adapted.accept(visitor);
+                        }
 
-                    @Override
-                    public void accept(OPPLFunctionVisitor visitor) {
-                        adapted.accept(visitor);
-                    }
+                        @Override
+                        public void accept(OPPLFunctionVisitor visitor) {
+                            adapted.accept(visitor);
+                        }
 
-                    @Override
-                    public String render(ConstraintSystem constraintSystem) {
-                        return adapted.render(constraintSystem);
-                    }
+                        @Override
+                        public String render(ConstraintSystem constraintSystem) {
+                            return adapted.render(constraintSystem);
+                        }
 
-                    @Override
-                    public String render(ShortFormProvider shortFormProvider) {
-                        return adapted.render(shortFormProvider);
-                    }
-                };
+                        @Override
+                        public String render(ShortFormProvider shortFormProvider) {
+                            return adapted.render(shortFormProvider);
+                        }
+                    };
                 return Collections.singleton(s);
             }
 
@@ -147,10 +151,8 @@ public class Adapter {
     }
 
     /**
-     * @param collection
-     *        collection
-     * @param <I>
-     *        aggregate type
+     * @param collection collection
+     * @param <I> aggregate type
      * @return aggregandum of collection
      */
     public static <I> Aggregandum<I> buildAggregandumCollection(
@@ -180,8 +182,7 @@ public class Adapter {
     }
 
     /**
-     * @param stringOPPLFunction
-     *        stringOPPLFunction
+     * @param stringOPPLFunction stringOPPLFunction
      * @return oppl function
      */
     public static OPPLFunction<Pattern> buildRegexpPatternAdapter(
@@ -236,23 +237,21 @@ public class Adapter {
                     for (Aggregandum<T> t : aggregation.getToAggregate()) {
                         toReturn |= Adapter.isCompatible(t, type);
                     }
-                    return toReturn;
+                    return Boolean.valueOf(toReturn);
                 }
 
                 @Override
                 public <O extends OWLObject> Boolean visitInlineSet(InlineSet<O> inlineSet) {
                     boolean toReturn = true;
-                    for (Aggregandum<Collection<? extends O>> t : inlineSet
-                        .getAggregandums()) {
+                    for (Aggregandum<Collection<? extends O>> t : inlineSet.getAggregandums()) {
                         toReturn |= Adapter.isCompatible(t, type);
                     }
-                    return toReturn;
+                    return Boolean.valueOf(toReturn);
                 }
 
                 @Override
-                public <P extends OWLObject> Boolean visitGenericOPPLFunction(
-                    OPPLFunction<P> f) {
-                    return false;
+                public <P extends OWLObject> Boolean visitGenericOPPLFunction(OPPLFunction<P> f) {
+                    return Boolean.FALSE;
                 }
 
                 @Override
@@ -261,39 +260,38 @@ public class Adapter {
                     return type.accept(new VariableTypeVisitorEx<Boolean>() {
 
                         @Override
-                        public Boolean visitCLASSVariableType(
-                            CLASSVariableType classVariableType) {
-                            return value instanceof OWLClassExpression;
+                        public Boolean visitCLASSVariableType(CLASSVariableType classVariableType) {
+                            return Boolean.valueOf(value instanceof OWLClassExpression);
                         }
 
                         @Override
                         public Boolean visitOBJECTPROPERTYVariableType(
                             OBJECTPROPERTYVariableType objectpropertyVariableType) {
-                            return value instanceof OWLObjectPropertyExpression;
+                            return Boolean.valueOf(value instanceof OWLObjectPropertyExpression);
                         }
 
                         @Override
                         public Boolean visitDATAPROPERTYVariableType(
                             DATAPROPERTYVariableType datapropertyVariableType) {
-                            return value instanceof OWLDataPropertyExpression;
+                            return Boolean.valueOf(value instanceof OWLDataPropertyExpression);
                         }
 
                         @Override
                         public Boolean visitINDIVIDUALVariableType(
                             INDIVIDUALVariableType individualVariableType) {
-                            return value instanceof OWLIndividual;
+                            return Boolean.valueOf(value instanceof OWLIndividual);
                         }
 
                         @Override
                         public Boolean visitCONSTANTVariableType(
                             CONSTANTVariableType constantVariableType) {
-                            return value instanceof OWLLiteral;
+                            return Boolean.valueOf(value instanceof OWLLiteral);
                         }
 
                         @Override
                         public Boolean visitANNOTATIONPROPERTYVariableType(
                             ANNOTATIONPROPERTYVariableType annotationpropertyVariableType) {
-                            return value instanceof OWLAnnotationProperty;
+                            return Boolean.valueOf(value instanceof OWLAnnotationProperty);
                         }
                     });
                 }
@@ -301,51 +299,50 @@ public class Adapter {
                 @Override
                 public <O extends OWLObject> Boolean visitValuesVariableAtttribute(
                     ValuesVariableAtttribute<O> valuesVariableAtttribute) {
-                    return valuesVariableAtttribute.getVariable().getType() == type;
+                    return Boolean
+                        .valueOf(valuesVariableAtttribute.getVariable().getType() == type);
                 }
 
                 @Override
                 public Boolean visitRenderingVariableAttribute(
                     RenderingVariableAttribute renderingVariableAttribute) {
-                    return false;
+                    return Boolean.FALSE;
                 }
 
                 @Override
                 public <O extends OWLObject> Boolean visitGroupVariableAttribute(
                     GroupVariableAttribute<O> groupVariableAttribute) {
-                    return false;
+                    return Boolean.FALSE;
                 }
 
                 @Override
-                public <O extends OWLObject> Boolean visitExpression(
-                    Expression<O> expression) {
-                    return type.isCompatibleWith(expression.getExpression());
+                public <O extends OWLObject> Boolean visitExpression(Expression<O> expression) {
+                    return Boolean.valueOf(type.isCompatibleWith(expression.getExpression()));
                 }
 
                 @Override
-                public <O, T extends OPPLFunction<?>> Boolean visitCreate(
-                    Create<T, O> create) {
-                    return create.isCompatible(type);
+                public <O, T extends OPPLFunction<?>> Boolean visitCreate(Create<T, O> create) {
+                    return Boolean.valueOf(create.isCompatible(type));
                 }
 
                 @Override
                 public Boolean visitIRIVariableAttribute(
                     IRIVariableAttribute iriVariableAttribute) {
-                    return false;
+                    return Boolean.FALSE;
                 }
 
                 @Override
                 public Boolean visitToLowerCaseStringManipulationOPPLFunction(
                     ToLowerCaseStringManipulationOPPLFunction toLowerCaseStringManipulationOPPLFunction) {
-                    return false;
+                    return Boolean.FALSE;
                 }
 
                 @Override
                 public Boolean visitToUpperCaseStringManipulationOPPLFunction(
                     ToUpperCaseStringManipulationOPPLFunction upperCaseStringManipulationOPPLFunction) {
-                    return false;
+                    return Boolean.FALSE;
                 }
-            });
+            }).booleanValue();
         }
         return isCompatible;
     }

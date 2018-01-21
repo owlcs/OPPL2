@@ -52,13 +52,10 @@ public class OPPLSelectClauseList extends OPPLMList {
     private final ConstraintSystem constraintSystem;
 
     /**
-     * @param owlEditorKit
-     *        owlEditorKit
-     * @param constraintSystem
-     *        constraintSystem
+     * @param owlEditorKit owlEditorKit
+     * @param constraintSystem constraintSystem
      */
-    public OPPLSelectClauseList(OWLEditorKit owlEditorKit,
-        ConstraintSystem constraintSystem) {
+    public OPPLSelectClauseList(OWLEditorKit owlEditorKit, ConstraintSystem constraintSystem) {
         this.owlEditorKit = checkNotNull(owlEditorKit, "owlEditorKit");
         this.constraintSystem = checkNotNull(constraintSystem, "constraintSystem");
         DefaultListModel model = clearModel();
@@ -69,7 +66,7 @@ public class OPPLSelectClauseList extends OPPLMList {
     /**
      * @return empty model
      */
-    private DefaultListModel clearModel() {
+    private static DefaultListModel clearModel() {
         DefaultListModel model = new DefaultListModel();
         model.addElement(new MListSectionHeader() {
 
@@ -87,10 +84,9 @@ public class OPPLSelectClauseList extends OPPLMList {
     }
 
     @Override
-    protected Border createListItemBorder(JList list, Object value, int index,
-        boolean isSelected, boolean cellHasFocus) {
-        Border toReturn = super.createListItemBorder(list, value, index, isSelected,
-            cellHasFocus);
+    protected Border createListItemBorder(JList list, Object value, int index, boolean isSelected,
+        boolean cellHasFocus) {
+        Border toReturn = super.createListItemBorder(list, value, index, isSelected, cellHasFocus);
         if (value instanceof OPPLSelectClauseListItem
             && ((OPPLSelectClauseListItem) value).isAsserted()) {
             toReturn = BorderFactory.createCompoundBorder(toReturn,
@@ -108,8 +104,7 @@ public class OPPLSelectClauseList extends OPPLMList {
         @Override
         public Insets getBorderInsets(Component c) {
             return new Insets(0, c.getFontMetrics(c.getFont())
-                .getStringBounds(ASSERTED, c.getGraphics()).getBounds().width + 8, 0,
-                0);
+                .getStringBounds(ASSERTED, c.getGraphics()).getBounds().width + 8, 0, 0);
         }
 
         @Override
@@ -118,22 +113,21 @@ public class OPPLSelectClauseList extends OPPLMList {
         }
 
         @Override
-        public void paintBorder(Component c, Graphics g, int x, int y, int width,
-            int height) {
+        public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
             Color oldColor = g.getColor();
             g.setColor(Color.DARK_GRAY);
-            g.drawString(OPPLAssertedSelectClauseListItemBorder.ASSERTED, x + 4, y + 2
-                + g.getFontMetrics().getAscent() + g.getFontMetrics().getLeading());
+            g.drawString(OPPLAssertedSelectClauseListItemBorder.ASSERTED, x + 4,
+                y + 2 + g.getFontMetrics().getAscent() + g.getFontMetrics().getLeading());
             g.setColor(oldColor);
         }
     }
 
     private class OPPLSelectListItemCellRederer implements ListCellRenderer {
 
-        private final DefaultListCellRenderer defaultListCellRenderer = new DefaultListCellRenderer();
+        private final DefaultListCellRenderer defaultListCellRenderer =
+            new DefaultListCellRenderer();
         private final VariableOWLCellRenderer variableAxiomRenderer = new VariableOWLCellRenderer(
-            getOwlEditorKit(), getConstraintSystem(), new OWLCellRenderer(
-                getOwlEditorKit()));
+            getOwlEditorKit(), getConstraintSystem(), new OWLCellRenderer(getOwlEditorKit()));
 
         public OPPLSelectListItemCellRederer() {
             variableAxiomRenderer.setHighlightKeywords(true);
@@ -141,14 +135,14 @@ public class OPPLSelectClauseList extends OPPLMList {
         }
 
         @Override
-        public Component getListCellRendererComponent(JList list, Object value,
-            int index, boolean isSelected, boolean cellHasFocus) {
-            Component toReturn = defaultListCellRenderer.getListCellRendererComponent(
-                list, value, index, isSelected, cellHasFocus);
+        public Component getListCellRendererComponent(JList list, Object value, int index,
+            boolean isSelected, boolean cellHasFocus) {
+            Component toReturn = defaultListCellRenderer.getListCellRendererComponent(list, value,
+                index, isSelected, cellHasFocus);
             if (value instanceof OPPLSelectClauseListItem) {
                 OPPLSelectClauseListItem item = (OPPLSelectClauseListItem) value;
-                toReturn = variableAxiomRenderer.getListCellRendererComponent(list, item,
-                    index, isSelected, cellHasFocus);
+                toReturn = variableAxiomRenderer.getListCellRendererComponent(list, item, index,
+                    isSelected, cellHasFocus);
             }
             return toReturn;
         }

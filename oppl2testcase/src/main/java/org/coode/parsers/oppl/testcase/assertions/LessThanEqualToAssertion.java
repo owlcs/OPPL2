@@ -8,8 +8,7 @@ import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.bindingtree.BindingNode;
 
 /**
- * Represents the assertion that the left hand side is less than the right hand
- * side
+ * Represents the assertion that the left hand side is less than the right hand side
  * 
  * @author Luigi Iannone
  */
@@ -19,10 +18,8 @@ public class LessThanEqualToAssertion implements Assertion {
     private final AssertionExpression<Integer> right;
 
     /**
-     * @param left
-     *        left
-     * @param right
-     *        right
+     * @param left left
+     * @param right right
      */
     public LessThanEqualToAssertion(AssertionExpression<Integer> left,
         AssertionExpression<Integer> right) {
@@ -55,10 +52,9 @@ public class LessThanEqualToAssertion implements Assertion {
     }
 
     @Override
-    public boolean holds(Set<? extends BindingNode> bindings,
-        ConstraintSystem constraintSystem) {
-        return getLeft().resolve(bindings, constraintSystem) <= getRight().resolve(
-            bindings, constraintSystem);
+    public boolean holds(Set<? extends BindingNode> bindings, ConstraintSystem constraintSystem) {
+        return getLeft().resolve(bindings, constraintSystem).intValue() <= getRight()
+            .resolve(bindings, constraintSystem).intValue();
     }
 
     @Override

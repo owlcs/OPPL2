@@ -13,19 +13,17 @@ import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLObjectInverseOf;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
+import org.semanticweb.owlapi.model.OWLObjectVisitorEx;
 import org.semanticweb.owlapi.model.OWLOntology;
-import org.semanticweb.owlapi.util.OWLObjectVisitorExAdapter;
 
 /**
  * @author Luigi Iannone
  */
-public class OBJECTPROPERTYVariableType extends
-    AbstractVariableType<OWLObjectPropertyExpression>implements
-    VariableType<OWLObjectPropertyExpression> {
+public class OBJECTPROPERTYVariableType extends AbstractVariableType<OWLObjectPropertyExpression>
+    implements VariableType<OWLObjectPropertyExpression> {
 
     /**
-     * @param name
-     *        name
+     * @param name name
      */
     public OBJECTPROPERTYVariableType(VariableTypeName name) {
         super(name, EnumSet.of(Direction.SUBPROPERTYOF, Direction.SUPERPROPERTYOF));
@@ -42,11 +40,10 @@ public class OBJECTPROPERTYVariableType extends
     }
 
     @Override
-    public RegexpGeneratedVariable<? extends OWLObjectPropertyExpression> getRegexpGeneratedVariable(String name,
-        OPPLFunction<Pattern> patternGeneratingOPPLFunction) {
+    public RegexpGeneratedVariable<? extends OWLObjectPropertyExpression> getRegexpGeneratedVariable(
+        String name, OPPLFunction<Pattern> patternGeneratingOPPLFunction) {
         return new RegexpGeneratedVariable<>(name,
-            VariableTypeFactory.getOBJECTPROPERTYTypeVariableType(),
-            patternGeneratingOPPLFunction);
+            VariableTypeFactory.getOBJECTPROPERTYTypeVariableType(), patternGeneratingOPPLFunction);
     }
 
     @Override
@@ -59,19 +56,25 @@ public class OBJECTPROPERTYVariableType extends
         return toReturn;
     }
 
+    private static final OWLObjectVisitorEx<Boolean> MATCH = new OWLObjectVisitorEx<Boolean>() {
+        @Override
+        public <T extends Object> Boolean doDefault(T object) {
+            return Boolean.FALSE;
+        }
+
+        @Override
+        public Boolean visit(OWLObjectProperty o) {
+            return Boolean.TRUE;
+        }
+
+        @Override
+        public Boolean visit(OWLObjectInverseOf o) {
+            return Boolean.TRUE;
+        }
+    };
+
     @Override
     public boolean isCompatibleWith(OWLObject o) {
-        return o.accept(new OWLObjectVisitorExAdapter<Boolean>(false) {
-
-            @Override
-            public Boolean visit(OWLObjectProperty property) {
-                return true;
-            }
-
-            @Override
-            public Boolean visit(OWLObjectInverseOf property) {
-                return true;
-            }
-        });
+        return o.accept(MATCH).booleanValue();
     }
 }

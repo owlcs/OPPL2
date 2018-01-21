@@ -23,13 +23,37 @@ import org.coode.oppl.function.VariableAttribute;
 import org.coode.oppl.function.inline.InlineSet;
 import org.coode.oppl.generated.GeneratedVariable;
 import org.coode.oppl.generated.RegexpGeneratedVariable;
-import org.coode.oppl.variabletypes.*;
-import org.coode.parsers.*;
+import org.coode.oppl.variabletypes.ANNOTATIONPROPERTYVariableType;
+import org.coode.oppl.variabletypes.CLASSVariableType;
+import org.coode.oppl.variabletypes.CONSTANTVariableType;
+import org.coode.oppl.variabletypes.DATAPROPERTYVariableType;
+import org.coode.oppl.variabletypes.INDIVIDUALVariableType;
+import org.coode.oppl.variabletypes.InputVariable;
+import org.coode.oppl.variabletypes.OBJECTPROPERTYVariableType;
+import org.coode.oppl.variabletypes.VariableType;
+import org.coode.oppl.variabletypes.VariableTypeFactory;
+import org.coode.oppl.variabletypes.VariableTypeVisitorEx;
+import org.coode.parsers.DefaultTypeVistorEx;
+import org.coode.parsers.IRISymbol;
+import org.coode.parsers.ManchesterOWLSyntaxTree;
+import org.coode.parsers.OWLEntitySymbol;
+import org.coode.parsers.OWLLiteralSymbol;
+import org.coode.parsers.OWLType;
+import org.coode.parsers.Scope;
+import org.coode.parsers.Symbol;
+import org.coode.parsers.SymbolTable;
+import org.coode.parsers.Type;
 import org.coode.parsers.oppl.variableattribute.CollectionVariableAttributeSymbol;
 import org.coode.parsers.oppl.variableattribute.StringVariableAttributeSymbol;
 import org.coode.parsers.oppl.variableattribute.ValuesVariableAttributeSymbol;
 import org.coode.parsers.oppl.variableattribute.VariableAttributeSymbol;
-import org.semanticweb.owlapi.model.*;
+import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLClassExpression;
+import org.semanticweb.owlapi.model.OWLDataFactory;
+import org.semanticweb.owlapi.model.OWLDataPropertyExpression;
+import org.semanticweb.owlapi.model.OWLIndividual;
+import org.semanticweb.owlapi.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
 
 /**
  * @author ignazio
@@ -40,8 +64,7 @@ public class OPPLSymbolTable extends SymbolTable {
     // XXX this hack is due to the impossibility of relating P and O to R and S
     // in OPPLSymbolVisitorEx
     // The previous hack did not work any more on JDK 1.7
-    private static class CollectionVisitor<T>
-        implements OPPLSymbolVisitorEx<T> {
+    private static class CollectionVisitor<T> implements OPPLSymbolVisitorEx<T> {
 
         private final OPPLSymbolTable ost;
         private final VariableType<?> type;
@@ -99,8 +122,7 @@ public class OPPLSymbolTable extends SymbolTable {
         }
 
         @Override
-        public T visitCreateOnDemandIdentifier(
-            CreateOnDemandIdentifier createOnDemandIdentifier) {
+        public T visitCreateOnDemandIdentifier(CreateOnDemandIdentifier createOnDemandIdentifier) {
             ost.reportIllegalToken(this.attributeSyntaxTree, "Wrong kind of symbol ");
             return null;
         }
@@ -115,10 +137,8 @@ public class OPPLSymbolTable extends SymbolTable {
     }
 
     /**
-     * @param globalScope
-     *        globalScope
-     * @param dataFactory
-     *        dataFactory
+     * @param globalScope globalScope
+     * @param dataFactory dataFactory
      */
     public OPPLSymbolTable(Scope globalScope, OWLDataFactory dataFactory) {
         super(globalScope, dataFactory);
@@ -132,47 +152,37 @@ public class OPPLSymbolTable extends SymbolTable {
     /**
      * Defines a new Symbol in this OPPLSymbolTable under the input Token.
      * 
-     * @param token
-     *        The input token. Cannot be {@code null}.
-     * @param symbol
-     *        The Symbol to be defined. Cannot be {@code null}.
+     * @param token The input token. Cannot be {@code null}.
+     * @param symbol The Symbol to be defined. Cannot be {@code null}.
      */
     public void define(Token token, Symbol symbol) {
         this.storeSymbol(checkNotNull(token, "token"), checkNotNull(symbol, "symbol"));
     }
 
     /**
-     * @param identifier
-     *        identifier
-     * @param variableType
-     *        variableType
-     * @param constraintSystem
-     *        constraintSystem
+     * @param identifier identifier
+     * @param variableType variableType
+     * @param constraintSystem constraintSystem
      */
     public void defineVariable(ManchesterOWLSyntaxTree identifier,
         ManchesterOWLSyntaxTree variableType, ConstraintSystem constraintSystem) {
         VariableTypes type = VariableTypes.getVariableType(variableType.getText());
         if (type == null) {
-            reportIllegalToken(variableType,
-                "The variable type is not amongst those recognised");
+            reportIllegalToken(variableType, "The variable type is not amongst those recognised");
         } else {
-            define(identifier.token,
-                type.getSymbol(getDataFactory(), identifier.token.getText()));
+            define(identifier.token, type.getSymbol(getDataFactory(), identifier.token.getText()));
             try {
                 constraintSystem.createVariable(identifier.token.getText(),
                     type.getOPPLVariableType(), null);
             } catch (OPPLException e) {
-                reportIllegalToken(identifier,
-                    "Error in creating variable: " + e.getMessage());
+                reportIllegalToken(identifier, "Error in creating variable: " + e.getMessage());
             }
         }
     }
 
     /**
-     * @param parentExpression
-     *        parentExpression
-     * @param classExpression
-     *        classExpression
+     * @param parentExpression parentExpression
+     * @param classExpression classExpression
      * @return type
      */
     public Type getClassVariableScopeType(ManchesterOWLSyntaxTree parentExpression,
@@ -188,18 +198,16 @@ public class OPPLSymbolTable extends SymbolTable {
     }
 
     /**
-     * @param parentExpression
-     *        parentExpression
-     * @param propertyExpression
-     *        propertyExpression
+     * @param parentExpression parentExpression
+     * @param propertyExpression propertyExpression
      * @return type
      */
     public Type getPropertyVariableScopeType(ManchesterOWLSyntaxTree parentExpression,
         ManchesterOWLSyntaxTree propertyExpression) {
         Type toReturn = null;
         if (!OWLType.isPropertyExpression(propertyExpression.getEvalType())) {
-            reportIncompatibleSymbolType(propertyExpression,
-                propertyExpression.getEvalType(), parentExpression);
+            reportIncompatibleSymbolType(propertyExpression, propertyExpression.getEvalType(),
+                parentExpression);
         } else {
             toReturn = propertyExpression.getEvalType();
         }
@@ -207,18 +215,16 @@ public class OPPLSymbolTable extends SymbolTable {
     }
 
     /**
-     * @param parentExpression
-     *        parentExpression
-     * @param individualExpression
-     *        individualExpression
+     * @param parentExpression parentExpression
+     * @param individualExpression individualExpression
      * @return type
      */
     public Type getIndividualVariableScopeType(ManchesterOWLSyntaxTree parentExpression,
         ManchesterOWLSyntaxTree individualExpression) {
         Type toReturn = null;
         if (OWLType.OWL_INDIVIDUAL != individualExpression.getEvalType()) {
-            reportIncompatibleSymbolType(individualExpression,
-                individualExpression.getEvalType(), parentExpression);
+            reportIncompatibleSymbolType(individualExpression, individualExpression.getEvalType(),
+                parentExpression);
         } else {
             toReturn = individualExpression.getEvalType();
         }
@@ -226,20 +232,16 @@ public class OPPLSymbolTable extends SymbolTable {
     }
 
     /**
-     * @param parentExpression
-     *        parentExpression
-     * @param variableType
-     *        variableType
-     * @param expression
-     *        expression
+     * @param parentExpression parentExpression
+     * @param variableType variableType
+     * @param expression expression
      * @return type
      */
-    public Type getExpressionGeneratedVariableType(
-        ManchesterOWLSyntaxTree parentExpression,
+    public Type getExpressionGeneratedVariableType(ManchesterOWLSyntaxTree parentExpression,
         ManchesterOWLSyntaxTree variableType, ManchesterOWLSyntaxTree expression) {
         Type toReturn = null;
-        VariableType<?> opplVariableVariableType = VariableTypeFactory
-            .getVariableType(variableType.getText());
+        VariableType<?> opplVariableVariableType =
+            VariableTypeFactory.getVariableType(variableType.getText());
         if (opplVariableVariableType == null) {
             reportIllegalToken(variableType, "Unknown variable type");
         } else if (expression.getOWLObject() == null) {
@@ -253,22 +255,17 @@ public class OPPLSymbolTable extends SymbolTable {
     }
 
     /**
-     * @param variableType
-     *        variableType
+     * @param variableType variableType
      * @return variable type
      */
     public VariableType<?> getVariableType(ManchesterOWLSyntaxTree variableType) {
-        return VariableTypes.getVariableType(variableType.getText())
-            .getOPPLVariableType();
+        return VariableTypes.getVariableType(variableType.getText()).getOPPLVariableType();
     }
 
     /**
-     * @param variableSyntaxTree
-     *        variableSyntaxTree
-     * @param indexNode
-     *        indexNode
-     * @param constraintSystem
-     *        constraintSystem
+     * @param variableSyntaxTree variableSyntaxTree
+     * @param indexNode indexNode
+     * @param constraintSystem constraintSystem
      * @return oppl function
      */
     public OPPLFunction<String> defineGroupAttributeReferenceSymbol(
@@ -279,32 +276,29 @@ public class OPPLSymbolTable extends SymbolTable {
         if (v != null) {
             try {
                 final int index = Integer.parseInt(indexNode.getText());
-                VariableAttributeSymbol<VariableAttribute<String>> symbol = v
-                    .accept(new VariableVisitorEx<VariableAttributeSymbol<VariableAttribute<String>>>() {
+                VariableAttributeSymbol<VariableAttribute<String>> symbol = v.accept(
+                    new VariableVisitorEx<VariableAttributeSymbol<VariableAttribute<String>>>() {
 
                         @Override
                         public <P extends OWLObject> VariableAttributeSymbol<VariableAttribute<String>> visit(
                             InputVariable<P> iv) {
-                            OPPLSymbolTable.this
-                                .reportIllegalToken(variableSyntaxTree,
-                                    "The variable has to be a regular expression variable");
+                            OPPLSymbolTable.this.reportIllegalToken(variableSyntaxTree,
+                                "The variable has to be a regular expression variable");
                             return null;
                         }
 
                         @Override
                         public <P extends OWLObject> VariableAttributeSymbol<VariableAttribute<String>> visit(
                             GeneratedVariable<P> iv) {
-                            OPPLSymbolTable.this
-                                .reportIllegalToken(variableSyntaxTree,
-                                    "The variable has to be a regular expression variable");
+                            OPPLSymbolTable.this.reportIllegalToken(variableSyntaxTree,
+                                "The variable has to be a regular expression variable");
                             return null;
                         }
 
                         @Override
                         public <P extends OWLObject> VariableAttributeSymbol<VariableAttribute<String>> visit(
                             RegexpGeneratedVariable<P> regExpGenerated) {
-                            return StringVariableAttributeSymbol.getGroup(
-                                regExpGenerated, index);
+                            return StringVariableAttributeSymbol.getGroup(regExpGenerated, index);
                         }
                     });
                 if (symbol != null) {
@@ -324,10 +318,8 @@ public class OPPLSymbolTable extends SymbolTable {
     }
 
     /**
-     * @param variableSyntaxTree
-     *        variableSyntaxTree
-     * @param constraintSystem
-     *        constraintSystem
+     * @param variableSyntaxTree variableSyntaxTree
+     * @param constraintSystem constraintSystem
      * @return variable attribute
      */
     public VariableAttribute<String> defineRenderingAttributeReferenceSymbol(
@@ -335,8 +327,8 @@ public class OPPLSymbolTable extends SymbolTable {
         VariableAttribute<String> toReturn = null;
         Variable<?> v = constraintSystem.getVariable(variableSyntaxTree.getText());
         if (v != null) {
-            VariableAttributeSymbol<VariableAttribute<String>> symbol = StringVariableAttributeSymbol
-                .getRendering(v);
+            VariableAttributeSymbol<VariableAttribute<String>> symbol =
+                StringVariableAttributeSymbol.getRendering(v);
             this.storeSymbol(symbol.getName(), symbol);
             toReturn = symbol.getVariableAttribute();
         } else {
@@ -346,10 +338,8 @@ public class OPPLSymbolTable extends SymbolTable {
     }
 
     /**
-     * @param variableSyntaxTree
-     *        variableSyntaxTree
-     * @param constraintSystem
-     *        constraintSystem
+     * @param variableSyntaxTree variableSyntaxTree
+     * @param constraintSystem constraintSystem
      * @return variable attribute
      */
     public VariableAttribute<?> defineValuesAttributeReferenceSymbol(
@@ -357,11 +347,10 @@ public class OPPLSymbolTable extends SymbolTable {
         VariableAttribute<?> toReturn = null;
         Variable<?> v = constraintSystem.getVariable(variableSyntaxTree.getText());
         if (v != null) {
-            ValuesVariableAtttribute<?> valuesVariableAtttribute = ValuesVariableAtttribute
-                .getValuesVariableAtttribute(v);
+            ValuesVariableAtttribute<?> valuesVariableAtttribute =
+                ValuesVariableAtttribute.getValuesVariableAtttribute(v);
             ValuesVariableAttributeSymbol<?> symbol = ValuesVariableAttributeSymbol
-                .getValuesVariableAttributeSymbol(v.getName(),
-                    valuesVariableAtttribute);
+                .getValuesVariableAttributeSymbol(v.getName(), valuesVariableAtttribute);
             this.storeSymbol(symbol.getName(), symbol);
             toReturn = symbol.getVariableAttribute();
         } else {
@@ -371,14 +360,10 @@ public class OPPLSymbolTable extends SymbolTable {
     }
 
     /**
-     * @param parentExpression
-     *        parentExpression
-     * @param variableIdentifier
-     *        variableIdentifier
-     * @param expression
-     *        expression
-     * @param constraintSystem
-     *        constraintSystem
+     * @param parentExpression parentExpression
+     * @param variableIdentifier variableIdentifier
+     * @param expression expression
+     * @param constraintSystem constraintSystem
      * @return inequality constraint
      */
     public InequalityConstraint getInequalityConstraint(OPPLSyntaxTree parentExpression,
@@ -391,19 +376,16 @@ public class OPPLSymbolTable extends SymbolTable {
             reportIncompatibleSymbolType(variableIdentifier, null, parentExpression);
         } else {
             final Type expressionType = expression.getEvalType();
-            final boolean compatibleTypes = checkCompatibleTypes(variableType,
-                expressionType);
+            final boolean compatibleTypes = checkCompatibleTypes(variableType, expressionType);
             if (!compatibleTypes) {
-                reportIncompatibleSymbols(parentExpression, variableIdentifier,
-                    expression);
+                reportIncompatibleSymbols(parentExpression, variableIdentifier, expression);
             } else {
-                Variable<?> variable = constraintSystem.getVariable(variableIdentifier
-                    .getText());
+                Variable<?> variable = constraintSystem.getVariable(variableIdentifier.getText());
                 if (variable == null) {
                     reportIllegalToken(variableIdentifier, "Unknown variable");
                 } else if (expression.getOWLObject() != null) {
-                    toReturn = new InequalityConstraint(variable,
-                        expression.getOWLObject(), constraintSystem);
+                    toReturn = new InequalityConstraint(variable, expression.getOWLObject(),
+                        constraintSystem);
                 } else {
                     reportIllegalToken(expression, "No OWL object");
                 }
@@ -413,19 +395,17 @@ public class OPPLSymbolTable extends SymbolTable {
     }
 
     /**
-     * @param variableType
-     *        variableType
-     * @param expressionType
-     *        expressionType
+     * @param variableType variableType
+     * @param expressionType expressionType
      * @return true if compatible
      */
-    private boolean checkCompatibleTypes(final Type variableType,
+    private static boolean checkCompatibleTypes(final Type variableType,
         final Type expressionType) {
         return variableType.accept(new DefaultTypeVistorEx<Boolean>() {
 
             @Override
             protected Boolean doDefault(Type type) {
-                return false;
+                return Boolean.FALSE;
             }
 
             @Override
@@ -468,30 +448,24 @@ public class OPPLSymbolTable extends SymbolTable {
                     default:
                         toReturn = false;
                 }
-                return toReturn;
+                return Boolean.valueOf(toReturn);
             }
-        });
+        }).booleanValue();
     }
 
     /**
-     * @param parentExpression
-     *        parentExpression
-     * @param v
-     *        v
-     * @param constraintSystem
-     *        constraintSystem
-     * @param elements
-     *        elements
+     * @param parentExpression parentExpression
+     * @param v v
+     * @param constraintSystem constraintSystem
+     * @param elements elements
      * @return in collection constraint
      */
-    public InCollectionConstraint<OWLObject> getInSetConstraint(
-        OPPLSyntaxTree parentExpression, OPPLSyntaxTree v,
-        ConstraintSystem constraintSystem, OPPLSyntaxTree... elements) {
+    public InCollectionConstraint<OWLObject> getInSetConstraint(OPPLSyntaxTree parentExpression,
+        OPPLSyntaxTree v, ConstraintSystem constraintSystem, OPPLSyntaxTree... elements) {
         InCollectionConstraint<OWLObject> toReturn = null;
         boolean allCompatible = true;
         if (elements.length > 0) {
-            List<OPPLSyntaxTree> incompatibles = new ArrayList<>(
-                elements.length);
+            List<OPPLSyntaxTree> incompatibles = new ArrayList<>(elements.length);
             List<OWLObject> owlObjects = new ArrayList<>(elements.length);
             Symbol variableSymbol = resolve(v);
             final Type variableType = variableSymbol.getType();
@@ -506,8 +480,7 @@ public class OPPLSymbolTable extends SymbolTable {
                 for (OPPLSyntaxTree element : elements) {
                     Symbol resolvedElement = resolve(element);
                     final boolean isCompatible = resolvedElement != null
-                        && checkCompatibleTypes(variableType,
-                            resolvedElement.getType())
+                        && checkCompatibleTypes(variableType, resolvedElement.getType())
                         && element.getOWLObject() != null;
                     allCompatible = allCompatible && isCompatible;
                     if (!isCompatible) {
@@ -537,14 +510,11 @@ public class OPPLSymbolTable extends SymbolTable {
     }
 
     /**
-     * @param identifier
-     *        identifier
-     * @param constraintSystem
-     *        constraintSystem
+     * @param identifier identifier
+     * @param constraintSystem constraintSystem
      * @return variable
      */
-    public Variable<?> getVariable(OPPLSyntaxTree identifier,
-        ConstraintSystem constraintSystem) {
+    public Variable<?> getVariable(OPPLSyntaxTree identifier, ConstraintSystem constraintSystem) {
         Symbol variableSymbol = resolve(identifier);
         Variable<?> toReturn = null;
         if (variableSymbol == null) {
@@ -560,13 +530,10 @@ public class OPPLSymbolTable extends SymbolTable {
     }
 
     /**
-     * Import all the variables in the input ConstraintSystem into this
-     * OPPLSymbolTable.
+     * Import all the variables in the input ConstraintSystem into this OPPLSymbolTable.
      * 
-     * @param constraintSystem
-     *        The input constraint system. It cannot be {@code null}.
-     * @throws NullPointerException
-     *         if the input is {@code null}.
+     * @param constraintSystem The input constraint system. It cannot be {@code null}.
+     * @throws NullPointerException if the input is {@code null}.
      */
     public void importConstraintSystem(ConstraintSystem constraintSystem) {
         Set<Variable<?>> variables = constraintSystem.getVariables();
@@ -582,8 +549,7 @@ public class OPPLSymbolTable extends SymbolTable {
     }
 
     /**
-     * @param variableAttributeSyntaxTree
-     *        variableAttributeSyntaxTree
+     * @param variableAttributeSyntaxTree variableAttributeSyntaxTree
      * @return variable attribute
      */
     public VariableAttribute<String> getStringVariableAttribute(
@@ -591,84 +557,70 @@ public class OPPLSymbolTable extends SymbolTable {
         Symbol symbol = retrieveSymbol(variableAttributeSyntaxTree.getText());
         VariableAttribute<String> toReturn = null;
         if (symbol != null) {
-            toReturn = symbol
-                .accept(new OPPLSymbolVisitorEx<VariableAttribute<String>>() {
+            toReturn = symbol.accept(new OPPLSymbolVisitorEx<VariableAttribute<String>>() {
 
-                    @Override
-                    public VariableAttribute<String> visitSymbol(Symbol s) {
-                        OPPLSymbolTable.this.reportIllegalToken(
-                            variableAttributeSyntaxTree,
-                            "Invalid symbol or variable attribute");
-                        return null;
-                    }
+                @Override
+                public VariableAttribute<String> visitSymbol(Symbol s) {
+                    OPPLSymbolTable.this.reportIllegalToken(variableAttributeSyntaxTree,
+                        "Invalid symbol or variable attribute");
+                    return null;
+                }
 
-                    @Override
-                    public VariableAttribute<String> visitOWLLiteral(
-                        OWLLiteralSymbol owlConstantSymbol) {
-                        OPPLSymbolTable.this.reportIllegalToken(
-                            variableAttributeSyntaxTree,
-                            "Invalid symbol or variable attribute");
-                        return null;
-                    }
+                @Override
+                public VariableAttribute<String> visitOWLLiteral(
+                    OWLLiteralSymbol owlConstantSymbol) {
+                    OPPLSymbolTable.this.reportIllegalToken(variableAttributeSyntaxTree,
+                        "Invalid symbol or variable attribute");
+                    return null;
+                }
 
-                    @Override
-                    public VariableAttribute<String> visitIRI(IRISymbol iriSymbol) {
-                        OPPLSymbolTable.this.reportIllegalToken(
-                            variableAttributeSyntaxTree,
-                            "Invalid symbol or variable attribute");
-                        return null;
-                    }
+                @Override
+                public VariableAttribute<String> visitIRI(IRISymbol iriSymbol) {
+                    OPPLSymbolTable.this.reportIllegalToken(variableAttributeSyntaxTree,
+                        "Invalid symbol or variable attribute");
+                    return null;
+                }
 
-                    @Override
-                    public VariableAttribute<String> visitOWLEntity(
-                        OWLEntitySymbol owlEntitySymbol) {
-                        OPPLSymbolTable.this.reportIllegalToken(
-                            variableAttributeSyntaxTree,
-                            "Invalid symbol or variable attribute");
-                        return null;
-                    }
+                @Override
+                public VariableAttribute<String> visitOWLEntity(OWLEntitySymbol owlEntitySymbol) {
+                    OPPLSymbolTable.this.reportIllegalToken(variableAttributeSyntaxTree,
+                        "Invalid symbol or variable attribute");
+                    return null;
+                }
 
-                    @Override
-                    public VariableAttribute<String> visitStringVariableAttributeSymbol(
-                        StringVariableAttributeSymbol stringVariableAttributeSymbol) {
-                        return stringVariableAttributeSymbol.getVariableAttribute();
-                    }
+                @Override
+                public VariableAttribute<String> visitStringVariableAttributeSymbol(
+                    StringVariableAttributeSymbol stringVariableAttributeSymbol) {
+                    return stringVariableAttributeSymbol.getVariableAttribute();
+                }
 
-                    @Override
-                    public <P extends OWLObject, T extends VariableAttribute<Collection<? extends P>>> VariableAttribute<String> visitCollectionVariableAttributeSymbol(
-                        CollectionVariableAttributeSymbol<P, T> collectionVariableAttributeSymbol) {
-                        OPPLSymbolTable.this.reportIllegalToken(
-                            variableAttributeSyntaxTree,
-                            "Invalid symbol or variable attribute");
-                        return null;
-                    }
+                @Override
+                public <P extends OWLObject, T extends VariableAttribute<Collection<? extends P>>> VariableAttribute<String> visitCollectionVariableAttributeSymbol(
+                    CollectionVariableAttributeSymbol<P, T> collectionVariableAttributeSymbol) {
+                    OPPLSymbolTable.this.reportIllegalToken(variableAttributeSyntaxTree,
+                        "Invalid symbol or variable attribute");
+                    return null;
+                }
 
-                    @Override
-                    public VariableAttribute<String> visitCreateOnDemandIdentifier(
-                        CreateOnDemandIdentifier createOnDemandIdentifier) {
-                        OPPLSymbolTable.this.reportIllegalToken(
-                            variableAttributeSyntaxTree,
-                            "Invalid symbol or variable attribute");
-                        return null;
-                    }
-                });
+                @Override
+                public VariableAttribute<String> visitCreateOnDemandIdentifier(
+                    CreateOnDemandIdentifier createOnDemandIdentifier) {
+                    OPPLSymbolTable.this.reportIllegalToken(variableAttributeSyntaxTree,
+                        "Invalid symbol or variable attribute");
+                    return null;
+                }
+            });
         } else {
-            reportIllegalToken(variableAttributeSyntaxTree,
-                "Invalid symbol or variable attribute");
+            reportIllegalToken(variableAttributeSyntaxTree, "Invalid symbol or variable attribute");
         }
         return toReturn;
     }
 
     /**
-     * @param type
-     *        type
-     * @param attributeSyntaxTree
-     *        attributeSyntaxTree
-     * @param <O>
-     *        variable type
-     * @param
-     *        <P>
-     *        attribute type
+     * @param type type
+     * @param attributeSyntaxTree attributeSyntaxTree
+     * @param <O> variable type
+     * @param <P> attribute type
      * @return collection variable
      */
     public <P extends OWLObject, O extends VariableAttribute<Collection<? extends P>>> CollectionVariableAttributeSymbol<P, O> getCollectionVariableAttributeSymbol(
@@ -684,15 +636,12 @@ public class OPPLSymbolTable extends SymbolTable {
     }
 
     /**
-     * @param iriTree
-     *        iriTree
-     * @param variableNameTree
-     *        variableNameTree
-     * @param constraintSystem
-     *        constraintSystem
+     * @param iriTree iriTree
+     * @param variableNameTree variableNameTree
+     * @param constraintSystem constraintSystem
      */
-    public void defineVariableIRI(OPPLSyntaxTree iriTree,
-        OPPLSyntaxTree variableNameTree, ConstraintSystem constraintSystem) {
+    public void defineVariableIRI(OPPLSyntaxTree iriTree, OPPLSyntaxTree variableNameTree,
+        ConstraintSystem constraintSystem) {
         Symbol toReturn = retrieveSymbol(iriTree.getText());
         if (toReturn == null) {
             String name = variableNameTree.getToken().getText();
@@ -707,125 +656,103 @@ public class OPPLSymbolTable extends SymbolTable {
     }
 
     /**
-     * @param expression
-     *        expression
-     * @param aggregandums
-     *        aggregandums
-     * @param aggregdandumTrees
-     *        aggregdandumTrees
-     * @param constraintSystem
-     *        constraintSystem
+     * @param expression expression
+     * @param aggregandums aggregandums
+     * @param aggregdandumTrees aggregdandumTrees
+     * @param constraintSystem constraintSystem
      * @return disjoint axiom
      */
     public OWLAxiom getDisjointAxiom(final OPPLSyntaxTree expression,
         final Collection<? extends Aggregandum<?>> aggregandums,
-        final List<OPPLSyntaxTree> aggregdandumTrees,
-        final ConstraintSystem constraintSystem) {
-        VariableType<?> aggregandumCollectionType = getAggregandumCollectionType(
-            aggregandums, aggregdandumTrees, expression);
+        final List<OPPLSyntaxTree> aggregdandumTrees, final ConstraintSystem constraintSystem) {
+        VariableType<?> aggregandumCollectionType =
+            getAggregandumCollectionType(aggregandums, aggregdandumTrees, expression);
         OWLAxiom toReturn = null;
         if (aggregandumCollectionType != null) {
-            toReturn = aggregandumCollectionType
-                .accept(new VariableTypeVisitorEx<OWLAxiom>() {
+            toReturn = aggregandumCollectionType.accept(new VariableTypeVisitorEx<OWLAxiom>() {
 
-                    @Override
-                    public OWLAxiom visitANNOTATIONPROPERTYVariableType(
-                        ANNOTATIONPROPERTYVariableType annotationpropertyVariableType) {
-                        OPPLSymbolTable.this.reportIncompatibleSymbolType(expression,
-                            VariableTypes.ANNOTATIONPROPERTY, expression);
-                        return null;
-                    }
+                @Override
+                public OWLAxiom visitANNOTATIONPROPERTYVariableType(
+                    ANNOTATIONPROPERTYVariableType annotationpropertyVariableType) {
+                    OPPLSymbolTable.this.reportIncompatibleSymbolType(expression,
+                        VariableTypes.ANNOTATIONPROPERTY, expression);
+                    return null;
+                }
 
-                    @Override
-                    public OWLAxiom visitCONSTANTVariableType(
-                        CONSTANTVariableType constantVariableType) {
-                        OPPLSymbolTable.this.reportIncompatibleSymbolType(expression,
-                            VariableTypes.CONSTANT, expression);
-                        return null;
-                    }
+                @Override
+                public OWLAxiom visitCONSTANTVariableType(
+                    CONSTANTVariableType constantVariableType) {
+                    OPPLSymbolTable.this.reportIncompatibleSymbolType(expression,
+                        VariableTypes.CONSTANT, expression);
+                    return null;
+                }
 
-                    @Override
-                    public OWLAxiom visitINDIVIDUALVariableType(
-                        INDIVIDUALVariableType individualVariableType) {
-                        OPPLSymbolTable.this.reportIncompatibleSymbolType(expression,
-                            VariableTypes.INDIVIDUAL, expression);
-                        return null;
-                    }
+                @Override
+                public OWLAxiom visitINDIVIDUALVariableType(
+                    INDIVIDUALVariableType individualVariableType) {
+                    OPPLSymbolTable.this.reportIncompatibleSymbolType(expression,
+                        VariableTypes.INDIVIDUAL, expression);
+                    return null;
+                }
 
-                    @Override
-                    public OWLAxiom visitCLASSVariableType(
-                        CLASSVariableType classVariableType) {
-                        Collection<? extends Aggregandum<Collection<? extends OWLClassExpression>>> aggregandumCollection = OPPLSymbolTable.this
-                            .getAggregandumCollection(classVariableType,
-                                aggregandums, aggregdandumTrees, expression);
-                        InlineSet<OWLClassExpression> inlineSet = new InlineSet<>(
-                            classVariableType, aggregandumCollection,
-                            OPPLSymbolTable.this.getDataFactory(),
-                            constraintSystem);
-                        return OPPLSymbolTable.this.getDataFactory()
-                            .getOWLDisjointClassesAxiom(inlineSet,
-                                inlineSet.size() == 2);
-                    }
+                @Override
+                public OWLAxiom visitCLASSVariableType(CLASSVariableType classVariableType) {
+                    Collection<? extends Aggregandum<Collection<? extends OWLClassExpression>>> aggregandumCollection =
+                        OPPLSymbolTable.this.getAggregandumCollection(classVariableType,
+                            aggregandums, aggregdandumTrees, expression);
+                    InlineSet<OWLClassExpression> inlineSet =
+                        new InlineSet<>(classVariableType, aggregandumCollection,
+                            OPPLSymbolTable.this.getDataFactory(), constraintSystem);
+                    return OPPLSymbolTable.this.getDataFactory()
+                        .getOWLDisjointClassesAxiom(inlineSet, inlineSet.size() == 2);
+                }
 
-                    @Override
-                    public OWLAxiom visitDATAPROPERTYVariableType(
-                        DATAPROPERTYVariableType datapropertyVariableType) {
-                        Collection<? extends Aggregandum<Collection<? extends OWLDataPropertyExpression>>> aggregandumCollection = OPPLSymbolTable.this
-                            .getAggregandumCollection(datapropertyVariableType,
-                                aggregandums, aggregdandumTrees, expression);
-                        InlineSet<OWLDataPropertyExpression> inlineSet = new InlineSet<>(
-                            datapropertyVariableType, aggregandumCollection,
-                            OPPLSymbolTable.this.getDataFactory(),
-                            constraintSystem);
-                        return OPPLSymbolTable.this.getDataFactory()
-                            .getOWLDisjointDataPropertiesAxiom(inlineSet,
-                                inlineSet.size() == 2);
-                    }
+                @Override
+                public OWLAxiom visitDATAPROPERTYVariableType(
+                    DATAPROPERTYVariableType datapropertyVariableType) {
+                    Collection<? extends Aggregandum<Collection<? extends OWLDataPropertyExpression>>> aggregandumCollection =
+                        OPPLSymbolTable.this.getAggregandumCollection(datapropertyVariableType,
+                            aggregandums, aggregdandumTrees, expression);
+                    InlineSet<OWLDataPropertyExpression> inlineSet =
+                        new InlineSet<>(datapropertyVariableType, aggregandumCollection,
+                            OPPLSymbolTable.this.getDataFactory(), constraintSystem);
+                    return OPPLSymbolTable.this.getDataFactory()
+                        .getOWLDisjointDataPropertiesAxiom(inlineSet, inlineSet.size() == 2);
+                }
 
-                    @Override
-                    public OWLAxiom visitOBJECTPROPERTYVariableType(
-                        OBJECTPROPERTYVariableType objectpropertyVariableType) {
-                        Collection<? extends Aggregandum<Collection<? extends OWLObjectPropertyExpression>>> aggregandumCollection = OPPLSymbolTable.this
-                            .getAggregandumCollection(objectpropertyVariableType,
-                                aggregandums, aggregdandumTrees, expression);
-                        InlineSet<OWLObjectPropertyExpression> inlineSet = new InlineSet<>(
-                            objectpropertyVariableType, aggregandumCollection,
-                            OPPLSymbolTable.this.getDataFactory(),
-                            constraintSystem);
-                        return OPPLSymbolTable.this.getDataFactory()
-                            .getOWLDisjointObjectPropertiesAxiom(inlineSet,
-                                inlineSet.size() == 2);
-                    }
-                });
+                @Override
+                public OWLAxiom visitOBJECTPROPERTYVariableType(
+                    OBJECTPROPERTYVariableType objectpropertyVariableType) {
+                    Collection<? extends Aggregandum<Collection<? extends OWLObjectPropertyExpression>>> aggregandumCollection =
+                        OPPLSymbolTable.this.getAggregandumCollection(objectpropertyVariableType,
+                            aggregandums, aggregdandumTrees, expression);
+                    InlineSet<OWLObjectPropertyExpression> inlineSet =
+                        new InlineSet<>(objectpropertyVariableType, aggregandumCollection,
+                            OPPLSymbolTable.this.getDataFactory(), constraintSystem);
+                    return OPPLSymbolTable.this.getDataFactory()
+                        .getOWLDisjointObjectPropertiesAxiom(inlineSet, inlineSet.size() == 2);
+                }
+            });
         } else {
-            reportIncompatibleSymbols(
-                expression,
+            reportIncompatibleSymbols(expression,
                 aggregdandumTrees.toArray(new OPPLSyntaxTree[aggregdandumTrees.size()]));
         }
         return toReturn;
     }
 
     /**
-     * @param variableType
-     *        variableType
-     * @param aggregandums
-     *        aggregandums
-     * @param aggregandumsTrees
-     *        aggregandumsTrees
-     * @param parentExpression
-     *        parentExpression
-     * @param <O>
-     *        variable type
+     * @param variableType variableType
+     * @param aggregandums aggregandums
+     * @param aggregandumsTrees aggregandumsTrees
+     * @param parentExpression parentExpression
+     * @param <O> variable type
      * @return aggregandum
      */
     @SuppressWarnings("unchecked")
     public <O extends OWLObject> Collection<? extends Aggregandum<Collection<? extends O>>> getAggregandumCollection(
-        VariableType<O> variableType,
-        Collection<? extends Aggregandum<?>> aggregandums,
-        List<OPPLSyntaxTree> aggregandumsTrees,
-        OPPLSyntaxTree parentExpression) {
-        List<Aggregandum<Collection<? extends O>>> toReturn = new ArrayList<>(
-            aggregandums.size());
+        VariableType<O> variableType, Collection<? extends Aggregandum<?>> aggregandums,
+        List<OPPLSyntaxTree> aggregandumsTrees, OPPLSyntaxTree parentExpression) {
+        List<Aggregandum<Collection<? extends O>>> toReturn = new ArrayList<>(aggregandums.size());
         boolean allFine = true;
         Iterator<? extends Aggregandum<?>> iterator = aggregandums.iterator();
         int i = 0;
@@ -836,8 +763,8 @@ public class OPPLSymbolTable extends SymbolTable {
                 toReturn.add((Aggregandum<Collection<? extends O>>) aggregandum);
             } else {
                 OPPLSyntaxTree opplSyntaxTree = aggregandumsTrees.get(i);
-                reportIncompatibleSymbolType(opplSyntaxTree,
-                    opplSyntaxTree.getEvalType(), parentExpression);
+                reportIncompatibleSymbolType(opplSyntaxTree, opplSyntaxTree.getEvalType(),
+                    parentExpression);
             }
             i++;
         }
@@ -845,17 +772,14 @@ public class OPPLSymbolTable extends SymbolTable {
     }
 
     /**
-     * @param aggregandums
-     *        aggregandums
-     * @param aggregandumsTrees
-     *        aggregandumsTrees
-     * @param parentExpression
-     *        parentExpression
+     * @param aggregandums aggregandums
+     * @param aggregandumsTrees aggregandumsTrees
+     * @param parentExpression parentExpression
      * @return aggregandum collection type
      */
     public VariableType<?> getAggregandumCollectionType(
-        Collection<? extends Aggregandum<?>> aggregandums,
-        List<OPPLSyntaxTree> aggregandumsTrees, OPPLSyntaxTree parentExpression) {
+        Collection<? extends Aggregandum<?>> aggregandums, List<OPPLSyntaxTree> aggregandumsTrees,
+        OPPLSyntaxTree parentExpression) {
         VariableType<?> toReturn = null;
         boolean allFine = true;
         Iterator<? extends Aggregandum<?>> iterator = aggregandums.iterator();
@@ -868,18 +792,17 @@ public class OPPLSymbolTable extends SymbolTable {
                 toReturn = aggregandumVariableType;
             } else {
                 OPPLSyntaxTree opplSyntaxTree = aggregandumsTrees.get(i);
-                reportIncompatibleSymbolType(opplSyntaxTree,
-                    opplSyntaxTree.getEvalType(), parentExpression);
+                reportIncompatibleSymbolType(opplSyntaxTree, opplSyntaxTree.getEvalType(),
+                    parentExpression);
             }
             i++;
         }
         return allFine ? toReturn : null;
     }
 
-    private VariableType<?> getAggregandumVariableType(Aggregandum<?> aggregandum) {
+    private static VariableType<?> getAggregandumVariableType(Aggregandum<?> aggregandum) {
         VariableType<?> toReturn = null;
-        Iterator<VariableType<?>> iterator = VariableTypeFactory.getAllVariableTypes()
-            .iterator();
+        Iterator<VariableType<?>> iterator = VariableTypeFactory.getAllVariableTypes().iterator();
         boolean found = false;
         while (!found && iterator.hasNext()) {
             VariableType<?> variableType = iterator.next();
@@ -892,71 +815,58 @@ public class OPPLSymbolTable extends SymbolTable {
     }
 
     /**
-     * @param opplSyntaxTree
-     *        opplSyntaxTree
-     * @param list
-     *        list
-     * @param tokenList
-     *        tokenList
-     * @param constraintSystem
-     *        constraintSystem
+     * @param opplSyntaxTree opplSyntaxTree
+     * @param list list
+     * @param tokenList tokenList
+     * @param constraintSystem constraintSystem
      * @return different individual axiom
      */
     public OWLAxiom getDifferentIndividualsAxiom(OPPLSyntaxTree opplSyntaxTree,
         List<Aggregandum<?>> list, List<OPPLSyntaxTree> tokenList,
         ConstraintSystem constraintSystem) {
         OWLAxiom toReturn = null;
-        VariableType<?> aggregandumCollectionType = getAggregandumCollectionType(list,
-            tokenList, opplSyntaxTree);
+        VariableType<?> aggregandumCollectionType =
+            getAggregandumCollectionType(list, tokenList, opplSyntaxTree);
         if (aggregandumCollectionType == VariableTypeFactory.getINDIVIDUALVariableType()) {
-            Collection<? extends Aggregandum<Collection<? extends OWLIndividual>>> aggregandumCollection = this
-                .getAggregandumCollection(
-                    VariableTypeFactory.getINDIVIDUALVariableType(), list,
+            Collection<? extends Aggregandum<Collection<? extends OWLIndividual>>> aggregandumCollection =
+                this.getAggregandumCollection(VariableTypeFactory.getINDIVIDUALVariableType(), list,
                     tokenList, opplSyntaxTree);
-            InlineSet<OWLIndividual> individuals = new InlineSet<>(
-                VariableTypeFactory.getINDIVIDUALVariableType(),
-                aggregandumCollection, getDataFactory(), constraintSystem);
+            InlineSet<OWLIndividual> individuals =
+                new InlineSet<>(VariableTypeFactory.getINDIVIDUALVariableType(),
+                    aggregandumCollection, getDataFactory(), constraintSystem);
             toReturn = getDataFactory().getOWLDifferentIndividualsAxiom(individuals,
                 individuals.size() == 2);
         } else {
             reportIncompatibleSymbolType(opplSyntaxTree,
-                VariableTypes.getVariableType(aggregandumCollectionType),
-                opplSyntaxTree);
+                VariableTypes.getVariableType(aggregandumCollectionType), opplSyntaxTree);
         }
         return toReturn;
     }
 
     /**
-     * @param opplSyntaxTree
-     *        opplSyntaxTree
-     * @param list
-     *        list
-     * @param tokenList
-     *        tokenList
-     * @param constraintSystem
-     *        constraintSystem
+     * @param opplSyntaxTree opplSyntaxTree
+     * @param list list
+     * @param tokenList tokenList
+     * @param constraintSystem constraintSystem
      * @return same individual axiom
      */
-    public OWLAxiom getSameIndividualAxiom(OPPLSyntaxTree opplSyntaxTree,
-        List<Aggregandum<?>> list, List<OPPLSyntaxTree> tokenList,
-        ConstraintSystem constraintSystem) {
+    public OWLAxiom getSameIndividualAxiom(OPPLSyntaxTree opplSyntaxTree, List<Aggregandum<?>> list,
+        List<OPPLSyntaxTree> tokenList, ConstraintSystem constraintSystem) {
         OWLAxiom toReturn = null;
-        VariableType<?> aggregandumCollectionType = getAggregandumCollectionType(list,
-            tokenList, opplSyntaxTree);
+        VariableType<?> aggregandumCollectionType =
+            getAggregandumCollectionType(list, tokenList, opplSyntaxTree);
         if (aggregandumCollectionType == VariableTypeFactory.getINDIVIDUALVariableType()) {
-            Collection<? extends Aggregandum<Collection<? extends OWLIndividual>>> aggregandumCollection = this
-                .getAggregandumCollection(
-                    VariableTypeFactory.getINDIVIDUALVariableType(), list,
+            Collection<? extends Aggregandum<Collection<? extends OWLIndividual>>> aggregandumCollection =
+                this.getAggregandumCollection(VariableTypeFactory.getINDIVIDUALVariableType(), list,
                     tokenList, opplSyntaxTree);
-            InlineSet<OWLIndividual> individuals = new InlineSet<>(
-                VariableTypeFactory.getINDIVIDUALVariableType(),
-                aggregandumCollection, getDataFactory(), constraintSystem);
-            toReturn = getDataFactory().getOWLSameIndividualAxiom(individuals,
-                individuals.size() == 2);
+            InlineSet<OWLIndividual> individuals =
+                new InlineSet<>(VariableTypeFactory.getINDIVIDUALVariableType(),
+                    aggregandumCollection, getDataFactory(), constraintSystem);
+            toReturn =
+                getDataFactory().getOWLSameIndividualAxiom(individuals, individuals.size() == 2);
         } else {
             reportIncompatibleSymbolType(opplSyntaxTree,
-                VariableTypes.getVariableType(aggregandumCollectionType),
-                opplSyntaxTree);
+                VariableTypes.getVariableType(aggregandumCollectionType), opplSyntaxTree);
         }
         return toReturn;
     }

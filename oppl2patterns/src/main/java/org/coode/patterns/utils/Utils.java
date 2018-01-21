@@ -31,8 +31,12 @@ import org.coode.patterns.AbstractPatternModelFactory;
 import org.coode.patterns.PatternExtractor;
 import org.coode.patterns.PatternManager;
 import org.coode.patterns.PatternModel;
-import org.semanticweb.owlapi.model.*;
-import org.semanticweb.owlapi.util.OWLObjectVisitorExAdapter;
+import org.semanticweb.owlapi.io.XMLUtils;
+import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLAnnotation;
+import org.semanticweb.owlapi.model.OWLLiteral;
+import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 /**
  * @author Luigi Iannone Jun 10, 2008
@@ -40,20 +44,18 @@ import org.semanticweb.owlapi.util.OWLObjectVisitorExAdapter;
 public class Utils {
 
     /**
-     * @param ontology
-     *        ontology
-     * @param factory
-     *        factory
+     * @param ontology ontology
+     * @param factory factory
      * @return set of existing patterns
      */
     public static Set<PatternModel> getExistingPatterns(OWLOntology ontology,
         AbstractPatternModelFactory factory) {
         Set<PatternModel> toReturn = new HashSet<>();
-        PatternExtractor patternExtractor = factory.getPatternExtractor(PatternManager
-            .getDefaultErrorListener());
+        PatternExtractor patternExtractor =
+            factory.getPatternExtractor(PatternManager.getDefaultErrorListener());
         for (OWLAnnotation anOntologyAnnotation : ontology.getAnnotations()) {
-            PatternModel statementModel = (PatternModel) anOntologyAnnotation
-                .accept(patternExtractor);
+            PatternModel statementModel =
+                (PatternModel) anOntologyAnnotation.accept(patternExtractor);
             if (statementModel != null) {
                 toReturn.add(statementModel);
             }
@@ -62,12 +64,9 @@ public class Utils {
     }
 
     /**
-     * @param patternName
-     *        patternName
-     * @param ontology
-     *        ontology
-     * @param factory
-     *        factory
+     * @param patternName patternName
+     * @param ontology ontology
+     * @param factory factory
      * @return found pattern
      */
     public static PatternModel find(String patternName, OWLOntology ontology,
@@ -79,8 +78,8 @@ public class Utils {
             OWLAnnotation annotation = it.next();
             IRI annotationIRI = annotation.getProperty().getIRI();
             if (annotationIRI.toString().equals(PatternModel.NAMESPACE + patternName)) {
-                PatternExtractor patternExtractor = factory
-                    .getPatternExtractor(PatternManager.getDefaultErrorListener());
+                PatternExtractor patternExtractor =
+                    factory.getPatternExtractor(PatternManager.getDefaultErrorListener());
                 extractedPattern = (PatternModel) annotation.accept(patternExtractor);
                 found = extractedPattern != null
                     && extractedPattern.getPatternLocalName().equals(patternName);
@@ -90,16 +89,13 @@ public class Utils {
     }
 
     /**
-     * @param patternName
-     *        patternName
-     * @param ontologyManager
-     *        ontologyManager
-     * @param factory
-     *        factory
+     * @param patternName patternName
+     * @param ontologyManager ontologyManager
+     * @param factory factory
      * @return pattern
      */
-    public static PatternModel find(String patternName,
-        OWLOntologyManager ontologyManager, AbstractPatternModelFactory factory) {
+    public static PatternModel find(String patternName, OWLOntologyManager ontologyManager,
+        AbstractPatternModelFactory factory) {
         Iterator<OWLOntology> it = ontologyManager.getOntologies().iterator();
         boolean found = false;
         PatternModel toReturn = null;
@@ -111,8 +107,7 @@ public class Utils {
     }
 
     /**
-     * @param ontology
-     *        ontology
+     * @param ontology ontology
      * @return set of existing pattern names
      */
     public static Set<String> getExistingPatternNames(OWLOntology ontology) {
@@ -127,8 +122,7 @@ public class Utils {
     }
 
     /**
-     * @param ontologyManager
-     *        ontologyManager
+     * @param ontologyManager ontologyManager
      * @return existing pattern names
      */
     public static Set<String> getExistingPatternNames(OWLOntologyManager ontologyManager) {
@@ -141,10 +135,8 @@ public class Utils {
     }
 
     /**
-     * @param ontologyManager
-     *        ontologyManager
-     * @param prefix
-     *        prefix
+     * @param ontologyManager ontologyManager
+     * @param prefix prefix
      * @return existing pattern names
      */
     public static Set<String> getExistingPatternNames(OWLOntologyManager ontologyManager,
@@ -160,12 +152,10 @@ public class Utils {
     }
 
     /**
-     * @param annotationAxioms
-     *        annotationAxioms
+     * @param annotationAxioms annotationAxioms
      * @return true if pttern is generated
      */
-    public static boolean isPatternGenerated(
-        Collection<? extends OWLAnnotation> annotationAxioms) {
+    public static boolean isPatternGenerated(Collection<? extends OWLAnnotation> annotationAxioms) {
         boolean isPatternGenerated = false;
         Iterator<? extends OWLAnnotation> it = annotationAxioms.iterator();
         while (!isPatternGenerated && it.hasNext()) {
@@ -177,12 +167,9 @@ public class Utils {
     }
 
     /**
-     * @param annotations
-     *        annotations
-     * @param manager
-     *        manager
-     * @param factory
-     *        factory
+     * @param annotations annotations
+     * @param manager manager
+     * @param factory factory
      * @return generating pattern model
      */
     public static PatternModel getGeneratingPatternModel(
@@ -194,23 +181,13 @@ public class Utils {
         Iterator<? extends OWLAnnotation> it = annotations.iterator();
         while (!isPatternGenerated && it.hasNext()) {
             OWLAnnotation annotation = it.next();
-            IRI annotationURI = annotation.getProperty().getIRI();
-            String uriString = annotationURI.toString();
-            isPatternGenerated = uriString.startsWith(PatternModel.NAMESPACE);
+            isPatternGenerated =
+                annotation.getProperty().getIRI().getNamespace().equals(PatternModel.NAMESPACE);
             if (isPatternGenerated) {
-                OWLAnnotationValue value = annotation.getValue();
-                IRI patternIRI = value.accept(new OWLObjectVisitorExAdapter<IRI>(null) {
-
-                    @Override
-                    public IRI visit(OWLLiteral literal) {
-                        return IRI.create(literal.getLiteral());
-                    }
-                });
-                if (patternIRI != null) {
-                    String fragment = patternIRI.getFragment();
-                    if (fragment != null) {
-                        name = fragment;
-                    }
+                String patternIRIFragment = annotation.getValue().mapLiteral(OWLLiteral::getLiteral)
+                    .map(XMLUtils::getNCNameSuffix).orElse("");
+                if (!patternIRIFragment.isEmpty()) {
+                    name = patternIRIFragment;
                 }
             }
         }
@@ -221,10 +198,8 @@ public class Utils {
     }
 
     /**
-     * @param patternName
-     *        patternName
-     * @param annotations
-     *        annotations
+     * @param patternName patternName
+     * @param annotations annotations
      * @return true if generated
      */
     public static boolean isPatternGenerated(final String patternName,
@@ -233,46 +208,39 @@ public class Utils {
         Iterator<? extends OWLAnnotation> it = annotations.iterator();
         while (!isPatternGenerated && it.hasNext()) {
             OWLAnnotation annotation = it.next();
-            isPatternGenerated = annotation.getProperty().getIRI().toString()
-                .startsWith(PatternModel.NAMESPACE)
-                && annotation.getValue().accept(
-                    new OWLObjectVisitorExAdapter<Boolean>(false) {
-
-                        @Override
-                        public Boolean visit(OWLLiteral literal) {
-                            return literal.getLiteral().endsWith(
-                                patternName + "PatternInstantiation");
-                        }
-                    });
+            isPatternGenerated = isPatternGenerated(annotation, patternName);
         }
         return isPatternGenerated;
     }
 
+    private static Boolean patternGenerated(String name, String literal) {
+        return Boolean.valueOf(literal.endsWith(name + "PatternInstantiation"));
+    }
+
+    private static boolean isPatternGenerated(OWLAnnotation a, String patternName) {
+        if (!a.getProperty().getIRI().getNamespace().equals(PatternModel.NAMESPACE)) {
+            return false;
+        }
+        return a.literalValue().map(l -> patternGenerated(patternName, l.getLiteral()))
+            .orElse(Boolean.FALSE).booleanValue();
+    }
+
     /**
-     * @param annotations
-     *        annotations
+     * @param annotations annotations
      * @return generated pattern name
      */
-    public static String getGeneratedPatternName(
-        Collection<? extends OWLAnnotation> annotations) {
+    public static String getGeneratedPatternName(Collection<? extends OWLAnnotation> annotations) {
         boolean isPatternGenerated = false;
         String toReturn = null;
         Iterator<? extends OWLAnnotation> it = annotations.iterator();
         OWLAnnotation annotation = null;
         while (!isPatternGenerated && it.hasNext()) {
             annotation = it.next();
-            isPatternGenerated = annotation.getProperty().getIRI().toString()
-                .startsWith(PatternModel.NAMESPACE);
+            isPatternGenerated =
+                annotation.getProperty().getIRI().toString().startsWith(PatternModel.NAMESPACE);
             if (isPatternGenerated) {
-                OWLAnnotationValue value = annotation.getValue();
-                IRI patternIRI = value.accept(new OWLObjectVisitorExAdapter<IRI>(null) {
-
-                    @Override
-                    public IRI visit(OWLLiteral literal) {
-                        return IRI.create(literal.getLiteral());
-                    }
-                });
-                toReturn = patternIRI.getFragment();
+                toReturn = annotation.getValue().mapLiteral(OWLLiteral::getLiteral)
+                    .map(XMLUtils::getNCNameSuffix).orElse("");
             }
         }
         return toReturn;

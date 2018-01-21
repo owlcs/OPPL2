@@ -24,7 +24,14 @@ package org.coode.oppl.querymatching;
 
 import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.Variable;
@@ -45,10 +52,8 @@ public class InferredTreeSearchAxiomQuery extends AbstractAxiomQuery {
     private final Map<BindingNode, Set<OWLAxiom>> instantiations = new HashMap<>();
 
     /**
-     * @param constraintSystem
-     *        constraintSystem
-     * @param runtimeExceptionHandler
-     *        runtimeExceptionHandler
+     * @param constraintSystem constraintSystem
+     * @param runtimeExceptionHandler runtimeExceptionHandler
      */
     public InferredTreeSearchAxiomQuery(ConstraintSystem constraintSystem,
         RuntimeExceptionHandler runtimeExceptionHandler) {
@@ -60,28 +65,27 @@ public class InferredTreeSearchAxiomQuery extends AbstractAxiomQuery {
     protected Set<BindingNode> match(OWLAxiom axiom) {
         clearInstantions();
         List<List<OPPLOWLAxiomSearchNode>> solutions = new ArrayList<>();
-        VariableExtractor variableExtractor = new VariableExtractor(
-            getConstraintSystem(), false);
+        VariableExtractor variableExtractor = new VariableExtractor(getConstraintSystem(), false);
         Set<Variable<?>> extractedVariables = variableExtractor.extractVariables(axiom);
-        SortedSet<Variable<?>> sortedVariables = new TreeSet<>(
-            new PositionBasedVariableComparator(axiom, getConstraintSystem()
-                .getOntologyManager().getOWLDataFactory()));
+        SortedSet<Variable<?>> sortedVariables =
+            new TreeSet<>(new PositionBasedVariableComparator(axiom,
+                getConstraintSystem().getOntologyManager().getOWLDataFactory()));
         sortedVariables.addAll(extractedVariables);
-        OPPLOWLAxiomSearchNode start = new OPPLOWLAxiomSearchNode(axiom, new BindingNode(
-            sortedVariables));
+        OPPLOWLAxiomSearchNode start =
+            new OPPLOWLAxiomSearchNode(axiom, new BindingNode(sortedVariables));
         solutions.addAll(doMatch(start));
         return extractLeaves(solutions);
     }
 
     private List<List<OPPLOWLAxiomSearchNode>> doMatch(OPPLOWLAxiomSearchNode start) {
-        OPPLInferredOWLAxiomSearchTree searchTree = new OPPLInferredOWLAxiomSearchTree(
-            getConstraintSystem(), getRuntimeExceptionHandler());
+        OPPLInferredOWLAxiomSearchTree searchTree =
+            new OPPLInferredOWLAxiomSearchTree(getConstraintSystem(), getRuntimeExceptionHandler());
         List<List<OPPLOWLAxiomSearchNode>> solutions = new ArrayList<>();
         searchTree.exhaustiveSearchTree(start, solutions);
         return solutions;
     }
 
-    private Set<BindingNode> extractLeaves(List<List<OPPLOWLAxiomSearchNode>> solutions) {
+    private static Set<BindingNode> extractLeaves(List<List<OPPLOWLAxiomSearchNode>> solutions) {
         Set<BindingNode> toReturn = new HashSet<>();
         for (List<OPPLOWLAxiomSearchNode> path : solutions) {
             OPPLOWLAxiomSearchNode searchLeaf = path.get(path.size() - 1);

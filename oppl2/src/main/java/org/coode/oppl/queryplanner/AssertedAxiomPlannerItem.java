@@ -28,10 +28,8 @@ public class AssertedAxiomPlannerItem extends AbstractQueryPlannerItem {
     private final OWLAxiom axiom;
 
     /**
-     * @param constraintSystem
-     *        constraintSystem
-     * @param axiom
-     *        axiom
+     * @param constraintSystem constraintSystem
+     * @param axiom axiom
      */
     public AssertedAxiomPlannerItem(ConstraintSystem constraintSystem, OWLAxiom axiom) {
         super(constraintSystem);
@@ -40,8 +38,7 @@ public class AssertedAxiomPlannerItem extends AbstractQueryPlannerItem {
 
     @Override
     public Set<BindingNode> match(Collection<? extends BindingNode> currentLeaves,
-        ExecutionMonitor executionMonitor,
-        RuntimeExceptionHandler runtimeExceptionHandler) {
+        ExecutionMonitor executionMonitor, RuntimeExceptionHandler runtimeExceptionHandler) {
         Set<BindingNode> toReturn = new HashSet<>();
         if (currentLeaves != null) {
             Iterator<? extends BindingNode> iterator = currentLeaves.iterator();
@@ -49,19 +46,18 @@ public class AssertedAxiomPlannerItem extends AbstractQueryPlannerItem {
                 BindingNode bindingNode = iterator.next();
                 ValueComputationParameters parameters = new SimpleValueComputationParameters(
                     getConstraintSystem(), bindingNode, runtimeExceptionHandler);
-                PartialOWLObjectInstantiator instantiator = new PartialOWLObjectInstantiator(
-                    parameters);
+                PartialOWLObjectInstantiator instantiator =
+                    new PartialOWLObjectInstantiator(parameters);
                 OWLAxiom instantiatedAxiom = (OWLAxiom) getAxiom().accept(instantiator);
-                Set<BindingNode> newLeaves = updateBindingsAssertedAxiom(
-                    instantiatedAxiom, runtimeExceptionHandler);
+                Set<BindingNode> newLeaves =
+                    updateBindingsAssertedAxiom(instantiatedAxiom, runtimeExceptionHandler);
                 toReturn.addAll(merge(bindingNode, newLeaves));
             }
             if (executionMonitor.isCancelled()) {
                 toReturn = null;
             }
         } else {
-            toReturn.addAll(updateBindingsAssertedAxiom(getAxiom(),
-                runtimeExceptionHandler));
+            toReturn.addAll(updateBindingsAssertedAxiom(getAxiom(), runtimeExceptionHandler));
         }
         return toReturn;
     }
@@ -72,9 +68,10 @@ public class AssertedAxiomPlannerItem extends AbstractQueryPlannerItem {
         Set<BindingNode> toReturn = new HashSet<>();
         int initialSize = getConstraintSystem().getLeaves() == null ? 0
             : getConstraintSystem().getLeaves().size();
-        Logging.getQueryLogger().log("Initial size: ", initialSize);
-        AxiomQuery query = new AssertedSolvabilityBasedAxiomQuery(getConstraintSystem()
-            .getOntologyManager(), getConstraintSystem(), runtimeExceptionHandler);
+        Logging.getQueryLogger().log("Initial size: ", Integer.valueOf(initialSize));
+        AxiomQuery query =
+            new AssertedSolvabilityBasedAxiomQuery(getConstraintSystem().getOntologyManager(),
+                getConstraintSystem(), runtimeExceptionHandler);
         ax.accept(query);
         toReturn.addAll(query.getLeaves());
         return toReturn;

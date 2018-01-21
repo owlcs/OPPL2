@@ -42,11 +42,11 @@ import org.semanticweb.owlapi.model.OWLObjectInverseOf;
 import org.semanticweb.owlapi.model.OWLObjectOneOf;
 import org.semanticweb.owlapi.model.OWLObjectPropertyAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
+import org.semanticweb.owlapi.model.OWLObjectVisitorEx;
 import org.semanticweb.owlapi.model.OWLPropertyExpression;
 import org.semanticweb.owlapi.model.OWLQuantifiedRestriction;
 import org.semanticweb.owlapi.model.OWLSameIndividualAxiom;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
-import org.semanticweb.owlapi.util.OWLObjectVisitorExAdapter;
 import org.semanticweb.owlapi.vocab.OWLFacet;
 
 /**
@@ -60,12 +60,12 @@ public class SymbolTable {
 
         @Override
         public Boolean visitOWLAxiomType(OWLAxiomType owlAxiomType) {
-            return false;
+            return Boolean.FALSE;
         }
 
         @Override
         public Boolean visitNonOWLType(Type type) {
-            return false;
+            return Boolean.FALSE;
         }
     }
 
@@ -75,12 +75,12 @@ public class SymbolTable {
 
         @Override
         public Boolean visitOWLType(OWLType owlType) {
-            return false;
+            return Boolean.FALSE;
         }
 
         @Override
         public Boolean visitNonOWLType(Type type) {
-            return false;
+            return Boolean.FALSE;
         }
     }
 
@@ -92,45 +92,45 @@ public class SymbolTable {
 
         @Override
         public Boolean visitOWLType(OWLType owlType) {
-            return OWLType.isClassExpression(owlType);
+            return Boolean.valueOf(OWLType.isClassExpression(owlType));
         }
     };
     private final OWLTypeOnlyVisitor dtDetector = new OWLTypeOnlyVisitor() {
 
         @Override
         public Boolean visitOWLType(OWLType owlType) {
-            return OWLType.isDataTypeExpression(owlType);
+            return Boolean.valueOf(OWLType.isDataTypeExpression(owlType));
         }
     };
     private final OWLTypeOnlyVisitor opDetector = new OWLTypeOnlyVisitor() {
 
         @Override
         public Boolean visitOWLType(OWLType owlType) {
-            return OWLType.isObjectPropertyExpression(owlType);
+            return Boolean.valueOf(OWLType.isObjectPropertyExpression(owlType));
         }
     };
     private final OWLTypeOnlyVisitor pDetector = new OWLTypeOnlyVisitor() {
 
         @Override
         public Boolean visitOWLType(OWLType owlType) {
-            return OWLType.isObjectPropertyExpression(owlType)
-                || owlType == OWLType.OWL_DATA_PROPERTY;
+            return Boolean.valueOf(OWLType.isObjectPropertyExpression(owlType)
+                || owlType == OWLType.OWL_DATA_PROPERTY);
         }
     };
     private final OWLAxiomTypeOnlyVisitor simpleAssertionDetector = new OWLAxiomTypeOnlyVisitor() {
 
         @Override
         public Boolean visitOWLAxiomType(OWLAxiomType owlAxiomType) {
-            return OWLAxiomType.isAssertion(owlAxiomType)
+            return Boolean.valueOf(OWLAxiomType.isAssertion(owlAxiomType)
                 && (owlAxiomType == OWLAxiomType.OBJECT_PROPERTY_ASSERTION
-                    || owlAxiomType == OWLAxiomType.DATA_PROPERTY_ASSERTION);
+                    || owlAxiomType == OWLAxiomType.DATA_PROPERTY_ASSERTION));
         }
     };
     private final OWLTypeOnlyVisitor annDetector = new OWLTypeOnlyVisitor() {
 
         @Override
         public Boolean visitOWLType(OWLType owlType) {
-            return owlType == OWLType.OWL_CONSTANT || owlType == OWLType.IRI;
+            return Boolean.valueOf(owlType == OWLType.OWL_CONSTANT || owlType == OWLType.IRI);
         }
     };
 
@@ -224,10 +224,11 @@ public class SymbolTable {
     public Type getSubClassAxiomType(CommonTree expression, ManchesterOWLSyntaxTree subClass,
         ManchesterOWLSyntaxTree superClass) {
         Type toReturn = null;
-        if (subClass.getEvalType() == null || !subClass.getEvalType().accept(classDetector)) {
+        if (subClass.getEvalType() == null
+            || !subClass.getEvalType().accept(classDetector).booleanValue()) {
             reportIncompatibleSymbolType(subClass, expression);
         } else if (superClass.getEvalType() == null
-            || !superClass.getEvalType().accept(classDetector)) {
+            || !superClass.getEvalType().accept(classDetector).booleanValue()) {
             reportIncompatibleSymbolType(superClass, expression);
         } else {
             toReturn = OWLAxiomType.SUBCLASS;
@@ -297,8 +298,9 @@ public class SymbolTable {
         }
         if (allFine) {
             if (rest != null) {
-                toReturn = rest.accept(classDetector) ? OWLType.OWL_OBJECT_INTERSECTION_OF
-                    : OWLType.OWL_DATA_UNION_OF;
+                toReturn =
+                    rest.accept(classDetector).booleanValue() ? OWLType.OWL_OBJECT_INTERSECTION_OF
+                        : OWLType.OWL_DATA_UNION_OF;
             }
         }
         return toReturn;
@@ -323,8 +325,9 @@ public class SymbolTable {
             }
         }
         if (allFine && rest != null) {
-            toReturn = rest.accept(classDetector) ? OWLType.OWL_OBJECT_INTERSECTION_OF
-                : OWLType.OWL_DATA_INTERSECTION_OF;
+            toReturn =
+                rest.accept(classDetector).booleanValue() ? OWLType.OWL_OBJECT_INTERSECTION_OF
+                    : OWLType.OWL_DATA_INTERSECTION_OF;
         }
         return toReturn;
     }
@@ -333,9 +336,13 @@ public class SymbolTable {
         // If this is the first one (rest ==null) the it can either a data type
         // or a class expression. Otherwise the type of the rest determines what
         // is expected from the operand type
-        return rest == null ? operandType.accept(classDetector) || operandType.accept(dtDetector)
-            : rest.accept(classDetector) && operandType.accept(classDetector)
-                || rest.accept(dtDetector) && operandType.accept(dtDetector);
+        return rest == null
+            ? operandType.accept(classDetector).booleanValue()
+                || operandType.accept(dtDetector).booleanValue()
+            : rest.accept(classDetector).booleanValue()
+                && operandType.accept(classDetector).booleanValue()
+                || rest.accept(dtDetector).booleanValue()
+                    && operandType.accept(dtDetector).booleanValue();
     }
 
     /**
@@ -345,7 +352,8 @@ public class SymbolTable {
      */
     public Type getNegatedClassExpressionType(CommonTree expression, ManchesterOWLSyntaxTree node) {
         Type toReturn = null;
-        if (node.getEvalType() == null || !node.getEvalType().accept(classDetector)) {
+        if (node.getEvalType() == null
+            || !node.getEvalType().accept(classDetector).booleanValue()) {
             reportIncompatibleSymbolType(node, expression);
         } else {
             toReturn = OWLType.OWL_OBJECT_COMPLEMENT_OF;
@@ -360,7 +368,8 @@ public class SymbolTable {
      */
     public Type getInversePropertyType(CommonTree expression, ManchesterOWLSyntaxTree property) {
         Type toReturn = null;
-        if (property.getEvalType() == null || !property.getEvalType().accept(opDetector)) {
+        if (property.getEvalType() == null
+            || !property.getEvalType().accept(opDetector).booleanValue()) {
             reportIncompatibleSymbolType(property, expression);
         } else {
             toReturn = OWLType.OWL_OBJECT_INVERSE_PROPERTY;
@@ -378,12 +387,14 @@ public class SymbolTable {
         ManchesterOWLSyntaxTree superProperty) {
         Type toReturn = null;
         boolean rightKinds = true;
-        if (subProperty.getEvalType() == null || !subProperty.getEvalType().accept(pDetector)
-            && subProperty.getEvalType() != OWLType.OWL_PROPERTY_CHAIN) {
+        if (subProperty.getEvalType() == null
+            || !subProperty.getEvalType().accept(pDetector).booleanValue()
+                && subProperty.getEvalType() != OWLType.OWL_PROPERTY_CHAIN) {
             reportIncompatibleSymbolType(subProperty, expression);
             rightKinds = false;
         }
-        if (superProperty.getEvalType() == null || !superProperty.getEvalType().accept(pDetector)) {
+        if (superProperty.getEvalType() == null
+            || !superProperty.getEvalType().accept(pDetector).booleanValue()) {
             rightKinds = false;
             reportIncompatibleSymbolType(superProperty, expression);
         }
@@ -392,9 +403,9 @@ public class SymbolTable {
                 && superProperty.getEvalType() == OWLType.OWL_OBJECT_PROPERTY;
         if (rightKinds && areChildrenCompatible) {
             if (areChildrenCompatible) {
-                toReturn =
-                    subProperty.getEvalType().accept(opDetector) ? OWLAxiomType.SUB_OBJECT_PROPERTY
-                        : OWLAxiomType.SUB_DATA_PROPERTY;
+                toReturn = subProperty.getEvalType().accept(opDetector).booleanValue()
+                    ? OWLAxiomType.SUB_OBJECT_PROPERTY
+                    : OWLAxiomType.SUB_DATA_PROPERTY;
                 // There is a special axiom for property chain sub-property
                 toReturn = subProperty.getEvalType() == OWLType.OWL_PROPERTY_CHAIN
                     ? OWLAxiomType.PROPERTY_CHAIN_SUB_PROPERTY
@@ -419,25 +430,26 @@ public class SymbolTable {
         Type toReturn = null;
         boolean rightKinds = true;
         if (propertyExpression.getEvalType() == null
-            || !propertyExpression.getEvalType().accept(pDetector)) {
+            || !propertyExpression.getEvalType().accept(pDetector).booleanValue()) {
             reportIncompatibleSymbolType(propertyExpression, expression);
             rightKinds = false;
         }
-        if (filler.getEvalType() == null || !(filler.getEvalType().accept(classDetector)
-            || filler.getEvalType().accept(dtDetector))) {
+        if (filler.getEvalType() == null
+            || !(filler.getEvalType().accept(classDetector).booleanValue()
+                || filler.getEvalType().accept(dtDetector).booleanValue())) {
             reportIncompatibleSymbolType(filler, expression);
             rightKinds = false;
         }
         if (rightKinds) {
             if (propertyExpression.getEvalType() == OWLType.OWL_DATA_PROPERTY) {
-                if (!filler.getEvalType().accept(dtDetector)) {
+                if (!filler.getEvalType().accept(dtDetector).booleanValue()) {
                     reportIncompatibleSymbols(expression, propertyExpression, filler);
                 } else {
                     toReturn = OWLType.OWL_DATA_SOME_RESTRICTION;
                 }
             }
-            if (propertyExpression.getEvalType().accept(opDetector)) {
-                if (!filler.getEvalType().accept(classDetector)) {
+            if (propertyExpression.getEvalType().accept(opDetector).booleanValue()) {
+                if (!filler.getEvalType().accept(classDetector).booleanValue()) {
                     reportIncompatibleSymbols(expression, propertyExpression, filler);
                 } else {
                     toReturn = OWLType.OWL_OBJECT_SOME_RESTRICTION;
@@ -458,25 +470,26 @@ public class SymbolTable {
         Type toReturn = null;
         boolean rightKinds = true;
         if (propertyExpression.getEvalType() == null
-            || !propertyExpression.getEvalType().accept(pDetector)) {
+            || !propertyExpression.getEvalType().accept(pDetector).booleanValue()) {
             reportIncompatibleSymbolType(propertyExpression, expression);
             rightKinds = false;
         }
-        if (filler.getEvalType() == null || !(filler.getEvalType().accept(classDetector)
-            || filler.getEvalType().accept(dtDetector))) {
+        if (filler.getEvalType() == null
+            || !(filler.getEvalType().accept(classDetector).booleanValue()
+                || filler.getEvalType().accept(dtDetector).booleanValue())) {
             reportIncompatibleSymbolType(filler, expression);
             rightKinds = false;
         }
         if (rightKinds) {
             if (propertyExpression.getEvalType() == OWLType.OWL_DATA_PROPERTY) {
-                if (!filler.getEvalType().accept(dtDetector)) {
+                if (!filler.getEvalType().accept(dtDetector).booleanValue()) {
                     reportIncompatibleSymbols(expression, propertyExpression, filler);
                 } else {
                     toReturn = OWLType.OWL_DATA_ALL_RESTRICTION;
                 }
             }
-            if (propertyExpression.getEvalType().accept(opDetector)) {
-                if (!filler.getEvalType().accept(classDetector)) {
+            if (propertyExpression.getEvalType().accept(opDetector).booleanValue()) {
+                if (!filler.getEvalType().accept(classDetector).booleanValue()) {
                     reportIncompatibleSymbols(expression, propertyExpression, filler);
                 } else {
                     toReturn = OWLType.OWL_OBJECT_ALL_RESTRICTION;
@@ -497,7 +510,7 @@ public class SymbolTable {
         Type toReturn = null;
         boolean rightKinds = true;
         if (propertyExpression.getEvalType() == null
-            || !propertyExpression.getEvalType().accept(pDetector)) {
+            || !propertyExpression.getEvalType().accept(pDetector).booleanValue()) {
             reportIncompatibleSymbolType(propertyExpression, expression);
             rightKinds = false;
         }
@@ -509,9 +522,9 @@ public class SymbolTable {
                     toReturn = OWLType.OWL_DATA_MIN_CARDINALITY_RESTRICTION;
                 }
             }
-            if (propertyExpression.getEvalType().accept(opDetector)) {
+            if (propertyExpression.getEvalType().accept(opDetector).booleanValue()) {
                 if (filler != null && (filler.getEvalType() == null
-                    || !filler.getEvalType().accept(classDetector))) {
+                    || !filler.getEvalType().accept(classDetector).booleanValue())) {
                     reportIncompatibleSymbols(expression, propertyExpression, filler);
                 } else {
                     toReturn = OWLType.OWL_OBJECT_MIN_CARDINALITY_RESTRICTION;
@@ -532,7 +545,7 @@ public class SymbolTable {
         Type toReturn = null;
         boolean rightKinds = true;
         if (propertyExpression.getEvalType() == null
-            || !propertyExpression.getEvalType().accept(pDetector)) {
+            || !propertyExpression.getEvalType().accept(pDetector).booleanValue()) {
             reportIncompatibleSymbolType(propertyExpression, expression);
             rightKinds = false;
         }
@@ -544,9 +557,9 @@ public class SymbolTable {
                     toReturn = OWLType.OWL_DATA_MAX_CARDINALITY_RESTRICTION;
                 }
             }
-            if (propertyExpression.getEvalType().accept(opDetector)) {
+            if (propertyExpression.getEvalType().accept(opDetector).booleanValue()) {
                 if (filler != null && (filler.getEvalType() == null
-                    || !filler.getEvalType().accept(classDetector))) {
+                    || !filler.getEvalType().accept(classDetector).booleanValue())) {
                     reportIncompatibleSymbols(expression, propertyExpression, filler);
                 } else {
                     toReturn = OWLType.OWL_OBJECT_MAX_CARDINALITY_RESTRICTION;
@@ -567,7 +580,7 @@ public class SymbolTable {
         Type toReturn = null;
         boolean rightKinds = true;
         if (propertyExpression.getEvalType() == null
-            || !propertyExpression.getEvalType().accept(pDetector)) {
+            || !propertyExpression.getEvalType().accept(pDetector).booleanValue()) {
             reportIncompatibleSymbolType(propertyExpression, expression);
             rightKinds = false;
         }
@@ -579,9 +592,9 @@ public class SymbolTable {
                     toReturn = OWLType.OWL_DATA_EXACT_CARDINALITY_RESTRICTION;
                 }
             }
-            if (propertyExpression.getEvalType().accept(opDetector)) {
+            if (propertyExpression.getEvalType().accept(opDetector).booleanValue()) {
                 if (filler != null && (filler.getEvalType() == null
-                    || !filler.getEvalType().accept(classDetector))) {
+                    || !filler.getEvalType().accept(classDetector).booleanValue())) {
                     reportIncompatibleSymbols(expression, propertyExpression, filler);
                 } else {
                     toReturn = OWLType.OWL_OBJECT_EXACT_CARDINALITY_RESTRICTION;
@@ -623,7 +636,7 @@ public class SymbolTable {
         Type toReturn = null;
         boolean rightKinds = true;
         if (propertyExpression.getEvalType() == null
-            || !propertyExpression.getEvalType().accept(pDetector)) {
+            || !propertyExpression.getEvalType().accept(pDetector).booleanValue()) {
             reportIncompatibleSymbolType(propertyExpression, expression);
             rightKinds = false;
         }
@@ -639,7 +652,7 @@ public class SymbolTable {
                     toReturn = OWLType.OWL_DATA_VALUE_RESTRICTION;
                 }
             }
-            if (propertyExpression.getEvalType().accept(opDetector)) {
+            if (propertyExpression.getEvalType().accept(opDetector).booleanValue()) {
                 if (value.getEvalType() != OWLType.OWL_INDIVIDUAL) {
                     reportIncompatibleSymbols(expression, propertyExpression, value);
                 } else {
@@ -661,7 +674,7 @@ public class SymbolTable {
         OWLClassExpression toReturn = null;
         boolean rightKinds = true;
         if (propertyExpression.getEvalType() == null
-            || !propertyExpression.getEvalType().accept(pDetector)) {
+            || !propertyExpression.getEvalType().accept(pDetector).booleanValue()) {
             reportIncompatibleSymbolType(propertyExpression, expression);
             rightKinds = false;
         }
@@ -675,7 +688,7 @@ public class SymbolTable {
                         (OWLLiteral) value.getOWLObject());
                 }
             }
-            if (propertyExpression.getEvalType().accept(opDetector)) {
+            if (propertyExpression.getEvalType().accept(opDetector).booleanValue()) {
                 if (value.getEvalType() != OWLType.OWL_INDIVIDUAL) {
                     reportIncompatibleSymbols(expression, propertyExpression, value);
                 } else {
@@ -703,7 +716,8 @@ public class SymbolTable {
             reportIncompatibleSymbolType(subject, expression);
             rightKinds = false;
         }
-        if (property.getEvalType() == null || !property.getEvalType().accept(pDetector)) {
+        if (property.getEvalType() == null
+            || !property.getEvalType().accept(pDetector).booleanValue()) {
             reportIncompatibleSymbolType(property, expression);
             rightKinds = false;
         }
@@ -713,7 +727,7 @@ public class SymbolTable {
             rightKinds = false;
         }
         if (rightKinds) {
-            if (property.getEvalType().accept(opDetector)) {
+            if (property.getEvalType().accept(opDetector).booleanValue()) {
                 if (object.getEvalType() != OWLType.OWL_INDIVIDUAL) {
                     reportIncompatibleSymbols(expression, property, object);
                 } else {
@@ -745,25 +759,25 @@ public class SymbolTable {
         ManchesterOWLSyntaxTree rhs) {
         Type toReturn = null;
         boolean rightKinds = true;
-        if (lhs.getEvalType() == null
-            || !lhs.getEvalType().accept(classDetector) && !lhs.getEvalType().accept(pDetector)) {
+        if (lhs.getEvalType() == null || !lhs.getEvalType().accept(classDetector).booleanValue()
+            && !lhs.getEvalType().accept(pDetector).booleanValue()) {
             reportIncompatibleSymbolType(lhs, expression);
             rightKinds = false;
         }
-        if (rhs.getEvalType() == null
-            || !rhs.getEvalType().accept(classDetector) && !rhs.getEvalType().accept(pDetector)) {
+        if (rhs.getEvalType() == null || !rhs.getEvalType().accept(classDetector).booleanValue()
+            && !rhs.getEvalType().accept(pDetector).booleanValue()) {
             reportIncompatibleSymbolType(rhs, expression);
             rightKinds = false;
         }
         if (rightKinds) {
-            if (lhs.getEvalType().accept(classDetector)) {
-                if (!rhs.getEvalType().accept(classDetector)) {
+            if (lhs.getEvalType().accept(classDetector).booleanValue()) {
+                if (!rhs.getEvalType().accept(classDetector).booleanValue()) {
                     reportIncompatibleSymbols(expression, lhs, rhs);
                 } else {
                     toReturn = OWLAxiomType.EQUIVALENT_CLASSES;
                 }
-            } else if (lhs.getEvalType().accept(opDetector)) {
-                if (!rhs.getEvalType().accept(opDetector)) {
+            } else if (lhs.getEvalType().accept(opDetector).booleanValue()) {
+                if (!rhs.getEvalType().accept(opDetector).booleanValue()) {
                     reportIncompatibleSymbols(expression, lhs, rhs);
                 } else {
                     toReturn = OWLAxiomType.EQUIVALENT_OBJECT_PROPERTIES;
@@ -794,20 +808,21 @@ public class SymbolTable {
             reportIncompatibleSymbolType(p, expression);
             rightKinds = false;
         }
-        if (domain.getEvalType() == null || !domain.getEvalType().accept(classDetector)
-            && domain.getEvalType() != OWLType.OWL_DATA_TYPE) {
+        if (domain.getEvalType() == null
+            || !domain.getEvalType().accept(classDetector).booleanValue()
+                && domain.getEvalType() != OWLType.OWL_DATA_TYPE) {
             reportIncompatibleSymbolType(domain, expression);
             rightKinds = false;
         }
         if (rightKinds) {
             if (p.getEvalType() == OWLType.OWL_OBJECT_PROPERTY) {
-                if (!domain.getEvalType().accept(classDetector)) {
+                if (!domain.getEvalType().accept(classDetector).booleanValue()) {
                     reportIncompatibleSymbols(expression, p, domain);
                 } else {
                     toReturn = OWLAxiomType.OBJECT_PROPERTY_DOMAIN;
                 }
             } else if (p.getEvalType() == OWLType.OWL_DATA_PROPERTY) {
-                if (!domain.getEvalType().accept(classDetector)) {
+                if (!domain.getEvalType().accept(classDetector).booleanValue()) {
                     reportIncompatibleSymbols(expression, p, domain);
                 } else {
                     toReturn = OWLAxiomType.DATA_PROPERTY_DOMAIN;
@@ -832,14 +847,14 @@ public class SymbolTable {
             reportIncompatibleSymbolType(p, expression);
             rightKinds = false;
         }
-        if (range.getEvalType() == null || !range.getEvalType().accept(classDetector)
+        if (range.getEvalType() == null || !range.getEvalType().accept(classDetector).booleanValue()
             && range.getEvalType() != OWLType.OWL_DATA_TYPE) {
             reportIncompatibleSymbolType(range, expression);
             rightKinds = false;
         }
         if (rightKinds) {
             if (p.getEvalType() == OWLType.OWL_OBJECT_PROPERTY) {
-                if (!range.getEvalType().accept(classDetector)) {
+                if (!range.getEvalType().accept(classDetector).booleanValue()) {
                     reportIncompatibleSymbols(expression, p, range);
                 } else {
                     toReturn = OWLAxiomType.OBJECT_PROPERTY_RANGE;
@@ -864,7 +879,8 @@ public class SymbolTable {
         boolean allFine = true;
         Type toReturn = null;
         for (ManchesterOWLSyntaxTree item : chainItems) {
-            if (item.getEvalType() == null || !item.getEvalType().accept(opDetector)) {
+            if (item.getEvalType() == null
+                || !item.getEvalType().accept(opDetector).booleanValue()) {
                 allFine = false;
                 reportIncompatibleSymbolType(item, expression);
             }
@@ -885,25 +901,25 @@ public class SymbolTable {
         ManchesterOWLSyntaxTree rhs) {
         Type toReturn = null;
         boolean rightKinds = true;
-        if (lhs.getEvalType() == null
-            || !lhs.getEvalType().accept(classDetector) && !lhs.getEvalType().accept(pDetector)) {
+        if (lhs.getEvalType() == null || !lhs.getEvalType().accept(classDetector).booleanValue()
+            && !lhs.getEvalType().accept(pDetector).booleanValue()) {
             reportIncompatibleSymbolType(lhs, expression);
             rightKinds = false;
         }
-        if (rhs.getEvalType() == null
-            || !rhs.getEvalType().accept(classDetector) && !rhs.getEvalType().accept(pDetector)) {
+        if (rhs.getEvalType() == null || !rhs.getEvalType().accept(classDetector).booleanValue()
+            && !rhs.getEvalType().accept(pDetector).booleanValue()) {
             reportIncompatibleSymbolType(rhs, expression);
             rightKinds = false;
         }
         if (rightKinds) {
-            if (lhs.getEvalType().accept(classDetector)) {
-                if (!rhs.getEvalType().accept(classDetector)) {
+            if (lhs.getEvalType().accept(classDetector).booleanValue()) {
+                if (!rhs.getEvalType().accept(classDetector).booleanValue()) {
                     reportIncompatibleSymbols(expression, lhs, rhs);
                 } else {
                     toReturn = OWLAxiomType.DISJOINT_CLASSES;
                 }
-            } else if (lhs.getEvalType().accept(opDetector)) {
-                if (!rhs.getEvalType().accept(opDetector)) {
+            } else if (lhs.getEvalType().accept(opDetector).booleanValue()) {
+                if (!rhs.getEvalType().accept(opDetector).booleanValue()) {
                     reportIncompatibleSymbols(expression, lhs, rhs);
                 } else {
                     toReturn = OWLAxiomType.DISJOINT_OBJECT_PROPERTIES;
@@ -1067,16 +1083,16 @@ public class SymbolTable {
         ManchesterOWLSyntaxTree rhs) {
         Type toReturn = null;
         boolean rightKinds = true;
-        if (lhs.getEvalType() == null || !lhs.getEvalType().accept(opDetector)) {
+        if (lhs.getEvalType() == null || !lhs.getEvalType().accept(opDetector).booleanValue()) {
             reportIncompatibleSymbolType(lhs, expression);
             rightKinds = false;
         }
-        if (rhs.getEvalType() == null || !rhs.getEvalType().accept(opDetector)) {
+        if (rhs.getEvalType() == null || !rhs.getEvalType().accept(opDetector).booleanValue()) {
             reportIncompatibleSymbolType(rhs, expression);
             rightKinds = false;
         }
-        if (rightKinds && lhs.getEvalType().accept(opDetector)) {
-            if (!rhs.getEvalType().accept(opDetector)) {
+        if (rightKinds && lhs.getEvalType().accept(opDetector).booleanValue()) {
+            if (!rhs.getEvalType().accept(opDetector).booleanValue()) {
                 reportIncompatibleSymbols(expression, lhs, rhs);
             } else {
                 toReturn = OWLAxiomType.INVERSE_OBJECT_PROPERTIES;
@@ -1094,7 +1110,7 @@ public class SymbolTable {
         Type toReturn = null;
         boolean rightKinds = true;
         if (assertion.getEvalType() == null
-            || !assertion.getEvalType().accept(simpleAssertionDetector)) {
+            || !assertion.getEvalType().accept(simpleAssertionDetector).booleanValue()) {
             reportIncompatibleSymbolType(assertion, expression);
             rightKinds = false;
         }
@@ -1118,7 +1134,8 @@ public class SymbolTable {
         ManchesterOWLSyntaxTree description, ManchesterOWLSyntaxTree subject) {
         Type toReturn = null;
         boolean rightKinds = true;
-        if (description.getEvalType() == null || !description.getEvalType().accept(classDetector)) {
+        if (description.getEvalType() == null
+            || !description.getEvalType().accept(classDetector).booleanValue()) {
             reportIncompatibleSymbolType(description, expression);
             rightKinds = false;
         }
@@ -1175,7 +1192,7 @@ public class SymbolTable {
         OWLCardinalityRestriction<?> toReturn = null;
         boolean rightKinds = true;
         if (propertyExpression.getEvalType() == null
-            || !propertyExpression.getEvalType().accept(pDetector)) {
+            || !propertyExpression.getEvalType().accept(pDetector).booleanValue()) {
             reportIncompatibleSymbolType(propertyExpression, expression);
             rightKinds = false;
         }
@@ -1192,8 +1209,8 @@ public class SymbolTable {
                             (OWLDataRange) filler.getOWLObject());
                 }
             }
-            if (propertyExpression.getEvalType().accept(opDetector)) {
-                if (filler != null && !filler.getEvalType().accept(classDetector)) {
+            if (propertyExpression.getEvalType().accept(opDetector).booleanValue()) {
+                if (filler != null && !filler.getEvalType().accept(classDetector).booleanValue()) {
                     reportIncompatibleSymbols(expression, propertyExpression, filler);
                 } else {
                     toReturn = filler == null
@@ -1220,7 +1237,7 @@ public class SymbolTable {
         OWLCardinalityRestriction<?> toReturn = null;
         boolean rightKinds = true;
         if (propertyExpression.getEvalType() == null
-            || !propertyExpression.getEvalType().accept(pDetector)) {
+            || !propertyExpression.getEvalType().accept(pDetector).booleanValue()) {
             reportIncompatibleSymbolType(propertyExpression, expression);
             rightKinds = false;
         }
@@ -1237,8 +1254,8 @@ public class SymbolTable {
                             (OWLDataRange) filler.getOWLObject());
                 }
             }
-            if (propertyExpression.getEvalType().accept(opDetector)) {
-                if (filler != null && !filler.getEvalType().accept(classDetector)) {
+            if (propertyExpression.getEvalType().accept(opDetector).booleanValue()) {
+                if (filler != null && !filler.getEvalType().accept(classDetector).booleanValue()) {
                     reportIncompatibleSymbols(expression, propertyExpression, filler);
                 } else {
                     toReturn = filler == null
@@ -1265,7 +1282,7 @@ public class SymbolTable {
         OWLCardinalityRestriction<?> toReturn = null;
         boolean rightKinds = true;
         if (propertyExpression.getEvalType() == null
-            || !propertyExpression.getEvalType().accept(pDetector)) {
+            || !propertyExpression.getEvalType().accept(pDetector).booleanValue()) {
             reportIncompatibleSymbolType(propertyExpression, expression);
             rightKinds = false;
         }
@@ -1282,8 +1299,8 @@ public class SymbolTable {
                             (OWLDataRange) filler.getOWLObject());
                 }
             }
-            if (propertyExpression.getEvalType().accept(opDetector)) {
-                if (filler != null && !filler.getEvalType().accept(classDetector)) {
+            if (propertyExpression.getEvalType().accept(opDetector).booleanValue()) {
+                if (filler != null && !filler.getEvalType().accept(classDetector).booleanValue()) {
                     reportIncompatibleSymbols(expression, propertyExpression, filler);
                 } else {
                     toReturn = filler == null
@@ -1309,26 +1326,27 @@ public class SymbolTable {
         OWLQuantifiedRestriction<?> toReturn = null;
         boolean rightKinds = true;
         if (propertyExpression.getEvalType() == null
-            || !propertyExpression.getEvalType().accept(pDetector)) {
+            || !propertyExpression.getEvalType().accept(pDetector).booleanValue()) {
             reportIncompatibleSymbolType(propertyExpression, expression);
             rightKinds = false;
         }
-        if (filler.getEvalType() == null || !(filler.getEvalType().accept(classDetector)
-            || filler.getEvalType().accept(dtDetector))) {
+        if (filler.getEvalType() == null
+            || !(filler.getEvalType().accept(classDetector).booleanValue()
+                || filler.getEvalType().accept(dtDetector).booleanValue())) {
             reportIncompatibleSymbolType(filler, expression);
             rightKinds = false;
         }
         if (rightKinds) {
             if (propertyExpression.getEvalType() == OWLType.OWL_DATA_PROPERTY) {
-                if (!filler.getEvalType().accept(dtDetector)) {
+                if (!filler.getEvalType().accept(dtDetector).booleanValue()) {
                     reportIncompatibleSymbols(expression, propertyExpression, filler);
                 } else {
                     toReturn = df.getOWLDataAllValuesFrom(
                         (OWLDataPropertyExpression) propertyExpression, (OWLDataRange) filler);
                 }
             }
-            if (propertyExpression.getEvalType().accept(opDetector)) {
-                if (!filler.getEvalType().accept(classDetector)) {
+            if (propertyExpression.getEvalType().accept(opDetector).booleanValue()) {
+                if (!filler.getEvalType().accept(classDetector).booleanValue()) {
                     reportIncompatibleSymbols(expression, propertyExpression, filler);
                 } else {
                     toReturn = df.getOWLObjectAllValuesFrom(
@@ -1351,18 +1369,19 @@ public class SymbolTable {
         OWLQuantifiedRestriction<?> toReturn = null;
         boolean rightKinds = true;
         if (propertyExpression.getEvalType() == null
-            || !propertyExpression.getEvalType().accept(pDetector)) {
+            || !propertyExpression.getEvalType().accept(pDetector).booleanValue()) {
             reportIncompatibleSymbolType(propertyExpression, expression);
             rightKinds = false;
         }
-        if (filler.getEvalType() == null || !(filler.getEvalType().accept(classDetector)
-            || filler.getEvalType().accept(dtDetector))) {
+        if (filler.getEvalType() == null
+            || !(filler.getEvalType().accept(classDetector).booleanValue()
+                || filler.getEvalType().accept(dtDetector).booleanValue())) {
             reportIncompatibleSymbolType(filler, expression);
             rightKinds = false;
         }
         if (rightKinds) {
             if (propertyExpression.getEvalType() == OWLType.OWL_DATA_PROPERTY) {
-                if (!filler.getEvalType().accept(dtDetector)) {
+                if (!filler.getEvalType().accept(dtDetector).booleanValue()) {
                     reportIncompatibleSymbols(expression, propertyExpression, filler);
                 } else {
                     toReturn = df.getOWLDataSomeValuesFrom(
@@ -1370,8 +1389,8 @@ public class SymbolTable {
                         (OWLDataRange) filler.getOWLObject());
                 }
             }
-            if (propertyExpression.getEvalType().accept(opDetector)) {
-                if (!filler.getEvalType().accept(classDetector)) {
+            if (propertyExpression.getEvalType().accept(opDetector).booleanValue()) {
+                if (!filler.getEvalType().accept(classDetector).booleanValue()) {
                     reportIncompatibleSymbols(expression, propertyExpression, filler);
                 } else {
                     toReturn = df.getOWLObjectSomeValuesFrom(
@@ -1390,7 +1409,8 @@ public class SymbolTable {
      */
     public OWLObject getInverseProperty(CommonTree expression, ManchesterOWLSyntaxTree property) {
         OWLObjectPropertyExpression toReturn = null;
-        if (property.getEvalType() == null || !property.getEvalType().accept(opDetector)) {
+        if (property.getEvalType() == null
+            || !property.getEvalType().accept(opDetector).booleanValue()) {
             reportIncompatibleSymbolType(property, expression);
         } else {
             OWLObjectPropertyExpression owlObject =
@@ -1398,7 +1418,7 @@ public class SymbolTable {
             if (owlObject instanceof OWLObjectInverseOf) {
                 return owlObject.getNamedProperty();
             }
-            toReturn = df.getOWLObjectInverseOf(owlObject);
+            toReturn = df.getOWLObjectInverseOf(owlObject.asOWLObjectProperty());
         }
         return toReturn;
     }
@@ -1463,7 +1483,8 @@ public class SymbolTable {
     public OWLObject getNegatedClassExpression(CommonTree expression,
         ManchesterOWLSyntaxTree node) {
         OWLObjectComplementOf toReturn = null;
-        if (node.getEvalType() == null || !node.getEvalType().accept(classDetector)) {
+        if (node.getEvalType() == null
+            || !node.getEvalType().accept(classDetector).booleanValue()) {
             reportIncompatibleSymbolType(node, expression);
         } else {
             toReturn = df.getOWLObjectComplementOf((OWLClassExpression) node.getOWLObject());
@@ -1547,7 +1568,7 @@ public class SymbolTable {
             } else {
                 rest = rest == null ? conjunct.getEvalType() : rest;
                 if (rest != null) {
-                    if (rest.accept(classDetector)) {
+                    if (rest.accept(classDetector).booleanValue()) {
                         conjunctList.add((OWLClassExpression) conjunct.getOWLObject());
                     } else {
                         owlDataRangeList.add((OWLDataRange) conjunct.getOWLObject());
@@ -1556,7 +1577,7 @@ public class SymbolTable {
             }
         }
         if (allFine && rest != null) {
-            if (rest.accept(classDetector)) {
+            if (rest.accept(classDetector).booleanValue()) {
                 toReturn = df.getOWLObjectIntersectionOf(
                     conjunctList.toArray(new OWLClassExpression[conjunctList.size()]));
             } else {
@@ -1579,7 +1600,8 @@ public class SymbolTable {
         if (allFine) {
             List<OWLObjectPropertyExpression> items = new ArrayList<>(chainItems.length);
             for (ManchesterOWLSyntaxTree item : chainItems) {
-                if (item.getEvalType() == null || !item.getEvalType().accept(opDetector)) {
+                if (item.getEvalType() == null
+                    || !item.getEvalType().accept(opDetector).booleanValue()) {
                     allFine = false;
                     reportIncompatibleSymbolType(item, expression);
                 } else {
@@ -1630,7 +1652,7 @@ public class SymbolTable {
             } else {
                 rest = rest == null ? disjunct.getEvalType() : rest;
                 if (rest != null) {
-                    if (rest.accept(classDetector)) {
+                    if (rest.accept(classDetector).booleanValue()) {
                         disjunctList.add((OWLClassExpression) disjunct.getOWLObject());
                     } else {
                         owlDataRangeList.add((OWLDataRange) disjunct.getOWLObject());
@@ -1639,7 +1661,7 @@ public class SymbolTable {
             }
         }
         if (allFine && rest != null) {
-            if (rest.accept(classDetector)) {
+            if (rest.accept(classDetector).booleanValue()) {
                 toReturn = df.getOWLObjectUnionOf(
                     disjunctList.toArray(new OWLClassExpression[disjunctList.size()]));
             } else {
@@ -1659,7 +1681,7 @@ public class SymbolTable {
         OWLAxiom toReturn = null;
         boolean rightKinds = true;
         if (assertion.getEvalType() == null
-            || !assertion.getEvalType().accept(simpleAssertionDetector)) {
+            || !assertion.getEvalType().accept(simpleAssertionDetector).booleanValue()) {
             reportIncompatibleSymbolType(assertion, expression);
             rightKinds = false;
         }
@@ -1860,14 +1882,14 @@ public class SymbolTable {
             reportIncompatibleSymbolType(p, expression);
             rightKinds = false;
         }
-        if (range.getEvalType() == null || !range.getEvalType().accept(classDetector)
+        if (range.getEvalType() == null || !range.getEvalType().accept(classDetector).booleanValue()
             && range.getEvalType() != OWLType.OWL_DATA_TYPE) {
             reportIncompatibleSymbolType(range, expression);
             rightKinds = false;
         }
         if (rightKinds) {
             if (p.getEvalType() == OWLType.OWL_OBJECT_PROPERTY) {
-                if (!range.getEvalType().accept(classDetector)) {
+                if (!range.getEvalType().accept(classDetector).booleanValue()) {
                     reportIncompatibleSymbols(expression, p, range);
                 } else {
                     toReturn = df.getOWLObjectPropertyRangeAxiom(
@@ -1902,14 +1924,15 @@ public class SymbolTable {
             reportIncompatibleSymbolType(p, expression);
             rightKinds = false;
         }
-        if (domain.getEvalType() == null || !domain.getEvalType().accept(classDetector)
-            && domain.getEvalType() != OWLType.OWL_DATA_TYPE) {
+        if (domain.getEvalType() == null
+            || !domain.getEvalType().accept(classDetector).booleanValue()
+                && domain.getEvalType() != OWLType.OWL_DATA_TYPE) {
             reportIncompatibleSymbolType(domain, expression);
             rightKinds = false;
         }
         if (rightKinds) {
             if (p.getEvalType() == OWLType.OWL_OBJECT_PROPERTY) {
-                if (!domain.getEvalType().accept(classDetector)) {
+                if (!domain.getEvalType().accept(classDetector).booleanValue()) {
                     reportIncompatibleSymbols(expression, p, domain);
                 } else {
                     toReturn = df.getOWLObjectPropertyDomainAxiom(
@@ -1917,7 +1940,7 @@ public class SymbolTable {
                         (OWLClassExpression) domain.getOWLObject());
                 }
             } else if (p.getEvalType() == OWLType.OWL_DATA_PROPERTY) {
-                if (!domain.getEvalType().accept(classDetector)) {
+                if (!domain.getEvalType().accept(classDetector).booleanValue()) {
                     reportIncompatibleSymbols(expression, p, domain);
                 } else {
                     toReturn = df.getOWLDataPropertyDomainAxiom(
@@ -1939,7 +1962,8 @@ public class SymbolTable {
         ManchesterOWLSyntaxTree description, ManchesterOWLSyntaxTree subject) {
         OWLClassAssertionAxiom toReturn = null;
         boolean rightKinds = true;
-        if (description.getEvalType() == null || !description.getEvalType().accept(classDetector)) {
+        if (description.getEvalType() == null
+            || !description.getEvalType().accept(classDetector).booleanValue()) {
             reportIncompatibleSymbolType(description, expression);
             rightKinds = false;
         }
@@ -1969,7 +1993,8 @@ public class SymbolTable {
             reportIncompatibleSymbolType(subject, expression);
             rightKinds = false;
         }
-        if (property.getEvalType() == null || !property.getEvalType().accept(pDetector)) {
+        if (property.getEvalType() == null
+            || !property.getEvalType().accept(pDetector).booleanValue()) {
             reportIncompatibleSymbolType(property, expression);
             rightKinds = false;
         }
@@ -1979,7 +2004,7 @@ public class SymbolTable {
             rightKinds = false;
         }
         if (rightKinds) {
-            if (property.getEvalType().accept(opDetector)) {
+            if (property.getEvalType().accept(opDetector).booleanValue()) {
                 if (object.getEvalType() != OWLType.OWL_INDIVIDUAL) {
                     reportIncompatibleSymbols(expression, property, object);
                 } else {
@@ -2011,12 +2036,14 @@ public class SymbolTable {
         ManchesterOWLSyntaxTree superProperty) {
         OWLAxiom toReturn = null;
         boolean rightKinds = true;
-        if (subProperty.getEvalType() == null || !subProperty.getEvalType().accept(pDetector)
-            && subProperty.getEvalType() != OWLType.OWL_PROPERTY_CHAIN) {
+        if (subProperty.getEvalType() == null
+            || !subProperty.getEvalType().accept(pDetector).booleanValue()
+                && subProperty.getEvalType() != OWLType.OWL_PROPERTY_CHAIN) {
             reportIncompatibleSymbolType(subProperty, expression);
             rightKinds = false;
         }
-        if (superProperty.getEvalType() == null || !superProperty.getEvalType().accept(pDetector)) {
+        if (superProperty.getEvalType() == null
+            || !superProperty.getEvalType().accept(pDetector).booleanValue()) {
             rightKinds = false;
             reportIncompatibleSymbolType(superProperty, expression);
         }
@@ -2026,12 +2053,13 @@ public class SymbolTable {
         if (rightKinds && areChildrenCompatible) {
             if (areChildrenCompatible) {
                 // There is a special axiom for property chain sub-property
-                toReturn = subProperty.getEvalType() == OWLType.OWL_PROPERTY_CHAIN ? df
-                    .getOWLSubPropertyChainOfAxiom((OWLPropertyChain) subProperty.getOWLObject(),
+                toReturn = subProperty.getEvalType() == OWLType.OWL_PROPERTY_CHAIN
+                    ? df.getOWLSubPropertyChainOfAxiom(
+                        ((OWLPropertyChain) subProperty.getOWLObject()).list(),
                         (OWLObjectPropertyExpression) superProperty.getOWLObject())
                     : toReturn;
                 if (toReturn == null) {
-                    toReturn = subProperty.getEvalType().accept(opDetector)
+                    toReturn = subProperty.getEvalType().accept(opDetector).booleanValue()
                         ? df.getOWLSubObjectPropertyOfAxiom(
                             (OWLObjectPropertyExpression) subProperty.getOWLObject(),
                             (OWLObjectPropertyExpression) superProperty.getOWLObject())
@@ -2058,27 +2086,27 @@ public class SymbolTable {
         ManchesterOWLSyntaxTree rhs) {
         OWLAxiom toReturn = null;
         boolean rightKinds = true;
-        if (lhs.getEvalType() == null
-            || !lhs.getEvalType().accept(classDetector) && !lhs.getEvalType().accept(pDetector)) {
+        if (lhs.getEvalType() == null || !lhs.getEvalType().accept(classDetector).booleanValue()
+            && !lhs.getEvalType().accept(pDetector).booleanValue()) {
             reportIncompatibleSymbolType(lhs, expression);
             rightKinds = false;
         }
-        if (rhs.getEvalType() == null
-            || !rhs.getEvalType().accept(classDetector) && !rhs.getEvalType().accept(pDetector)) {
+        if (rhs.getEvalType() == null || !rhs.getEvalType().accept(classDetector).booleanValue()
+            && !rhs.getEvalType().accept(pDetector).booleanValue()) {
             reportIncompatibleSymbolType(rhs, expression);
             rightKinds = false;
         }
         if (rightKinds) {
-            if (lhs.getEvalType().accept(classDetector)) {
-                if (!rhs.getEvalType().accept(classDetector)) {
+            if (lhs.getEvalType().accept(classDetector).booleanValue()) {
+                if (!rhs.getEvalType().accept(classDetector).booleanValue()) {
                     reportIncompatibleSymbols(expression, lhs, rhs);
                 } else {
                     toReturn =
                         df.getOWLDisjointClassesAxiom((OWLClassExpression) lhs.getOWLObject(),
                             (OWLClassExpression) rhs.getOWLObject());
                 }
-            } else if (lhs.getEvalType().accept(opDetector)) {
-                if (!rhs.getEvalType().accept(opDetector)) {
+            } else if (lhs.getEvalType().accept(opDetector).booleanValue()) {
+                if (!rhs.getEvalType().accept(opDetector).booleanValue()) {
                     reportIncompatibleSymbols(expression, lhs, rhs);
                 } else {
                     toReturn = df.getOWLDisjointObjectPropertiesAxiom(
@@ -2108,16 +2136,16 @@ public class SymbolTable {
         ManchesterOWLSyntaxTree rhs) {
         OWLInverseObjectPropertiesAxiom toReturn = null;
         boolean rightKinds = true;
-        if (lhs.getEvalType() == null || !lhs.getEvalType().accept(opDetector)) {
+        if (lhs.getEvalType() == null || !lhs.getEvalType().accept(opDetector).booleanValue()) {
             reportIncompatibleSymbolType(lhs, expression);
             rightKinds = false;
         }
-        if (rhs.getEvalType() == null || !rhs.getEvalType().accept(opDetector)) {
+        if (rhs.getEvalType() == null || !rhs.getEvalType().accept(opDetector).booleanValue()) {
             reportIncompatibleSymbolType(rhs, expression);
             rightKinds = false;
         }
-        if (rightKinds && lhs.getEvalType().accept(opDetector)) {
-            if (!rhs.getEvalType().accept(opDetector)) {
+        if (rightKinds && lhs.getEvalType().accept(opDetector).booleanValue()) {
+            if (!rhs.getEvalType().accept(opDetector).booleanValue()) {
                 reportIncompatibleSymbols(expression, lhs, rhs);
             } else {
                 toReturn = df.getOWLInverseObjectPropertiesAxiom(
@@ -2138,27 +2166,27 @@ public class SymbolTable {
         ManchesterOWLSyntaxTree rhs) {
         OWLAxiom toReturn = null;
         boolean rightKinds = true;
-        if (lhs.getEvalType() == null
-            || !lhs.getEvalType().accept(classDetector) && !lhs.getEvalType().accept(pDetector)) {
+        if (lhs.getEvalType() == null || !lhs.getEvalType().accept(classDetector).booleanValue()
+            && !lhs.getEvalType().accept(pDetector).booleanValue()) {
             reportIncompatibleSymbolType(lhs, expression);
             rightKinds = false;
         }
-        if (rhs.getEvalType() == null
-            || !rhs.getEvalType().accept(classDetector) && !rhs.getEvalType().accept(pDetector)) {
+        if (rhs.getEvalType() == null || !rhs.getEvalType().accept(classDetector).booleanValue()
+            && !rhs.getEvalType().accept(pDetector).booleanValue()) {
             reportIncompatibleSymbolType(rhs, expression);
             rightKinds = false;
         }
         if (rightKinds) {
-            if (lhs.getEvalType().accept(classDetector)) {
-                if (!rhs.getEvalType().accept(classDetector)) {
+            if (lhs.getEvalType().accept(classDetector).booleanValue()) {
+                if (!rhs.getEvalType().accept(classDetector).booleanValue()) {
                     reportIncompatibleSymbols(expression, lhs, rhs);
                 } else {
                     toReturn =
                         df.getOWLEquivalentClassesAxiom((OWLClassExpression) lhs.getOWLObject(),
                             (OWLClassExpression) rhs.getOWLObject());
                 }
-            } else if (lhs.getEvalType().accept(opDetector)) {
-                if (!rhs.getEvalType().accept(opDetector)) {
+            } else if (lhs.getEvalType().accept(opDetector).booleanValue()) {
+                if (!rhs.getEvalType().accept(opDetector).booleanValue()) {
                     reportIncompatibleSymbols(expression, lhs, rhs);
                 } else {
                     toReturn = df.getOWLEquivalentObjectPropertiesAxiom(
@@ -2187,10 +2215,11 @@ public class SymbolTable {
     public OWLAxiom getSubClassAxiom(CommonTree expression, ManchesterOWLSyntaxTree subClass,
         ManchesterOWLSyntaxTree superClass) {
         OWLSubClassOfAxiom toReturn = null;
-        if (subClass.getEvalType() == null || !subClass.getEvalType().accept(classDetector)) {
+        if (subClass.getEvalType() == null
+            || !subClass.getEvalType().accept(classDetector).booleanValue()) {
             reportIncompatibleSymbolType(subClass, expression);
         } else if (superClass.getEvalType() == null
-            || !superClass.getEvalType().accept(classDetector)) {
+            || !superClass.getEvalType().accept(classDetector).booleanValue()) {
             reportIncompatibleSymbolType(superClass, expression);
         } else {
             toReturn = df.getOWLSubClassOfAxiom((OWLClassExpression) subClass.getOWLObject(),
@@ -2457,7 +2486,8 @@ public class SymbolTable {
     public Type getHasKeyType(ManchesterOWLSyntaxTree node,
         Set<ManchesterOWLSyntaxTree> propertyExpressions) {
         Type toReturn = null;
-        if (node.getEvalType() == null || !node.getEvalType().accept(classDetector)) {
+        if (node.getEvalType() == null
+            || !node.getEvalType().accept(classDetector).booleanValue()) {
             reportIllegalToken(node, "A class expression is expected here");
         } else {
             boolean allFine = true;
@@ -2465,7 +2495,7 @@ public class SymbolTable {
             while (allFine && iterator.hasNext()) {
                 ManchesterOWLSyntaxTree propertyNode = iterator.next();
                 allFine = propertyNode.getEvalType() != null
-                    && propertyNode.getEvalType().accept(pDetector);
+                    && propertyNode.getEvalType().accept(pDetector).booleanValue();
             }
             if (allFine) {
                 toReturn = OWLAxiomType.HAS_KEY;
@@ -2483,7 +2513,7 @@ public class SymbolTable {
         Set<ManchesterOWLSyntaxTree> propertyExpressions) {
         OWLHasKeyAxiom toReturn = null;
         OWLClassExpression ce = null;
-        if (node.getEvalType() == null || !node.getEvalType().accept(classDetector)
+        if (node.getEvalType() == null || !node.getEvalType().accept(classDetector).booleanValue()
             || node.getOWLObject() == null) {
             reportIllegalToken(node, "A class expression is expected here");
         } else {
@@ -2494,7 +2524,7 @@ public class SymbolTable {
             while (allFine && iterator.hasNext()) {
                 ManchesterOWLSyntaxTree propertyNode = iterator.next();
                 allFine = propertyNode.getEvalType() != null
-                    && propertyNode.getEvalType().accept(pDetector)
+                    && propertyNode.getEvalType().accept(pDetector).booleanValue()
                     && propertyNode.getOWLObject() != null;
                 if (allFine) {
                     pes.add((OWLPropertyExpression) propertyNode.getOWLObject());
@@ -2528,7 +2558,8 @@ public class SymbolTable {
         } else if (annotationPropertyNode.getEvalType() == null
             || annotationPropertyNode.getEvalType() != OWLType.OWL_ANNOTATION_PROPERTY) {
             reportIncompatibleSymbolType(annotationPropertyNode, parentExpression);
-        } else if (object.getEvalType() == null || !object.getEvalType().accept(annDetector)) {
+        } else if (object.getEvalType() == null
+            || !object.getEvalType().accept(annDetector).booleanValue()) {
             reportIncompatibleSymbols(parentExpression, object);
         } else {
             toReturn = OWLAxiomType.ANNOTATION_ASSERTION;
@@ -2585,13 +2616,18 @@ public class SymbolTable {
             reportIncompatibleSymbolType(annotationPropertyNode, parentExpression);
         } else if (annotationPropertyNode.getOWLObject() == null) {
             reportIllegalToken(annotationPropertyNode, "Invalid annotation property");
-        } else if (object.getEvalType() == null || !object.getEvalType().accept(annDetector)) {
+        } else if (object.getEvalType() == null
+            || !object.getEvalType().accept(annDetector).booleanValue()) {
             reportIncompatibleSymbols(parentExpression, object);
         } else if (object.getOWLObject() == null) {
             reportIllegalToken(object, "Invalid object");
         } else {
             OWLAnnotation annotation =
-                object.getOWLObject().accept(new OWLObjectVisitorExAdapter<OWLAnnotation>(null) {
+                object.getOWLObject().accept(new OWLObjectVisitorEx<OWLAnnotation>() {
+                    @Override
+                    public <T> OWLAnnotation doDefault(T object) {
+                        return null;
+                    }
 
                     @Override
                     public OWLAnnotation visit(IRI i) {
@@ -2605,9 +2641,6 @@ public class SymbolTable {
                             (OWLAnnotationProperty) annotationPropertyNode.getOWLObject(), literal);
                     }
                 });
-            if (annotation == null) {
-                System.out.println("SymbolTable.getAnnotationAssertion() ");
-            }
             toReturn = df.getOWLAnnotationAssertionAxiom(subjectIRI, annotation);
         }
         return toReturn;
@@ -2621,8 +2654,8 @@ public class SymbolTable {
         Symbol toReturn = retrieveSymbol(node.getText());
         if (toReturn == null) {
             String name = node.getToken().getText();
-            IRI iri = IRI.create(node.getText());
-            if (iri != null) {
+            if (!name.isEmpty()) {
+                IRI iri = IRI.create(node.getText());
                 toReturn = new IRISymbol(name, iri);
             }
             symbols.put(name, toReturn);

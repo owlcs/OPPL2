@@ -13,24 +13,18 @@ public class IncompatibleSymbolTypeParsingException extends ParsingException {
     private final String parentExpression;
 
     /**
-     * @param tokenText
-     *        tokenText
-     * @param type
-     *        type
-     * @param parentExpression
-     *        parentExpression
-     * @param line
-     *        line
-     * @param charPositionInLine
-     *        charPositionInLine
+     * @param tokenText tokenText
+     * @param type type
+     * @param parentExpression parentExpression
+     * @param line line
+     * @param charPositionInLine charPositionInLine
      */
     public IncompatibleSymbolTypeParsingException(String tokenText, Type type,
         String parentExpression, int line, int charPositionInLine) {
-        super(
-            String.format(
-                "Incompatible symbol type (%s) %s at line %d char position in line %d for the expression %s",
-                type, tokenText, line, charPositionInLine, parentExpression),
-            line, charPositionInLine);
+        super(String.format(
+            "Incompatible symbol type (%s) %s at line %d char position in line %d for the expression %s",
+            type, tokenText, Integer.valueOf(line), Integer.valueOf(charPositionInLine),
+            parentExpression), line, charPositionInLine);
         symbol = tokenText;
         this.type = type;
         this.parentExpression = parentExpression;

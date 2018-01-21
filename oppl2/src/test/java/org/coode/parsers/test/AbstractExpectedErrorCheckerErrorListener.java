@@ -11,8 +11,8 @@ import org.coode.parsers.ErrorListener;
 import org.coode.parsers.Type;
 
 /**
- * Extends this to check a particular error is expected. Override the method(s)
- * corresponding to the expected error(s).
+ * Extends this to check a particular error is expected. Override the method(s) corresponding to the
+ * expected error(s).
  * 
  * @author Luigi Iannone
  */
@@ -32,31 +32,27 @@ public abstract class AbstractExpectedErrorCheckerErrorListener implements Error
 
     @Override
     public void incompatibleSymbolType(CommonTree t, Type type, CommonTree expression) {
-        getErrorChecker().unexpectedError(
-            String.format(
-                "Unexpected incompatible symbol for token %s type %s inside %s",
-                t, type, expression));
+        getErrorChecker().unexpectedError(String.format(
+            "Unexpected incompatible symbol for token %s type %s inside %s", t, type, expression));
     }
 
     @Override
     public void incompatibleSymbols(CommonTree parentExpression, CommonTree... trees) {
-        getErrorChecker().unexpectedError(
-            String.format("Unexpected incompatible symbols  inside %s [%s]",
+        getErrorChecker()
+            .unexpectedError(String.format("Unexpected incompatible symbols  inside %s [%s]",
                 parentExpression, Arrays.toString(trees)));
     }
 
     @Override
     public void illegalToken(CommonTree t, String message) {
         getErrorChecker().unexpectedError(
-            String.format("Unexpected illegal token for token %s type message %s", t,
-                message));
+            String.format("Unexpected illegal token for token %s type message %s", t, message));
     }
 
     @Override
     public void recognitionException(RecognitionException e) {
         getErrorChecker().unexpectedError(
-            String.format("Unexpected recognition exception message %s",
-                e.getMessage()));
+            String.format("Unexpected recognition exception message %s", e.getMessage()));
     }
 
     @Override
@@ -67,16 +63,14 @@ public abstract class AbstractExpectedErrorCheckerErrorListener implements Error
     @Override
     public void rewriteEmptyStreamException(RewriteEmptyStreamException e) {
         getErrorChecker().unexpectedError(
-            String.format("Unexpected rewrite empty stream exception %s",
-                e.getMessage()));
+            String.format("Unexpected rewrite empty stream exception %s", e.getMessage()));
     }
 
     @Override
     public void reportThrowable(Throwable t, int line, int charPosInLine, int length) {
-        getErrorChecker().unexpectedError(
-            String.format(
-                "Unexpected  exception %s at line %d position %d length %d",
-                t.getMessage(), line, charPosInLine, length));
+        getErrorChecker().unexpectedError(String.format(
+            "Unexpected  exception %s at line %d position %d length %d", t.getMessage(),
+            Integer.valueOf(line), Integer.valueOf(charPosInLine), Integer.valueOf(length)));
     }
 
     /**
@@ -86,8 +80,7 @@ public abstract class AbstractExpectedErrorCheckerErrorListener implements Error
         return errorChecker;
     }
 
-    public static ErrorListener getIllegalTokenExpected(
-        final ErrorCheckerCallBack errorChecker) {
+    public static ErrorListener getIllegalTokenExpected(final ErrorCheckerCallBack errorChecker) {
         return new AbstractExpectedErrorCheckerErrorListener(errorChecker) {
 
             @Override
@@ -97,34 +90,29 @@ public abstract class AbstractExpectedErrorCheckerErrorListener implements Error
         };
     }
 
-    public static ErrorListener getIncompatibleSymbols(
-        final ErrorCheckerCallBack errorChecker) {
+    public static ErrorListener getIncompatibleSymbols(final ErrorCheckerCallBack errorChecker) {
         return new AbstractExpectedErrorCheckerErrorListener(errorChecker) {
 
             @Override
-            public void incompatibleSymbols(CommonTree parentExpression,
-                CommonTree... trees) {
-                errorChecker.getErrorListenerForExpectedError().incompatibleSymbols(
-                    parentExpression, trees);
+            public void incompatibleSymbols(CommonTree parentExpression, CommonTree... trees) {
+                errorChecker.getErrorListenerForExpectedError()
+                    .incompatibleSymbols(parentExpression, trees);
             }
         };
     }
 
-    public static ErrorListener getIncompatibleSymbolType(
-        final ErrorCheckerCallBack errorChecker) {
+    public static ErrorListener getIncompatibleSymbolType(final ErrorCheckerCallBack errorChecker) {
         return new AbstractExpectedErrorCheckerErrorListener(errorChecker) {
 
             @Override
-            public void incompatibleSymbolType(CommonTree t, Type type,
-                CommonTree expression) {
-                errorChecker.getErrorListenerForExpectedError().incompatibleSymbolType(t,
-                    type, expression);
+            public void incompatibleSymbolType(CommonTree t, Type type, CommonTree expression) {
+                errorChecker.getErrorListenerForExpectedError().incompatibleSymbolType(t, type,
+                    expression);
             }
         };
     }
 
-    public static ErrorListener getRecognitionException(
-        final ErrorCheckerCallBack errorChecker) {
+    public static ErrorListener getRecognitionException(final ErrorCheckerCallBack errorChecker) {
         return new AbstractExpectedErrorCheckerErrorListener(errorChecker) {
 
             @Override
@@ -140,8 +128,7 @@ public abstract class AbstractExpectedErrorCheckerErrorListener implements Error
 
             @Override
             public void recognitionException(RecognitionException e, String... tokenNames) {
-                errorChecker.getErrorListenerForExpectedError().recognitionException(e,
-                    tokenNames);
+                errorChecker.getErrorListenerForExpectedError().recognitionException(e, tokenNames);
             }
         };
     }
@@ -150,8 +137,7 @@ public abstract class AbstractExpectedErrorCheckerErrorListener implements Error
         return new AbstractExpectedErrorCheckerErrorListener(errorChecker) {
 
             @Override
-            public void reportThrowable(Throwable t, int line, int charPosInLine,
-                int length) {
+            public void reportThrowable(Throwable t, int line, int charPosInLine, int length) {
                 errorChecker.getErrorListenerForExpectedError().reportThrowable(t, line,
                     charPosInLine, length);
             }
@@ -164,14 +150,12 @@ public abstract class AbstractExpectedErrorCheckerErrorListener implements Error
 
             @Override
             public void rewriteEmptyStreamException(RewriteEmptyStreamException e) {
-                errorChecker.getErrorListenerForExpectedError()
-                    .rewriteEmptyStreamException(e);
+                errorChecker.getErrorListenerForExpectedError().rewriteEmptyStreamException(e);
             }
         };
     }
 
-    public static ErrorListener getUnrecognisedSymbol(
-        final ErrorCheckerCallBack errorChecker) {
+    public static ErrorListener getUnrecognisedSymbol(final ErrorCheckerCallBack errorChecker) {
         return new AbstractExpectedErrorCheckerErrorListener(errorChecker) {
 
             @Override

@@ -15,18 +15,16 @@ import org.semanticweb.owlapi.model.OWLObject;
 public class OWLObjectFinder {
 
     /**
-     * @param key
-     *        key
-     * @param container
-     *        container
+     * @param key key
+     * @param container container
      * @return list of lists of positions
      */
     public static List<List<Integer>> findAll(OWLObject key, OWLObject container) {
         checkNotNull(key, "key");
         checkNotNull(container, "container");
-        List<List<Integer>> toReturn = key.equals(container) ? Collections
-            .singletonList(Collections.singletonList(0)) : findAll(key, container,
-                Collections.<Integer> emptyList());
+        List<List<Integer>> toReturn = key.equals(container)
+            ? Collections.singletonList(Collections.singletonList(Integer.valueOf(0)))
+            : findAll(key, container, Collections.<Integer>emptyList());
         return toReturn;
     }
 
@@ -43,7 +41,7 @@ public class OWLObjectFinder {
                 if (OWLObject.class.isAssignableFrom(object.getClass())) {
                     OWLObject toCompare = (OWLObject) object;
                     ArrayList<Integer> newPosition = new ArrayList<>(position);
-                    newPosition.add(i);
+                    newPosition.add(Integer.valueOf(i));
                     if (key.equals(toCompare)) {
                         toReturn.add(newPosition);
                     } else {

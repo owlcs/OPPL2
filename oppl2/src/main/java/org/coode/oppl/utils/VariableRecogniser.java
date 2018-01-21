@@ -15,31 +15,30 @@ import org.semanticweb.owlapi.model.OWLObject;
 public class VariableRecogniser {
 
     /** input recognizer */
-    public static VariableRecogniser INPUT_VARIABLE_RECOGNISER = new VariableRecogniser(
-        new AbstractVariableVisitorExAdapter<Boolean>(false) {
+    public static VariableRecogniser INPUT_VARIABLE_RECOGNISER =
+        new VariableRecogniser(new AbstractVariableVisitorExAdapter<Boolean>(Boolean.FALSE) {
 
             @Override
             public <P extends OWLObject> Boolean visit(InputVariable<P> v) {
-                return true;
+                return Boolean.TRUE;
             }
         });
     /** generated recognizer */
-    public static VariableRecogniser GENERATED_VARIABLE_RECOGNISER = new VariableRecogniser(
-        new AbstractVariableVisitorExAdapter<Boolean>(false) {
+    public static VariableRecogniser GENERATED_VARIABLE_RECOGNISER =
+        new VariableRecogniser(new AbstractVariableVisitorExAdapter<Boolean>(Boolean.FALSE) {
 
             @Override
             public <P extends OWLObject> Boolean visit(GeneratedVariable<P> v) {
-                return true;
+                return Boolean.TRUE;
             }
         });
     /** regexp recognizer */
-    public static VariableRecogniser REGEXP_VARIABLE_RECOGNISER = new VariableRecogniser(
-        new AbstractVariableVisitorExAdapter<Boolean>(false) {
+    public static VariableRecogniser REGEXP_VARIABLE_RECOGNISER =
+        new VariableRecogniser(new AbstractVariableVisitorExAdapter<Boolean>(Boolean.FALSE) {
 
             @Override
-            public <P extends OWLObject> Boolean visit(
-                RegexpGeneratedVariable<P> regExpGenerated) {
-                return true;
+            public <P extends OWLObject> Boolean visit(RegexpGeneratedVariable<P> regExpGenerated) {
+                return Boolean.TRUE;
             }
         });
     private final VariableVisitorEx<Boolean> recogniser;
@@ -52,19 +51,17 @@ public class VariableRecogniser {
     }
 
     /**
-     * @param recogniser
-     *        recogniser
+     * @param recogniser recogniser
      */
     VariableRecogniser(VariableVisitorEx<Boolean> recogniser) {
         this.recogniser = checkNotNull(recogniser, "recogniser");
     }
 
     /**
-     * @param v
-     *        v
+     * @param v v
      * @return true if recognised
      */
     public boolean recognise(Variable<?> v) {
-        return v.accept(getRecogniser());
+        return v.accept(getRecogniser()).booleanValue();
     }
 }

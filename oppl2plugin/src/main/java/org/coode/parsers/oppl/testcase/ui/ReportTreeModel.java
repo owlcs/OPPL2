@@ -2,7 +2,15 @@ package org.coode.parsers.oppl.testcase.ui;
 
 import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
@@ -24,20 +32,16 @@ public final class ReportTreeModel implements TreeModel {
     private final Map<OPPLTestCase, List<Report>> reportMap = new HashMap<>();
     private String root = DEFAULT_ROOT;
     private final Set<TreeModelListener> listeners = new HashSet<>();
-    private final static Comparator<OPPLTestCase> LEXICOGRAPHIC_COMPARATOR = new Comparator<OPPLTestCase>() {
-
-        @Override
-        public int compare(OPPLTestCase o1, OPPLTestCase o2) {
-            int toReturn = 0;
-            if (o1 == null) {
-                toReturn = -1;
-            } else if (o2 == null) {
-                toReturn = 1;
-            } else {
-                toReturn = o1.getName().compareTo(o2.getName());
-            }
-            return toReturn;
+    private final static Comparator<OPPLTestCase> LEXICOGRAPHIC_COMPARATOR = (o1, o2) -> {
+        int toReturn = 0;
+        if (o1 == null) {
+            toReturn = -1;
+        } else if (o2 == null) {
+            toReturn = 1;
+        } else {
+            toReturn = o1.getName().compareTo(o2.getName());
         }
+        return toReturn;
     };
 
     @Override
@@ -117,7 +121,7 @@ public final class ReportTreeModel implements TreeModel {
 
     private void notifyListeners() {
         for (TreeModelListener l : listeners) {
-            l.treeStructureChanged(new TreeModelEvent(this, new Object[] { getRoot() }));
+            l.treeStructureChanged(new TreeModelEvent(this, new Object[] {getRoot()}));
         }
     }
 
@@ -129,8 +133,7 @@ public final class ReportTreeModel implements TreeModel {
     }
 
     /**
-     * @param reports
-     *        reports
+     * @param reports reports
      */
     public void addReports(Map<OPPLTestCase, List<Report>> reports) {
         if (reportMap.isEmpty()) {
@@ -141,12 +144,11 @@ public final class ReportTreeModel implements TreeModel {
     }
 
     /**
-     * Determines whether all the OPPLTestCases in this model have run
-     * successfully. Please notice that an empty OPPLTestCase set is also
-     * considered a successful one.
+     * Determines whether all the OPPLTestCases in this model have run successfully. Please notice
+     * that an empty OPPLTestCase set is also considered a successful one.
      * 
-     * @return {@code true} if all the OPPLTestCase instances in this have
-     *         successful reports or there's not OPPLTestCase reports in this.
+     * @return {@code true} if all the OPPLTestCase instances in this have successful reports or
+     *         there's not OPPLTestCase reports in this.
      */
     public boolean isSuccessful() {
         boolean toReturn = reportMap.isEmpty();
@@ -167,19 +169,14 @@ public final class ReportTreeModel implements TreeModel {
     }
 
     /**
-     * Determines whether the input OPPLTestCase in this model has run
-     * successfully.
+     * Determines whether the input OPPLTestCase in this model has run successfully.
      * 
-     * @param opplTestCase
-     *        The input OPPLTestCase. Cannot be {@code null} and must be in
-     *        those contained into this model.
-     * @return {@code true} if all the reports related to the input OPPLTestCase
-     *         are successful.
-     * @throws NullPointerException
-     *         if the input OPPLTestCase is {@code null}.
-     * @throws IllegalArgumentException
-     *         if the input OPPLTestCase is not contained into the reports in
-     *         this model.
+     * @param opplTestCase The input OPPLTestCase. Cannot be {@code null} and must be in those
+     *        contained into this model.
+     * @return {@code true} if all the reports related to the input OPPLTestCase are successful.
+     * @throws NullPointerException if the input OPPLTestCase is {@code null}.
+     * @throws IllegalArgumentException if the input OPPLTestCase is not contained into the reports
+     *         in this model.
      */
     public boolean isSuccessful(OPPLTestCase opplTestCase) {
         if (!reportMap.keySet().contains(opplTestCase)) {
@@ -197,26 +194,25 @@ public final class ReportTreeModel implements TreeModel {
     }
 
     /**
-     * @param report
-     *        report
+     * @param report report
      * @return true if unsuccesful
      */
-    public boolean isUnsuccessful(Report report) {
+    public static boolean isUnsuccessful(Report report) {
         boolean found;
-        found = report.accept(new DefaultReportVisitorExAdapter<Boolean>(true) {
+        found = report.accept(new DefaultReportVisitorExAdapter<Boolean>(Boolean.TRUE) {
 
             @Override
             public Boolean visitSuccessfulExecutionReport(
                 SuccessfulExecutionReport successfulExecutionReport) {
-                return false;
+                return Boolean.FALSE;
             }
-        });
+        }).booleanValue();
         return found;
     }
 
     /**
-     * Retrieves all the paths leading to unsuccessful reports. If all the
-     * OPPLTestCases in this are successful an empty array will be returned.
+     * Retrieves all the paths leading to unsuccessful reports. If all the OPPLTestCases in this are
+     * successful an empty array will be returned.
      * 
      * @return a possibly empty TreePath[]
      */
@@ -225,8 +221,7 @@ public final class ReportTreeModel implements TreeModel {
         for (List<Report> reportList : reportMap.values()) {
             for (Report report : reportList) {
                 if (isUnsuccessful(report)) {
-                    toReturn.add(new TreePath(new Object[] { getRoot(),
-                        report.getOPPLTestCase() }));
+                    toReturn.add(new TreePath(new Object[] {getRoot(), report.getOPPLTestCase()}));
                 }
             }
         }

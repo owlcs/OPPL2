@@ -27,9 +27,8 @@ public class CountStarAssertionExpression implements AssertionExpression<Integer
     }
 
     @Override
-    public Integer resolve(Set<? extends BindingNode> bindings,
-        ConstraintSystem constraintSystem) {
-        return bindings.size();
+    public Integer resolve(Set<? extends BindingNode> bindings, ConstraintSystem constraintSystem) {
+        return Integer.valueOf(bindings.size());
     }
 
     @Override

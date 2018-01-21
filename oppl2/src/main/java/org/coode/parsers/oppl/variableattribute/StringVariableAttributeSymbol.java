@@ -13,17 +13,14 @@ import org.semanticweb.owlapi.model.OWLObject;
 /**
  * @author Luigi Iannone
  */
-public abstract class StringVariableAttributeSymbol extends
-    VariableAttributeSymbol<VariableAttribute<String>> {
+public abstract class StringVariableAttributeSymbol
+    extends VariableAttributeSymbol<VariableAttribute<String>> {
 
     /**
-     * @param name
-     *        name
-     * @param variableAttribute
-     *        variableAttribute
+     * @param name name
+     * @param variableAttribute variableAttribute
      */
-    public StringVariableAttributeSymbol(String name,
-        VariableAttribute<String> variableAttribute) {
+    public StringVariableAttributeSymbol(String name, VariableAttribute<String> variableAttribute) {
         super(name, VariableAttributeType.STRING, variableAttribute);
     }
 
@@ -38,32 +35,30 @@ public abstract class StringVariableAttributeSymbol extends
     }
 
     /**
-     * @param v
-     *        v
+     * @param v v
      * @return string attribute symbol
      */
     public static StringVariableAttributeSymbol getRendering(Variable<?> v) {
-        return new StringVariableAttributeSymbol(String.format("%s.%s", v.getName(),
-            AttributeName.RENDERING), new RenderingVariableAttribute(v)) {};
+        return new StringVariableAttributeSymbol(
+            String.format("%s.%s", v.getName(), AttributeName.RENDERING),
+            new RenderingVariableAttribute(v)) {};
     }
 
     /**
-     * @param v
-     *        v
-     * @param index
-     *        index
-     * @param <O>
-     *        variable type
+     * @param v v
+     * @param index index
+     * @param <O> variable type
      * @return string variable attribte symbol
      */
     public static <O extends OWLObject> StringVariableAttributeSymbol getGroup(
         RegexpGeneratedVariable<O> v, final int index) {
-        return new StringVariableAttributeSymbol(String.format("%s.%s(%d)", v.getName(),
-            AttributeName.GROUPS, index), new GroupVariableAttribute<>(v, index)) {
+        return new StringVariableAttributeSymbol(
+            String.format("%s.%s(%d)", v.getName(), AttributeName.GROUPS, Integer.valueOf(index)),
+            new GroupVariableAttribute<>(v, index)) {
 
             @Override
             public String toString() {
-                return String.format("%s.GROUPS(%d)", getName(), index);
+                return String.format("%s.GROUPS(%d)", getName(), Integer.valueOf(index));
             }
         };
     }

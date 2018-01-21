@@ -13,7 +13,23 @@ import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.parsers.Scope;
 import org.coode.parsers.oppl.OPPLSymbolTable;
 import org.coode.parsers.oppl.OPPLSyntaxTree;
-import org.coode.parsers.oppl.testcase.assertions.*;
+import org.coode.parsers.oppl.testcase.assertions.AssertContains;
+import org.coode.parsers.oppl.testcase.assertions.AssertEqual;
+import org.coode.parsers.oppl.testcase.assertions.AssertNotEqual;
+import org.coode.parsers.oppl.testcase.assertions.Assertion;
+import org.coode.parsers.oppl.testcase.assertions.AssertionComplement;
+import org.coode.parsers.oppl.testcase.assertions.AssertionExpression;
+import org.coode.parsers.oppl.testcase.assertions.AssertionExpressionVisitorEx;
+import org.coode.parsers.oppl.testcase.assertions.BindingNodeCountAssertionExpression;
+import org.coode.parsers.oppl.testcase.assertions.CountAssertionExpression;
+import org.coode.parsers.oppl.testcase.assertions.CountStarAssertionExpression;
+import org.coode.parsers.oppl.testcase.assertions.DefaultAssertionExpressionVisitorExAdapter;
+import org.coode.parsers.oppl.testcase.assertions.GreatThanAssertion;
+import org.coode.parsers.oppl.testcase.assertions.GreaterThanEqualToAssertion;
+import org.coode.parsers.oppl.testcase.assertions.IntegerAssertionExpression;
+import org.coode.parsers.oppl.testcase.assertions.LessThanAssertion;
+import org.coode.parsers.oppl.testcase.assertions.LessThanEqualToAssertion;
+import org.coode.parsers.oppl.testcase.assertions.OWLExpressionAssertionExpression;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLObject;
 
@@ -22,67 +38,57 @@ import org.semanticweb.owlapi.model.OWLObject;
  */
 public class OPPLTestCaseSymbolTable extends OPPLSymbolTable {
 
-    private static final DefaultAssertionExpressionVisitorExAdapter<Boolean> INTEGER_EXPRESSION_DETECTOR = new DefaultAssertionExpressionVisitorExAdapter<Boolean>(
-        false) {
+    private static final DefaultAssertionExpressionVisitorExAdapter<Boolean> INTEGER_EXPRESSION_DETECTOR =
+        new DefaultAssertionExpressionVisitorExAdapter<Boolean>(Boolean.FALSE) {
 
-        @Override
-        public Boolean visitIntegerAssertionExpressionVisitor(
-            IntegerAssertionExpression integerAssertionExpression) {
-            return true;
-        }
+            @Override
+            public Boolean visitIntegerAssertionExpressionVisitor(
+                IntegerAssertionExpression integerAssertionExpression) {
+                return Boolean.TRUE;
+            }
 
-        @Override
-        public Boolean visitBindingNodeCountAssertionExpression(
-            BindingNodeCountAssertionExpression bindingNodeCountAssertionExpression) {
-            return true;
-        }
+            @Override
+            public Boolean visitBindingNodeCountAssertionExpression(
+                BindingNodeCountAssertionExpression bindingNodeCountAssertionExpression) {
+                return Boolean.TRUE;
+            }
 
-        @Override
-        public Boolean visitCountAssertionExpression(
-            CountAssertionExpression countAssertionExpression) {
-            return true;
-        }
+            @Override
+            public Boolean visitCountAssertionExpression(
+                CountAssertionExpression countAssertionExpression) {
+                return Boolean.TRUE;
+            }
 
-        @Override
-        public Boolean visitCountStarAssertionExpression(
-            CountStarAssertionExpression countStarAssertionExpression) {
-            return true;
-        }
-    };
+            @Override
+            public Boolean visitCountStarAssertionExpression(
+                CountStarAssertionExpression countStarAssertionExpression) {
+                return Boolean.TRUE;
+            }
+        };
 
     /**
-     * @param globalScope
-     *        globalScope
-     * @param dataFactory
-     *        dataFactory
+     * @param globalScope globalScope
+     * @param dataFactory dataFactory
      */
     public OPPLTestCaseSymbolTable(Scope globalScope, OWLDataFactory dataFactory) {
         super(globalScope, dataFactory);
     }
 
     /**
-     * @param left
-     *        left
-     * @param leftNode
-     *        leftNode
-     * @param right
-     *        right
-     * @param rightNode
-     *        rightNode
-     * @param parentExpression
-     *        parentExpression
+     * @param left left
+     * @param leftNode leftNode
+     * @param right right
+     * @param rightNode rightNode
+     * @param parentExpression parentExpression
      * @return assert equals
      */
-    public AssertEqual getAssertEqual(AssertionExpression<?> left,
-        OPPLSyntaxTree leftNode, AssertionExpression<?> right,
-        OPPLSyntaxTree rightNode, OPPLSyntaxTree parentExpression) {
+    public AssertEqual getAssertEqual(AssertionExpression<?> left, OPPLSyntaxTree leftNode,
+        AssertionExpression<?> right, OPPLSyntaxTree rightNode, OPPLSyntaxTree parentExpression) {
         AssertEqual toReturn = null;
         if (left == null) {
-            getErrorListener().illegalToken(leftNode,
-                "null left hand side assertion expression");
+            getErrorListener().illegalToken(leftNode, "null left hand side assertion expression");
         } else if (right == null) {
-            getErrorListener().illegalToken(leftNode,
-                "null right hand side assertion expression");
+            getErrorListener().illegalToken(leftNode, "null right hand side assertion expression");
         } else if (!areCompatible(left, right)) {
             getErrorListener().incompatibleSymbols(parentExpression, leftNode, rightNode);
         } else {
@@ -92,28 +98,20 @@ public class OPPLTestCaseSymbolTable extends OPPLSymbolTable {
     }
 
     /**
-     * @param left
-     *        left
-     * @param leftNode
-     *        leftNode
-     * @param right
-     *        right
-     * @param rightNode
-     *        rightNode
-     * @param parentExpression
-     *        parentExpression
+     * @param left left
+     * @param leftNode leftNode
+     * @param right right
+     * @param rightNode rightNode
+     * @param parentExpression parentExpression
      * @return assert not equals
      */
-    public AssertNotEqual getAssertNotEqual(AssertionExpression<?> left,
-        OPPLSyntaxTree leftNode, AssertionExpression<?> right,
-        OPPLSyntaxTree rightNode, OPPLSyntaxTree parentExpression) {
+    public AssertNotEqual getAssertNotEqual(AssertionExpression<?> left, OPPLSyntaxTree leftNode,
+        AssertionExpression<?> right, OPPLSyntaxTree rightNode, OPPLSyntaxTree parentExpression) {
         AssertNotEqual toReturn = null;
         if (left == null) {
-            getErrorListener().illegalToken(leftNode,
-                "null left hand side assertion expression");
+            getErrorListener().illegalToken(leftNode, "null left hand side assertion expression");
         } else if (right == null) {
-            getErrorListener().illegalToken(leftNode,
-                "null right hand side assertion expression");
+            getErrorListener().illegalToken(leftNode, "null right hand side assertion expression");
         } else if (!areCompatible(left, right)) {
             getErrorListener().incompatibleSymbols(parentExpression, leftNode, rightNode);
         } else {
@@ -123,23 +121,16 @@ public class OPPLTestCaseSymbolTable extends OPPLSymbolTable {
     }
 
     /**
-     * @param variableNode
-     *        variableNode
-     * @param expressionNodes
-     *        expressionNodes
-     * @param constraintSystem
-     *        constraintSystem
-     * @param testCaseFactory
-     *        testCaseFactory
-     * @param parentExpression
-     *        parentExpression
-     * @param handler
-     *        handler
+     * @param variableNode variableNode
+     * @param expressionNodes expressionNodes
+     * @param constraintSystem constraintSystem
+     * @param testCaseFactory testCaseFactory
+     * @param parentExpression parentExpression
+     * @param handler handler
      * @return assert contains
      */
     public AssertContains getAssertContains(OPPLSyntaxTree variableNode,
-        Collection<? extends OPPLSyntaxTree> expressionNodes,
-        ConstraintSystem constraintSystem,
+        Collection<? extends OPPLSyntaxTree> expressionNodes, ConstraintSystem constraintSystem,
         AbstractOPPLTestCaseFactory testCaseFactory, OPPLSyntaxTree parentExpression,
         RuntimeExceptionHandler handler) {
         checkNotNull(constraintSystem, "constraintSystem");
@@ -156,8 +147,8 @@ public class OPPLTestCaseSymbolTable extends OPPLSymbolTable {
                     expressions.add(owlObject);
                 } else {
                     allFine = false;
-                    getErrorListener().incompatibleSymbols(parentExpression,
-                        variableNode, expressionNode);
+                    getErrorListener().incompatibleSymbols(parentExpression, variableNode,
+                        expressionNode);
                 }
             } else {
                 getErrorListener().illegalToken(expressionNode, "Null OWL object");
@@ -179,17 +170,13 @@ public class OPPLTestCaseSymbolTable extends OPPLSymbolTable {
     }
 
     /**
-     * @param variableNode
-     *        variableNode
-     * @param constraintSystem
-     *        constraintSystem
-     * @param handler
-     *        handler
+     * @param variableNode variableNode
+     * @param constraintSystem constraintSystem
+     * @param handler handler
      * @return count assertion
      */
-    public CountAssertionExpression getCountAssertionExpression(
-        OPPLSyntaxTree variableNode, ConstraintSystem constraintSystem,
-        RuntimeExceptionHandler handler) {
+    public CountAssertionExpression getCountAssertionExpression(OPPLSyntaxTree variableNode,
+        ConstraintSystem constraintSystem, RuntimeExceptionHandler handler) {
         checkNotNull(handler, "handler");
         Variable<?> variable = constraintSystem.getVariable(variableNode.getText());
         CountAssertionExpression toReturn = null;
@@ -202,34 +189,26 @@ public class OPPLTestCaseSymbolTable extends OPPLSymbolTable {
     }
 
     /**
-     * @param intValueNode
-     *        intValueNode
+     * @param intValueNode intValueNode
      * @return integer assertion
      */
-    public IntegerAssertionExpression getIntegerAssertionExpression(
-        OPPLSyntaxTree intValueNode) {
+    public IntegerAssertionExpression getIntegerAssertionExpression(OPPLSyntaxTree intValueNode) {
         IntegerAssertionExpression toReturn = null;
         try {
             int intValue = Integer.parseInt(intValueNode.getText());
             toReturn = new IntegerAssertionExpression(intValue);
         } catch (RuntimeException e) {
-            getErrorListener()
-                .reportThrowable(e, intValueNode.getToken().getLine(),
-                    intValueNode.getCharPositionInLine(),
-                    intValueNode.getText().length());
+            getErrorListener().reportThrowable(e, intValueNode.getToken().getLine(),
+                intValueNode.getCharPositionInLine(), intValueNode.getText().length());
         }
         return toReturn;
     }
 
     /**
-     * @param owlObjectNode
-     *        owlObjectNode
-     * @param constraintSystem
-     *        constraintSystem
-     * @param testCaseFactory
-     *        testCaseFactory
-     * @param handler
-     *        handler
+     * @param owlObjectNode owlObjectNode
+     * @param constraintSystem constraintSystem
+     * @param testCaseFactory testCaseFactory
+     * @param handler handler
      * @return expression assertion
      */
     public OWLExpressionAssertionExpression getOWLExpressionAssertionExpression(
@@ -249,13 +228,13 @@ public class OPPLTestCaseSymbolTable extends OPPLSymbolTable {
         return toReturn;
     }
 
-    private boolean areCompatible(AssertionExpression<?> assertionExpression,
+    private static boolean areCompatible(AssertionExpression<?> assertionExpression,
         AssertionExpression<?> anotherAssertionExpression) {
-        return anotherAssertionExpression
-            .accept(getCompatibilityChecker(assertionExpression));
+        return anotherAssertionExpression.accept(getCompatibilityChecker(assertionExpression))
+            .booleanValue();
     }
 
-    private AssertionExpressionVisitorEx<Boolean> getCompatibilityChecker(
+    private static AssertionExpressionVisitorEx<Boolean> getCompatibilityChecker(
         AssertionExpression<?> assertionExpression) {
         return assertionExpression
             .accept(new AssertionExpressionVisitorEx<AssertionExpressionVisitorEx<Boolean>>() {
@@ -266,33 +245,32 @@ public class OPPLTestCaseSymbolTable extends OPPLSymbolTable {
                     return new AssertionExpressionVisitorEx<Boolean>() {
 
                         @Override
-                        public Boolean visitCountAssertionExpression(
-                            CountAssertionExpression ce) {
-                            return true;
+                        public Boolean visitCountAssertionExpression(CountAssertionExpression ce) {
+                            return Boolean.TRUE;
                         }
 
                         @Override
                         public Boolean visitBindingNodeCountAssertionExpression(
                             BindingNodeCountAssertionExpression bindingNodeCountAssertionExpression) {
-                            return true;
+                            return Boolean.TRUE;
                         }
 
                         @Override
                         public Boolean visitIntegerAssertionExpressionVisitor(
                             IntegerAssertionExpression integerAssertionExpression) {
-                            return true;
+                            return Boolean.TRUE;
                         }
 
                         @Override
                         public Boolean visitCountStarAssertionExpression(
                             CountStarAssertionExpression countStarAssertionExpression) {
-                            return true;
+                            return Boolean.TRUE;
                         }
 
                         @Override
                         public Boolean visitOWLExpressionAssertionExpression(
                             OWLExpressionAssertionExpression owlExpressionAssertionExpression) {
-                            return false;
+                            return Boolean.FALSE;
                         }
                     };
                 }
@@ -305,31 +283,31 @@ public class OPPLTestCaseSymbolTable extends OPPLSymbolTable {
                         @Override
                         public Boolean visitCountAssertionExpression(
                             CountAssertionExpression countAssertionExpression) {
-                            return true;
+                            return Boolean.TRUE;
                         }
 
                         @Override
                         public Boolean visitBindingNodeCountAssertionExpression(
                             BindingNodeCountAssertionExpression bindingNodeCountAssertionExpression) {
-                            return true;
+                            return Boolean.TRUE;
                         }
 
                         @Override
                         public Boolean visitIntegerAssertionExpressionVisitor(
                             IntegerAssertionExpression integerAssertionExpression) {
-                            return true;
+                            return Boolean.TRUE;
                         }
 
                         @Override
                         public Boolean visitCountStarAssertionExpression(
                             CountStarAssertionExpression ce) {
-                            return true;
+                            return Boolean.TRUE;
                         }
 
                         @Override
                         public Boolean visitOWLExpressionAssertionExpression(
                             OWLExpressionAssertionExpression owlExpressionAssertionExpression) {
-                            return false;
+                            return Boolean.FALSE;
                         }
                     };
                 }
@@ -342,31 +320,31 @@ public class OPPLTestCaseSymbolTable extends OPPLSymbolTable {
                         @Override
                         public Boolean visitCountAssertionExpression(
                             CountAssertionExpression countAssertionExpression) {
-                            return true;
+                            return Boolean.TRUE;
                         }
 
                         @Override
                         public Boolean visitBindingNodeCountAssertionExpression(
                             BindingNodeCountAssertionExpression bindingNodeCountAssertionExpression) {
-                            return true;
+                            return Boolean.TRUE;
                         }
 
                         @Override
                         public Boolean visitCountStarAssertionExpression(
                             CountStarAssertionExpression countStarAssertionExpression) {
-                            return true;
+                            return Boolean.TRUE;
                         }
 
                         @Override
                         public Boolean visitIntegerAssertionExpressionVisitor(
                             IntegerAssertionExpression i) {
-                            return true;
+                            return Boolean.TRUE;
                         }
 
                         @Override
                         public Boolean visitOWLExpressionAssertionExpression(
                             OWLExpressionAssertionExpression owlExpressionAssertionExpression) {
-                            return false;
+                            return Boolean.FALSE;
                         }
                     };
                 }
@@ -379,31 +357,31 @@ public class OPPLTestCaseSymbolTable extends OPPLSymbolTable {
                         @Override
                         public Boolean visitCountAssertionExpression(
                             CountAssertionExpression countAssertionExpression) {
-                            return true;
+                            return Boolean.TRUE;
                         }
 
                         @Override
                         public Boolean visitBindingNodeCountAssertionExpression(
                             BindingNodeCountAssertionExpression b) {
-                            return true;
+                            return Boolean.TRUE;
                         }
 
                         @Override
                         public Boolean visitIntegerAssertionExpressionVisitor(
                             IntegerAssertionExpression integerAssertionExpression) {
-                            return true;
+                            return Boolean.TRUE;
                         }
 
                         @Override
                         public Boolean visitCountStarAssertionExpression(
                             CountStarAssertionExpression countStarAssertionExpression) {
-                            return true;
+                            return Boolean.TRUE;
                         }
 
                         @Override
                         public Boolean visitOWLExpressionAssertionExpression(
                             OWLExpressionAssertionExpression owlExpressionAssertionExpression) {
-                            return false;
+                            return Boolean.FALSE;
                         }
                     };
                 }
@@ -416,31 +394,31 @@ public class OPPLTestCaseSymbolTable extends OPPLSymbolTable {
                         @Override
                         public Boolean visitCountAssertionExpression(
                             CountAssertionExpression countAssertionExpression) {
-                            return false;
+                            return Boolean.FALSE;
                         }
 
                         @Override
                         public Boolean visitBindingNodeCountAssertionExpression(
                             BindingNodeCountAssertionExpression bindingNodeCountAssertionExpression) {
-                            return false;
+                            return Boolean.FALSE;
                         }
 
                         @Override
                         public Boolean visitIntegerAssertionExpressionVisitor(
                             IntegerAssertionExpression integerAssertionExpression) {
-                            return false;
+                            return Boolean.FALSE;
                         }
 
                         @Override
                         public Boolean visitCountStarAssertionExpression(
                             CountStarAssertionExpression countStarAssertionExpression) {
-                            return false;
+                            return Boolean.FALSE;
                         }
 
                         @Override
                         public Boolean visitOWLExpressionAssertionExpression(
                             OWLExpressionAssertionExpression o) {
-                            return true;
+                            return Boolean.TRUE;
                         }
                     };
                 }
@@ -448,8 +426,7 @@ public class OPPLTestCaseSymbolTable extends OPPLSymbolTable {
     }
 
     /**
-     * @param a
-     *        a
+     * @param a a
      * @return assertion complement
      */
     public AssertionComplement getAssertionComplement(Assertion a) {
@@ -464,31 +441,24 @@ public class OPPLTestCaseSymbolTable extends OPPLSymbolTable {
     }
 
     /**
-     * @param left
-     *        left
-     * @param leftNode
-     *        leftNode
-     * @param right
-     *        right
-     * @param rightNode
-     *        rightNode
+     * @param left left
+     * @param leftNode leftNode
+     * @param right right
+     * @param rightNode rightNode
      * @return assert less than
      */
     @SuppressWarnings("unchecked")
-    public LessThanAssertion getAssertLessThan(AssertionExpression<?> left,
-        OPPLSyntaxTree leftNode, AssertionExpression<?> right,
-        OPPLSyntaxTree rightNode) {
+    public LessThanAssertion getAssertLessThan(AssertionExpression<?> left, OPPLSyntaxTree leftNode,
+        AssertionExpression<?> right, OPPLSyntaxTree rightNode) {
         LessThanAssertion toReturn = null;
         if (left == null) {
-            getErrorListener().illegalToken(leftNode,
-                "null left hand side assertion expression");
+            getErrorListener().illegalToken(leftNode, "null left hand side assertion expression");
         } else if (right == null) {
-            getErrorListener().illegalToken(leftNode,
-                "null right hand side assertion expression");
-        } else if (!left.accept(INTEGER_EXPRESSION_DETECTOR)) {
+            getErrorListener().illegalToken(leftNode, "null right hand side assertion expression");
+        } else if (!left.accept(INTEGER_EXPRESSION_DETECTOR).booleanValue()) {
             getErrorListener().illegalToken(leftNode,
                 "Only integer values expressions can be used for comparisons");
-        } else if (!right.accept(INTEGER_EXPRESSION_DETECTOR)) {
+        } else if (!right.accept(INTEGER_EXPRESSION_DETECTOR).booleanValue()) {
             getErrorListener().illegalToken(rightNode,
                 "Only integer values expressions can be used for comparisons");
         } else {
@@ -499,31 +469,24 @@ public class OPPLTestCaseSymbolTable extends OPPLSymbolTable {
     }
 
     /**
-     * @param left
-     *        left
-     * @param leftNode
-     *        leftNode
-     * @param right
-     *        right
-     * @param rightNode
-     *        rightNode
+     * @param left left
+     * @param leftNode leftNode
+     * @param right right
+     * @param rightNode rightNode
      * @return assert less or equal
      */
     @SuppressWarnings("unchecked")
-    public LessThanEqualToAssertion getAssertLessThanEqualtTo(
-        AssertionExpression<?> left, OPPLSyntaxTree leftNode,
-        AssertionExpression<?> right, OPPLSyntaxTree rightNode) {
+    public LessThanEqualToAssertion getAssertLessThanEqualtTo(AssertionExpression<?> left,
+        OPPLSyntaxTree leftNode, AssertionExpression<?> right, OPPLSyntaxTree rightNode) {
         LessThanEqualToAssertion toReturn = null;
         if (left == null) {
-            getErrorListener().illegalToken(leftNode,
-                "null left hand side assertion expression");
+            getErrorListener().illegalToken(leftNode, "null left hand side assertion expression");
         } else if (right == null) {
-            getErrorListener().illegalToken(leftNode,
-                "null right hand side assertion expression");
-        } else if (!left.accept(INTEGER_EXPRESSION_DETECTOR)) {
+            getErrorListener().illegalToken(leftNode, "null right hand side assertion expression");
+        } else if (!left.accept(INTEGER_EXPRESSION_DETECTOR).booleanValue()) {
             getErrorListener().illegalToken(leftNode,
                 "Only integer values expressions can be used for comparisons");
-        } else if (!right.accept(INTEGER_EXPRESSION_DETECTOR)) {
+        } else if (!right.accept(INTEGER_EXPRESSION_DETECTOR).booleanValue()) {
             getErrorListener().illegalToken(rightNode,
                 "Only integer values expressions can be used for comparisons");
         } else {
@@ -534,31 +497,24 @@ public class OPPLTestCaseSymbolTable extends OPPLSymbolTable {
     }
 
     /**
-     * @param left
-     *        left
-     * @param leftNode
-     *        leftNode
-     * @param right
-     *        right
-     * @param rightNode
-     *        rightNode
+     * @param left left
+     * @param leftNode leftNode
+     * @param right right
+     * @param rightNode rightNode
      * @return assert greater
      */
     @SuppressWarnings("unchecked")
     public GreatThanAssertion getAssertGreaterThan(AssertionExpression<?> left,
-        OPPLSyntaxTree leftNode, AssertionExpression<?> right,
-        OPPLSyntaxTree rightNode) {
+        OPPLSyntaxTree leftNode, AssertionExpression<?> right, OPPLSyntaxTree rightNode) {
         GreatThanAssertion toReturn = null;
         if (left == null) {
-            getErrorListener().illegalToken(leftNode,
-                "null left hand side assertion expression");
+            getErrorListener().illegalToken(leftNode, "null left hand side assertion expression");
         } else if (right == null) {
-            getErrorListener().illegalToken(leftNode,
-                "null right hand side assertion expression");
-        } else if (!left.accept(INTEGER_EXPRESSION_DETECTOR)) {
+            getErrorListener().illegalToken(leftNode, "null right hand side assertion expression");
+        } else if (!left.accept(INTEGER_EXPRESSION_DETECTOR).booleanValue()) {
             getErrorListener().illegalToken(leftNode,
                 "Only integer values expressions can be used for comparisons");
-        } else if (!right.accept(INTEGER_EXPRESSION_DETECTOR)) {
+        } else if (!right.accept(INTEGER_EXPRESSION_DETECTOR).booleanValue()) {
             getErrorListener().illegalToken(rightNode,
                 "Only integer values expressions can be used for comparisons");
         } else {
@@ -569,53 +525,41 @@ public class OPPLTestCaseSymbolTable extends OPPLSymbolTable {
     }
 
     /**
-     * @param left
-     *        left
-     * @param leftNode
-     *        leftNode
-     * @param right
-     *        right
-     * @param rightNode
-     *        rightNode
+     * @param left left
+     * @param leftNode leftNode
+     * @param right right
+     * @param rightNode rightNode
      * @return assert greater or equal
      */
     @SuppressWarnings("unchecked")
-    public GreaterThanEqualToAssertion getAssertGreaterThanEqualTo(
-        AssertionExpression<?> left, OPPLSyntaxTree leftNode,
-        AssertionExpression<?> right, OPPLSyntaxTree rightNode) {
+    public GreaterThanEqualToAssertion getAssertGreaterThanEqualTo(AssertionExpression<?> left,
+        OPPLSyntaxTree leftNode, AssertionExpression<?> right, OPPLSyntaxTree rightNode) {
         GreaterThanEqualToAssertion toReturn = null;
         if (left == null) {
-            getErrorListener().illegalToken(leftNode,
-                "null left hand side assertion expression");
+            getErrorListener().illegalToken(leftNode, "null left hand side assertion expression");
         } else if (right == null) {
-            getErrorListener().illegalToken(leftNode,
-                "null right hand side assertion expression");
-        } else if (!left.accept(INTEGER_EXPRESSION_DETECTOR)) {
+            getErrorListener().illegalToken(leftNode, "null right hand side assertion expression");
+        } else if (!left.accept(INTEGER_EXPRESSION_DETECTOR).booleanValue()) {
             getErrorListener().illegalToken(leftNode,
                 "Only integer values expressions can be used for comparisons");
-        } else if (!right.accept(INTEGER_EXPRESSION_DETECTOR)) {
+        } else if (!right.accept(INTEGER_EXPRESSION_DETECTOR).booleanValue()) {
             getErrorListener().illegalToken(rightNode,
                 "Only integer values expressions can be used for comparisons");
         } else {
-            toReturn = new GreaterThanEqualToAssertion(
-                (AssertionExpression<Integer>) left,
+            toReturn = new GreaterThanEqualToAssertion((AssertionExpression<Integer>) left,
                 (AssertionExpression<Integer>) right);
         }
         return toReturn;
     }
 
     /**
-     * @param bindingNode
-     *        bindingNode
-     * @param constraintSystem
-     *        constraintSystem
-     * @param testCaseFactory
-     *        testCaseFactory
+     * @param bindingNode bindingNode
+     * @param constraintSystem constraintSystem
+     * @param testCaseFactory testCaseFactory
      * @return binding node count assertion
      */
-    public BindingNodeCountAssertionExpression getBindingNodeCount(
-        BindingNode bindingNode, ConstraintSystem constraintSystem,
-        AbstractOPPLTestCaseFactory testCaseFactory) {
+    public BindingNodeCountAssertionExpression getBindingNodeCount(BindingNode bindingNode,
+        ConstraintSystem constraintSystem, AbstractOPPLTestCaseFactory testCaseFactory) {
         return new BindingNodeCountAssertionExpression(bindingNode, constraintSystem,
             testCaseFactory);
     }

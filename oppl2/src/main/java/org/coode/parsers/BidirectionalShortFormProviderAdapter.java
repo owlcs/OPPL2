@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLEntity;
@@ -20,42 +21,35 @@ import org.semanticweb.owlapi.vocab.OWL2Datatype;
  * Bio-Health Informatics Group<br>
  * Date: 18-Apr-2007<br>
  * <br>
- * A bidirectional short form provider which uses a specified short form
- * provider to generate the bidirectional entity--shortform mappings.
+ * A bidirectional short form provider which uses a specified short form provider to generate the
+ * bidirectional entity--shortform mappings.
  */
-public class BidirectionalShortFormProviderAdapter extends
-    CachingBidirectionalShortFormProvider implements OWLEntitySetProvider<OWLEntity> {
+public class BidirectionalShortFormProviderAdapter extends CachingBidirectionalShortFormProvider
+    implements OWLEntitySetProvider<OWLEntity> {
 
     private final ShortFormProvider shortFormProvider;
     protected Set<OWLOntology> ontologies;
     private OWLOntologyManager man;
 
     /**
-     * @param shortFormProvider
-     *        shortFormProvider
+     * @param shortFormProvider shortFormProvider
      */
     public BidirectionalShortFormProviderAdapter(ShortFormProvider shortFormProvider) {
         this.shortFormProvider = shortFormProvider;
     }
 
     /**
-     * Creates a BidirectionalShortFormProvider that maps between the entities
-     * that are referenced in the specified ontologies and the shortforms of
-     * these entities. Note that the {@code dispose} method must be called when
-     * the provider has been finished with so that the provider may remove
-     * itself as a listener from the manager.
+     * Creates a BidirectionalShortFormProvider that maps between the entities that are referenced
+     * in the specified ontologies and the shortforms of these entities. Note that the
+     * {@code dispose} method must be called when the provider has been finished with so that the
+     * provider may remove itself as a listener from the manager.
      * 
-     * @param ontologies
-     *        The ontologies that contain references to the entities to be
-     *        mapped.
-     * @param shortFormProvider
-     *        The short form provider that should be used to generate the short
+     * @param ontologies The ontologies that contain references to the entities to be mapped.
+     * @param shortFormProvider The short form provider that should be used to generate the short
      *        forms of the referenced entities.
-     * @param man
-     *        This short form provider will track changes to ontologies. The
-     *        provider will listen for ontology changes and update the cache of
-     *        entity--shortform mappings based on whether the specified
-     *        ontologies contain references to entities or not.
+     * @param man This short form provider will track changes to ontologies. The provider will
+     *        listen for ontology changes and update the cache of entity--shortform mappings based
+     *        on whether the specified ontologies contain references to entities or not.
      */
     public BidirectionalShortFormProviderAdapter(OWLOntologyManager man,
         Set<OWLOntology> ontologies, ShortFormProvider shortFormProvider) {
@@ -63,7 +57,7 @@ public class BidirectionalShortFormProviderAdapter extends
         this.ontologies = ontologies;
         this.shortFormProvider = shortFormProvider;
         this.man = man;
-        rebuild(this);
+        rebuild(entities());
         // Apparently Thing, Nothing, and the well know datatypes are not
         // referenced entities, so I need to add them.
         addWellKnownEntities(man.getOWLDataFactory());
@@ -98,5 +92,13 @@ public class BidirectionalShortFormProviderAdapter extends
             set.addAll(o.getSignature());
         }
         return set;
+    }
+
+    @Override
+    public Stream<OWLEntity> entities() {
+        if (man == null) {
+            return Stream.empty();
+        }
+        return man.ontologies().flatMap(OWLOntology::signature).distinct();
     }
 }

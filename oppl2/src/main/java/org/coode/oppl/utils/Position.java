@@ -13,14 +13,13 @@ import org.semanticweb.owlapi.model.OWLObject;
 public class Position {
 
     /** empty position */
-    public final static List<Integer> EMPTY_POSITION = Collections.singletonList(-1);
+    public final static List<Integer> EMPTY_POSITION =
+        Collections.singletonList(Integer.valueOf(-1));
     private final static OWLObjectDecomposer DECOMPOSER = new OWLObjectDecomposer();
 
     /**
-     * @param owlObject
-     *        owlObject
-     * @param position
-     *        position
+     * @param owlObject owlObject
+     * @param position position
      * @return found object, or null
      */
     public static Object get(OWLObject owlObject, List<Integer> position) {
@@ -30,8 +29,8 @@ public class Position {
         if (!position.isEmpty()) {
             Integer index = position.get(0);
             List<Object> parts = owlObject.accept(DECOMPOSER);
-            if (index >= 1 && index <= parts.size()) {
-                toReturn = parts.get(index - 1);
+            if (index.intValue() >= 1 && index.intValue() <= parts.size()) {
+                toReturn = parts.get(index.intValue() - 1);
                 if (position.size() > 1) {
                     if (toReturn instanceof OWLObject) {
                         List<Integer> newPosition = position.subList(1, parts.size());
@@ -40,7 +39,7 @@ public class Position {
                         toReturn = null;
                     }
                 }
-            } else if (index != 0) {
+            } else if (index.intValue() != 0) {
                 toReturn = null;
             }
         }

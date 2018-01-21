@@ -3,14 +3,68 @@ package org.coode.patterns.locality;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.semanticweb.owlapi.model.*;
-import org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter;
+import org.semanticweb.owlapi.model.OWLAsymmetricObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLAxiomVisitor;
+import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLClassExpression;
+import org.semanticweb.owlapi.model.OWLClassExpressionVisitor;
+import org.semanticweb.owlapi.model.OWLDataAllValuesFrom;
+import org.semanticweb.owlapi.model.OWLDataExactCardinality;
+import org.semanticweb.owlapi.model.OWLDataFactory;
+import org.semanticweb.owlapi.model.OWLDataHasValue;
+import org.semanticweb.owlapi.model.OWLDataMaxCardinality;
+import org.semanticweb.owlapi.model.OWLDataMinCardinality;
+import org.semanticweb.owlapi.model.OWLDataPropertyAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLDataPropertyDomainAxiom;
+import org.semanticweb.owlapi.model.OWLDataPropertyRangeAxiom;
+import org.semanticweb.owlapi.model.OWLDataSomeValuesFrom;
+import org.semanticweb.owlapi.model.OWLDeclarationAxiom;
+import org.semanticweb.owlapi.model.OWLDifferentIndividualsAxiom;
+import org.semanticweb.owlapi.model.OWLDisjointClassesAxiom;
+import org.semanticweb.owlapi.model.OWLDisjointDataPropertiesAxiom;
+import org.semanticweb.owlapi.model.OWLDisjointObjectPropertiesAxiom;
+import org.semanticweb.owlapi.model.OWLDisjointUnionAxiom;
+import org.semanticweb.owlapi.model.OWLEntity;
+import org.semanticweb.owlapi.model.OWLEquivalentClassesAxiom;
+import org.semanticweb.owlapi.model.OWLEquivalentDataPropertiesAxiom;
+import org.semanticweb.owlapi.model.OWLEquivalentObjectPropertiesAxiom;
+import org.semanticweb.owlapi.model.OWLFunctionalDataPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLFunctionalObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLInverseFunctionalObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLInverseObjectPropertiesAxiom;
+import org.semanticweb.owlapi.model.OWLIrreflexiveObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLNegativeDataPropertyAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLNegativeObjectPropertyAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLObjectAllValuesFrom;
+import org.semanticweb.owlapi.model.OWLObjectComplementOf;
+import org.semanticweb.owlapi.model.OWLObjectExactCardinality;
+import org.semanticweb.owlapi.model.OWLObjectHasSelf;
+import org.semanticweb.owlapi.model.OWLObjectHasValue;
+import org.semanticweb.owlapi.model.OWLObjectIntersectionOf;
+import org.semanticweb.owlapi.model.OWLObjectMaxCardinality;
+import org.semanticweb.owlapi.model.OWLObjectMinCardinality;
+import org.semanticweb.owlapi.model.OWLObjectOneOf;
+import org.semanticweb.owlapi.model.OWLObjectPropertyAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLObjectPropertyDomainAxiom;
+import org.semanticweb.owlapi.model.OWLObjectPropertyRangeAxiom;
+import org.semanticweb.owlapi.model.OWLObjectSomeValuesFrom;
+import org.semanticweb.owlapi.model.OWLObjectUnionOf;
+import org.semanticweb.owlapi.model.OWLReflexiveObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLSameIndividualAxiom;
+import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
+import org.semanticweb.owlapi.model.OWLSubDataPropertyOfAxiom;
+import org.semanticweb.owlapi.model.OWLSubObjectPropertyOfAxiom;
+import org.semanticweb.owlapi.model.OWLSubPropertyChainOfAxiom;
+import org.semanticweb.owlapi.model.OWLSymmetricObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLTransitiveObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.SWRLRule;
 
 /**
  * @author Luigi Iannone
  */
-public class BottomReplacer extends OWLAxiomVisitorAdapter implements OWLAxiomVisitor,
-    OWLClassExpressionVisitor {
+public class BottomReplacer implements OWLAxiomVisitor, OWLClassExpressionVisitor {
 
     private final OWLDataFactory df;
     private final OWLClass nothing;
@@ -34,10 +88,8 @@ public class BottomReplacer extends OWLAxiomVisitorAdapter implements OWLAxiomVi
     }
 
     /**
-     * @param axiom
-     *        axiom
-     * @param sig
-     *        sig
+     * @param axiom axiom
+     * @param sig sig
      * @return axiom with bottom replaced
      */
     public OWLAxiom replaceBottom(OWLAxiom axiom, Set<? extends OWLEntity> sig) {
@@ -49,8 +101,7 @@ public class BottomReplacer extends OWLAxiomVisitorAdapter implements OWLAxiomVi
     // Takes an OWLClassExpression and a signature replaces by bottom the
     // entities not in the signature
     /**
-     * @param desc
-     *        desc
+     * @param desc desc
      * @return class expression with bottom replaced
      */
     public OWLClassExpression replaceBottom(OWLClassExpression desc) {
@@ -63,8 +114,7 @@ public class BottomReplacer extends OWLAxiomVisitorAdapter implements OWLAxiomVi
     }
 
     /**
-     * @param descriptions
-     *        descriptions
+     * @param descriptions descriptions
      * @return class expressions with bottom replaced
      */
     public Set<OWLClassExpression> replaceBottom(Set<OWLClassExpression> descriptions) {
@@ -76,8 +126,7 @@ public class BottomReplacer extends OWLAxiomVisitorAdapter implements OWLAxiomVi
     }
 
     /**
-     * @param sig
-     *        sig
+     * @param sig sig
      */
     public void reset(Set<? extends OWLEntity> sig) {
         signature = sig;
@@ -145,8 +194,7 @@ public class BottomReplacer extends OWLAxiomVisitorAdapter implements OWLAxiomVi
 
     @Override
     public void visit(OWLDisjointClassesAxiom ax) {
-        Set<OWLClassExpression> disjointclasses = this.replaceBottom(ax
-            .getClassExpressions());
+        Set<OWLClassExpression> disjointclasses = this.replaceBottom(ax.getClassExpressions());
         newAxiom = df.getOWLDisjointClassesAxiom(disjointclasses);
     }
 
@@ -168,8 +216,7 @@ public class BottomReplacer extends OWLAxiomVisitorAdapter implements OWLAxiomVi
 
     @Override
     public void visit(OWLObjectComplementOf desc) {
-        newDescription = df
-            .getOWLObjectComplementOf(this.replaceBottom(desc.getOperand()));
+        newDescription = df.getOWLObjectComplementOf(this.replaceBottom(desc.getOperand()));
     }
 
     @Override

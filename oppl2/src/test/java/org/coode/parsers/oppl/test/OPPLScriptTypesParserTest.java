@@ -1,10 +1,21 @@
 package org.coode.parsers.oppl.test;
 
-import static org.coode.oppl.testontologies.TestOntologies.*;
+import static org.coode.oppl.testontologies.TestOntologies.managerForPizzaAndOndrej;
+import static org.coode.oppl.testontologies.TestOntologies.ondrejtest;
+import static org.coode.oppl.testontologies.TestOntologies.pizza;
+import static org.coode.oppl.testontologies.TestOntologies.siblings;
+import static org.coode.oppl.testontologies.TestOntologies.syntax;
 import static org.coode.parsers.oppl.test.SymbolTables.getOPPLSymbolTable;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
-import org.antlr.runtime.*;
+import org.antlr.runtime.ANTLRStringStream;
+import org.antlr.runtime.RecognitionException;
+import org.antlr.runtime.RuleReturnScope;
+import org.antlr.runtime.Token;
+import org.antlr.runtime.TokenRewriteStream;
+import org.antlr.runtime.TokenStream;
 import org.antlr.runtime.tree.CommonErrorNode;
 import org.antlr.runtime.tree.CommonTree;
 import org.antlr.runtime.tree.CommonTreeAdaptor;
@@ -17,7 +28,14 @@ import org.coode.oppl.variabletypes.InputVariable;
 import org.coode.parsers.ManchesterOWLSyntaxSimplify;
 import org.coode.parsers.ManchesterOWLSyntaxTypes;
 import org.coode.parsers.common.SilentListener;
-import org.coode.parsers.oppl.*;
+import org.coode.parsers.oppl.DefaultTypeEnforcer;
+import org.coode.parsers.oppl.OPPLDefine;
+import org.coode.parsers.oppl.OPPLLexer;
+import org.coode.parsers.oppl.OPPLScriptParser;
+import org.coode.parsers.oppl.OPPLSymbolTable;
+import org.coode.parsers.oppl.OPPLSyntaxTree;
+import org.coode.parsers.oppl.OPPLTypeEnforcement;
+import org.coode.parsers.oppl.OPPLTypes;
 import org.junit.ComparisonFailure;
 import org.junit.Test;
 import org.semanticweb.owlapi.model.OWLOntology;
@@ -55,10 +73,10 @@ public class OPPLScriptTypesParserTest {
         }
     };
 
-    public static OPPLSyntaxTree parse(String input, OWLOntology ontology,
-        OWLReasoner reasoner, OPPLSymbolTable symtab) {
-        OPPLFactory opplFactory = new OPPLFactory(ontology.getOWLOntologyManager(),
-            ontology, reasoner);
+    public static OPPLSyntaxTree parse(String input, OWLOntology ontology, OWLReasoner reasoner,
+        OPPLSymbolTable symtab) {
+        OPPLFactory opplFactory =
+            new OPPLFactory(ontology.getOWLOntologyManager(), ontology, reasoner);
         ConstraintSystem constraintSystem = opplFactory.createConstraintSystem();
         ANTLRStringStream antlrStringStream = new ANTLRStringStream(input);
         OPPLLexer lexer = new OPPLLexer(antlrStringStream);
@@ -77,32 +95,34 @@ public class OPPLScriptTypesParserTest {
             simplify.setTreeAdaptor(adaptor);
             simplify.downup(tree);
             nodes.reset();
-            OPPLDefine define = new OPPLDefine(nodes, symtab, new SilentListener(),
-                constraintSystem);
+            OPPLDefine define =
+                new OPPLDefine(nodes, symtab, new SilentListener(), constraintSystem);
             define.setTreeAdaptor(adaptor);
             define.downup(tree);
             nodes.reset();
-            ManchesterOWLSyntaxTypes mOWLTypes = new ManchesterOWLSyntaxTypes(nodes,
-                symtab, new SilentListener());
+            ManchesterOWLSyntaxTypes mOWLTypes =
+                new ManchesterOWLSyntaxTypes(nodes, symtab, new SilentListener());
             mOWLTypes.downup(tree);
             nodes.reset();
-            OPPLTypeEnforcement typeEnforcement = new OPPLTypeEnforcement(nodes, symtab,
-                new DefaultTypeEnforcer(symtab, opplFactory.getOWLEntityFactory(),
-                    new SilentListener()), new SilentListener());
+            OPPLTypeEnforcement typeEnforcement =
+                new OPPLTypeEnforcement(
+                    nodes, symtab, new DefaultTypeEnforcer(symtab,
+                        opplFactory.getOWLEntityFactory(), new SilentListener()),
+                    new SilentListener());
             typeEnforcement.downup(tree);
             nodes.reset();
             mOWLTypes.downup(tree);
             nodes.reset();
-            OPPLTypes opplTypes = new OPPLTypes(nodes, symtab, new SilentListener(),
-                constraintSystem, opplFactory);
+            OPPLTypes opplTypes =
+                new OPPLTypes(nodes, symtab, new SilentListener(), constraintSystem, opplFactory);
             opplTypes.downup(tree);
         }
         return (OPPLSyntaxTree) r.getTree();
     }
 
-    protected void check(OWLOntology ontology, String query, String expected, OPPLSymbolTable table) {
-        OPPLSyntaxTree parsed = OPPLScriptTypesParserTest.parse(query, ontology, null,
-            table);
+    protected void check(OWLOntology ontology, String query, String expected,
+        OPPLSymbolTable table) {
+        OPPLSyntaxTree parsed = OPPLScriptTypesParserTest.parse(query, ontology, null, table);
         assertNotNull(parsed);
         Object opplContent = parsed.getOPPLContent();
         assertNotNull(opplContent);
@@ -110,19 +130,19 @@ public class OPPLScriptTypesParserTest {
     }
 
     protected void check(OWLOntology ontology, String query, String expected) {
-        check(ontology, query, expected,
-            getOPPLSymbolTable(ontology));
+        check(ontology, query, expected, getOPPLSymbolTable(ontology));
     }
 
-    protected void check(OWLOntology ontology, String query, String expected, OWLReasoner reasoner) {
-        OPPLSyntaxTree parsed = OPPLScriptTypesParserTest.parse(query, ontology, reasoner,
-            getOPPLSymbolTable(pizza));
+    protected void check(OWLOntology ontology, String query, String expected,
+        OWLReasoner reasoner) {
+        OPPLSyntaxTree parsed =
+            OPPLScriptTypesParserTest.parse(query, ontology, reasoner, getOPPLSymbolTable(pizza));
         assertNotNull(parsed);
         Object opplContent = parsed.getOPPLContent();
         assertNotNull(opplContent);
         equalsIgnoreWhitespace(expected, opplContent);
-        assertTrue(((InputVariable<?>) ((OPPLScript) opplContent)
-            .getVariables().get(0)).getVariableScope() != null);
+        assertTrue(((InputVariable<?>) ((OPPLScript) opplContent).getVariables().get(0))
+            .getVariableScope() != null);
     }
 
     @Test
@@ -133,32 +153,37 @@ public class OPPLScriptTypesParserTest {
 
     @Test
     public void shouldTestRegexpQuery() {
-        String query = "?x:CLASS= MATCH (\".*ing\") SELECT ?x subClassOf Thing\n BEGIN ADD ?x subClassOf Thing END;";
+        String query =
+            "?x:CLASS= MATCH (\".*ing\") SELECT ?x subClassOf Thing\n BEGIN ADD ?x subClassOf Thing END;";
         check(syntax, query, query);
     }
 
     @Test
     public void shouldTestAggregateVariableValuesAndLooseObjects() {
-        String query = "?x:CLASS, ?y:CLASS = createIntersection(?x.VALUES, Thing) SELECT ?x subClassOf Thing\n BEGIN ADD ?x subClassOf Thing END;";
+        String query =
+            "?x:CLASS, ?y:CLASS = createIntersection(?x.VALUES, Thing) SELECT ?x subClassOf Thing\n BEGIN ADD ?x subClassOf Thing END;";
         // XXX expected has owl:Thing
-        String expected = "?x:CLASS, ?y:CLASS = createIntersection(?x.VALUES, owl:Thing) SELECT ?x subClassOf Thing\n BEGIN ADD ?x subClassOf Thing END;";
+        String expected =
+            "?x:CLASS, ?y:CLASS = createIntersection(?x.VALUES, owl:Thing) SELECT ?x subClassOf Thing\n BEGIN ADD ?x subClassOf Thing END;";
         check(syntax, query, expected);
     }
 
     @Test
     public void shouldTestGeneratedVariable() {
-        String query = "?x:CLASS, ?y:OBJECTPROPERTY= MATCH (\" has((\\w+)) \"), ?z:CLASS, ?feature:CLASS = create(?y.GROUPS(1)) SELECT ASSERTED ?x subClassOf ?y some ?z\n BEGIN REMOVE ?x subClassOf ?y some ?z, ADD ?x subClassOf !hasFeature some (?feature and !hasValue some ?z) END;";
-        String expected = "?x:CLASS, ?y:OBJECTPROPERTY= MATCH (\" has((\\w+)) \"), ?z:CLASS, ?feature:CLASS = create(?y.GROUPS(1)) SELECT ASSERTED ?x SubClassOf ?y some ?z\n"
-            +
-            " BEGIN REMOVE ?x SubClassOf ?y some ?z, ADD ?x SubClassOf hasFeature some \n" +
-            "(?feature and (hasValue some ?z)) END;";
+        String query =
+            "?x:CLASS, ?y:OBJECTPROPERTY= MATCH (\" has((\\w+)) \"), ?z:CLASS, ?feature:CLASS = create(?y.GROUPS(1)) SELECT ASSERTED ?x subClassOf ?y some ?z\n BEGIN REMOVE ?x subClassOf ?y some ?z, ADD ?x subClassOf !hasFeature some (?feature and !hasValue some ?z) END;";
+        String expected =
+            "?x:CLASS, ?y:OBJECTPROPERTY= MATCH (\" has((\\w+)) \"), ?z:CLASS, ?feature:CLASS = create(?y.GROUPS(1)) SELECT ASSERTED ?x SubClassOf ?y some ?z\n"
+                + " BEGIN REMOVE ?x SubClassOf ?y some ?z, ADD ?x SubClassOf hasFeature some \n"
+                + "(?feature and (hasValue some ?z)) END;";
         // XXX expected is missing a ! before hasValue
         check(ondrejtest, query, expected);
     }
 
     @Test
     public void shouldTestCreateIndividual() {
-        String query = "?x:CLASS, ?y:INDIVIDUAL = create(?x.RENDERING+\"Instance\") SELECT ASSERTED ?x subClassOf Pizza\n BEGIN REMOVE ?y types ?x END;";
+        String query =
+            "?x:CLASS, ?y:INDIVIDUAL = create(?x.RENDERING+\"Instance\") SELECT ASSERTED ?x subClassOf Pizza\n BEGIN REMOVE ?y types ?x END;";
         String expected = "?x:CLASS, ?y:INDIVIDUAL = create(?x.RENDERING+\"Instance\") "
             + "SELECT ASSERTED ?x subClassOf Pizza\n BEGIN REMOVE ?y type ?x END;";
         check(ondrejtest, query, expected, getOPPLSymbolTable(managerForPizzaAndOndrej));
@@ -166,70 +191,85 @@ public class OPPLScriptTypesParserTest {
 
     @Test
     public void shouldTestHasKey() {
-        String query = "?x:CLASS SELECT ?x HasKey hasTopping Thing\n BEGIN ADD ?x subClassOf Thing END;";
-        String expected = "?x:CLASS SELECT ?x HasKey hasTopping\n BEGIN ADD ?x subClassOf Thing END;";
+        String query =
+            "?x:CLASS SELECT ?x HasKey hasTopping Thing\n BEGIN ADD ?x subClassOf Thing END;";
+        String expected =
+            "?x:CLASS SELECT ?x HasKey hasTopping\n BEGIN ADD ?x subClassOf Thing END;";
         check(pizza, query, expected);
     }
 
     @Test
     public void shouldTestAnnotationAssertionsInQuery() {
-        String query = "?x:CLASS SELECT <blah#Luigi> label \"aLabel\"\n BEGIN ADD ?x subClassOf Thing END;";
-        String expected = "?x:CLASS SELECT <blah#Luigi> label \"aLabel\"^^string\n BEGIN ADD ?x subClassOf Thing END;";
+        String query =
+            "?x:CLASS SELECT <blah#Luigi> label \"aLabel\"\n BEGIN ADD ?x subClassOf Thing END;";
+        String expected =
+            "?x:CLASS SELECT <blah#Luigi> label \"aLabel\"\n BEGIN ADD ?x subClassOf Thing END;";
         check(pizza, query, expected);
     }
 
     @Test
     public void shouldTestAnnotationAssertionsInActions() {
-        String query = "?x:CLASS SELECT ?x subClassOf Thing \n BEGIN ADD <blah#Luigi> label \"aLabel\" END;";
-        String expected = "?x:CLASS SELECT ?x subClassOf Thing\n BEGIN ADD <blah#Luigi> label \"aLabel\"^^string END;";
+        String query =
+            "?x:CLASS SELECT ?x subClassOf Thing \n BEGIN ADD <blah#Luigi> label \"aLabel\" END;";
+        String expected =
+            "?x:CLASS SELECT ?x subClassOf Thing\n BEGIN ADD <blah#Luigi> label \"aLabel\" END;";
         check(pizza, query, expected);
     }
 
     @Test
     public void shouldTestSubClassQueryNAryAxiom() {
-        String query = "?x:CLASS SELECT DisjointClasses set(Thing, Nothing)\n BEGIN ADD ?x subClassOf Thing END;";
+        String query =
+            "?x:CLASS SELECT DisjointClasses set(Thing, Nothing)\n BEGIN ADD ?x subClassOf Thing END;";
         // XXX DisjointClasses set is changed
-        String expected = "?x:CLASS SELECT Nothing DisjointWith Thing\n" +
-            " BEGIN ADD ?x SubClassOf Thing END;";
+        String expected =
+            "?x:CLASS SELECT Nothing DisjointWith Thing\n" + " BEGIN ADD ?x SubClassOf Thing END;";
         check(pizza, query, expected);
     }
 
     @Test
     public void shouldTestSubClassQueryNAryAxiomVariableValues() {
-        String query = "?x:CLASS SELECT DisjointClasses: set(?x.VALUES, Thing)\n BEGIN ADD ?x subClassOf Thing END;";
-        String expected = "?x:CLASS SELECT ?x.VALUES DisjointWith Thing\n" +
-            " BEGIN ADD ?x SubClassOf Thing END;";
+        String query =
+            "?x:CLASS SELECT DisjointClasses: set(?x.VALUES, Thing)\n BEGIN ADD ?x subClassOf Thing END;";
+        String expected = "?x:CLASS SELECT ?x.VALUES DisjointWith Thing\n"
+            + " BEGIN ADD ?x SubClassOf Thing END;";
         check(pizza, query, expected);
     }
 
     @Test
     public void shouldTestVariableIRIAttribute() {
-        String query = "?x:CLASS SELECT ?x.IRI label \"aLabel\"\n BEGIN ADD ?x subClassOf Thing END;";
+        String query =
+            "?x:CLASS SELECT ?x.IRI label \"aLabel\"\n BEGIN ADD ?x subClassOf Thing END;";
         // XXX Literals require a datatype?
-        String expected = "?x:CLASS SELECT ?x.IRI label \"aLabel\"^^string\n BEGIN ADD ?x subClassOf Thing END;";
+        String expected =
+            "?x:CLASS SELECT ?x.IRI label \"aLabel\"\n BEGIN ADD ?x subClassOf Thing END;";
         check(pizza, query, expected);
     }
 
     @Test
     public void shouldTestAsymmetricObjectProperty() {
-        String query = "?x:OBJECTPROPERTY SELECT ?x subPropertyOf hasTopping\n BEGIN REMOVE Asymmetric ?x END;";
+        String query =
+            "?x:OBJECTPROPERTY SELECT ?x subPropertyOf hasTopping\n BEGIN REMOVE Asymmetric ?x END;";
         // XXX rendering contains Asymmetric:
-        String expected = "?x:OBJECTPROPERTY SELECT ?x subPropertyOf hasTopping\n BEGIN REMOVE  Asymmetric: ?x END;";
+        String expected =
+            "?x:OBJECTPROPERTY SELECT ?x subPropertyOf hasTopping\n BEGIN REMOVE  Asymmetric: ?x END;";
         check(pizza, query, expected);
     }
 
     @Test
     public void shouldTestVariableScope() {
-        String query = "?M:CLASS[subClassOf NamedPizza], ?I:CLASS, ?S:CLASS SELECT ?M SubClassOf hasTopping some ?I,\n?M SubClassOf hasBase some ?S\n WHERE ?M != Nothing\n BEGIN ADD ?M SubClassOf Thing END;";
+        String query =
+            "?M:CLASS[subClassOf NamedPizza], ?I:CLASS, ?S:CLASS SELECT ?M SubClassOf hasTopping some ?I,\n?M SubClassOf hasBase some ?S\n WHERE ?M != Nothing\n BEGIN ADD ?M SubClassOf Thing END;";
         check(pizza, query, query, new JFactFactory().createReasoner(pizza));
     }
 
     @Test
     public void shouldTestVariableScopeInverseProperty() {
-        String query = "?M:CLASS[subClassOf NamedPizza], ?I:CLASS[subClassOf INV(hasTopping) some Thing], ?S:CLASS SELECT ?M SubClassOf hasTopping some ?I, ?M SubClassOf hasBase some ?S WHERE ?M != Nothing\n BEGIN ADD ?M SubClassOf Thing END;";
+        String query =
+            "?M:CLASS[subClassOf NamedPizza], ?I:CLASS[subClassOf INV(hasTopping) some Thing], ?S:CLASS SELECT ?M SubClassOf hasTopping some ?I, ?M SubClassOf hasBase some ?S WHERE ?M != Nothing\n BEGIN ADD ?M SubClassOf Thing END;";
         // XXX INV becomes inverse
-        String expected = "?M:CLASS[subClassOf NamedPizza], ?I:CLASS[subClassOf  inverse (hasTopping) some Thing], ?S:CLASS"
-            + " SELECT ?M SubClassOf hasTopping some ?I,\n?M SubClassOf hasBase some ?S\n WHERE ?M != Nothing\n BEGIN ADD ?M SubClassOf Thing END;";
+        String expected =
+            "?M:CLASS[subClassOf NamedPizza], ?I:CLASS[subClassOf  inverse (hasTopping) some Thing], ?S:CLASS"
+                + " SELECT ?M SubClassOf hasTopping some ?I,\n?M SubClassOf hasBase some ?S\n WHERE ?M != Nothing\n BEGIN ADD ?M SubClassOf Thing END;";
         check(pizza, query, expected, new JFactFactory().createReasoner(pizza));
     }
 
@@ -247,68 +287,79 @@ public class OPPLScriptTypesParserTest {
 
     @Test
     public void shouldTestVariableAnnotationObject() {
-        String query = "?x:CLASS, ?y:CONSTANT SELECT ?x.IRI label ?y\n BEGIN ADD ?x subClassOf Thing END;";
+        String query =
+            "?x:CLASS, ?y:CONSTANT SELECT ?x.IRI label ?y\n BEGIN ADD ?x subClassOf Thing END;";
         // XXX ?y rendered as string
-        String expected = "?x:CLASS, ?y:CONSTANT SELECT ?x.IRI label \"?y\"^^string\n BEGIN ADD ?x subClassOf Thing END;";
+        String expected =
+            "?x:CLASS, ?y:CONSTANT SELECT ?x.IRI label \"?y\"\n BEGIN ADD ?x subClassOf Thing END;";
         check(pizza, query, expected);
     }
 
     @Test
     public void shouldTestNominalClassVariableValues() {
-        String query = "?x:INDIVIDUAL, ?sibling:CLASS = {?x}, ?siblingUnion:CLASS = createUnion(?sibling.VALUES) SELECT Robert hasSibling ?x\n BEGIN ADD Robert types ?siblingUnion END;";
+        String query =
+            "?x:INDIVIDUAL, ?sibling:CLASS = {?x}, ?siblingUnion:CLASS = createUnion(?sibling.VALUES) SELECT Robert hasSibling ?x\n BEGIN ADD Robert types ?siblingUnion END;";
         // XXX expected has type instead of types
-        String expected = "?x:INDIVIDUAL, ?sibling:CLASS = {?x}, ?siblingUnion:CLASS = createUnion(?sibling.VALUES) SELECT Robert hasSibling ?x\n BEGIN ADD Robert type ?siblingUnion END;";
+        String expected =
+            "?x:INDIVIDUAL, ?sibling:CLASS = {?x}, ?siblingUnion:CLASS = createUnion(?sibling.VALUES) SELECT Robert hasSibling ?x\n BEGIN ADD Robert type ?siblingUnion END;";
         check(siblings, query, expected);
     }
 
     @Test
     public void shouldTestLowerCase() {
-        String query = "?x:CLASS = create(\"BLA\".toLowerCase) SELECT ?x subClassOf Thing\n BEGIN ADD ?x subClassOf Thing END;";
+        String query =
+            "?x:CLASS = create(\"BLA\".toLowerCase) SELECT ?x subClassOf Thing\n BEGIN ADD ?x subClassOf Thing END;";
         check(pizza, query, query);
     }
 
     @Test
     public void shouldTestUpperCase() {
-        String query = "?x:CLASS = create(\"BLA\".toUpperCase) SELECT ?x subClassOf Thing\n BEGIN ADD ?x subClassOf Thing END;";
+        String query =
+            "?x:CLASS = create(\"BLA\".toUpperCase) SELECT ?x subClassOf Thing\n BEGIN ADD ?x subClassOf Thing END;";
         check(pizza, query, query);
     }
 
     @Test
     public void shouldTestLowerCaseInConcat() {
-        String query = "?x:CLASS, ?y:CLASS = create(?x.RENDERING+\"_\"+\"BLA\".toLowerCase) SELECT ?x subClassOf Thing\n BEGIN ADD ?x subClassOf Thing END;";
+        String query =
+            "?x:CLASS, ?y:CLASS = create(?x.RENDERING+\"_\"+\"BLA\".toLowerCase) SELECT ?x subClassOf Thing\n BEGIN ADD ?x subClassOf Thing END;";
         check(pizza, query, query);
     }
 
-    private void equalsIgnoreWhitespace(String a, Object b) {
+    private static void equalsIgnoreWhitespace(String a, Object b) {
         if (!a.toLowerCase().equals(b.toString().toLowerCase())) {
-            System.out.println(new ComparisonFailure("", a,
-                b.toString()));
-            System.out.println("OPPLScriptTypesParserTest.equalsIgnoreWhitespace() " + b.toString());
+            System.out.println(new ComparisonFailure("", a, b.toString()));
+            System.out
+                .println("OPPLScriptTypesParserTest.equalsIgnoreWhitespace() " + b.toString());
         }
         assertEquals(a.toLowerCase(), b.toString().toLowerCase());
     }
 
     @Test
     public void shouldTestLowerCaseInConcatWithGroups() {
-        String query = "?x:CLASS= MATCH (\"(.+)Topping\"), ?y:CLASS = create(\"Topping_\"+?x.GROUPS(1).toLowerCase) SELECT ?x SubClassOf Thing\n BEGIN ADD ?x subClassOf Thing END;";
+        String query =
+            "?x:CLASS= MATCH (\"(.+)Topping\"), ?y:CLASS = create(\"Topping_\"+?x.GROUPS(1).toLowerCase) SELECT ?x SubClassOf Thing\n BEGIN ADD ?x subClassOf Thing END;";
         check(pizza, query, query);
     }
 
     @Test
     public void shouldTestLowerCaseParenthesys() {
-        String query = "?x:CLASS = create(\"Bla\"+\"Bla\".toLowerCase) SELECT ?x subClassOf Thing\n BEGIN ADD ?x subClassOf Thing END;";
+        String query =
+            "?x:CLASS = create(\"Bla\"+\"Bla\".toLowerCase) SELECT ?x subClassOf Thing\n BEGIN ADD ?x subClassOf Thing END;";
         check(pizza, query, query);
     }
 
     @Test
     public void shouldTestUpperCaseInConcatWithGroups() {
-        String query = "?x:CLASS= MATCH (\"(.+)Topping\"), ?y:CLASS = create(\"Topping_\"+?x.GROUPS(1).toUpperCase) SELECT ?x subClassOf Thing\n BEGIN ADD ?x subClassOf Thing END;";
+        String query =
+            "?x:CLASS= MATCH (\"(.+)Topping\"), ?y:CLASS = create(\"Topping_\"+?x.GROUPS(1).toUpperCase) SELECT ?x subClassOf Thing\n BEGIN ADD ?x subClassOf Thing END;";
         check(pizza, query, query);
     }
 
     @Test
     public void shouldTestUpperCaseInConcat() {
-        String query = "?x:CLASS, ?y:CLASS = create(?x.RENDERING+\"_\"+\"BLA\".toUpperCase) SELECT ?x subClassOf Thing\n BEGIN ADD ?x subClassOf Thing END;";
+        String query =
+            "?x:CLASS, ?y:CLASS = create(?x.RENDERING+\"_\"+\"BLA\".toUpperCase) SELECT ?x subClassOf Thing\n BEGIN ADD ?x subClassOf Thing END;";
         check(pizza, query, query);
     }
 }

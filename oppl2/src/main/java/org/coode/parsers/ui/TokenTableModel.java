@@ -3,7 +3,14 @@ package org.coode.parsers.ui;
 import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
 import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
@@ -27,8 +34,7 @@ public class TokenTableModel implements TableModel {
     private int maxUsedTokenIndex = 0;
 
     /**
-     * @param tokenFileSorters
-     *        tokenFileSorters
+     * @param tokenFileSorters tokenFileSorters
      */
     public TokenTableModel(Collection<? extends TokenFileSorter> tokenFileSorters) {
         this.tokenFileSorters.addAll(checkNotNull(tokenFileSorters, "tokenFileSorters"));
@@ -40,11 +46,10 @@ public class TokenTableModel implements TableModel {
             }
         }
         delegate.addColumn(TokenTableModel.TOKEN_NAME);
-        List<TokenFileSorter> sorterList = new ArrayList<>(
-            tokenFileSorters);
+        List<TokenFileSorter> sorterList = new ArrayList<>(tokenFileSorters);
         for (TokenFileSorter tokenFileSorter : sorterList) {
-            delegate.addColumn(tokenFileSorter.getPath().substring(
-                tokenFileSorter.getPath().lastIndexOf(File.separatorChar) + 1));
+            delegate.addColumn(tokenFileSorter.getPath()
+                .substring(tokenFileSorter.getPath().lastIndexOf(File.separatorChar) + 1));
         }
         for (String string : tokenNames) {
             delegate.addRow(getRow(string, sorterList));
@@ -155,10 +160,10 @@ public class TokenTableModel implements TableModel {
                 }
             }
             if (!found) {
-                unused.add(new Integer(i));
+                unused.add(Integer.valueOf(i));
             }
         }
         Collections.sort(unused);
-        return unused.get(0);
+        return unused.get(0).intValue();
     }
 }

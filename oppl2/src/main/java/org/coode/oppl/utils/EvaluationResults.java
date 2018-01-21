@@ -10,22 +10,26 @@ import org.coode.oppl.OPPLScript;
 import org.coode.oppl.bindingtree.Assignment;
 import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
-import org.semanticweb.owlapi.model.*;
-import org.semanticweb.owlapi.util.OWLOntologyChangeVisitorExAdapter;
+import org.semanticweb.owlapi.model.AddAxiom;
+import org.semanticweb.owlapi.model.AddImport;
+import org.semanticweb.owlapi.model.AddOntologyAnnotation;
+import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLAxiomChange;
+import org.semanticweb.owlapi.model.OWLOntologyChangeVisitorEx;
+import org.semanticweb.owlapi.model.RemoveAxiom;
+import org.semanticweb.owlapi.model.RemoveImport;
+import org.semanticweb.owlapi.model.RemoveOntologyAnnotation;
+import org.semanticweb.owlapi.model.SetOntologyID;
 
 /**
- * Utility class for collecting the evaluation results and dumping them into a
- * String
+ * Utility class for collecting the evaluation results and dumping them into a String
  * 
  * @author Luigi Iannone
  */
 public class EvaluationResults {
 
-    private final class ChangeRenderer extends OWLOntologyChangeVisitorExAdapter<String> {
-
-        public ChangeRenderer() {
-            super(null);
-        }
+    private final class ChangeRenderer implements OWLOntologyChangeVisitorEx<String> {
+        public ChangeRenderer() {}
 
         @Override
         public String visit(AddAxiom change) {
@@ -33,14 +37,12 @@ public class EvaluationResults {
         }
 
         /**
-         * @param axiom
-         *        axiom
+         * @param axiom axiom
          * @return render
          */
         private String renderAxiom(OWLAxiom axiom) {
             ConstraintSystem cs = getOpplScript().getConstraintSystem();
-            ManchesterSyntaxRenderer renderer = cs.getOPPLFactory()
-                .getManchesterSyntaxRenderer(cs);
+            ManchesterSyntaxRenderer renderer = cs.getOPPLFactory().getManchesterSyntaxRenderer(cs);
             axiom.accept(renderer);
             return renderer.toString();
         }
@@ -81,10 +83,8 @@ public class EvaluationResults {
     private final ChangeRenderer changeRenderer;
 
     /**
-     * @param opplScript
-     *        opplScript
-     * @param changes
-     *        changes
+     * @param opplScript opplScript
+     * @param changes changes
      */
     public EvaluationResults(OPPLScript opplScript, List<OWLAxiomChange> changes) {
         this.opplScript = checkNotNull(opplScript, "opplScript");
@@ -112,14 +112,14 @@ public class EvaluationResults {
         out.append(String.format("Script: %s \n Bindings ", getOpplScript()));
         ConstraintSystem cs = getOpplScript().getConstraintSystem();
         if (cs.getLeaves() != null) {
-            out.append(String.format(" count %d \n", cs.getLeaves().size()));
+            out.append(String.format(" count %d \n", Integer.valueOf(cs.getLeaves().size())));
             for (BindingNode bindingNode : cs.getLeaves()) {
                 for (Assignment assignment : bindingNode.getAssignments()) {
-                    ManchesterSyntaxRenderer renderer = cs.getOPPLFactory()
-                        .getManchesterSyntaxRenderer(cs);
+                    ManchesterSyntaxRenderer renderer =
+                        cs.getOPPLFactory().getManchesterSyntaxRenderer(cs);
                     assignment.getAssignment().accept(renderer);
-                    out.append(String.format("%s = %s\n",
-                        assignment.getAssignedVariable(), renderer));
+                    out.append(
+                        String.format("%s = %s\n", assignment.getAssignedVariable(), renderer));
                 }
             }
             out.append("\n");
@@ -127,7 +127,7 @@ public class EvaluationResults {
             out.append(" (none) \n");
         }
         if (!changes.isEmpty()) {
-            out.append(String.format("Change count %d \n", changes.size()));
+            out.append(String.format("Change count %d \n", Integer.valueOf(changes.size())));
             for (OWLAxiomChange change : changes) {
                 out.append(String.format("%s \n", change.accept(changeRenderer)));
             }

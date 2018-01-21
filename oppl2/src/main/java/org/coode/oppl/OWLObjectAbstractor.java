@@ -24,20 +24,88 @@ package org.coode.oppl;
 
 import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.function.ValueComputationParameters;
-import org.semanticweb.owlapi.model.*;
-import org.semanticweb.owlapi.util.OWLObjectVisitorExAdapter;
+import org.semanticweb.owlapi.model.OWLAsymmetricObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLClassExpression;
+import org.semanticweb.owlapi.model.OWLDataAllValuesFrom;
+import org.semanticweb.owlapi.model.OWLDataComplementOf;
+import org.semanticweb.owlapi.model.OWLDataExactCardinality;
+import org.semanticweb.owlapi.model.OWLDataFactory;
+import org.semanticweb.owlapi.model.OWLDataHasValue;
+import org.semanticweb.owlapi.model.OWLDataMaxCardinality;
+import org.semanticweb.owlapi.model.OWLDataMinCardinality;
+import org.semanticweb.owlapi.model.OWLDataOneOf;
+import org.semanticweb.owlapi.model.OWLDataProperty;
+import org.semanticweb.owlapi.model.OWLDataPropertyAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLDataPropertyDomainAxiom;
+import org.semanticweb.owlapi.model.OWLDataPropertyRangeAxiom;
+import org.semanticweb.owlapi.model.OWLDataSomeValuesFrom;
+import org.semanticweb.owlapi.model.OWLDatatype;
+import org.semanticweb.owlapi.model.OWLDatatypeRestriction;
+import org.semanticweb.owlapi.model.OWLDeclarationAxiom;
+import org.semanticweb.owlapi.model.OWLDifferentIndividualsAxiom;
+import org.semanticweb.owlapi.model.OWLDisjointClassesAxiom;
+import org.semanticweb.owlapi.model.OWLDisjointDataPropertiesAxiom;
+import org.semanticweb.owlapi.model.OWLDisjointObjectPropertiesAxiom;
+import org.semanticweb.owlapi.model.OWLDisjointUnionAxiom;
+import org.semanticweb.owlapi.model.OWLEquivalentClassesAxiom;
+import org.semanticweb.owlapi.model.OWLEquivalentDataPropertiesAxiom;
+import org.semanticweb.owlapi.model.OWLEquivalentObjectPropertiesAxiom;
+import org.semanticweb.owlapi.model.OWLFunctionalDataPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLFunctionalObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLIndividual;
+import org.semanticweb.owlapi.model.OWLInverseFunctionalObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLInverseObjectPropertiesAxiom;
+import org.semanticweb.owlapi.model.OWLIrreflexiveObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLLiteral;
+import org.semanticweb.owlapi.model.OWLNamedIndividual;
+import org.semanticweb.owlapi.model.OWLNegativeDataPropertyAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLNegativeObjectPropertyAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLObjectAllValuesFrom;
+import org.semanticweb.owlapi.model.OWLObjectComplementOf;
+import org.semanticweb.owlapi.model.OWLObjectExactCardinality;
+import org.semanticweb.owlapi.model.OWLObjectHasSelf;
+import org.semanticweb.owlapi.model.OWLObjectHasValue;
+import org.semanticweb.owlapi.model.OWLObjectIntersectionOf;
+import org.semanticweb.owlapi.model.OWLObjectInverseOf;
+import org.semanticweb.owlapi.model.OWLObjectMaxCardinality;
+import org.semanticweb.owlapi.model.OWLObjectMinCardinality;
+import org.semanticweb.owlapi.model.OWLObjectOneOf;
+import org.semanticweb.owlapi.model.OWLObjectProperty;
+import org.semanticweb.owlapi.model.OWLObjectPropertyAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLObjectPropertyDomainAxiom;
+import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
+import org.semanticweb.owlapi.model.OWLObjectPropertyRangeAxiom;
+import org.semanticweb.owlapi.model.OWLObjectSomeValuesFrom;
+import org.semanticweb.owlapi.model.OWLObjectUnionOf;
+import org.semanticweb.owlapi.model.OWLObjectVisitorEx;
+import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLReflexiveObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLSameIndividualAxiom;
+import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
+import org.semanticweb.owlapi.model.OWLSubDataPropertyOfAxiom;
+import org.semanticweb.owlapi.model.OWLSubObjectPropertyOfAxiom;
+import org.semanticweb.owlapi.model.OWLSubPropertyChainOfAxiom;
+import org.semanticweb.owlapi.model.OWLSymmetricObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLTransitiveObjectPropertyAxiom;
 
 /**
  * Visitor that abstracts OWLObjects into variables.
  * 
  * @author Luigi Iannone
  */
-public class OWLObjectAbstractor extends OWLObjectVisitorExAdapter<OWLObject>implements
-    OWLObjectVisitorEx<OWLObject> {
+public class OWLObjectAbstractor implements OWLObjectVisitorEx<OWLObject> {
 
     private final ValueComputationParameters parameters;
     private final Set<Variable<?>> variables = new HashSet<>();
@@ -45,39 +113,32 @@ public class OWLObjectAbstractor extends OWLObjectVisitorExAdapter<OWLObject>imp
     private final OWLDataFactory df;
 
     /**
-     * @param variables
-     *        variables
-     * @param parameters
-     *        parameters
+     * @param variables variables
+     * @param parameters parameters
      */
     public OWLObjectAbstractor(Collection<? extends Variable<?>> variables,
         ValueComputationParameters parameters) {
         this(variables, parameters, parameters.getConstraintSystem().getLeaves());
     }
 
-    @Override
-    protected OWLObject getDefaultReturnValue(OWLObject object) {
-        return object;
-    }
-
     /**
-     * @param variables
-     *        variables
-     * @param parameters
-     *        parameters
-     * @param bindingNodes
-     *        bindingNodes
+     * @param variables variables
+     * @param parameters parameters
+     * @param bindingNodes bindingNodes
      */
     public OWLObjectAbstractor(Collection<? extends Variable<?>> variables,
-        ValueComputationParameters parameters,
-        Collection<? extends BindingNode> bindingNodes) {
-        super(null);
+        ValueComputationParameters parameters, Collection<? extends BindingNode> bindingNodes) {
         this.variables.addAll(checkNotNull(variables, "variables"));
         this.parameters = checkNotNull(parameters, "parameters");
         if (bindingNodes != null) {
             this.bindingNodes.addAll(bindingNodes);
         }
         df = parameters.getConstraintSystem().getOntologyManager().getOWLDataFactory();
+    }
+
+    @Override
+    public <T> OWLObject doDefault(T object) {
+        return (OWLObject) object;
     }
 
     private <T extends OWLObject> T abs(T property) {
@@ -102,8 +163,8 @@ public class OWLObjectAbstractor extends OWLObjectVisitorExAdapter<OWLObject>imp
             Iterator<BindingNode> bindingNodesIterator = getBindingNodes().iterator();
             while (!found && bindingNodesIterator.hasNext()) {
                 BindingNode bindingNode = bindingNodesIterator.next();
-                found = bindingNode.getAssignmentValue(aVariable, getParameters())
-                    .equals(owlObject);
+                found =
+                    bindingNode.getAssignmentValue(aVariable, getParameters()).equals(owlObject);
             }
         }
         if (found) {
@@ -187,26 +248,22 @@ public class OWLObjectAbstractor extends OWLObjectVisitorExAdapter<OWLObject>imp
 
     @Override
     public OWLObject visit(OWLDataPropertyDomainAxiom axiom) {
-        return df.getOWLDataPropertyDomainAxiom(abs(axiom.getProperty()),
-            abs(axiom.getDomain()));
+        return df.getOWLDataPropertyDomainAxiom(abs(axiom.getProperty()), abs(axiom.getDomain()));
     }
 
     @Override
     public OWLObject visit(OWLDataPropertyRangeAxiom axiom) {
-        return df.getOWLDataPropertyRangeAxiom(abs(axiom.getProperty()),
-            abs(axiom.getRange()));
+        return df.getOWLDataPropertyRangeAxiom(abs(axiom.getProperty()), abs(axiom.getRange()));
     }
 
     @Override
     public OWLObject visit(OWLDatatypeRestriction node) {
-        return df.getOWLDatatypeRestriction(abs(node.getDatatype()),
-            node.getFacetRestrictions());
+        return df.getOWLDatatypeRestriction(abs(node.getDatatype()), node.getFacetRestrictions());
     }
 
     @Override
     public OWLObject visit(OWLDataSomeValuesFrom desc) {
-        return df
-            .getOWLDataSomeValuesFrom(abs(desc.getProperty()), abs(desc.getFiller()));
+        return df.getOWLDataSomeValuesFrom(abs(desc.getProperty()), abs(desc.getFiller()));
     }
 
     @Override
@@ -321,8 +378,7 @@ public class OWLObjectAbstractor extends OWLObjectVisitorExAdapter<OWLObject>imp
 
     @Override
     public OWLClassExpression visit(OWLObjectAllValuesFrom desc) {
-        return df.getOWLObjectAllValuesFrom(abs(desc.getProperty()),
-            abs(desc.getFiller()));
+        return df.getOWLObjectAllValuesFrom(abs(desc.getProperty()), abs(desc.getFiller()));
     }
 
     @Override
@@ -389,19 +445,17 @@ public class OWLObjectAbstractor extends OWLObjectVisitorExAdapter<OWLObject>imp
 
     @Override
     public OWLObject visit(OWLObjectPropertyDomainAxiom axiom) {
-        return df.getOWLObjectPropertyDomainAxiom(abs(axiom.getProperty()),
-            abs(axiom.getDomain()));
+        return df.getOWLObjectPropertyDomainAxiom(abs(axiom.getProperty()), abs(axiom.getDomain()));
     }
 
     @Override
     public OWLObject visit(OWLObjectInverseOf property) {
-        return df.getOWLObjectInverseOf(abs(property.getInverse()));
+        return df.getOWLObjectInverseOf(abs(property.getInverse().asOWLObjectProperty()));
     }
 
     @Override
     public OWLObject visit(OWLObjectPropertyRangeAxiom axiom) {
-        return df.getOWLObjectPropertyRangeAxiom(abs(axiom.getProperty()),
-            abs(axiom.getRange()));
+        return df.getOWLObjectPropertyRangeAxiom(abs(axiom.getProperty()), abs(axiom.getRange()));
     }
 
     @Override
@@ -411,8 +465,7 @@ public class OWLObjectAbstractor extends OWLObjectVisitorExAdapter<OWLObject>imp
 
     @Override
     public OWLClassExpression visit(OWLObjectSomeValuesFrom desc) {
-        return df.getOWLObjectSomeValuesFrom(abs(desc.getProperty()),
-            abs(desc.getFiller()));
+        return df.getOWLObjectSomeValuesFrom(abs(desc.getProperty()), abs(desc.getFiller()));
     }
 
     @Override
@@ -448,8 +501,7 @@ public class OWLObjectAbstractor extends OWLObjectVisitorExAdapter<OWLObject>imp
 
     @Override
     public OWLObject visit(OWLSubClassOfAxiom axiom) {
-        return df.getOWLSubClassOfAxiom(abs(axiom.getSubClass()),
-            abs(axiom.getSuperClass()));
+        return df.getOWLSubClassOfAxiom(abs(axiom.getSubClass()), abs(axiom.getSuperClass()));
     }
 
     @Override

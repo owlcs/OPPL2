@@ -5,40 +5,56 @@ import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import org.coode.oppl.function.inline.InlineSet;
-import org.semanticweb.owlapi.model.*;
+import org.semanticweb.owlapi.model.AxiomType;
+import org.semanticweb.owlapi.model.OWLAnnotation;
+import org.semanticweb.owlapi.model.OWLAnnotationProperty;
+import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLAxiomVisitor;
+import org.semanticweb.owlapi.model.OWLAxiomVisitorEx;
+import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLClassExpression;
+import org.semanticweb.owlapi.model.OWLDataProperty;
+import org.semanticweb.owlapi.model.OWLDatatype;
+import org.semanticweb.owlapi.model.OWLDifferentIndividualsAxiom;
+import org.semanticweb.owlapi.model.OWLEntity;
+import org.semanticweb.owlapi.model.OWLIndividual;
+import org.semanticweb.owlapi.model.OWLNamedIndividual;
+import org.semanticweb.owlapi.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLObjectProperty;
+import org.semanticweb.owlapi.model.OWLObjectVisitor;
+import org.semanticweb.owlapi.model.OWLObjectVisitorEx;
+import org.semanticweb.owlapi.model.OWLPairwiseVisitor;
+import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 
 /**
  * @author Luigi Iannone
  */
-public class OPPLOWLDifferentIndividualsAxiom extends
-    AbstractInlineSetAxiom<OWLIndividual>implements OWLDifferentIndividualsAxiom {
+public class OPPLOWLDifferentIndividualsAxiom extends AbstractInlineSetAxiom<OWLIndividual>
+    implements OWLDifferentIndividualsAxiom {
 
     private static final long serialVersionUID = 20100L;
     private final OWLDifferentIndividualsAxiom delegate;
     private final boolean shouldExpandAsPairWise;
 
     /**
-     * @param dataFactory
-     *        dataFactory
-     * @param individuals
-     *        individuals
-     * @param annotations
-     *        annotations
-     * @param shouldExpandAsPairWise
-     *        shouldExpandAsPairWise
+     * @param dataFactory dataFactory
+     * @param individuals individuals
+     * @param annotations annotations
+     * @param shouldExpandAsPairWise shouldExpandAsPairWise
      */
     public OPPLOWLDifferentIndividualsAxiom(OPPLOWLDataFactory dataFactory,
-        InlineSet<OWLIndividual> individuals,
-        Set<? extends OWLAnnotation> annotations, boolean shouldExpandAsPairWise) {
+        InlineSet<OWLIndividual> individuals, Collection<OWLAnnotation> annotations,
+        boolean shouldExpandAsPairWise) {
         super(individuals);
         checkNotNull(dataFactory, "dataFactory");
         checkNotNull(individuals, "individuals");
         checkNotNull(annotations, "annotations");
         this.shouldExpandAsPairWise = shouldExpandAsPairWise;
-        delegate = dataFactory.getDelegate().getOWLDifferentIndividualsAxiom(individuals,
-            annotations);
+        delegate =
+            dataFactory.getDelegate().getOWLDifferentIndividualsAxiom(individuals, annotations);
     }
 
     /**
@@ -60,18 +76,8 @@ public class OPPLOWLDifferentIndividualsAxiom extends
     }
 
     @Override
-    public Set<OWLAnonymousIndividual> getAnonymousIndividuals() {
-        return delegate.getAnonymousIndividuals();
-    }
-
-    @Override
     public boolean isAnnotationAxiom() {
         return delegate.isAnnotationAxiom();
-    }
-
-    @Override
-    public Set<OWLIndividual> getIndividuals() {
-        return delegate.getIndividuals();
     }
 
     @Override
@@ -80,7 +86,7 @@ public class OPPLOWLDifferentIndividualsAxiom extends
     }
 
     @Override
-    public Set<OWLSubClassOfAxiom> asOWLSubClassOfAxioms() {
+    public Collection<OWLSubClassOfAxiom> asOWLSubClassOfAxioms() {
         return delegate.asOWLSubClassOfAxioms();
     }
 
@@ -100,7 +106,7 @@ public class OPPLOWLDifferentIndividualsAxiom extends
     }
 
     @Override
-    public Set<OWLDifferentIndividualsAxiom> asPairwiseAxioms() {
+    public Collection<OWLDifferentIndividualsAxiom> asPairwiseAxioms() {
         return delegate.asPairwiseAxioms();
     }
 
@@ -165,11 +171,6 @@ public class OPPLOWLDifferentIndividualsAxiom extends
     }
 
     @Override
-    public OWLAxiom getAnnotatedAxiom(Set<OWLAnnotation> annotations) {
-        return delegate.getAnnotatedAxiom(annotations);
-    }
-
-    @Override
     public boolean equalsIgnoreAnnotations(OWLAxiom axiom) {
         return delegate.equalsIgnoreAnnotations(axiom);
     }
@@ -205,7 +206,7 @@ public class OPPLOWLDifferentIndividualsAxiom extends
     }
 
     @Override
-    public boolean isOfType(Set<AxiomType<?>> types) {
+    public boolean isOfType(Collection<AxiomType<?>> types) {
         return delegate.isOfType(types);
     }
 
@@ -235,7 +236,7 @@ public class OPPLOWLDifferentIndividualsAxiom extends
     }
 
     @Override
-    public Set<OWLDifferentIndividualsAxiom> splitToAnnotatedPairs() {
+    public Collection<OWLDifferentIndividualsAxiom> splitToAnnotatedPairs() {
         return delegate.splitToAnnotatedPairs();
     }
 
@@ -243,4 +244,15 @@ public class OPPLOWLDifferentIndividualsAxiom extends
     public <T> Collection<T> walkPairwise(OWLPairwiseVisitor<T, OWLIndividual> visitor) {
         return delegate.walkPairwise(visitor);
     }
+
+    @Override
+    public <T extends OWLAxiom> T getAnnotatedAxiom(Stream<OWLAnnotation> annotations) {
+        return delegate.getAnnotatedAxiom(annotations);
+    }
+
+    @Override
+    public Stream<OWLIndividual> individuals() {
+        return delegate.individuals();
+    }
+
 }

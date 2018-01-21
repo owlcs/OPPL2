@@ -9,7 +9,13 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.coode.parsers.oppl.testcase.OPPLTestCase;
-import org.coode.parsers.oppl.testcase.ui.report.*;
+import org.coode.parsers.oppl.testcase.ui.report.AssertionFailedExecutionReport;
+import org.coode.parsers.oppl.testcase.ui.report.ConfigurationFailedExecutionReport;
+import org.coode.parsers.oppl.testcase.ui.report.Report;
+import org.coode.parsers.oppl.testcase.ui.report.ReportVisitorEx;
+import org.coode.parsers.oppl.testcase.ui.report.RuntimeErrorEncounteredExecutionReport;
+import org.coode.parsers.oppl.testcase.ui.report.SuccessfulExecutionReport;
+import org.coode.parsers.oppl.testcase.ui.report.UnexecutedTestReport;
 
 /**
  * @author Luigi Iannone
@@ -40,8 +46,7 @@ public class SummaryPanel extends JPanel {
     }
 
     /**
-     * @param reportList
-     *        reportList
+     * @param reportList reportList
      */
     public void addReports(Map<OPPLTestCase, List<Report>> reportList) {
         reports.putAll(reportList);
@@ -62,33 +67,33 @@ public class SummaryPanel extends JPanel {
                         @Override
                         public Boolean visitSuccessfulExecutionReport(
                             SuccessfulExecutionReport successfulExecutionReport) {
-                            return true;
+                            return Boolean.TRUE;
                         }
 
                         @Override
                         public Boolean visitAssertionFailedExecutionReport(
                             AssertionFailedExecutionReport assertionFailedExecutionReport) {
-                            return false;
+                            return Boolean.FALSE;
                         }
 
                         @Override
                         public Boolean visitConfigurationFailedExecutionReport(
                             ConfigurationFailedExecutionReport configurationFailedExecutionReport) {
-                            return false;
+                            return Boolean.FALSE;
                         }
 
                         @Override
                         public Boolean visitRuntimeErrorEncounteredExecutionReport(
                             RuntimeErrorEncounteredExecutionReport runtimeErrorEncounteredExecutionReport) {
-                            return false;
+                            return Boolean.FALSE;
                         }
 
                         @Override
                         public Boolean visitUnexecutedTestReport(
                             UnexecutedTestReport unexecutedTestReport) {
-                            return false;
+                            return Boolean.FALSE;
                         }
-                    });
+                    }).booleanValue();
                     if (isSuccesful) {
                         okCount++;
                     } else {
@@ -97,10 +102,10 @@ public class SummaryPanel extends JPanel {
                 }
             }
         }
-        runTestSummary.setText(String.format("Run %d of %d", count, reports.keySet()
-            .size()));
-        okTestSummary.setText(String.format("Succesful %d", okCount));
-        errorTestSummary.setText(String.format("Failures %d", errorCount));
+        runTestSummary.setText(String.format("Run %d of %d", Integer.valueOf(count),
+            Integer.valueOf(reports.keySet().size())));
+        okTestSummary.setText(String.format("Succesful %d", Integer.valueOf(okCount)));
+        errorTestSummary.setText(String.format("Failures %d", Integer.valueOf(errorCount)));
     }
 
     /** clear reports */

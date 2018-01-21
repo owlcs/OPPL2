@@ -22,10 +22,8 @@ public class CountAssertionExpression implements AssertionExpression<Integer> {
     private final RuntimeExceptionHandler handler;
 
     /**
-     * @param variable
-     *        variable
-     * @param handler
-     *        handler
+     * @param variable variable
+     * @param handler handler
      */
     public CountAssertionExpression(Variable<?> variable, RuntimeExceptionHandler handler) {
         this.variable = checkNotNull(variable, "variable");
@@ -55,18 +53,17 @@ public class CountAssertionExpression implements AssertionExpression<Integer> {
     }
 
     @Override
-    public Integer resolve(Set<? extends BindingNode> bindings,
-        ConstraintSystem constraintSystem) {
+    public Integer resolve(Set<? extends BindingNode> bindings, ConstraintSystem constraintSystem) {
         Set<OWLObject> values = new HashSet<>(bindings.size());
         for (BindingNode bindingNode : bindings) {
-            ValueComputationParameters parameters = new SimpleValueComputationParameters(
-                constraintSystem, bindingNode, getHandler());
+            ValueComputationParameters parameters =
+                new SimpleValueComputationParameters(constraintSystem, bindingNode, getHandler());
             OWLObject value = bindingNode.getAssignmentValue(getVariable(), parameters);
             if (value != null) {
                 values.add(value);
             }
         }
-        return values.size();
+        return Integer.valueOf(values.size());
     }
 
     @Override

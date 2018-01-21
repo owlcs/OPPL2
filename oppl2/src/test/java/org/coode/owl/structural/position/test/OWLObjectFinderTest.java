@@ -11,7 +11,13 @@ import org.coode.oppl.utils.Position;
 import org.coode.oppl.variabletypes.VariableFactory;
 import org.junit.Test;
 import org.semanticweb.owlapi.apibinding.OWLManager;
-import org.semanticweb.owlapi.model.*;
+import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLClassExpression;
+import org.semanticweb.owlapi.model.OWLDataFactory;
+import org.semanticweb.owlapi.model.OWLObjectIntersectionOf;
+import org.semanticweb.owlapi.model.OWLObjectProperty;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 @SuppressWarnings("javadoc")
 public class OWLObjectFinderTest {
@@ -24,26 +30,26 @@ public class OWLObjectFinderTest {
         OWLClass b = dataFactory.getOWLClass(IRI.create("blah#B"));
         OWLObjectProperty p = dataFactory.getOWLObjectProperty(IRI.create("blah#p"));
         OWLObjectIntersectionOf aANDb = dataFactory.getOWLObjectIntersectionOf(a, b);
-        OWLObjectIntersectionOf aANDpSOMEa = dataFactory.getOWLObjectIntersectionOf(a,
-            dataFactory.getOWLObjectSomeValuesFrom(p, a));
+        OWLObjectIntersectionOf aANDpSOMEa =
+            dataFactory.getOWLObjectIntersectionOf(a, dataFactory.getOWLObjectSomeValuesFrom(p, a));
         List<List<Integer>> findAll = OWLObjectFinder.findAll(a, aANDb);
         assertTrue(findAll.size() == 1);
         for (List<Integer> position : findAll) {
             assertTrue(Position.get(aANDb, position).equals(a));
         }
-        assertTrue(findAll.get(0).equals(Arrays.<Integer> asList(1)));
+        assertTrue(findAll.get(0).equals(Arrays.<Integer>asList(Integer.valueOf(1))));
         findAll = OWLObjectFinder.findAll(b, aANDb);
         assertTrue(findAll.size() == 1);
         for (List<Integer> position : findAll) {
             assertTrue(Position.get(aANDb, position).equals(b));
         }
-        assertTrue(findAll.get(0).equals(Arrays.<Integer> asList(2)));
+        assertTrue(findAll.get(0).equals(Arrays.<Integer>asList(Integer.valueOf(2))));
         findAll = OWLObjectFinder.findAll(aANDb, aANDb);
         assertTrue(findAll.size() == 1);
         for (List<Integer> position : findAll) {
             assertTrue(Position.get(aANDb, position).equals(aANDb));
         }
-        assertTrue(findAll.get(0).equals(Arrays.<Integer> asList(0)));
+        assertTrue(findAll.get(0).equals(Arrays.<Integer>asList(Integer.valueOf(0))));
         findAll = OWLObjectFinder.findAll(a, aANDpSOMEa);
         assertTrue(findAll.size() == 2);
         for (List<Integer> position : findAll) {

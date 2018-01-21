@@ -43,7 +43,7 @@ public class SymbolBasedHashFunction implements HashFunction {
 
     private <O extends Object> int createHashCode(O key, Map<O, Integer> map) {
         int toReturn = PrimeNumbersUtils.getNextPrime(getMaxPrime());
-        map.put(key, toReturn);
+        map.put(key, Integer.valueOf(toReturn));
         setMaxPrime(toReturn);
         return toReturn;
     }
@@ -56,8 +56,7 @@ public class SymbolBasedHashFunction implements HashFunction {
     }
 
     /**
-     * @param maxPrime
-     *        the maxPrime to set
+     * @param maxPrime the maxPrime to set
      */
     private void setMaxPrime(int maxPrime) {
         this.maxPrime = maxPrime;

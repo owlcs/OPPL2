@@ -4,7 +4,44 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.semanticweb.owlapi.apibinding.OWLManager;
-import org.semanticweb.owlapi.model.*;
+import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLAnnotationAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLAnnotationProperty;
+import org.semanticweb.owlapi.model.OWLAnnotationSubject;
+import org.semanticweb.owlapi.model.OWLAnnotationValue;
+import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLClassExpression;
+import org.semanticweb.owlapi.model.OWLDataFactory;
+import org.semanticweb.owlapi.model.OWLDeclarationAxiom;
+import org.semanticweb.owlapi.model.OWLDifferentIndividualsAxiom;
+import org.semanticweb.owlapi.model.OWLDisjointClassesAxiom;
+import org.semanticweb.owlapi.model.OWLEntity;
+import org.semanticweb.owlapi.model.OWLEquivalentClassesAxiom;
+import org.semanticweb.owlapi.model.OWLFunctionalObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLIndividual;
+import org.semanticweb.owlapi.model.OWLInverseFunctionalObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLInverseObjectPropertiesAxiom;
+import org.semanticweb.owlapi.model.OWLLiteral;
+import org.semanticweb.owlapi.model.OWLNamedIndividual;
+import org.semanticweb.owlapi.model.OWLObjectAllValuesFrom;
+import org.semanticweb.owlapi.model.OWLObjectComplementOf;
+import org.semanticweb.owlapi.model.OWLObjectHasValue;
+import org.semanticweb.owlapi.model.OWLObjectIntersectionOf;
+import org.semanticweb.owlapi.model.OWLObjectMinCardinality;
+import org.semanticweb.owlapi.model.OWLObjectOneOf;
+import org.semanticweb.owlapi.model.OWLObjectProperty;
+import org.semanticweb.owlapi.model.OWLObjectPropertyDomainAxiom;
+import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
+import org.semanticweb.owlapi.model.OWLObjectPropertyRangeAxiom;
+import org.semanticweb.owlapi.model.OWLObjectSomeValuesFrom;
+import org.semanticweb.owlapi.model.OWLObjectUnionOf;
+import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
+import org.semanticweb.owlapi.model.OWLSubObjectPropertyOfAxiom;
+import org.semanticweb.owlapi.model.OWLTransitiveObjectPropertyAxiom;
 
 @SuppressWarnings("javadoc")
 public class TemplateTestOntologies {
@@ -21,6 +58,7 @@ public class TemplateTestOntologies {
         }
     }
 
+    @SafeVarargs
     private static void state(OWLOntology o, List<OWLAxiom>... axioms) {
         for (List<OWLAxiom> axs : axioms) {
             for (OWLAxiom ax : axs) {
@@ -44,7 +82,6 @@ public class TemplateTestOntologies {
         return axioms;
     }
 
-    @SuppressWarnings("unchecked")
     public static OWLOntology pizza(OWLOntologyManager m) {
         String ns = "http://pizza.com/pizza.owl#";
         try {
@@ -159,9 +196,8 @@ public class TemplateTestOntologies {
             OWLNamedIndividual England = NamedIndividual(ns + "England");
             OWLNamedIndividual France = NamedIndividual(ns + "France");
             OWLNamedIndividual America = NamedIndividual(ns + "America");
-            declare(_pizza, DeepPanBase, DomainConcept, hasBase, hasCountryOfOrigin,
-                hasIngredient, hasSpiciness, hasTopping, isBaseOf, isIngredientOf,
-                isToppingOf);
+            declare(_pizza, DeepPanBase, DomainConcept, hasBase, hasCountryOfOrigin, hasIngredient,
+                hasSpiciness, hasTopping, isBaseOf, isIngredientOf, isToppingOf);
             state(_pizza, label(GoatsCheeseTopping, "CoberturaDeQueijoDeCabra@pt"),
                 label(GorgonzolaTopping, "CoberturaDeGorgonzola@pt"),
                 label(GreenPepperTopping, "CoberturaDePimentaoVerde@pt"),
@@ -169,36 +205,29 @@ public class TemplateTestOntologies {
                 label(HerbSpiceTopping, "CoberturaDeErvas@pt"),
                 label(HotGreenPepperTopping, "CoberturaDePimentaoVerdePicante@pt"),
                 label(HotSpicedBeefTopping, "CoberturaDeBifePicante@pt"),
-                label(IceCream, "Sorvete@pt"),
-                label(InterestingPizza, "PizzaInteressante@pt"),
+                label(IceCream, "Sorvete@pt"), label(InterestingPizza, "PizzaInteressante@pt"),
                 label(JalapenoPepperTopping, "CoberturaDeJalapeno@pt"),
-                label(LaReine, "LaReine@pt"),
-                label(LeekTopping, "CoberturaDeLeek@pt"),
-                label(Margherita, "Margherita@pt"),
-                label(MeatTopping, "CoberturaDeCarne@pt"),
+                label(LaReine, "LaReine@pt"), label(LeekTopping, "CoberturaDeLeek@pt"),
+                label(Margherita, "Margherita@pt"), label(MeatTopping, "CoberturaDeCarne@pt"),
                 label(MeatyPizza, "PizzaDeCarne@pt"), label(Medium, "Media@pt"),
                 label(MixedSeafoodTopping, "CoberturaDeFrutosDoMarMistos@pt"),
                 label(MozzarellaTopping, "CoberturaDeMozzarella@pt"),
-                label(Mushroom, "Cogumelo@pt"),
-                label(MushroomTopping, "CoberturaDeCogumelo@pt"),
-                label(NamedPizza, "PizzaComUmNome@pt"),
-                label(Napoletana, "Napoletana@pt"),
+                label(Mushroom, "Cogumelo@pt"), label(MushroomTopping, "CoberturaDeCogumelo@pt"),
+                label(NamedPizza, "PizzaComUmNome@pt"), label(Napoletana, "Napoletana@pt"),
                 label(NonVegetarianPizza, "PizzaNaoVegetariana@pt"),
                 label(NutTopping, "CoberturaDeCastanha@pt"),
                 label(OliveTopping, "CoberturaDeAzeitona@pt"),
                 label(OnionTopping, "CoberturaDeCebola@pt"),
                 label(ParmaHamTopping, "CoberturaDePrezuntoParma@pt"),
                 label(Parmense, "Parmense@pt"), label(Hot, "Picante@pt"),
-                label(Mild, "NaoPicante@pt"), label(Pizza, "Pizza@en"),
-                label(Rosa, "Rosa@pt"), label(American, "Americana@pt"),
-                label(PineKernels, "CoberturaPineKernels@pt"),
+                label(Mild, "NaoPicante@pt"), label(Pizza, "Pizza@en"), label(Rosa, "Rosa@pt"),
+                label(American, "Americana@pt"), label(PineKernels, "CoberturaPineKernels@pt"),
                 label(PepperTopping, "CoberturaDePimentao@pt"),
                 label(PeperoniSausageTopping, "CoberturaDeCalabreza@pt"),
                 label(PetitPoisTopping, "CoberturaPetitPois@pt"),
                 label(PeperonataTopping, "CoberturaPeperonata@pt"),
                 label(ParmesanTopping, "CoberturaDeParmesao@pt"),
-                label(PizzaTopping, "CoberturaDaPizza@pt"),
-                label(PolloAdAstra, "PolloAdAstra@pt"),
+                label(PizzaTopping, "CoberturaDaPizza@pt"), label(PolloAdAstra, "PolloAdAstra@pt"),
                 label(PizzaBase, "BaseDaPizza@pt"), label(Spiciness, "Tempero@pt"),
                 label(SpicyPizza, "PizzaTemperada@pt"),
                 label(SpicyPizzaEquivalent, "PizzaTemperadaEquivalente@pt"),
@@ -210,15 +239,13 @@ public class TemplateTestOntologies {
                 label(ThinAndCrispyBase, "BaseFinaEQuebradica@pt"),
                 label(TobascoPepperSauce, "MolhoTobascoPepper@pt"),
                 label(TomatoTopping, "CoberturaDeTomate@pt"),
-                label(UnclosedPizza, "PizzaAberta@pt"),
-                label(ValuePartition, "ValorDaParticao@pt"),
+                label(UnclosedPizza, "PizzaAberta@pt"), label(ValuePartition, "ValorDaParticao@pt"),
                 label(VegetableTopping, "CoberturaDeVegetais@pt"),
                 label(VegetarianPizza, "PizzaVegetariana@pt"),
                 label(VegetarianPizzaEquivalent1, "PizzaVegetarianaEquivalente1@pt"),
                 label(VegetarianPizzaEquivalent2, "PizzaVegetarianaEquivalente2@pt"),
                 label(VegetarianTopping, "CoberturaVegetariana@pt"),
-                label(Veneziana, "Veneziana@pt"),
-                label(PrawnsTopping, "CoberturaDeCamarao@pt"),
+                label(Veneziana, "Veneziana@pt"), label(PrawnsTopping, "CoberturaDeCamarao@pt"),
                 label(Siciliana, "Siciliana@pt"),
                 label(SlicedTomatoTopping, "CoberturaDeTomateFatiado@pt"),
                 label(SloppyGiuseppe, "SloppyGiuseppe@pt"),
@@ -234,31 +261,24 @@ public class TemplateTestOntologies {
                 label(ArtichokeTopping, "CoberturaDeArtichoke@pt"),
                 label(AsparagusTopping, "CoberturaDeAspargos@pt"),
                 label(CajunSpiceTopping, "CoberturaDeCajun@pt"),
-                label(CaperTopping, "CoberturaDeCaper@pt"),
-                label(Capricciosa, "Capricciosa@pt"), label(Cajun, "Cajun@pt"),
-                label(Caprina, "Caprina@pt"),
+                label(CaperTopping, "CoberturaDeCaper@pt"), label(Capricciosa, "Capricciosa@pt"),
+                label(Cajun, "Cajun@pt"), label(Caprina, "Caprina@pt"),
                 label(CheeseTopping, "CoberturaDeQueijo@pt"),
                 label(CheeseyPizza, "PizzaComQueijo@pt"),
                 label(CheeseyVegetableTopping, "CoberturaDeQueijoComVegetais@pt"),
-                label(ChickenTopping, "CoberturaDeFrango@pt"),
-                label(Country, "Pais@pt"), label(DeepPanBase, "BaseEspessa@pt"),
-                label(Fiorentina, "Fiorentina@pt"),
+                label(ChickenTopping, "CoberturaDeFrango@pt"), label(Country, "Pais@pt"),
+                label(DeepPanBase, "BaseEspessa@pt"), label(Fiorentina, "Fiorentina@pt"),
                 label(FishTopping, "CoberturaDePeixe@pt"),
                 label(FourCheesesTopping, "CoberturaQuatroQueijos@pt"),
-                label(FourSeasons, "QuatroQueijos@pt"),
-                label(FruitTopping, "CoberturaDeFrutas@pt"),
-                label(FruttiDiMare, "FrutosDoMar@pt"),
-                label(GarlicTopping, "CoberturaDeAlho@pt"),
+                label(FourSeasons, "QuatroQueijos@pt"), label(FruitTopping, "CoberturaDeFrutas@pt"),
+                label(FruttiDiMare, "FrutosDoMar@pt"), label(GarlicTopping, "CoberturaDeAlho@pt"),
                 label(Giardiniera, "Giardiniera@pt"), label(Soho, "Soho@pt"));
-            state(_pizza,
-                sub(American, NamedPizza),
+            state(_pizza, sub(American, NamedPizza),
                 sub(American, some(hasTopping, MozzarellaTopping)),
                 sub(American, some(hasTopping, PeperoniSausageTopping)),
                 sub(American, some(hasTopping, TomatoTopping)),
                 sub(American,
-                    all(hasTopping,
-                        or(MozzarellaTopping, PeperoniSausageTopping,
-                            TomatoTopping))),
+                    all(hasTopping, or(MozzarellaTopping, PeperoniSausageTopping, TomatoTopping))),
                 sub(AmericanHot, NamedPizza),
                 sub(AmericanHot, some(hasTopping, HotGreenPepperTopping)),
                 sub(AmericanHot, some(hasTopping, JalapenoPepperTopping)),
@@ -267,15 +287,12 @@ public class TemplateTestOntologies {
                 sub(AmericanHot, some(hasTopping, TomatoTopping)),
                 sub(AmericanHot,
                     all(hasTopping,
-                        or(HotGreenPepperTopping, JalapenoPepperTopping,
-                            MozzarellaTopping, PeperoniSausageTopping,
-                            TomatoTopping))),
-                sub(AnchoviesTopping, FishTopping),
-                sub(ArtichokeTopping, VegetableTopping),
+                        or(HotGreenPepperTopping, JalapenoPepperTopping, MozzarellaTopping,
+                            PeperoniSausageTopping, TomatoTopping))),
+                sub(AnchoviesTopping, FishTopping), sub(ArtichokeTopping, VegetableTopping),
                 sub(ArtichokeTopping, some(hasSpiciness, Mild)),
                 sub(AsparagusTopping, VegetableTopping),
-                sub(AsparagusTopping, some(hasSpiciness, Mild)),
-                sub(Cajun, NamedPizza),
+                sub(AsparagusTopping, some(hasSpiciness, Mild)), sub(Cajun, NamedPizza),
                 sub(Cajun, some(hasTopping, MozzarellaTopping)),
                 sub(Cajun, some(hasTopping, OnionTopping)),
                 sub(Cajun, some(hasTopping, PeperonataTopping)),
@@ -284,15 +301,12 @@ public class TemplateTestOntologies {
                 sub(Cajun, some(hasTopping, TomatoTopping)),
                 sub(Cajun,
                     all(hasTopping,
-                        or(MozzarellaTopping, OnionTopping,
-                            PeperonataTopping, PrawnsTopping,
+                        or(MozzarellaTopping, OnionTopping, PeperonataTopping, PrawnsTopping,
                             TobascoPepperSauce, TomatoTopping))),
                 sub(CajunSpiceTopping, HerbSpiceTopping),
                 sub(CajunSpiceTopping, some(hasSpiciness, Hot)),
-                sub(CaperTopping, VegetableTopping),
-                sub(CaperTopping, some(hasSpiciness, Mild)),
-                sub(Capricciosa, NamedPizza),
-                sub(Capricciosa, some(hasTopping, AnchoviesTopping)),
+                sub(CaperTopping, VegetableTopping), sub(CaperTopping, some(hasSpiciness, Mild)),
+                sub(Capricciosa, NamedPizza), sub(Capricciosa, some(hasTopping, AnchoviesTopping)),
                 sub(Capricciosa, some(hasTopping, CaperTopping)),
                 sub(Capricciosa, some(hasTopping, HamTopping)),
                 sub(Capricciosa, some(hasTopping, MozzarellaTopping)),
@@ -301,31 +315,24 @@ public class TemplateTestOntologies {
                 sub(Capricciosa, some(hasTopping, TomatoTopping)),
                 sub(Capricciosa,
                     all(hasTopping,
-                        or(AnchoviesTopping, CaperTopping, HamTopping,
-                            MozzarellaTopping, OliveTopping,
-                            PeperonataTopping, TomatoTopping))),
-                sub(Caprina, NamedPizza),
-                sub(Caprina, some(hasTopping, GoatsCheeseTopping)),
+                        or(AnchoviesTopping, CaperTopping, HamTopping, MozzarellaTopping,
+                            OliveTopping, PeperonataTopping, TomatoTopping))),
+                sub(Caprina, NamedPizza), sub(Caprina, some(hasTopping, GoatsCheeseTopping)),
                 sub(Caprina, some(hasTopping, MozzarellaTopping)),
                 sub(Caprina, some(hasTopping, SundriedTomatoTopping)),
                 sub(Caprina, some(hasTopping, TomatoTopping)),
                 sub(Caprina,
                     all(hasTopping,
-                        or(GoatsCheeseTopping, MozzarellaTopping,
-                            SundriedTomatoTopping, TomatoTopping))),
+                        or(GoatsCheeseTopping, MozzarellaTopping, SundriedTomatoTopping,
+                            TomatoTopping))),
                 sub(CheeseTopping, PizzaTopping),
                 eq(CheeseyPizza, and(some(hasTopping, CheeseTopping), Pizza)),
                 sub(CheeseyVegetableTopping, CheeseTopping),
-                sub(CheeseyVegetableTopping, VegetableTopping),
-                sub(ChickenTopping, MeatTopping),
+                sub(CheeseyVegetableTopping, VegetableTopping), sub(ChickenTopping, MeatTopping),
                 sub(ChickenTopping, some(hasSpiciness, Mild)),
-                eq(Country,
-                    and(one(Italy, France, England, America, Germany),
-                        DomainConcept)),
-                sub(DeepPanBase, PizzaBase),
-                disjoint(DeepPanBase, ThinAndCrispyBase),
-                disjoint(DomainConcept, ValuePartition),
-                sub(Fiorentina, NamedPizza),
+                eq(Country, and(one(Italy, France, England, America, Germany), DomainConcept)),
+                sub(DeepPanBase, PizzaBase), disjoint(DeepPanBase, ThinAndCrispyBase),
+                disjoint(DomainConcept, ValuePartition), sub(Fiorentina, NamedPizza),
                 sub(Fiorentina, some(hasTopping, GarlicTopping)),
                 sub(Fiorentina, some(hasTopping, MozzarellaTopping)),
                 sub(Fiorentina, some(hasTopping, OliveTopping)),
@@ -334,14 +341,11 @@ public class TemplateTestOntologies {
                 sub(Fiorentina, some(hasTopping, TomatoTopping)),
                 sub(Fiorentina,
                     all(hasTopping,
-                        or(GarlicTopping, MozzarellaTopping, OliveTopping,
-                            ParmesanTopping, SpinachTopping,
-                            TomatoTopping))),
-                sub(FishTopping, PizzaTopping),
-                sub(FishTopping, some(hasSpiciness, Mild)),
+                        or(GarlicTopping, MozzarellaTopping, OliveTopping, ParmesanTopping,
+                            SpinachTopping, TomatoTopping))),
+                sub(FishTopping, PizzaTopping), sub(FishTopping, some(hasSpiciness, Mild)),
                 sub(FourCheesesTopping, CheeseTopping),
-                sub(FourCheesesTopping, some(hasSpiciness, Mild)),
-                sub(FourSeasons, NamedPizza),
+                sub(FourCheesesTopping, some(hasSpiciness, Mild)), sub(FourSeasons, NamedPizza),
                 sub(FourSeasons, some(hasTopping, AnchoviesTopping)),
                 sub(FourSeasons, some(hasTopping, CaperTopping)),
                 sub(FourSeasons, some(hasTopping, MozzarellaTopping)),
@@ -351,20 +355,16 @@ public class TemplateTestOntologies {
                 sub(FourSeasons, some(hasTopping, TomatoTopping)),
                 sub(FourSeasons,
                     all(hasTopping,
-                        or(AnchoviesTopping, CaperTopping, MozzarellaTopping,
-                            MushroomTopping, OliveTopping,
-                            PeperoniSausageTopping, TomatoTopping))),
-                sub(FruitTopping, PizzaTopping),
-                sub(FruttiDiMare, NamedPizza),
+                        or(AnchoviesTopping, CaperTopping, MozzarellaTopping, MushroomTopping,
+                            OliveTopping, PeperoniSausageTopping, TomatoTopping))),
+                sub(FruitTopping, PizzaTopping), sub(FruttiDiMare, NamedPizza),
                 sub(FruttiDiMare, some(hasTopping, GarlicTopping)),
                 sub(FruttiDiMare, some(hasTopping, MixedSeafoodTopping)),
                 sub(FruttiDiMare, some(hasTopping, TomatoTopping)),
                 sub(FruttiDiMare,
-                    all(hasTopping,
-                        or(GarlicTopping, MixedSeafoodTopping, TomatoTopping))),
+                    all(hasTopping, or(GarlicTopping, MixedSeafoodTopping, TomatoTopping))),
                 sub(GarlicTopping, VegetableTopping),
-                sub(GarlicTopping, some(hasSpiciness, Medium)),
-                sub(Giardiniera, NamedPizza),
+                sub(GarlicTopping, some(hasSpiciness, Medium)), sub(Giardiniera, NamedPizza),
                 sub(Giardiniera, some(hasTopping, LeekTopping)),
                 sub(Giardiniera, some(hasTopping, MozzarellaTopping)),
                 sub(Giardiniera, some(hasTopping, MushroomTopping)),
@@ -373,30 +373,23 @@ public class TemplateTestOntologies {
                 sub(Giardiniera, some(hasTopping, PetitPoisTopping)),
                 sub(Giardiniera, some(hasTopping, SlicedTomatoTopping)),
                 sub(Giardiniera, some(hasTopping, TomatoTopping)),
-                sub(Giardiniera,
-                    all(hasTopping,
-                        or(LeekTopping, MozzarellaTopping, MushroomTopping,
-                            OliveTopping, PeperonataTopping,
-                            PetitPoisTopping, SlicedTomatoTopping,
-                            TomatoTopping))),
+                sub(Giardiniera, all(hasTopping,
+                    or(LeekTopping, MozzarellaTopping, MushroomTopping, OliveTopping,
+                        PeperonataTopping, PetitPoisTopping, SlicedTomatoTopping, TomatoTopping))),
                 sub(GoatsCheeseTopping, CheeseTopping),
                 sub(GoatsCheeseTopping, some(hasSpiciness, Mild)),
                 sub(GorgonzolaTopping, CheeseTopping),
                 sub(GorgonzolaTopping, some(hasSpiciness, Mild)),
-                sub(GreenPepperTopping, PepperTopping),
-                sub(HamTopping, MeatTopping),
-                sub(HerbSpiceTopping, PizzaTopping),
-                sub(Hot, Spiciness),
+                sub(GreenPepperTopping, PepperTopping), sub(HamTopping, MeatTopping),
+                sub(HerbSpiceTopping, PizzaTopping), sub(Hot, Spiciness),
                 sub(HotGreenPepperTopping, GreenPepperTopping),
                 sub(HotGreenPepperTopping, some(hasSpiciness, Hot)),
                 sub(HotSpicedBeefTopping, MeatTopping),
-                sub(HotSpicedBeefTopping, some(hasSpiciness, Hot)),
-                sub(IceCream, DomainConcept),
+                sub(HotSpicedBeefTopping, some(hasSpiciness, Hot)), sub(IceCream, DomainConcept),
                 sub(IceCream, some(hasTopping, FruitTopping)),
                 eq(InterestingPizza, and(min(3, hasTopping, OWLThing()), Pizza)),
                 sub(JalapenoPepperTopping, PepperTopping),
-                sub(JalapenoPepperTopping, some(hasSpiciness, Hot)),
-                sub(LaReine, NamedPizza),
+                sub(JalapenoPepperTopping, some(hasSpiciness, Hot)), sub(LaReine, NamedPizza),
                 sub(LaReine, some(hasTopping, HamTopping)),
                 sub(LaReine, some(hasTopping, MozzarellaTopping)),
                 sub(LaReine, some(hasTopping, MushroomTopping)),
@@ -404,53 +397,40 @@ public class TemplateTestOntologies {
                 sub(LaReine, some(hasTopping, TomatoTopping)),
                 sub(LaReine,
                     all(hasTopping,
-                        or(HamTopping, MozzarellaTopping, MushroomTopping,
-                            OliveTopping, TomatoTopping))),
-                sub(LeekTopping, VegetableTopping),
-                sub(LeekTopping, some(hasSpiciness, Mild)),
-                sub(Margherita, NamedPizza),
-                sub(Margherita, some(hasTopping, MozzarellaTopping)),
+                        or(HamTopping, MozzarellaTopping, MushroomTopping, OliveTopping,
+                            TomatoTopping))),
+                sub(LeekTopping, VegetableTopping), sub(LeekTopping, some(hasSpiciness, Mild)),
+                sub(Margherita, NamedPizza), sub(Margherita, some(hasTopping, MozzarellaTopping)),
                 sub(Margherita, some(hasTopping, TomatoTopping)),
                 sub(Margherita, all(hasTopping, or(TomatoTopping, MozzarellaTopping))),
                 sub(MeatTopping, PizzaTopping),
-                eq(MeatyPizza, and(some(hasTopping, MeatTopping), Pizza)),
-                sub(Medium, Spiciness),
-                sub(Mild, Spiciness),
-                sub(MixedSeafoodTopping, FishTopping),
+                eq(MeatyPizza, and(some(hasTopping, MeatTopping), Pizza)), sub(Medium, Spiciness),
+                sub(Mild, Spiciness), sub(MixedSeafoodTopping, FishTopping),
                 sub(MozzarellaTopping, CheeseTopping),
                 sub(MozzarellaTopping, some(hasSpiciness, Mild)),
-                sub(MozzarellaTopping, has(hasCountryOfOrigin, Italy)),
-                sub(Mushroom, NamedPizza),
+                sub(MozzarellaTopping, has(hasCountryOfOrigin, Italy)), sub(Mushroom, NamedPizza),
                 sub(Mushroom, some(hasTopping, MozzarellaTopping)),
                 sub(Mushroom, some(hasTopping, MushroomTopping)),
                 sub(Mushroom, some(hasTopping, TomatoTopping)),
                 sub(Mushroom,
-                    all(hasTopping,
-                        or(MozzarellaTopping, MushroomTopping, TomatoTopping))),
+                    all(hasTopping, or(MozzarellaTopping, MushroomTopping, TomatoTopping))),
                 sub(MushroomTopping, VegetableTopping),
-                sub(MushroomTopping, some(hasSpiciness, Mild)),
-                sub(NamedPizza, Pizza),
-                sub(Napoletana, NamedPizza),
-                sub(Napoletana, some(hasTopping, AnchoviesTopping)),
+                sub(MushroomTopping, some(hasSpiciness, Mild)), sub(NamedPizza, Pizza),
+                sub(Napoletana, NamedPizza), sub(Napoletana, some(hasTopping, AnchoviesTopping)),
                 sub(Napoletana, some(hasTopping, CaperTopping)),
                 sub(Napoletana, some(hasTopping, MozzarellaTopping)),
                 sub(Napoletana, some(hasTopping, OliveTopping)),
                 sub(Napoletana, some(hasTopping, TomatoTopping)),
                 sub(Napoletana,
                     all(hasTopping,
-                        or(AnchoviesTopping, CaperTopping, MozzarellaTopping,
-                            OliveTopping, TomatoTopping))),
+                        or(AnchoviesTopping, CaperTopping, MozzarellaTopping, OliveTopping,
+                            TomatoTopping))),
                 eq(NonVegetarianPizza, and(c(VegetarianPizza), Pizza)),
-                disjoint(NonVegetarianPizza, VegetarianPizza),
-                sub(NutTopping, PizzaTopping),
-                sub(NutTopping, some(hasSpiciness, Mild)),
-                sub(OliveTopping, VegetableTopping),
-                sub(OliveTopping, some(hasSpiciness, Mild)),
-                sub(OnionTopping, VegetableTopping),
-                sub(OnionTopping, some(hasSpiciness, Medium)),
-                sub(ParmaHamTopping, HamTopping),
-                sub(ParmaHamTopping, some(hasSpiciness, Mild)),
-                sub(Parmense, NamedPizza),
+                disjoint(NonVegetarianPizza, VegetarianPizza), sub(NutTopping, PizzaTopping),
+                sub(NutTopping, some(hasSpiciness, Mild)), sub(OliveTopping, VegetableTopping),
+                sub(OliveTopping, some(hasSpiciness, Mild)), sub(OnionTopping, VegetableTopping),
+                sub(OnionTopping, some(hasSpiciness, Medium)), sub(ParmaHamTopping, HamTopping),
+                sub(ParmaHamTopping, some(hasSpiciness, Mild)), sub(Parmense, NamedPizza),
                 sub(Parmense, some(hasTopping, AsparagusTopping)),
                 sub(Parmense, some(hasTopping, HamTopping)),
                 sub(Parmense, some(hasTopping, MozzarellaTopping)),
@@ -458,22 +438,17 @@ public class TemplateTestOntologies {
                 sub(Parmense, some(hasTopping, TomatoTopping)),
                 sub(Parmense,
                     all(hasTopping,
-                        or(AsparagusTopping, HamTopping, MozzarellaTopping,
-                            ParmesanTopping, TomatoTopping))),
-                sub(ParmesanTopping, CheeseTopping),
-                sub(ParmesanTopping, some(hasSpiciness, Mild)),
+                        or(AsparagusTopping, HamTopping, MozzarellaTopping, ParmesanTopping,
+                            TomatoTopping))),
+                sub(ParmesanTopping, CheeseTopping), sub(ParmesanTopping, some(hasSpiciness, Mild)),
                 sub(PeperonataTopping, PepperTopping),
                 sub(PeperonataTopping, some(hasSpiciness, Medium)),
                 sub(PeperoniSausageTopping, MeatTopping),
                 sub(PeperoniSausageTopping, some(hasSpiciness, Medium)),
-                sub(PepperTopping, VegetableTopping),
-                sub(PetitPoisTopping, VegetableTopping),
-                sub(PetitPoisTopping, some(hasSpiciness, Mild)),
-                sub(PineKernels, NutTopping),
-                sub(Pizza, DomainConcept),
-                sub(Pizza, some(hasBase, PizzaBase)),
-                sub(PizzaBase, DomainConcept),
-                sub(PizzaTopping, DomainConcept),
+                sub(PepperTopping, VegetableTopping), sub(PetitPoisTopping, VegetableTopping),
+                sub(PetitPoisTopping, some(hasSpiciness, Mild)), sub(PineKernels, NutTopping),
+                sub(Pizza, DomainConcept), sub(Pizza, some(hasBase, PizzaBase)),
+                sub(PizzaBase, DomainConcept), sub(PizzaTopping, DomainConcept),
                 sub(PolloAdAstra, NamedPizza),
                 sub(PolloAdAstra, some(hasTopping, CajunSpiceTopping)),
                 sub(PolloAdAstra, some(hasTopping, ChickenTopping)),
@@ -484,11 +459,9 @@ public class TemplateTestOntologies {
                 sub(PolloAdAstra, some(hasTopping, TomatoTopping)),
                 sub(PolloAdAstra,
                     all(hasTopping,
-                        or(CajunSpiceTopping, ChickenTopping, GarlicTopping,
-                            MozzarellaTopping, RedOnionTopping,
-                            SweetPepperTopping, TomatoTopping))),
-                sub(PrawnsTopping, FishTopping),
-                sub(PrinceCarlo, NamedPizza),
+                        or(CajunSpiceTopping, ChickenTopping, GarlicTopping, MozzarellaTopping,
+                            RedOnionTopping, SweetPepperTopping, TomatoTopping))),
+                sub(PrawnsTopping, FishTopping), sub(PrinceCarlo, NamedPizza),
                 sub(PrinceCarlo, some(hasTopping, LeekTopping)),
                 sub(PrinceCarlo, some(hasTopping, MozzarellaTopping)),
                 sub(PrinceCarlo, some(hasTopping, ParmesanTopping)),
@@ -496,31 +469,23 @@ public class TemplateTestOntologies {
                 sub(PrinceCarlo, some(hasTopping, TomatoTopping)),
                 sub(PrinceCarlo,
                     all(hasTopping,
-                        or(LeekTopping, MozzarellaTopping, ParmesanTopping,
-                            RosemaryTopping, TomatoTopping))),
+                        or(LeekTopping, MozzarellaTopping, ParmesanTopping, RosemaryTopping,
+                            TomatoTopping))),
                 sub(QuattroFormaggi, NamedPizza),
                 sub(QuattroFormaggi, some(hasTopping, FourCheesesTopping)),
                 sub(QuattroFormaggi, some(hasTopping, TomatoTopping)),
-                sub(QuattroFormaggi,
-                    all(hasTopping, or(TomatoTopping, FourCheesesTopping))),
+                sub(QuattroFormaggi, all(hasTopping, or(TomatoTopping, FourCheesesTopping))),
                 eq(RealItalianPizza, and(has(hasCountryOfOrigin, Italy), Pizza)),
                 sub(RealItalianPizza, all(hasBase, ThinAndCrispyBase)),
-                sub(RedOnionTopping, OnionTopping),
-                sub(RocketTopping, VegetableTopping),
-                sub(RocketTopping, some(hasSpiciness, Medium)),
-                sub(Rosa, NamedPizza),
+                sub(RedOnionTopping, OnionTopping), sub(RocketTopping, VegetableTopping),
+                sub(RocketTopping, some(hasSpiciness, Medium)), sub(Rosa, NamedPizza),
                 sub(Rosa, some(hasTopping, GorgonzolaTopping)),
                 sub(Rosa, some(hasTopping, MozzarellaTopping)),
                 sub(Rosa, some(hasTopping, TomatoTopping)),
-                sub(Rosa,
-                    all(hasTopping,
-                        or(GorgonzolaTopping, MozzarellaTopping,
-                            TomatoTopping))),
+                sub(Rosa, all(hasTopping, or(GorgonzolaTopping, MozzarellaTopping, TomatoTopping))),
                 sub(RosemaryTopping, HerbSpiceTopping),
-                sub(RosemaryTopping, some(hasSpiciness, Mild)),
-                sub(SauceTopping, PizzaTopping),
-                sub(Siciliana, NamedPizza),
-                sub(Siciliana, some(hasTopping, AnchoviesTopping)),
+                sub(RosemaryTopping, some(hasSpiciness, Mild)), sub(SauceTopping, PizzaTopping),
+                sub(Siciliana, NamedPizza), sub(Siciliana, some(hasTopping, AnchoviesTopping)),
                 sub(Siciliana, some(hasTopping, ArtichokeTopping)),
                 sub(Siciliana, some(hasTopping, GarlicTopping)),
                 sub(Siciliana, some(hasTopping, HamTopping)),
@@ -529,12 +494,10 @@ public class TemplateTestOntologies {
                 sub(Siciliana, some(hasTopping, TomatoTopping)),
                 sub(Siciliana,
                     all(hasTopping,
-                        or(AnchoviesTopping, ArtichokeTopping, GarlicTopping,
-                            HamTopping, MozzarellaTopping, OliveTopping,
-                            TomatoTopping))),
+                        or(AnchoviesTopping, ArtichokeTopping, GarlicTopping, HamTopping,
+                            MozzarellaTopping, OliveTopping, TomatoTopping))),
                 sub(SlicedTomatoTopping, TomatoTopping),
-                sub(SlicedTomatoTopping, some(hasSpiciness, Mild)),
-                sub(SloppyGiuseppe, NamedPizza),
+                sub(SlicedTomatoTopping, some(hasSpiciness, Mild)), sub(SloppyGiuseppe, NamedPizza),
                 sub(SloppyGiuseppe, some(hasTopping, GreenPepperTopping)),
                 sub(SloppyGiuseppe, some(hasTopping, HotSpicedBeefTopping)),
                 sub(SloppyGiuseppe, some(hasTopping, MozzarellaTopping)),
@@ -542,11 +505,9 @@ public class TemplateTestOntologies {
                 sub(SloppyGiuseppe, some(hasTopping, TomatoTopping)),
                 sub(SloppyGiuseppe,
                     all(hasTopping,
-                        or(GreenPepperTopping, HotSpicedBeefTopping,
-                            MozzarellaTopping, OnionTopping,
-                            TomatoTopping))),
-                sub(Soho, NamedPizza),
-                sub(Soho, some(hasTopping, GarlicTopping)),
+                        or(GreenPepperTopping, HotSpicedBeefTopping, MozzarellaTopping,
+                            OnionTopping, TomatoTopping))),
+                sub(Soho, NamedPizza), sub(Soho, some(hasTopping, GarlicTopping)),
                 sub(Soho, some(hasTopping, MozzarellaTopping)),
                 sub(Soho, some(hasTopping, OliveTopping)),
                 sub(Soho, some(hasTopping, ParmesanTopping)),
@@ -554,47 +515,38 @@ public class TemplateTestOntologies {
                 sub(Soho, some(hasTopping, TomatoTopping)),
                 sub(Soho,
                     all(hasTopping,
-                        or(GarlicTopping, MozzarellaTopping, OliveTopping,
-                            ParmesanTopping, RocketTopping, TomatoTopping))),
-                eq(Spiciness, or(Hot, Medium, Mild)),
-                sub(Spiciness, ValuePartition),
+                        or(GarlicTopping, MozzarellaTopping, OliveTopping, ParmesanTopping,
+                            RocketTopping, TomatoTopping))),
+                eq(Spiciness, or(Hot, Medium, Mild)), sub(Spiciness, ValuePartition),
                 eq(SpicyPizza, and(some(hasTopping, SpicyTopping), Pizza)),
                 eq(SpicyPizzaEquivalent,
-                    and(some(hasTopping,
-                        and(some(hasSpiciness, Hot), PizzaTopping)), Pizza)),
+                    and(some(hasTopping, and(some(hasSpiciness, Hot), PizzaTopping)), Pizza)),
                 eq(SpicyTopping, and(some(hasSpiciness, Hot), PizzaTopping)),
                 sub(SpinachTopping, VegetableTopping),
-                sub(SpinachTopping, some(hasSpiciness, Mild)),
-                sub(SultanaTopping, FruitTopping),
+                sub(SpinachTopping, some(hasSpiciness, Mild)), sub(SultanaTopping, FruitTopping),
                 sub(SultanaTopping, some(hasSpiciness, Medium)),
                 sub(SundriedTomatoTopping, TomatoTopping),
                 sub(SundriedTomatoTopping, some(hasSpiciness, Mild)),
                 sub(SweetPepperTopping, PepperTopping),
                 sub(SweetPepperTopping, some(hasSpiciness, Mild)),
-                sub(ThinAndCrispyBase, PizzaBase),
-                sub(TobascoPepperSauce, SauceTopping),
+                sub(ThinAndCrispyBase, PizzaBase), sub(TobascoPepperSauce, SauceTopping),
                 sub(TobascoPepperSauce, some(hasSpiciness, Hot)),
-                sub(TomatoTopping, VegetableTopping),
-                sub(TomatoTopping, some(hasSpiciness, Mild)),
+                sub(TomatoTopping, VegetableTopping), sub(TomatoTopping, some(hasSpiciness, Mild)),
                 sub(UnclosedPizza, NamedPizza),
                 sub(UnclosedPizza, some(hasTopping, MozzarellaTopping)),
                 sub(VegetableTopping, PizzaTopping),
                 eq(VegetarianPizza,
-                    and(Pizza, c(some(hasTopping, FishTopping)),
-                        c(some(hasTopping, MeatTopping)))),
-                eq(VegetarianPizzaEquivalent1,
-                    and(all(hasTopping, VegetarianTopping), Pizza)),
+                    and(Pizza, c(some(hasTopping, FishTopping)), c(some(hasTopping, MeatTopping)))),
+                eq(VegetarianPizzaEquivalent1, and(all(hasTopping, VegetarianTopping), Pizza)),
                 eq(VegetarianPizzaEquivalent2,
                     and(all(hasTopping,
-                        or(CheeseTopping, FruitTopping, HerbSpiceTopping,
-                            NutTopping, SauceTopping, VegetableTopping)),
+                        or(CheeseTopping, FruitTopping, HerbSpiceTopping, NutTopping, SauceTopping,
+                            VegetableTopping)),
                         Pizza)),
                 eq(VegetarianTopping,
-                    and(or(CheeseTopping, FruitTopping, HerbSpiceTopping,
-                        NutTopping, SauceTopping, VegetableTopping),
-                        PizzaTopping)),
-                sub(Veneziana, NamedPizza),
-                sub(Veneziana, some(hasTopping, CaperTopping)),
+                    and(or(CheeseTopping, FruitTopping, HerbSpiceTopping, NutTopping, SauceTopping,
+                        VegetableTopping), PizzaTopping)),
+                sub(Veneziana, NamedPizza), sub(Veneziana, some(hasTopping, CaperTopping)),
                 sub(Veneziana, some(hasTopping, MozzarellaTopping)),
                 sub(Veneziana, some(hasTopping, OliveTopping)),
                 sub(Veneziana, some(hasTopping, OnionTopping)),
@@ -603,57 +555,35 @@ public class TemplateTestOntologies {
                 sub(Veneziana, some(hasTopping, TomatoTopping)),
                 sub(Veneziana,
                     all(hasTopping,
-                        or(CaperTopping, MozzarellaTopping, OliveTopping,
-                            OnionTopping, PineKernels, SultanaTopping,
-                            TomatoTopping))),
-                sub(hasBase, hasIngredient),
-                inverse(hasBase, isBaseOf),
-                func(hasBase),
-                invfunc(hasBase),
-                domain(hasBase, Pizza),
-                range(hasBase, PizzaBase),
-                inverse(hasIngredient, isIngredientOf),
-                transitive(hasIngredient),
-                func(hasSpiciness),
-                range(hasSpiciness, Spiciness),
-                sub(hasTopping, hasIngredient),
-                inverse(isToppingOf, hasTopping),
-                domain(hasTopping, Pizza),
-                range(hasTopping, PizzaTopping),
-                sub(isBaseOf, isIngredientOf),
-                func(isBaseOf),
-                invfunc(isBaseOf),
-                domain(isBaseOf, PizzaBase),
-                range(isBaseOf, Pizza),
-                transitive(isIngredientOf),
-                sub(isToppingOf, isIngredientOf),
-                domain(isToppingOf, PizzaTopping),
-                range(isToppingOf, Pizza),
-                ClassAssertion(Country, America),
-                ClassAssertion(Country, England),
-                ClassAssertion(Country, France),
-                ClassAssertion(Country, Germany),
+                        or(CaperTopping, MozzarellaTopping, OliveTopping, OnionTopping, PineKernels,
+                            SultanaTopping, TomatoTopping))),
+                sub(hasBase, hasIngredient), inverse(hasBase, isBaseOf), func(hasBase),
+                invfunc(hasBase), domain(hasBase, Pizza), range(hasBase, PizzaBase),
+                inverse(hasIngredient, isIngredientOf), transitive(hasIngredient),
+                func(hasSpiciness), range(hasSpiciness, Spiciness), sub(hasTopping, hasIngredient),
+                inverse(isToppingOf, hasTopping), domain(hasTopping, Pizza),
+                range(hasTopping, PizzaTopping), sub(isBaseOf, isIngredientOf), func(isBaseOf),
+                invfunc(isBaseOf), domain(isBaseOf, PizzaBase), range(isBaseOf, Pizza),
+                transitive(isIngredientOf), sub(isToppingOf, isIngredientOf),
+                domain(isToppingOf, PizzaTopping), range(isToppingOf, Pizza),
+                ClassAssertion(Country, America), ClassAssertion(Country, England),
+                ClassAssertion(Country, France), ClassAssertion(Country, Germany),
                 ClassAssertion(Country, Italy),
-                disjoint(ArtichokeTopping, AsparagusTopping, CaperTopping,
-                    CheeseTopping, ChickenTopping, FishTopping,
-                    FourCheesesTopping, FruitTopping, GarlicTopping,
-                    GoatsCheeseTopping, GorgonzolaTopping, GreenPepperTopping,
-                    HamTopping, HerbSpiceTopping, HotSpicedBeefTopping,
-                    JalapenoPepperTopping, LeekTopping, MeatTopping,
-                    MixedSeafoodTopping, MozzarellaTopping, MushroomTopping,
-                    NutTopping, OliveTopping, OnionTopping, ParmesanTopping,
-                    PeperonataTopping, PeperoniSausageTopping, PepperTopping,
-                    PetitPoisTopping, PrawnsTopping, RocketTopping, SauceTopping,
-                    SlicedTomatoTopping, SpinachTopping, SundriedTomatoTopping,
-                    SweetPepperTopping, TomatoTopping, VegetableTopping),
+                disjoint(ArtichokeTopping, AsparagusTopping, CaperTopping, CheeseTopping,
+                    ChickenTopping, FishTopping, FourCheesesTopping, FruitTopping, GarlicTopping,
+                    GoatsCheeseTopping, GorgonzolaTopping, GreenPepperTopping, HamTopping,
+                    HerbSpiceTopping, HotSpicedBeefTopping, JalapenoPepperTopping, LeekTopping,
+                    MeatTopping, MixedSeafoodTopping, MozzarellaTopping, MushroomTopping,
+                    NutTopping, OliveTopping, OnionTopping, ParmesanTopping, PeperonataTopping,
+                    PeperoniSausageTopping, PepperTopping, PetitPoisTopping, PrawnsTopping,
+                    RocketTopping, SauceTopping, SlicedTomatoTopping, SpinachTopping,
+                    SundriedTomatoTopping, SweetPepperTopping, TomatoTopping, VegetableTopping),
                 disjoint(IceCream, Pizza, PizzaBase, PizzaTopping),
-                disjoint(American, AmericanHot, Cajun, Capricciosa, Caprina,
-                    Fiorentina, FourSeasons, FruttiDiMare, Giardiniera, LaReine,
-                    Margherita, Mushroom, Napoletana, Parmense, PolloAdAstra,
-                    PrinceCarlo, QuattroFormaggi, Rosa, Siciliana,
-                    SloppyGiuseppe, Soho, UnclosedPizza, Veneziana),
-                diff(America, England, France, Germany, Italy),
-                disjoint(Hot, Medium, Mild));
+                disjoint(American, AmericanHot, Cajun, Capricciosa, Caprina, Fiorentina,
+                    FourSeasons, FruttiDiMare, Giardiniera, LaReine, Margherita, Mushroom,
+                    Napoletana, Parmense, PolloAdAstra, PrinceCarlo, QuattroFormaggi, Rosa,
+                    Siciliana, SloppyGiuseppe, Soho, UnclosedPizza, Veneziana),
+                diff(America, England, France, Germany, Italy), disjoint(Hot, Medium, Mild));
             return _pizza;
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -708,13 +638,12 @@ public class TemplateTestOntologies {
         return dataFactory.getOWLObjectAllValuesFrom(pe, ce);
     }
 
-    private static OWLObjectHasValue has(OWLObjectPropertyExpression pe,
-        OWLIndividual individual) {
+    private static OWLObjectHasValue has(OWLObjectPropertyExpression pe, OWLIndividual individual) {
         return dataFactory.getOWLObjectHasValue(pe, individual);
     }
 
-    private static OWLObjectMinCardinality min(int cardinality,
-        OWLObjectPropertyExpression pe, OWLClassExpression ce) {
+    private static OWLObjectMinCardinality min(int cardinality, OWLObjectPropertyExpression pe,
+        OWLClassExpression ce) {
         return dataFactory.getOWLObjectMinCardinality(cardinality, pe, ce);
     }
 
@@ -731,34 +660,31 @@ public class TemplateTestOntologies {
         return dataFactory.getOWLEquivalentClassesAxiom(classExpressions);
     }
 
-    private static OWLDisjointClassesAxiom disjoint(
-        OWLClassExpression... classExpressions) {
+    private static OWLDisjointClassesAxiom disjoint(OWLClassExpression... classExpressions) {
         return dataFactory.getOWLDisjointClassesAxiom(classExpressions);
     }
 
-    private static OWLSubObjectPropertyOfAxiom sub(
-        OWLObjectPropertyExpression subProperty,
+    private static OWLSubObjectPropertyOfAxiom sub(OWLObjectPropertyExpression subProperty,
         OWLObjectPropertyExpression superProperty) {
         return dataFactory.getOWLSubObjectPropertyOfAxiom(subProperty, superProperty);
     }
 
-    private static OWLInverseObjectPropertiesAxiom inverse(
-        OWLObjectPropertyExpression peA, OWLObjectPropertyExpression peB) {
+    private static OWLInverseObjectPropertiesAxiom inverse(OWLObjectPropertyExpression peA,
+        OWLObjectPropertyExpression peB) {
         return dataFactory.getOWLInverseObjectPropertiesAxiom(peA, peB);
     }
 
-    private static OWLObjectPropertyDomainAxiom domain(
-        OWLObjectPropertyExpression property, OWLClassExpression domain) {
+    private static OWLObjectPropertyDomainAxiom domain(OWLObjectPropertyExpression property,
+        OWLClassExpression domain) {
         return dataFactory.getOWLObjectPropertyDomainAxiom(property, domain);
     }
 
-    private static OWLObjectPropertyRangeAxiom range(
-        OWLObjectPropertyExpression property, OWLClassExpression range) {
+    private static OWLObjectPropertyRangeAxiom range(OWLObjectPropertyExpression property,
+        OWLClassExpression range) {
         return dataFactory.getOWLObjectPropertyRangeAxiom(property, range);
     }
 
-    private static OWLFunctionalObjectPropertyAxiom func(
-        OWLObjectPropertyExpression property) {
+    private static OWLFunctionalObjectPropertyAxiom func(OWLObjectPropertyExpression property) {
         return dataFactory.getOWLFunctionalObjectPropertyAxiom(property);
     }
 
@@ -776,8 +702,7 @@ public class TemplateTestOntologies {
         return dataFactory.getOWLDifferentIndividualsAxiom(individuals);
     }
 
-    private static OWLClassAssertionAxiom ClassAssertion(OWLClassExpression ce,
-        OWLIndividual ind) {
+    private static OWLClassAssertionAxiom ClassAssertion(OWLClassExpression ce, OWLIndividual ind) {
         return dataFactory.getOWLClassAssertionAxiom(ce, ind);
     }
 

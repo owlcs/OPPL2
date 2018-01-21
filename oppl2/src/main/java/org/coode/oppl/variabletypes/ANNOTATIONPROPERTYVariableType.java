@@ -11,19 +11,17 @@ import org.coode.oppl.function.OPPLFunction;
 import org.coode.oppl.generated.RegexpGeneratedVariable;
 import org.semanticweb.owlapi.model.OWLAnnotationProperty;
 import org.semanticweb.owlapi.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLObjectVisitorEx;
 import org.semanticweb.owlapi.model.OWLOntology;
-import org.semanticweb.owlapi.util.OWLObjectVisitorExAdapter;
 
 /**
  * @author Luigi Iannone
  */
-public class ANNOTATIONPROPERTYVariableType extends
-    AbstractVariableType<OWLAnnotationProperty>implements
-    VariableType<OWLAnnotationProperty> {
+public class ANNOTATIONPROPERTYVariableType extends AbstractVariableType<OWLAnnotationProperty>
+    implements VariableType<OWLAnnotationProperty> {
 
     /**
-     * @param name
-     *        name
+     * @param name name
      */
     public ANNOTATIONPROPERTYVariableType(VariableTypeName name) {
         super(name, EnumSet.noneOf(Direction.class));
@@ -39,20 +37,26 @@ public class ANNOTATIONPROPERTYVariableType extends
         return toReturn;
     }
 
+    private static final OWLObjectVisitorEx<Boolean> MATCH = new OWLObjectVisitorEx<Boolean>() {
+        @Override
+        public <T extends Object> Boolean doDefault(T object) {
+            return Boolean.FALSE;
+        }
+
+        @Override
+        public Boolean visit(OWLAnnotationProperty property) {
+            return Boolean.TRUE;
+        }
+    };
+
     @Override
     public boolean isCompatibleWith(OWLObject o) {
-        return o.accept(new OWLObjectVisitorExAdapter<Boolean>(false) {
-
-            @Override
-            public Boolean visit(OWLAnnotationProperty property) {
-                return true;
-            }
-        });
+        return o.accept(MATCH).booleanValue();
     }
 
     @Override
-    public RegexpGeneratedVariable<? extends OWLAnnotationProperty> getRegexpGeneratedVariable(String name,
-        OPPLFunction<Pattern> patternGeneratingOPPLFunction) {
+    public RegexpGeneratedVariable<? extends OWLAnnotationProperty> getRegexpGeneratedVariable(
+        String name, OPPLFunction<Pattern> patternGeneratingOPPLFunction) {
         return VariableFactory.getRegexpGeneratedVariable(name, this,
             patternGeneratingOPPLFunction);
     }
