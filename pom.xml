@@ -10,7 +10,7 @@
 	<groupId>net.sourceforge.owlapi</groupId>
 	<artifactId>oppl2-parent</artifactId>
 	<packaging>pom</packaging>
-	<version>4.0.0</version>
+	<version>4.0.1</version>
 	<name>OPPL 2 parent</name>
 	<description>OPPL 2 is a language for querying and manipulating OWL ontologies</description>
 	<url>https://github.com/owlcs/OPPL2</url>

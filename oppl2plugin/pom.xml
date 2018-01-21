@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>net.sourceforge.owlapi</groupId>
 		<artifactId>oppl2-parent</artifactId>
-		<version>4.0.0</version>
+		<version>4.0.1</version>
 	</parent>
 	<build>
 		<plugins>
@@ -35,18 +35,18 @@
 	<dependencies>
 		<dependency>
 			<groupId>net.sourceforge.owlapi</groupId>
-			<version>4.0.0</version>
+			<version>4.0.1</version>
 			<artifactId>oppl2-oppl2</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>net.sourceforge.owlapi</groupId>
-			<version>4.0.0</version>
+			<version>4.0.1</version>
 			<artifactId>oppl2-oppl2patterns</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>net.sourceforge.owlapi</groupId>
 			<artifactId>oppl2-oppl2testcase</artifactId>
-			<version>4.0.0</version>
+			<version>4.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>net.sourceforge.owlapi</groupId>
