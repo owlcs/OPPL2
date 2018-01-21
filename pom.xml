@@ -109,8 +109,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.3.2</version>
 				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
+					<source>1.8</source>
+					<target>1.8</target>
 					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
@@ -173,8 +173,8 @@
 	<dependencies>
 		<dependency>
 			<groupId>net.sourceforge.owlapi</groupId>
-			<artifactId>owlapi-distribution</artifactId>
-			<version>4.0.2</version>
+			<artifactId>owlapi-apibinding</artifactId>
+			<version>4.5.1</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -195,8 +195,19 @@
 		<dependency>
 			<groupId>net.sourceforge.owlapi</groupId>
 			<artifactId>jfact</artifactId>
-			<version>4.0.1</version>
+			<version>4.0.4</version>
 			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>net.sourceforge.owlapi</groupId>
+					<artifactId>owlapi-distribution</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>com.google.inject</groupId>
+			<artifactId>guice</artifactId>
+			<version>4.1.0</version>
 		</dependency>
 	</dependencies>
 	<modules>
