@@ -1,7 +1,9 @@
 package org.coode.patterns.locality;
 
-import java.util.HashSet;
+import static org.semanticweb.owlapi.util.OWLAPIStreamUtils.asSet;
+
 import java.util.Set;
+import java.util.stream.Stream;
 
 import org.semanticweb.owlapi.model.OWLAsymmetricObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLAxiom;
@@ -117,12 +119,8 @@ public class BottomReplacer implements OWLAxiomVisitor, OWLClassExpressionVisito
      * @param descriptions descriptions
      * @return class expressions with bottom replaced
      */
-    public Set<OWLClassExpression> replaceBottom(Set<OWLClassExpression> descriptions) {
-        Set<OWLClassExpression> result = new HashSet<>();
-        for (OWLClassExpression desc : descriptions) {
-            result.add(this.replaceBottom(desc));
-        }
-        return result;
+    public Set<OWLClassExpression> replaceBottom(Stream<OWLClassExpression> descriptions) {
+        return asSet(descriptions.map(this::replaceBottom));
     }
 
     /**
@@ -194,13 +192,13 @@ public class BottomReplacer implements OWLAxiomVisitor, OWLClassExpressionVisito
 
     @Override
     public void visit(OWLDisjointClassesAxiom ax) {
-        Set<OWLClassExpression> disjointclasses = this.replaceBottom(ax.getClassExpressions());
+        Set<OWLClassExpression> disjointclasses = this.replaceBottom(ax.classExpressions());
         newAxiom = df.getOWLDisjointClassesAxiom(disjointclasses);
     }
 
     @Override
     public void visit(OWLEquivalentClassesAxiom ax) {
-        Set<OWLClassExpression> eqclasses = this.replaceBottom(ax.getClassExpressions());
+        Set<OWLClassExpression> eqclasses = this.replaceBottom(ax.classExpressions());
         newAxiom = df.getOWLEquivalentClassesAxiom(eqclasses);
     }
 
@@ -230,8 +228,7 @@ public class BottomReplacer implements OWLAxiomVisitor, OWLClassExpressionVisito
 
     @Override
     public void visit(OWLObjectIntersectionOf desc) {
-        Set<OWLClassExpression> operands = desc.getOperands();
-        newDescription = df.getOWLObjectIntersectionOf(this.replaceBottom(operands));
+        newDescription = df.getOWLObjectIntersectionOf(this.replaceBottom(desc.operands()));
     }
 
     @Override
@@ -274,8 +271,7 @@ public class BottomReplacer implements OWLAxiomVisitor, OWLClassExpressionVisito
 
     @Override
     public void visit(OWLObjectUnionOf desc) {
-        Set<OWLClassExpression> operands = desc.getOperands();
-        newDescription = df.getOWLObjectUnionOf(this.replaceBottom(operands));
+        newDescription = df.getOWLObjectUnionOf(this.replaceBottom(desc.operands()));
     }
 
     @Override
@@ -296,10 +292,8 @@ public class BottomReplacer implements OWLAxiomVisitor, OWLClassExpressionVisito
     }
 
     private void nullIfOutside(OWLAxiom axiom) {
-        for (OWLEntity e : axiom.getSignature()) {
-            if (!signature.contains(e)) {
-                return;
-            }
+        if (axiom.signature().anyMatch(c -> !signature.contains(c))) {
+            return;
         }
         newAxiom = axiom;
     }

@@ -4,6 +4,7 @@ import static org.coode.oppl.testontologies.TestOntologies.df;
 import static org.coode.oppl.testontologies.TestOntologies.pizza;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.semanticweb.owlapi.util.OWLAPIStreamUtils.asSet;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,6 +15,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.OPPLParser;
@@ -38,9 +40,7 @@ import org.junit.Test;
 import org.semanticweb.owlapi.model.AxiomType;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
-import org.semanticweb.owlapi.model.OWLAxiomVisitor;
 import org.semanticweb.owlapi.model.OWLClass;
-import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
@@ -145,10 +145,10 @@ public class SearchTest {
             }
 
             private Set<? extends OWLObject> getAssignableValues(Variable<?> variable) {
-                return variable.getType().accept(assignableValuesVisitor);
+                return asSet(variable.getType().accept(assignableValuesVisitor), OWLObject.class);
             }
 
-            private final VariableTypeVisitorEx<Set<? extends OWLObject>> assignableValuesVisitor =
+            private final VariableTypeVisitorEx<Stream<? extends OWLObject>> assignableValuesVisitor =
                 new AssValVisitor(ontology);
         };
         List<List<OWLAxiom>> solutions = new ArrayList<>();
@@ -178,21 +178,8 @@ public class SearchTest {
         for (List<OWLAxiom> path : solutions) {
             results.add(path.get(path.size() - 1));
         }
-        final Set<OWLAxiom> subClassAxioms = new HashSet<>(solutions.size());
-        Set<OWLSubClassOfAxiom> axioms = pizza.getAxioms(AxiomType.SUBCLASS_OF);
-        for (OWLSubClassOfAxiom owlSubClassAxiom : axioms) {
-            owlSubClassAxiom.accept(new OWLAxiomVisitor() {
-
-                @Override
-                public void visit(OWLSubClassOfAxiom axiom) {
-                    OWLClassExpression subClass = axiom.getSubClass();
-                    OWLClassExpression superClass = axiom.getSuperClass();
-                    if (!subClass.isAnonymous() && !superClass.isAnonymous()) {
-                        subClassAxioms.add(axiom);
-                    }
-                }
-            });
-        }
+        final Set<OWLSubClassOfAxiom> subClassAxioms = asSet(pizza.axioms(AxiomType.SUBCLASS_OF)
+            .filter(ax -> ax.getSubClass().isOWLClass() && ax.getSuperClass().isOWLClass()));
         assertTrue("Mismatched count sub class axioms count " + subClassAxioms.size()
             + " solutions count " + results.size(), results.size() == subClassAxioms.size());
     }

@@ -4,6 +4,8 @@ import java.util.Collection;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Stream;
 
 import org.coode.oppl.utils.OWLVocabulary;
 import org.coode.oppl.utils.PrimeNumbersUtils;
@@ -161,7 +163,7 @@ public class StructuralHashFunction implements HashFunction, OWLObjectVisitorEx<
      */
     private int getNaryClassAxiomHashCode(OWLNaryClassAxiom axiom) {
         return getAxiomTypeHashValue(axiom.getAxiomType()).intValue()
-            * getCollectionHashCode(axiom.getClassExpressions());
+            * getCollectionHashCode(axiom.classExpressions());
     }
 
     private int getCollectionHashCode(Collection<? extends OWLObject> collection) {
@@ -170,6 +172,12 @@ public class StructuralHashFunction implements HashFunction, OWLObjectVisitorEx<
             toReturn = toReturn * owlObject.accept(this).intValue();
         }
         return toReturn;
+    }
+
+    private int getCollectionHashCode(Stream<? extends OWLObject> collection) {
+        AtomicInteger toReturn = new AtomicInteger(1);
+        collection.forEach(o -> toReturn.set(toReturn.get() * o.accept(this).intValue()));
+        return toReturn.get();
     }
 
     @Override
@@ -215,7 +223,7 @@ public class StructuralHashFunction implements HashFunction, OWLObjectVisitorEx<
      */
     private int getNaryPropertyAxiomHashCode(OWLNaryPropertyAxiom<?> axiom) {
         return getAxiomTypeHashValue(axiom.getAxiomType()).intValue()
-            * getCollectionHashCode(axiom.getProperties());
+            * getCollectionHashCode(axiom.properties());
     }
 
     @Override
@@ -245,7 +253,7 @@ public class StructuralHashFunction implements HashFunction, OWLObjectVisitorEx<
      */
     private int getNaryIndividualAxiomHashCode(OWLNaryIndividualAxiom axiom) {
         return getAxiomTypeHashValue(axiom.getAxiomType()).intValue()
-            * getCollectionHashCode(axiom.getIndividuals());
+            * getCollectionHashCode(axiom.individuals());
     }
 
     @Override
@@ -305,7 +313,7 @@ public class StructuralHashFunction implements HashFunction, OWLObjectVisitorEx<
     @Override
     public Integer visit(OWLDisjointUnionAxiom axiom) {
         return Integer.valueOf(getAxiomTypeHashValue(axiom.getAxiomType()).intValue()
-            * getCollectionHashCode(axiom.getClassExpressions()));
+            * getCollectionHashCode(axiom.classExpressions()));
     }
 
     @Override
@@ -402,7 +410,7 @@ public class StructuralHashFunction implements HashFunction, OWLObjectVisitorEx<
     @Override
     public Integer visit(SWRLRule axiom) {
         return Integer.valueOf(getAxiomTypeHashValue(axiom.getAxiomType()).intValue()
-            * axiom.getBody().hashCode() * axiom.getHead().hashCode());
+            * axiom.bodyList().hashCode() * axiom.headList().hashCode());
     }
 
     @Override
@@ -478,7 +486,7 @@ public class StructuralHashFunction implements HashFunction, OWLObjectVisitorEx<
      */
     private int getNaryBooleanClassDescriptionHasCode(OWLNaryBooleanClassExpression description) {
         return getOWLConstructHashCode(OWLConstruct.getOWLConstruct(description))
-            * getCollectionHashCode(description.getOperands());
+            * getCollectionHashCode(description.operands());
     }
 
     private int getOWLConstructHashCode(OWLConstruct owlConstruct) {
@@ -535,7 +543,7 @@ public class StructuralHashFunction implements HashFunction, OWLObjectVisitorEx<
     private int getOWLValueRestricitonHashCode(OWLHasValueRestriction<?> description) {
         return getOWLConstructHashCode(OWLConstruct.getOWLConstruct(description))
             * description.getProperty().accept(this).intValue()
-            * description.getValue().accept(this).intValue();
+            * description.getFiller().accept(this).intValue();
     }
 
     @Override
@@ -584,7 +592,7 @@ public class StructuralHashFunction implements HashFunction, OWLObjectVisitorEx<
     @Override
     public Integer visit(OWLObjectOneOf description) {
         return Integer.valueOf(getOWLConstructHashCode(OWLConstruct.getOWLConstruct(description))
-            * getCollectionHashCode(description.getIndividuals()));
+            * getCollectionHashCode(description.individuals()));
     }
 
     @Override
@@ -639,7 +647,7 @@ public class StructuralHashFunction implements HashFunction, OWLObjectVisitorEx<
     @Override
     public Integer visit(OWLDataOneOf dataOneOf) {
         return Integer.valueOf(getOWLConstructHashCode(OWLConstruct.getOWLConstruct(dataOneOf))
-            * getCollectionHashCode(dataOneOf.getValues()));
+            * getCollectionHashCode(dataOneOf.values()));
     }
 
     @Override
@@ -647,8 +655,7 @@ public class StructuralHashFunction implements HashFunction, OWLObjectVisitorEx<
         return Integer
             .valueOf(getOWLConstructHashCode(OWLConstruct.getOWLConstruct(dataRangeRestriction))
                 * dataRangeRestriction.getDatatype().accept(this).intValue()
-                * (dataRangeRestriction.getFacetRestrictions().isEmpty() ? 1
-                    : getCollectionHashCode(dataRangeRestriction.getFacetRestrictions())));
+                * getCollectionHashCode(dataRangeRestriction.facetRestrictions()));
     }
 
     @Override

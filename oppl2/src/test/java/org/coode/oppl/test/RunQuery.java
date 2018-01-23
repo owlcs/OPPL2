@@ -15,7 +15,21 @@ import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.coode.parsers.common.SilentListener;
 import org.semanticweb.owlapi.apibinding.OWLManager;
-import org.semanticweb.owlapi.model.*;
+import org.semanticweb.owlapi.model.AddAxiom;
+import org.semanticweb.owlapi.model.AddImport;
+import org.semanticweb.owlapi.model.AddOntologyAnnotation;
+import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLAxiomChange;
+import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyChangeVisitor;
+import org.semanticweb.owlapi.model.OWLOntologyCreationException;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.OWLRuntimeException;
+import org.semanticweb.owlapi.model.RemoveAxiom;
+import org.semanticweb.owlapi.model.RemoveImport;
+import org.semanticweb.owlapi.model.RemoveOntologyAnnotation;
+import org.semanticweb.owlapi.model.SetOntologyID;
 import org.semanticweb.owlapi.reasoner.InferenceType;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import org.semanticweb.owlapi.util.AutoIRIMapper;
@@ -38,43 +52,40 @@ public class RunQuery {
                     File parentFile = new File(url.toURI()).getParentFile();
                     if (parentFile != null && parentFile.isDirectory()) {
                         AutoIRIMapper mapper = new AutoIRIMapper(parentFile, true);
-                        ontologyManager.addIRIMapper(mapper);
+                        ontologyManager.getIRIMappers().add(mapper);
                     }
-                    ontology = ontology == null ? ontologyManager.loadOntology(IRI
-                        .create(url)) : ontology;
+                    ontology =
+                        ontology == null ? ontologyManager.loadOntology(IRI.create(url)) : ontology;
                 }
                 String opplScriptString = args[0];
                 JFactFactory factory = new JFactFactory();
                 OWLReasoner reasoner = factory.createReasoner(ontology);
                 reasoner.precomputeInferences(InferenceType.OBJECT_PROPERTY_ASSERTIONS);
-                ParserFactory parserFactory = new ParserFactory(ontologyManager,
-                    ontology, reasoner);
+                ParserFactory parserFactory =
+                    new ParserFactory(ontologyManager, ontology, reasoner);
                 OPPLParser parser = parserFactory.build(new SilentListener());
                 OPPLScript parsed = parser.parse(opplScriptString);
-                ChangeExtractor extractor = new ChangeExtractor(
-                    new RuntimeExceptionHandler() {
+                ChangeExtractor extractor = new ChangeExtractor(new RuntimeExceptionHandler() {
 
-                        @Override
-                        public void handlePatternSyntaxExcpetion(
-                            PatternSyntaxException e) {
-                            e.printStackTrace();
-                        }
+                    @Override
+                    public void handlePatternSyntaxExcpetion(PatternSyntaxException e) {
+                        e.printStackTrace();
+                    }
 
-                        @Override
-                        public void handleOWLRuntimeException(OWLRuntimeException e) {
-                            e.printStackTrace();
-                        }
+                    @Override
+                    public void handleOWLRuntimeException(OWLRuntimeException e) {
+                        e.printStackTrace();
+                    }
 
-                        @Override
-                        public void handleException(RuntimeException e) {
-                            e.printStackTrace();
-                        }
-                    }, true);
+                    @Override
+                    public void handleException(RuntimeException e) {
+                        e.printStackTrace();
+                    }
+                }, true);
                 List<OWLAxiomChange> changes = extractor.visit(parsed);
                 for (OWLAxiomChange owlAxiomChange : changes) {
-                    final ManchesterSyntaxRenderer renderer = parserFactory
-                        .getOPPLFactory().getManchesterSyntaxRenderer(
-                            parsed.getConstraintSystem());
+                    final ManchesterSyntaxRenderer renderer = parserFactory.getOPPLFactory()
+                        .getManchesterSyntaxRenderer(parsed.getConstraintSystem());
                     owlAxiomChange.accept(new OWLOntologyChangeVisitor() {
 
                         @Override
@@ -125,8 +136,8 @@ public class RunQuery {
                 e.printStackTrace();
             }
         } else {
-            System.out
-                .println("Usage java org.coode.oppl.test.RunQuery <OPPL Script> <ontology URL>...<ontology URL>");
+            System.out.println(
+                "Usage java org.coode.oppl.test.RunQuery <OPPL Script> <ontology URL>...<ontology URL>");
         }
     }
 }

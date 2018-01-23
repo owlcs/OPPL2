@@ -22,10 +22,9 @@
  */
 package org.coode.oppl;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.exceptions.RuntimeExceptionHandler;
@@ -44,29 +43,24 @@ import org.semanticweb.owlapi.model.RemoveAxiom;
 public class ActionFactory {
 
     /**
-     * @param actionType
-     *        actionType
-     * @param axiom
-     *        axiom
-     * @param cs
-     *        cs
-     * @param ontology
-     *        ontology
-     * @param runtimeExcpetionHandler
-     *        runtimeExcpetionHandler
+     * @param actionType actionType
+     * @param axiom axiom
+     * @param cs cs
+     * @param ontology ontology
+     * @param runtimeExcpetionHandler runtimeExcpetionHandler
      * @return list of changes
      */
-    public static List<OWLAxiomChange> createChanges(ActionType actionType,
-        OWLAxiom axiom, ConstraintSystem cs, OWLOntology ontology,
+    public static Stream<OWLAxiomChange> createChanges(ActionType actionType, OWLAxiom axiom,
+        ConstraintSystem cs, OWLOntology ontology,
         RuntimeExceptionHandler runtimeExcpetionHandler) {
         Set<OWLAxiomChange> toReturn = new HashSet<>();
         Set<BindingNode> leaves = cs.getLeaves();
         if (leaves != null) {
             for (BindingNode bindingNode : leaves) {
-                SimpleValueComputationParameters parameters = new SimpleValueComputationParameters(
-                    cs, bindingNode, runtimeExcpetionHandler);
-                PartialOWLObjectInstantiator instatiator = new PartialOWLObjectInstantiator(
-                    parameters);
+                SimpleValueComputationParameters parameters =
+                    new SimpleValueComputationParameters(cs, bindingNode, runtimeExcpetionHandler);
+                PartialOWLObjectInstantiator instatiator =
+                    new PartialOWLObjectInstantiator(parameters);
                 OWLAxiom instantiatedAxiom = (OWLAxiom) axiom.accept(instatiator);
                 switch (actionType) {
                     case ADD:
@@ -91,30 +85,21 @@ public class ActionFactory {
                     break;
             }
         }
-        return new ArrayList<>(toReturn);
+        return toReturn.stream();
     }
 
     /**
-     * @param actionType
-     *        actionType
-     * @param axiom
-     *        axiom
-     * @param cs
-     *        cs
-     * @param ontologies
-     *        ontologies
-     * @param runtimeExceptionHandler
-     *        runtimeExceptionHandler
+     * @param actionType actionType
+     * @param axiom axiom
+     * @param cs cs
+     * @param ontologies ontologies
+     * @param runtimeExceptionHandler runtimeExceptionHandler
      * @return the List of OWLAxiomChange
      */
-    public static List<OWLAxiomChange> createChanges(ActionType actionType,
-        OWLAxiom axiom, ConstraintSystem cs, Set<OWLOntology> ontologies,
+    public static Stream<OWLAxiomChange> createChanges(ActionType actionType, OWLAxiom axiom,
+        ConstraintSystem cs, Stream<OWLOntology> ontologies,
         RuntimeExceptionHandler runtimeExceptionHandler) {
-        List<OWLAxiomChange> toReturn = new ArrayList<>();
-        for (OWLOntology ontology : ontologies) {
-            toReturn.addAll(createChanges(actionType, axiom, cs, ontology,
-                runtimeExceptionHandler));
-        }
-        return toReturn;
+        return ontologies
+            .flatMap(o -> createChanges(actionType, axiom, cs, o, runtimeExceptionHandler));
     }
 }

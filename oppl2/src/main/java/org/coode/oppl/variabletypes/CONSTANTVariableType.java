@@ -1,8 +1,9 @@
 package org.coode.oppl.variabletypes;
 
+import static org.semanticweb.owlapi.util.OWLAPIStreamUtils.asSet;
+
 import java.util.Collection;
 import java.util.EnumSet;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -10,7 +11,6 @@ import org.coode.oppl.VariableScopes.Direction;
 import org.coode.oppl.function.OPPLFunction;
 import org.coode.oppl.generated.RegexpGeneratedVariable;
 import org.coode.oppl.utils.OWLObjectExtractor;
-import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLObjectVisitorEx;
@@ -48,13 +48,8 @@ public class CONSTANTVariableType extends AbstractVariableType<OWLLiteral>
 
     @Override
     public Set<OWLLiteral> getReferencedOWLObjects(Collection<? extends OWLOntology> ontologies) {
-        Set<OWLLiteral> toReturn = new HashSet<>();
-        for (OWLOntology ontology : ontologies) {
-            for (OWLAxiom axiom : ontology.getAxioms()) {
-                toReturn.addAll(OWLObjectExtractor.getAllOWLLiterals(axiom));
-            }
-        }
-        return toReturn;
+        return asSet(ontologies.stream().flatMap(OWLOntology::axioms)
+            .flatMap(OWLObjectExtractor::getAllOWLLiterals));
     }
 
     private static final OWLObjectVisitorEx<Boolean> MATCH = new OWLObjectVisitorEx<Boolean>() {

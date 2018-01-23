@@ -23,6 +23,8 @@
 package org.coode.patterns;
 
 import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+import static org.semanticweb.owlapi.util.OWLAPIStreamUtils.asList;
+import static org.semanticweb.owlapi.util.OWLAPIStreamUtils.asSet;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -62,7 +64,6 @@ import org.coode.oppl.variabletypes.VariableTypeVisitorEx;
 import org.coode.parsers.ErrorListener;
 import org.coode.patterns.utils.Utils;
 import org.semanticweb.owlapi.model.IRI;
-import org.semanticweb.owlapi.model.OWLAnnotation;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLAxiomChange;
 import org.semanticweb.owlapi.model.OWLAxiomVisitorEx;
@@ -131,12 +132,12 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
 
         @Override
         public Boolean visit(OWLDisjointClassesAxiom axiom) {
-            return Boolean.valueOf(axiom.getClassExpressions().contains(thisClass));
+            return Boolean.valueOf(axiom.classExpressions().anyMatch(p -> p.equals(thisClass)));
         }
 
         @Override
         public Boolean visit(OWLEquivalentClassesAxiom axiom) {
-            return Boolean.valueOf(axiom.getClassExpressions().contains(thisClass));
+            return Boolean.valueOf(axiom.classExpressions().anyMatch(p -> p.equals(thisClass)));
         }
 
         public Boolean visit(@SuppressWarnings("unused") OPPLQuery q) {
@@ -247,23 +248,21 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
 
         @Override
         public OWLClassExpression visit(OWLEquivalentClassesAxiom axiom) {
-            OWLClassExpression toReturn = null;
             if (variableType == VariableTypeFactory.getCLASSVariableType()) {
-                Set<OWLClassExpression> descriptions = new HashSet<>(axiom.getClassExpressions());
-                descriptions.remove(owlObject);
+                List<OWLClassExpression> descriptions =
+                    asList(axiom.classExpressions().filter(p -> !p.equals(owlObject)));
                 extractedDescriptions.addAll(descriptions);
-                toReturn = !descriptions.isEmpty() ? descriptions.iterator().next() : null;
+                return !descriptions.isEmpty() ? descriptions.iterator().next() : null;
             }
-            return toReturn;
+            return null;
         }
 
         @Override
         public OWLObjectPropertyExpression visit(OWLEquivalentObjectPropertiesAxiom axiom) {
             OWLObjectPropertyExpression toReturn = null;
             if (variableType == VariableTypeFactory.getOBJECTPROPERTYTypeVariableType()) {
-                Set<OWLObjectPropertyExpression> properties = new HashSet<>(axiom.getProperties());
-                properties.remove(owlObject);
-                toReturn = !properties.isEmpty() ? properties.iterator().next() : null;
+                toReturn =
+                    axiom.properties().filter(p -> !p.equals(owlObject)).findAny().orElse(null);
                 extractedProperty = toReturn;
             }
             return toReturn;
@@ -273,9 +272,8 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
         public OWLDataPropertyExpression visit(OWLEquivalentDataPropertiesAxiom axiom) {
             OWLDataPropertyExpression toReturn = null;
             if (variableType == VariableTypeFactory.getDATAPROPERTYVariableType()) {
-                Set<OWLDataPropertyExpression> properties = new HashSet<>(axiom.getProperties());
-                properties.remove(owlObject);
-                toReturn = !properties.isEmpty() ? properties.iterator().next() : null;
+                toReturn =
+                    axiom.properties().filter(p -> !p.equals(owlObject)).findAny().orElse(null);
                 extractedProperty = toReturn;
             }
             return toReturn;
@@ -674,42 +672,17 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
 
     @Override
     public Set<OWLObject> getOWLObjects(OWLOntology ontology, ErrorListener errorListener) {
-        Set<OWLObject> toReturn = new HashSet<>();
-        boolean found = false;
-        OWLAnnotation ontologyAnnotation = null;
-        Iterator<OWLAnnotation> annotationIterator = ontology.getAnnotations().iterator();
-        while (!found && annotationIterator.hasNext()) {
-            ontologyAnnotation = annotationIterator.next();
-            found = iri.equals(ontologyAnnotation.getProperty().getIRI());
-        }
-        if (found) {
-            toReturn.add(ontologyAnnotation);
-        }
-        return toReturn;
+        return asSet(ontology.annotations().filter(a -> iri.equals(a.getProperty().getIRI())),
+            OWLObject.class);
     }
 
     /**
      * @return originating ontology
      */
     public OWLOntology getOriginatingOntology() {
-        OWLOntology toReturn = null;
-        Set<OWLOntology> ontologies = ontologyManager.getOntologies();
-        boolean found = false;
-        Iterator<OWLOntology> it = ontologies.iterator();
-        OWLOntology ontology = null;
-        OWLAnnotation ontologyAnnotation = null;
-        while (!found && it.hasNext()) {
-            ontology = it.next();
-            Iterator<OWLAnnotation> annotationIterator = ontology.getAnnotations().iterator();
-            while (!found && annotationIterator.hasNext()) {
-                ontologyAnnotation = annotationIterator.next();
-                found = iri.equals(ontologyAnnotation.getProperty().getIRI());
-            }
-        }
-        if (found) {
-            toReturn = ontology;
-        }
-        return toReturn;
+        return ontologyManager.ontologies()
+            .filter(o -> o.annotations().anyMatch(a -> a.getProperty().getIRI().equals(iri)))
+            .findFirst().orElse(null);
     }
 
     /**

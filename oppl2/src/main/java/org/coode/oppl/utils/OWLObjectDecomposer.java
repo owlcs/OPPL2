@@ -1,8 +1,12 @@
 package org.coode.oppl.utils;
 
+import static org.semanticweb.owlapi.util.OWLAPIStreamUtils.add;
+import static org.semanticweb.owlapi.util.OWLAPIStreamUtils.asList;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Stream;
 
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAnnotation;
@@ -128,9 +132,7 @@ public final class OWLObjectDecomposer implements OWLObjectVisitorEx<List<Object
 
     @Override
     public List<Object> visit(OWLDisjointClassesAxiom axiom) {
-        List<Object> toReturn = new ArrayList<>();
-        toReturn.addAll(axiom.getClassExpressions());
-        return toReturn;
+        return asList(axiom.classExpressions(), Object.class);
     }
 
     @Override
@@ -151,9 +153,7 @@ public final class OWLObjectDecomposer implements OWLObjectVisitorEx<List<Object
 
     @Override
     public List<Object> visit(OWLEquivalentObjectPropertiesAxiom axiom) {
-        List<Object> toReturn = new ArrayList<>();
-        toReturn.addAll(axiom.getProperties());
-        return toReturn;
+        return asList(axiom.properties(), Object.class);
     }
 
     @Override
@@ -167,23 +167,17 @@ public final class OWLObjectDecomposer implements OWLObjectVisitorEx<List<Object
 
     @Override
     public List<Object> visit(OWLDifferentIndividualsAxiom axiom) {
-        List<Object> toReturn = new ArrayList<>();
-        toReturn.addAll(axiom.getIndividuals());
-        return toReturn;
+        return asList(axiom.individuals(), Object.class);
     }
 
     @Override
     public List<Object> visit(OWLDisjointDataPropertiesAxiom axiom) {
-        List<Object> toReturn = new ArrayList<>();
-        toReturn.addAll(axiom.getProperties());
-        return toReturn;
+        return asList(axiom.properties(), Object.class);
     }
 
     @Override
     public List<Object> visit(OWLDisjointObjectPropertiesAxiom axiom) {
-        List<Object> toReturn = new ArrayList<>();
-        toReturn.addAll(axiom.getProperties());
-        return toReturn;
+        return asList(axiom.properties(), Object.class);
     }
 
     @Override
@@ -220,9 +214,7 @@ public final class OWLObjectDecomposer implements OWLObjectVisitorEx<List<Object
 
     @Override
     public List<Object> visit(OWLDisjointUnionAxiom axiom) {
-        List<Object> toReturn = new ArrayList<>();
-        toReturn.addAll(axiom.getClassExpressions());
-        return toReturn;
+        return asList(axiom.classExpressions(), Object.class);
     }
 
     @Override
@@ -264,9 +256,7 @@ public final class OWLObjectDecomposer implements OWLObjectVisitorEx<List<Object
 
     @Override
     public List<Object> visit(OWLEquivalentDataPropertiesAxiom axiom) {
-        List<Object> toReturn = new ArrayList<>();
-        toReturn.addAll(axiom.getProperties());
-        return toReturn;
+        return asList(axiom.properties(), Object.class);
     }
 
     @Override
@@ -279,9 +269,7 @@ public final class OWLObjectDecomposer implements OWLObjectVisitorEx<List<Object
 
     @Override
     public List<Object> visit(OWLEquivalentClassesAxiom axiom) {
-        List<Object> toReturn = new ArrayList<>();
-        toReturn.addAll(axiom.getClassExpressions());
-        return toReturn;
+        return asList(axiom.classExpressions(), Object.class);
     }
 
     @Override
@@ -324,9 +312,7 @@ public final class OWLObjectDecomposer implements OWLObjectVisitorEx<List<Object
 
     @Override
     public List<Object> visit(OWLSameIndividualAxiom axiom) {
-        List<Object> toReturn = new ArrayList<>();
-        toReturn.addAll(axiom.getIndividuals());
-        return toReturn;
+        return asList(axiom.individuals(), Object.class);
     }
 
     @Override
@@ -349,7 +335,7 @@ public final class OWLObjectDecomposer implements OWLObjectVisitorEx<List<Object
     public List<Object> visit(OWLHasKeyAxiom axiom) {
         List<Object> toReturn = new ArrayList<>();
         toReturn.add(axiom.getClassExpression());
-        toReturn.addAll(axiom.getPropertyExpressions());
+        add(toReturn, axiom.propertyExpressions());
         return toReturn;
     }
 
@@ -363,10 +349,7 @@ public final class OWLObjectDecomposer implements OWLObjectVisitorEx<List<Object
 
     @Override
     public List<Object> visit(SWRLRule rule) {
-        List<Object> toReturn = new ArrayList<>();
-        toReturn.addAll(rule.getHead());
-        toReturn.addAll(rule.getBody());
-        return toReturn;
+        return asList(Stream.concat(rule.head(), rule.body()), Object.class);
     }
 
     @Override
@@ -400,16 +383,12 @@ public final class OWLObjectDecomposer implements OWLObjectVisitorEx<List<Object
 
     @Override
     public List<Object> visit(OWLObjectIntersectionOf ce) {
-        List<Object> toReturn = new ArrayList<>();
-        toReturn.addAll(ce.getOperands());
-        return toReturn;
+        return asList(ce.operands(), Object.class);
     }
 
     @Override
     public List<Object> visit(OWLObjectUnionOf ce) {
-        List<Object> toReturn = new ArrayList<>();
-        toReturn.addAll(ce.getOperands());
-        return toReturn;
+        return asList(ce.operands(), Object.class);
     }
 
     @Override
@@ -439,7 +418,7 @@ public final class OWLObjectDecomposer implements OWLObjectVisitorEx<List<Object
     public List<Object> visit(OWLObjectHasValue ce) {
         List<Object> toReturn = new ArrayList<>();
         toReturn.add(ce.getProperty());
-        toReturn.add(ce.getValue());
+        toReturn.add(ce.getFiller());
         return toReturn;
     }
 
@@ -479,9 +458,7 @@ public final class OWLObjectDecomposer implements OWLObjectVisitorEx<List<Object
 
     @Override
     public List<Object> visit(OWLObjectOneOf ce) {
-        List<Object> toReturn = new ArrayList<>();
-        toReturn.addAll(ce.getIndividuals());
-        return toReturn;
+        return asList(ce.individuals(), Object.class);
     }
 
     @Override
@@ -504,7 +481,7 @@ public final class OWLObjectDecomposer implements OWLObjectVisitorEx<List<Object
     public List<Object> visit(OWLDataHasValue ce) {
         List<Object> toReturn = new ArrayList<>();
         toReturn.add(ce.getProperty());
-        toReturn.add(ce.getValue());
+        toReturn.add(ce.getFiller());
         return toReturn;
     }
 
@@ -549,30 +526,22 @@ public final class OWLObjectDecomposer implements OWLObjectVisitorEx<List<Object
 
     @Override
     public List<Object> visit(OWLDataOneOf node) {
-        List<Object> toReturn = new ArrayList<>();
-        toReturn.addAll(node.getValues());
-        return toReturn;
+        return asList(node.values(), Object.class);
     }
 
     @Override
     public List<Object> visit(OWLDataIntersectionOf node) {
-        List<Object> toReturn = new ArrayList<>();
-        toReturn.addAll(node.getOperands());
-        return toReturn;
+        return asList(node.operands(), Object.class);
     }
 
     @Override
     public List<Object> visit(OWLDataUnionOf node) {
-        List<Object> toReturn = new ArrayList<>();
-        toReturn.addAll(node.getOperands());
-        return toReturn;
+        return asList(node.operands(), Object.class);
     }
 
     @Override
     public List<Object> visit(OWLDatatypeRestriction node) {
-        List<Object> toReturn = new ArrayList<>();
-        toReturn.addAll(node.getFacetRestrictions());
-        return toReturn;
+        return asList(node.facetRestrictions(), Object.class);
     }
 
     @Override

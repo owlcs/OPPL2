@@ -69,7 +69,6 @@ import org.coode.oppl.variabletypes.VariableTypeVisitorEx;
 import org.coode.parsers.ErrorListener;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAnnotation;
-import org.semanticweb.owlapi.model.OWLAnnotationProperty;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLObject;
@@ -142,29 +141,10 @@ public class PatternReference<O extends OWLObject> implements OPPLFunction<O> {
     }
 
     protected void init(List<Object>... args) throws PatternException {
-        Set<OWLOntology> ontologies =
-            this.getConstraintSystem().getOntologyManager().getOntologies();
-        Iterator<OWLOntology> ontologyIterator = ontologies.iterator();
-        boolean found = false;
-        OWLOntology anOntology;
         this.extractedPattern = null;
         // first check whether a pattern with that name is present
-        while (!found && ontologyIterator.hasNext()) {
-            anOntology = ontologyIterator.next();
-            Set<OWLAnnotation> ontologyAnnotationAxioms = anOntology.getAnnotations();
-            Iterator<OWLAnnotation> it = ontologyAnnotationAxioms.iterator();
-            while (!found && it.hasNext()) {
-                OWLAnnotation annotation = it.next();
-                OWLAnnotationProperty p = annotation.getProperty();
-                if (!this.hasBeenVisited(p) && this.patternName.equals(p.getIRI().getFragment())) {
-                    PatternExtractor patternExtractor =
-                        this.patternConstraintSystem.getPatternModelFactory().getPatternExtractor(
-                            this.getVisitedAnnotations(), this.getErrorListener());
-                    this.extractedPattern = (PatternModel) annotation.accept(patternExtractor);
-                    found = this.extractedPattern != null;
-                }
-            }
-        }
+        boolean found = this.getConstraintSystem().getOntologyManager().ontologies()
+            .flatMap(OWLOntology::annotations).anyMatch(this::matchAnnotation);
         if (!found) {
             throw new PatternReferenceNotFoundException(this.patternName);
         }
@@ -172,6 +152,17 @@ public class PatternReference<O extends OWLObject> implements OPPLFunction<O> {
         this.checkCompatibility(args);
         this.resolvable = this.isResolvable(args);
         this.arguments = args;
+    }
+
+    protected boolean matchAnnotation(OWLAnnotation annotation) {
+        if (!this.hasBeenVisited(annotation.getProperty())
+            && this.patternName.equals(annotation.getProperty().getIRI().getFragment())) {
+            PatternExtractor patternExtractor =
+                this.patternConstraintSystem.getPatternModelFactory()
+                    .getPatternExtractor(this.getVisitedAnnotations(), this.getErrorListener());
+            this.extractedPattern = (PatternModel) annotation.accept(patternExtractor);
+        }
+        return this.extractedPattern != null;
     }
 
     /**
@@ -479,23 +470,10 @@ public class PatternReference<O extends OWLObject> implements OPPLFunction<O> {
     protected Set<OWLAnnotation> getVisitedAnnotations() {
         Set<OWLAnnotation> toReturn = new HashSet<>();
         for (String visitedPatternName : this.visited) {
-            Iterator<OWLOntology> it =
-                this.getConstraintSystem().getOntologyManager().getOntologies().iterator();
-            boolean found = false;
-            OWLOntology ontology;
-            while (!found && it.hasNext()) {
-                ontology = it.next();
-                Iterator<OWLAnnotation> annotationIterator = ontology.getAnnotations().iterator();
-                OWLAnnotation anOntologyAnnotation = null;
-                while (!found && annotationIterator.hasNext()) {
-                    anOntologyAnnotation = annotationIterator.next();
-                    found = anOntologyAnnotation.getProperty().getIRI()
-                        .equals(IRI.create(PatternModel.NAMESPACE + visitedPatternName));
-                    if (found) {
-                        toReturn.add(anOntologyAnnotation);
-                    }
-                }
-            }
+            IRI iri = IRI.create(PatternModel.NAMESPACE + visitedPatternName);
+            this.getConstraintSystem().getOntologyManager().ontologies()
+                .flatMap(OWLOntology::annotations).filter(a -> a.getProperty().getIRI().equals(iri))
+                .forEach(toReturn::add);
         }
         return toReturn;
     }

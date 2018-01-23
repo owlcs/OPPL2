@@ -1,6 +1,5 @@
 package org.coode.oppl.queryplanner;
 
-import java.util.Collection;
 import java.util.Set;
 
 import org.semanticweb.owlapi.model.OWLDataAllValuesFrom;
@@ -10,7 +9,6 @@ import org.semanticweb.owlapi.model.OWLDataMaxCardinality;
 import org.semanticweb.owlapi.model.OWLDataMinCardinality;
 import org.semanticweb.owlapi.model.OWLDataSomeValuesFrom;
 import org.semanticweb.owlapi.model.OWLLiteral;
-import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLObjectAllValuesFrom;
 import org.semanticweb.owlapi.model.OWLObjectComplementOf;
 import org.semanticweb.owlapi.model.OWLObjectExactCardinality;
@@ -101,7 +99,7 @@ public class ConstantExtractor implements OWLObjectVisitor {
 
     @Override
     public void visit(OWLDataHasValue desc) {
-        toReturn.add(desc.getValue());
+        toReturn.add(desc.getFiller());
     }
 
     @Override
@@ -114,19 +112,14 @@ public class ConstantExtractor implements OWLObjectVisitor {
         desc.getOperand().accept(this);
     }
 
-    protected void visitOWLObjectCollection(Collection<? extends OWLObject> collection) {
-        for (OWLObject owlObject : collection) {
-            owlObject.accept(this);
-        }
-    }
 
     @Override
     public void visit(OWLObjectUnionOf desc) {
-        visitOWLObjectCollection(desc.getOperands());
+        desc.operands().forEach(c -> c.accept(this));
     }
 
     @Override
     public void visit(OWLObjectIntersectionOf desc) {
-        visitOWLObjectCollection(desc.getOperands());
+        desc.operands().forEach(c -> c.accept(this));
     }
 }

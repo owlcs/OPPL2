@@ -23,6 +23,7 @@
 package org.coode.oppl.querymatching;
 
 import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+import static org.semanticweb.owlapi.util.OWLAPIStreamUtils.asList;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -34,6 +35,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.stream.Stream;
 
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.Variable;
@@ -50,7 +52,6 @@ import org.coode.oppl.utils.VariableExtractor;
 import org.semanticweb.owlapi.model.AxiomType;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLObject;
-import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 /**
@@ -105,13 +106,11 @@ public class AssertedSolvabilityBasedAxiomQuery extends AbstractAxiomQuery {
             || axiom.getAxiomType() == AxiomType.OBJECT_PROPERTY_ASSERTION) {
             solutions.addAll(solvabilityBasedMatching(newStart.getAxiom(), newStart.getBinding()));
         } else {
-            for (OWLOntology ontology : manager.getOntologies()) {
-                for (OWLAxiom targetAxiom : filterAxioms(axiom, ontology.getAxioms())) {
-                    if (axiom.getAxiomType().equals(targetAxiom.getAxiomType())) {
-                        solutions.addAll(matchTargetAxiom(newStart, targetAxiom));
-                    }
+            manager.ontologies().forEach(o -> filterAxioms(axiom, o.axioms()).forEach(a -> {
+                if (axiom.getAxiomType().equals(a.getAxiomType())) {
+                    solutions.addAll(matchTargetAxiom(newStart, a));
                 }
-            }
+            }));
         }
         return solutions;
     }
@@ -183,38 +182,42 @@ public class AssertedSolvabilityBasedAxiomQuery extends AbstractAxiomQuery {
         return constraintSystem;
     }
 
-    private Collection<? extends OWLAxiom> filterAxioms(OWLAxiom toMatchAxiom,
-        Collection<? extends OWLAxiom> axioms) {
+    private Stream<OWLAxiom> filterAxioms(OWLAxiom toMatchAxiom, Stream<OWLAxiom> axioms) {
         Set<OWLAxiom> toReturn = new HashSet<>();
         VariableExtractor variableExtractor = new VariableExtractor(getConstraintSystem(), true);
         Set<Variable<?>> variables = variableExtractor.extractVariables(toMatchAxiom);
         Collection<? extends OWLObject> toMatchAllOWLObjects = extractOWLObjects(toMatchAxiom);
-        for (OWLAxiom candidate : axioms) {
-            Collection<? extends OWLObject> candidateAllOWLObjects = extractOWLObjects(candidate);
-            if (candidate.getAxiomType().equals(toMatchAxiom.getAxiomType())
-                && toMatchAllOWLObjects.containsAll(candidateAllOWLObjects)) {
+        axioms.forEach(candidate -> filterAxiom(toMatchAxiom, toReturn, variables,
+            toMatchAllOWLObjects, candidate));
+        return toReturn.stream();
+    }
+
+    protected void filterAxiom(OWLAxiom toMatchAxiom, Set<OWLAxiom> toReturn,
+        Set<Variable<?>> variables, Collection<? extends OWLObject> toMatchAllOWLObjects,
+        OWLAxiom candidate) {
+        Collection<? extends OWLObject> candidateAllOWLObjects = extractOWLObjects(candidate);
+        if (candidate.getAxiomType().equals(toMatchAxiom.getAxiomType())
+            && toMatchAllOWLObjects.containsAll(candidateAllOWLObjects)) {
+            toReturn.add(candidate);
+        } else {
+            Set<OWLObject> difference = new HashSet<>(candidateAllOWLObjects);
+            difference.removeAll(toMatchAllOWLObjects);
+            Iterator<OWLObject> iterator = difference.iterator();
+            boolean found = false;
+            while (!found && iterator.hasNext()) {
+                OWLObject leftOutOWLObject = iterator.next();
+                Iterator<? extends Variable<?>> variableIterator = variables.iterator();
+                boolean compatible = false;
+                while (!compatible && variableIterator.hasNext()) {
+                    Variable<?> variable = variableIterator.next();
+                    compatible = variable.getType().isCompatibleWith(leftOutOWLObject);
+                }
+                found = !compatible;
+            }
+            if (!found) {
                 toReturn.add(candidate);
-            } else {
-                Set<OWLObject> difference = new HashSet<>(candidateAllOWLObjects);
-                difference.removeAll(toMatchAllOWLObjects);
-                Iterator<OWLObject> iterator = difference.iterator();
-                boolean found = false;
-                while (!found && iterator.hasNext()) {
-                    OWLObject leftOutOWLObject = iterator.next();
-                    Iterator<? extends Variable<?>> variableIterator = variables.iterator();
-                    boolean compatible = false;
-                    while (!compatible && variableIterator.hasNext()) {
-                        Variable<?> variable = variableIterator.next();
-                        compatible = variable.getType().isCompatibleWith(leftOutOWLObject);
-                    }
-                    found = !compatible;
-                }
-                if (!found) {
-                    toReturn.add(candidate);
-                }
             }
         }
-        return toReturn;
     }
 
     /**
@@ -222,11 +225,7 @@ public class AssertedSolvabilityBasedAxiomQuery extends AbstractAxiomQuery {
      * @return owl objects
      */
     private Collection<? extends OWLObject> extractOWLObjects(OWLAxiom axiom) {
-        Collection<? extends OWLObject> toReturn = cache.get(axiom);
-        if (toReturn == null) {
-            toReturn = OWLObjectExtractor.getAllOWLPrimitives(axiom);
-            cache.put(axiom, toReturn);
-        }
-        return toReturn;
+        return cache.computeIfAbsent(axiom,
+            ax -> asList(OWLObjectExtractor.getAllOWLPrimitives(ax)));
     }
 }

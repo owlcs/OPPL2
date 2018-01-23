@@ -23,6 +23,7 @@
 package org.coode.oppl;
 
 import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+import static org.semanticweb.owlapi.util.OWLAPIStreamUtils.asList;
 
 import java.util.List;
 
@@ -54,16 +55,12 @@ public class OPPLFactory implements OPPLAbstractFactory {
     private final OWLOntology ontology;
     private OWLEntityChecker entityChecker = null;
     /** ontology iri */
-    public static final IRI DEFAULT_ONTOLOGY_IRI = IRI
-        .create("http://www.coode.org/oppl");
+    public static final IRI DEFAULT_ONTOLOGY_IRI = IRI.create("http://www.coode.org/oppl");
 
     /**
-     * @param ontologyManager
-     *        ontologyManager
-     * @param ontology
-     *        ontology
-     * @param reasoner
-     *        reasoner
+     * @param ontologyManager ontologyManager
+     * @param ontology ontology
+     * @param reasoner reasoner
      */
     public OPPLFactory(OWLOntologyManager ontologyManager, OWLOntology ontology,
         OWLReasoner reasoner) {
@@ -74,9 +71,9 @@ public class OPPLFactory implements OPPLAbstractFactory {
     }
 
     private OWLEntityChecker defaultEntityChecker() {
-        BidirectionalShortFormProviderAdapter bshp = new BidirectionalShortFormProviderAdapter(
-            ontologyManager.getOntologies(), new OPPLShortFormProvider(
-                new SimpleShortFormProvider()));
+        BidirectionalShortFormProviderAdapter bshp =
+            new BidirectionalShortFormProviderAdapter(asList(ontologyManager.ontologies()),
+                new OPPLShortFormProvider(new SimpleShortFormProvider()));
         // XXX fix for missing Thing
         bshp.add(ontologyManager.getOWLDataFactory().getOWLThing());
         bshp.add(ontologyManager.getOWLDataFactory().getOWLNothing());
@@ -112,8 +109,7 @@ public class OPPLFactory implements OPPLAbstractFactory {
 
     @Override
     public OPPLScript buildOPPLScript(ConstraintSystem constraintSystem1,
-        List<Variable<?>> variables, OPPLQuery opplQuery,
-        List<OWLAxiomChange> actions) {
+        List<Variable<?>> variables, OPPLQuery opplQuery, List<OWLAxiomChange> actions) {
         if (variables == null || variables.contains(null)) {
             throw new IllegalArgumentException("Invalid variables");
         }
@@ -141,8 +137,8 @@ public class OPPLFactory implements OPPLAbstractFactory {
 
     @Override
     public ManchesterSyntaxRenderer getManchesterSyntaxRenderer(ConstraintSystem cs) {
-        return new ManchesterSyntaxRenderer(new OPPLShortFormProvider(
-            new SimpleShortFormProvider()));
+        return new ManchesterSyntaxRenderer(
+            new OPPLShortFormProvider(new SimpleShortFormProvider()));
     }
 
     @Override

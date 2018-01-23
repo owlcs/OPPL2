@@ -23,6 +23,7 @@
 package org.coode.oppl;
 
 import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+import static org.semanticweb.owlapi.util.OWLAPIStreamUtils.add;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,36 +43,29 @@ public class ChangeExtractor {
     private final ExecutionMonitor executionMonitor;
 
     /**
-     * @param runtimeExceptionHandler
-     *        runtimeExceptionHandler
-     * @param considerImportClosure
-     *        considerImportClosure
+     * @param runtimeExceptionHandler runtimeExceptionHandler
+     * @param considerImportClosure considerImportClosure
      */
     public ChangeExtractor(RuntimeExceptionHandler runtimeExceptionHandler,
         boolean considerImportClosure) {
-        this(runtimeExceptionHandler, ExecutionMonitor.NON_CANCELLABLE,
-            considerImportClosure);
+        this(runtimeExceptionHandler, ExecutionMonitor.NON_CANCELLABLE, considerImportClosure);
     }
 
     /**
-     * @param runtimeExceptionHandler
-     *        runtimeExceptionHandler
-     * @param executionMonitor
-     *        executionMonitor
-     * @param considerImportClosure
-     *        considerImportClosure
+     * @param runtimeExceptionHandler runtimeExceptionHandler
+     * @param executionMonitor executionMonitor
+     * @param considerImportClosure considerImportClosure
      */
     public ChangeExtractor(RuntimeExceptionHandler runtimeExceptionHandler,
         ExecutionMonitor executionMonitor, boolean considerImportClosure) {
         this.executionMonitor = checkNotNull(executionMonitor, "executionMonitor");
-        this.runtimeExceptionHandler = checkNotNull(runtimeExceptionHandler,
-            "runtimeExceptionHandler");
+        this.runtimeExceptionHandler =
+            checkNotNull(runtimeExceptionHandler, "runtimeExceptionHandler");
         this.considerImportClosure = considerImportClosure;
     }
 
     /**
-     * @param script
-     *        script
+     * @param script script
      * @return changes
      */
     public List<OWLAxiomChange> visit(OPPLScript script) {
@@ -81,23 +75,16 @@ public class ChangeExtractor {
         }
         List<OWLAxiomChange> toReturn = new ArrayList<>();
         List<OWLAxiomChange> changes = script.getActions();
+        ConstraintSystem cs = script.getConstraintSystem();
         for (OWLAxiomChange change : changes) {
             boolean isAdd = change.isAddAxiom();
             ActionType action = isAdd ? ActionType.ADD : ActionType.REMOVE;
             if (considerImportClosure && !isAdd) {
-                toReturn.addAll(ActionFactory.createChanges(
-                    action,
-                    change.getAxiom(),
-                    script.getConstraintSystem(),
-                    script.getConstraintSystem()
-                        .getOntologyManager()
-                        .getImportsClosure(
-                            script.getConstraintSystem().getOntology()),
-                    getRuntimeExceptionHandler()));
+                add(toReturn, ActionFactory.createChanges(action, change.getAxiom(), cs,
+                    cs.getOntology().importsClosure(), getRuntimeExceptionHandler()));
             } else {
-                toReturn.addAll(ActionFactory.createChanges(action, change.getAxiom(),
-                    script.getConstraintSystem(), script.getConstraintSystem()
-                        .getOntology(), getRuntimeExceptionHandler()));
+                add(toReturn, ActionFactory.createChanges(action, change.getAxiom(), cs,
+                    cs.getOntology(), getRuntimeExceptionHandler()));
             }
         }
         return toReturn;

@@ -1,8 +1,9 @@
 package org.coode.parsers;
 
+import static org.semanticweb.owlapi.util.OWLAPIStreamUtils.asSet;
+
 import java.util.Collections;
 import java.util.EnumSet;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Stream;
 
@@ -28,7 +29,6 @@ public class BidirectionalShortFormProviderAdapter extends CachingBidirectionalS
     implements OWLEntitySetProvider<OWLEntity> {
 
     private final ShortFormProvider shortFormProvider;
-    protected Set<OWLOntology> ontologies;
     private OWLOntologyManager man;
 
     /**
@@ -44,7 +44,6 @@ public class BidirectionalShortFormProviderAdapter extends CachingBidirectionalS
      * {@code dispose} method must be called when the provider has been finished with so that the
      * provider may remove itself as a listener from the manager.
      * 
-     * @param ontologies The ontologies that contain references to the entities to be mapped.
      * @param shortFormProvider The short form provider that should be used to generate the short
      *        forms of the referenced entities.
      * @param man This short form provider will track changes to ontologies. The provider will
@@ -52,11 +51,9 @@ public class BidirectionalShortFormProviderAdapter extends CachingBidirectionalS
      *        on whether the specified ontologies contain references to entities or not.
      */
     public BidirectionalShortFormProviderAdapter(OWLOntologyManager man,
-        Set<OWLOntology> ontologies, ShortFormProvider shortFormProvider) {
+        ShortFormProvider shortFormProvider) {
         this.man = man;
-        this.ontologies = ontologies;
         this.shortFormProvider = shortFormProvider;
-        this.man = man;
         rebuild(entities());
         // Apparently Thing, Nothing, and the well know datatypes are not
         // referenced entities, so I need to add them.
@@ -87,11 +84,7 @@ public class BidirectionalShortFormProviderAdapter extends CachingBidirectionalS
         if (man == null) {
             return Collections.emptySet();
         }
-        Set<OWLEntity> set = new HashSet<>();
-        for (OWLOntology o : man.getOntologies()) {
-            set.addAll(o.getSignature());
-        }
-        return set;
+        return asSet(man.ontologies().flatMap(OWLOntology::signature));
     }
 
     @Override

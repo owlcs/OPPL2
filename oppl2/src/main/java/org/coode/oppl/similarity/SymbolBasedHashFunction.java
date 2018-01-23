@@ -2,7 +2,7 @@ package org.coode.oppl.similarity;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.coode.oppl.utils.OWLObjectExtractor;
 import org.coode.oppl.utils.PrimeNumbersUtils;
@@ -21,16 +21,12 @@ public class SymbolBasedHashFunction implements HashFunction {
 
     @Override
     public int getHashCode(OWLObject owlObject) {
-        Set<OWLEntity> entities = OWLObjectExtractor.getAllOWLEntities(owlObject);
-        int toReturn = 1;
-        for (OWLEntity owlEntity : entities) {
-            toReturn = toReturn * this.createHashCode(owlEntity);
-        }
-        Set<OWLLiteral> allOWLConstants = OWLObjectExtractor.getAllOWLLiterals(owlObject);
-        for (OWLLiteral owlConstant : allOWLConstants) {
-            toReturn = toReturn * this.createHashCode(owlConstant);
-        }
-        return toReturn;
+        AtomicInteger toReturn = new AtomicInteger(1);
+        OWLObjectExtractor.getAllOWLEntities(owlObject)
+            .forEach(e -> toReturn.set(toReturn.get() * this.createHashCode(e)));
+        OWLObjectExtractor.getAllOWLLiterals(owlObject)
+            .forEach(e -> toReturn.set(toReturn.get() * this.createHashCode(e)));
+        return toReturn.get();
     }
 
     protected int createHashCode(OWLLiteral constant) {

@@ -1,14 +1,23 @@
 package org.coode.parsers;
 
 import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+import static org.semanticweb.owlapi.util.OWLAPIStreamUtils.add;
 
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
-import org.semanticweb.owlapi.model.*;
+import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLDataProperty;
+import org.semanticweb.owlapi.model.OWLDatatype;
+import org.semanticweb.owlapi.model.OWLEntity;
+import org.semanticweb.owlapi.model.OWLIndividual;
+import org.semanticweb.owlapi.model.OWLNamedIndividual;
+import org.semanticweb.owlapi.model.OWLObjectProperty;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 /**
  * Author: Matthew Horridge<br>
@@ -29,15 +38,12 @@ public class EntityFinderImpl implements EntityFinder {
     private static final String WILDCARD = "*";
 
     /**
-     * @param mngr
-     *        mngr
-     * @param renderingCache
-     *        renderingCache
-     * @param useRegularExpressions
-     *        useRegularExpressions
+     * @param mngr mngr
+     * @param renderingCache renderingCache
+     * @param useRegularExpressions useRegularExpressions
      */
-    public EntityFinderImpl(OWLOntologyManager mngr,
-        OWLEntityRenderingCache renderingCache, boolean useRegularExpressions) {
+    public EntityFinderImpl(OWLOntologyManager mngr, OWLEntityRenderingCache renderingCache,
+        boolean useRegularExpressions) {
         this.renderingCache = checkNotNull(renderingCache, "renderingCache");
         manager = checkNotNull(mngr, "mngr");
         this.useRegularExpressions = useRegularExpressions;
@@ -59,8 +65,7 @@ public class EntityFinderImpl implements EntityFinder {
     }
 
     @Override
-    public Set<OWLObjectProperty> getMatchingOWLObjectProperties(String match,
-        boolean fullRegExp) {
+    public Set<OWLObjectProperty> getMatchingOWLObjectProperties(String match, boolean fullRegExp) {
         return this.getEntities(match, OWLObjectProperty.class, fullRegExp);
     }
 
@@ -70,8 +75,7 @@ public class EntityFinderImpl implements EntityFinder {
     }
 
     @Override
-    public Set<OWLDataProperty> getMatchingOWLDataProperties(String match,
-        boolean fullRegExp) {
+    public Set<OWLDataProperty> getMatchingOWLDataProperties(String match, boolean fullRegExp) {
         return this.getEntities(match, OWLDataProperty.class, fullRegExp);
     }
 
@@ -81,8 +85,7 @@ public class EntityFinderImpl implements EntityFinder {
     }
 
     @Override
-    public Set<OWLNamedIndividual> getMatchingOWLIndividuals(String match,
-        boolean fullRegExp) {
+    public Set<OWLNamedIndividual> getMatchingOWLIndividuals(String match, boolean fullRegExp) {
         return this.getEntities(match, OWLNamedIndividual.class, fullRegExp);
     }
 
@@ -138,9 +141,9 @@ public class EntityFinderImpl implements EntityFinder {
     }
 
     /*
-     * @@TODO fix wildcard searching - it does not handle the usecases correctly
-     * eg A*B will not work, and endsWith is implemented the same as contains
-     * (probably right but this should not be implemented separately)
+     * @@TODO fix wildcard searching - it does not handle the usecases correctly eg A*B will not
+     * work, and endsWith is implemented the same as contains (probably right but this should not be
+     * implemented separately)
      */
     private <T extends OWLEntity> Set<T> doWildcardSearch(String _match, Class<T> type) {
         String match = _match;
@@ -152,23 +155,11 @@ public class EntityFinderImpl implements EntityFinder {
             if (match.startsWith(WILDCARD)) {
                 if (match.length() > 1 && match.endsWith(WILDCARD)) {
                     // Contains
-                    matcher = new SimpleWildCardMatcher() {
-
-                        @Override
-                        public boolean matches(String rendering, String s) {
-                            return rendering.indexOf(s) != -1;
-                        }
-                    };
+                    matcher = (rendering, s) -> rendering.indexOf(s) != -1;
                     match = match.substring(1, match.length() - 1);
                 } else {
                     // Ends with
-                    matcher = new SimpleWildCardMatcher() {
-
-                        @Override
-                        public boolean matches(String rendering, String s) {
-                            return rendering.indexOf(s) != -1;
-                        }
-                    };
+                    matcher = (rendering, s) -> rendering.indexOf(s) != -1;
                     match = match.substring(1, match.length());
                 }
             } else {
@@ -177,19 +168,13 @@ public class EntityFinderImpl implements EntityFinder {
                     match = match.substring(0, match.length() - 1);
                 }
                 // @@TODO handle matches exactly?
-                matcher = new SimpleWildCardMatcher() {
-
-                    @Override
-                    public boolean matches(String rendering, String s) {
-                        return rendering.startsWith(s) || rendering.startsWith("'" + s);
-                    }
-                };
+                matcher =
+                    (rendering, s) -> rendering.startsWith(s) || rendering.startsWith("'" + s);
             }
             if (match.trim().length() != 0) {
                 match = match.toLowerCase();
                 for (String rendering : this.getRenderings(type)) {
-                    if (rendering.length() > 0
-                        && matcher.matches(rendering.toLowerCase(), match)) {
+                    if (rendering.length() > 0 && matcher.matches(rendering.toLowerCase(), match)) {
                         results.add(this.getEntity(rendering, type));
                     }
                 }
@@ -201,19 +186,19 @@ public class EntityFinderImpl implements EntityFinder {
     @SuppressWarnings("unchecked")
     private <T extends OWLEntity> Set<T> getAllEntities(Class<T> type) {
         Set<T> entities = new HashSet<>();
-        for (OWLOntology ont : manager.getOntologies()) {
+        manager.ontologies().forEach(ont -> {
             if (type.equals(OWLClass.class)) {
-                entities.addAll((Set<T>) ont.getClassesInSignature());
+                add(entities, (Stream<T>) ont.classesInSignature());
             } else if (type.equals(OWLObjectProperty.class)) {
-                entities.addAll((Set<T>) ont.getObjectPropertiesInSignature());
+                add(entities, (Stream<T>) ont.objectPropertiesInSignature());
             } else if (type.equals(OWLDataProperty.class)) {
-                entities.addAll((Set<T>) ont.getDataPropertiesInSignature());
+                add(entities, (Stream<T>) ont.dataPropertiesInSignature());
             } else if (type.equals(OWLIndividual.class)) {
-                entities.addAll((Set<T>) ont.getIndividualsInSignature());
+                add(entities, (Stream<T>) ont.individualsInSignature());
             } else if (type.equals(OWLDatatype.class)) {
-                entities.addAll((Set<T>) ont.getDatatypesInSignature());
+                add(entities, (Stream<T>) ont.datatypesInSignature());
             }
-        }
+        });
         return entities;
     }
 

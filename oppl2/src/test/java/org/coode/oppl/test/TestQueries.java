@@ -3,6 +3,7 @@ package org.coode.oppl.test;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.semanticweb.owlapi.util.OWLAPIStreamUtils.asList;
 
 import java.io.StringWriter;
 import java.util.ArrayList;
@@ -66,7 +67,6 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
-import org.semanticweb.owlapi.model.RemoveAxiom;
 
 @SuppressWarnings("javadoc")
 public class TestQueries {
@@ -169,9 +169,7 @@ public class TestQueries {
      * @param manager
      */
     private static void clearOntology(OWLOntology o) {
-        for (OWLAxiom axiom : o.getAxioms()) {
-            o.getOWLOntologyManager().applyChange(new RemoveAxiom(o, axiom));
-        }
+        o.removeAxioms(asList(o.axioms()));
     }
 
     private Set<OWLObject> generateValues(Variable<?> variable, OWLOntologyManager manager) {

@@ -9,20 +9,12 @@ import java.util.stream.Stream;
 import org.coode.oppl.function.inline.InlineSet;
 import org.semanticweb.owlapi.model.AxiomType;
 import org.semanticweb.owlapi.model.OWLAnnotation;
-import org.semanticweb.owlapi.model.OWLAnnotationProperty;
-import org.semanticweb.owlapi.model.OWLAnonymousIndividual;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLAxiomVisitor;
 import org.semanticweb.owlapi.model.OWLAxiomVisitorEx;
-import org.semanticweb.owlapi.model.OWLClass;
-import org.semanticweb.owlapi.model.OWLClassExpression;
-import org.semanticweb.owlapi.model.OWLDataProperty;
-import org.semanticweb.owlapi.model.OWLDatatype;
 import org.semanticweb.owlapi.model.OWLDisjointObjectPropertiesAxiom;
 import org.semanticweb.owlapi.model.OWLEntity;
-import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObject;
-import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
 import org.semanticweb.owlapi.model.OWLObjectVisitor;
 import org.semanticweb.owlapi.model.OWLObjectVisitorEx;
@@ -66,19 +58,10 @@ public class OPPLOWLDisjointObjectPropertiesAxiom
 
     // Delegate methods
     @Override
-    public Set<OWLEntity> getSignature() {
-        return delegate.getSignature();
-    }
-
-    @Override
     public boolean containsEntityInSignature(OWLEntity owlEntity) {
         return delegate.containsEntityInSignature(owlEntity);
     }
 
-    @Override
-    public Set<OWLAnonymousIndividual> getAnonymousIndividuals() {
-        return delegate.getAnonymousIndividuals();
-    }
 
     @Override
     public Stream<OWLObjectPropertyExpression> properties() {
@@ -89,11 +72,6 @@ public class OPPLOWLDisjointObjectPropertiesAxiom
     public Set<OWLObjectPropertyExpression> getPropertiesMinus(
         OWLObjectPropertyExpression property) {
         return delegate.getPropertiesMinus(property);
-    }
-
-    @Override
-    public Set<OWLClass> getClassesInSignature() {
-        return delegate.getClassesInSignature();
     }
 
     @Override
@@ -111,40 +89,6 @@ public class OPPLOWLDisjointObjectPropertiesAxiom
         return visitor.visit(this);
     }
 
-    @Override
-    public Set<OWLAnnotation> getAnnotations() {
-        return delegate.getAnnotations();
-    }
-
-    @Override
-    public Set<OWLDataProperty> getDataPropertiesInSignature() {
-        return delegate.getDataPropertiesInSignature();
-    }
-
-    @Override
-    public Set<OWLAnnotation> getAnnotations(OWLAnnotationProperty annotationProperty) {
-        return delegate.getAnnotations(annotationProperty);
-    }
-
-    @Override
-    public Set<OWLObjectProperty> getObjectPropertiesInSignature() {
-        return delegate.getObjectPropertiesInSignature();
-    }
-
-    @Override
-    public Set<OWLNamedIndividual> getIndividualsInSignature() {
-        return delegate.getIndividualsInSignature();
-    }
-
-    @Override
-    public Set<OWLDatatype> getDatatypesInSignature() {
-        return delegate.getDatatypesInSignature();
-    }
-
-    @Override
-    public Set<OWLClassExpression> getNestedClassExpressions() {
-        return delegate.getNestedClassExpressions();
-    }
 
     @Override
     public void accept(OWLObjectVisitor visitor) {

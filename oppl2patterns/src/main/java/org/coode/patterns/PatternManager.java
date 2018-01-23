@@ -26,7 +26,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.coode.oppl.OPPLScript;
 import org.coode.oppl.exceptions.QuickFailRuntimeExceptionHandler;
@@ -127,30 +126,26 @@ public class PatternManager implements OWLOntologyChangeListener {
             List<OWLAxiomChange> changes = new ArrayList<>();
             if (patternModel != null && subject instanceof OWLClass
                 && patternModel instanceof InstantiatedPatternModel) {
-                Set<OWLOntology> ontologies = ontologyManager.getOntologies();
-                for (OWLOntology ontology : ontologies) {
-                    Set<OWLAxiom> axioms = ontology.getAxioms();
-                    for (OWLAxiom anOntologyAxiom : axioms) {
-                        for (OWLAnnotation axiomAnnotationAxiom : anOntologyAxiom
-                            .getAnnotations()) {
-                            String value = axiomAnnotationAxiom.getValue().literalValue()
-                                .map(OWLLiteral::toString).orElse(null);
-                            if (value != null) {
-                                IRI annotationIRI = axiomAnnotationAxiom.getProperty().getIRI();
-                                if (value.equals(patternModel.getIRI().toString())
-                                    && annotationIRI.equals(IRI.create(PatternModel.NAMESPACE,
-                                        PatternActionFactory.CREATED_BY))) {
-                                    changes.add(new RemoveAxiom(ontology, anOntologyAxiom));
-                                }
-                            }
-                        }
-                    }
-                }
+                ontologyManager.ontologies().forEach(o -> o.axioms().forEach(ax -> ax.annotations()
+                    .forEach(a -> selectValue(patternModel, changes, o, ax, a))));
                 try {
                     ontologyManager.applyChanges(changes);
                 } catch (OWLOntologyChangeException e) {
                     throw new RuntimeException("Could not store the pattern inside the ontology",
                         e);
+                }
+            }
+        }
+
+        protected void selectValue(PatternOPPLScript patternModel, List<OWLAxiomChange> changes,
+            OWLOntology ontology, OWLAxiom anOntologyAxiom, OWLAnnotation axiomAnnotationAxiom) {
+            String value = axiomAnnotationAxiom.getValue().literalValue().map(OWLLiteral::toString)
+                .orElse(null);
+            if (value != null) {
+                IRI annotationIRI = axiomAnnotationAxiom.getProperty().getIRI();
+                if (value.equals(patternModel.getIRI().toString()) && annotationIRI
+                    .equals(IRI.create(PatternModel.NAMESPACE, PatternActionFactory.CREATED_BY))) {
+                    changes.add(new RemoveAxiom(ontology, anOntologyAxiom));
                 }
             }
         }

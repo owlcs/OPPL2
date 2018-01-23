@@ -1,6 +1,7 @@
 package org.coode.oppl.queryplanner;
 
 import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+import static org.semanticweb.owlapi.util.OWLAPIStreamUtils.asSet;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -184,55 +185,37 @@ public class ComplexityEstimate implements QueryPlannerVisitorEx<Float> {
     }
 
     private Set<OWLAnnotationProperty> getAllAnnotationProperties() {
-        Set<OWLAnnotationProperty> toReturn = new HashSet<>();
-        for (OWLOntology ontology : getConstraintSystem().getOntologyManager().getOntologies()) {
-            toReturn.addAll(ontology.getAnnotationPropertiesInSignature());
-        }
-        return toReturn;
+        return asSet(getConstraintSystem().getOntologyManager().ontologies()
+            .flatMap(OWLOntology::annotationPropertiesInSignature));
     }
 
     private Collection<OWLClass> getAllClasses() {
-        Set<OWLClass> toReturn = new HashSet<>();
-        for (OWLOntology owlOntology : getConstraintSystem().getOntologyManager().getOntologies()) {
-            toReturn.addAll(owlOntology.getClassesInSignature());
-        }
-        return toReturn;
+        return asSet(getConstraintSystem().getOntologyManager().ontologies()
+            .flatMap(OWLOntology::classesInSignature));
     }
 
     private Collection<OWLLiteral> getAllConstants() {
         final Set<OWLLiteral> toReturn = new HashSet<>();
         final OWLObjectVisitor constantExtractor = new ConstantExtractor(toReturn);
         ConstantCollector visitor = new ConstantCollector(toReturn, constantExtractor);
-        for (OWLOntology owlOntology : getConstraintSystem().getOntologyManager().getOntologies()) {
-            for (OWLAxiom axiomToVisit : owlOntology.getAxioms()) {
-                axiomToVisit.accept(visitor);
-            }
-        }
+        getConstraintSystem().getOntologyManager().ontologies().flatMap(OWLOntology::axioms)
+            .forEach(a -> a.accept(visitor));
         return toReturn;
     }
 
     private Collection<OWLDataProperty> getAllDataProperties() {
-        Set<OWLDataProperty> toReturn = new HashSet<>();
-        for (OWLOntology owlOntology : getConstraintSystem().getOntologyManager().getOntologies()) {
-            toReturn.addAll(owlOntology.getDataPropertiesInSignature());
-        }
-        return toReturn;
+        return asSet(getConstraintSystem().getOntologyManager().ontologies()
+            .flatMap(OWLOntology::dataPropertiesInSignature));
     }
 
     private Collection<OWLIndividual> getAllIndividuals() {
-        Set<OWLIndividual> toReturn = new HashSet<>();
-        for (OWLOntology owlOntology : getConstraintSystem().getOntologyManager().getOntologies()) {
-            toReturn.addAll(owlOntology.getIndividualsInSignature());
-        }
-        return toReturn;
+        return asSet(getConstraintSystem().getOntologyManager().ontologies()
+            .flatMap(OWLOntology::individualsInSignature));
     }
 
     private Collection<OWLObjectProperty> getAllObjectProperties() {
-        Set<OWLObjectProperty> toReturn = new HashSet<>();
-        for (OWLOntology owlOntology : getConstraintSystem().getOntologyManager().getOntologies()) {
-            toReturn.addAll(owlOntology.getObjectPropertiesInSignature());
-        }
-        return toReturn;
+        return asSet(getConstraintSystem().getOntologyManager().ontologies()
+            .flatMap(OWLOntology::objectPropertiesInSignature));
     }
 
     private void initAssignableValues() {

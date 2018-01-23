@@ -2,6 +2,7 @@ package org.coode.oppl.search.solvability;
 
 import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 import static org.semanticweb.owlapi.util.OWLAPIStreamUtils.asList;
+import static org.semanticweb.owlapi.util.OWLAPIStreamUtils.asSet;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -44,7 +45,6 @@ import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLAxiomVisitor;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
-import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLClassExpressionVisitor;
 import org.semanticweb.owlapi.model.OWLDataProperty;
 import org.semanticweb.owlapi.model.OWLDataPropertyAssertionAxiom;
@@ -89,16 +89,12 @@ public abstract class AbstractSolvabilityOPPLOWLAxiomSearchTree
 
         @Override
         public void visit(OWLDisjointClassesAxiom axiom) {
-            for (OWLClassExpression description : axiom.getClassExpressions()) {
-                description.accept(constantExtractor);
-            }
+            axiom.classExpressions().forEach(c -> c.accept(constantExtractor));
         }
 
         @Override
         public void visit(OWLEquivalentClassesAxiom axiom) {
-            for (OWLClassExpression description : axiom.getClassExpressions()) {
-                description.accept(constantExtractor);
-            }
+            axiom.classExpressions().forEach(c -> c.accept(constantExtractor));
         }
 
         @Override
@@ -403,36 +399,24 @@ public abstract class AbstractSolvabilityOPPLOWLAxiomSearchTree
         final Set<OWLLiteral> toReturn = new HashSet<>();
         final OWLObjectVisitor constantExtractor = new ConstantExtractor(toReturn);
         ConstantCollector visitor = new ConstantCollector(toReturn, constantExtractor);
-        for (OWLOntology owlOntology : getConstraintSystem().getOntologyManager().getOntologies()) {
-            for (OWLAxiom axiomToVisit : owlOntology.getAxioms()) {
-                axiomToVisit.accept(visitor);
-            }
-        }
+        getConstraintSystem().getOntologyManager().ontologies().flatMap(OWLOntology::axioms)
+            .forEach(a -> a.accept(visitor));
         return toReturn;
     }
 
     private Collection<OWLDataProperty> getAllDataProperties() {
-        Set<OWLDataProperty> toReturn = new HashSet<>();
-        for (OWLOntology owlOntology : getConstraintSystem().getOntologyManager().getOntologies()) {
-            toReturn.addAll(owlOntology.getDataPropertiesInSignature());
-        }
-        return toReturn;
+        return asList(getConstraintSystem().getOntologyManager().ontologies()
+            .flatMap(OWLOntology::dataPropertiesInSignature));
     }
 
     private Collection<OWLIndividual> getAllIndividuals() {
-        Set<OWLIndividual> toReturn = new HashSet<>();
-        for (OWLOntology owlOntology : getConstraintSystem().getOntologyManager().getOntologies()) {
-            toReturn.addAll(owlOntology.getIndividualsInSignature());
-        }
-        return toReturn;
+        return asSet(getConstraintSystem().getOntologyManager().ontologies()
+            .flatMap(OWLOntology::individualsInSignature));
     }
 
     private Collection<OWLObjectProperty> getObjectProperties() {
-        Set<OWLObjectProperty> toReturn = new HashSet<>();
-        for (OWLOntology owlOntology : getConstraintSystem().getOntologyManager().getOntologies()) {
-            toReturn.addAll(owlOntology.getObjectPropertiesInSignature());
-        }
-        return toReturn;
+        return asSet(getConstraintSystem().getOntologyManager().ontologies()
+            .flatMap(OWLOntology::objectPropertiesInSignature));
     }
 
     @Override
@@ -470,10 +454,7 @@ public abstract class AbstractSolvabilityOPPLOWLAxiomSearchTree
     }
 
     private Set<OWLAnnotationProperty> getAllAnnotationProperties() {
-        Set<OWLAnnotationProperty> toReturn = new HashSet<>();
-        for (OWLOntology ontology : getConstraintSystem().getOntologyManager().getOntologies()) {
-            toReturn.addAll(ontology.getAnnotationPropertiesInSignature());
-        }
-        return toReturn;
+        return asSet(getConstraintSystem().getOntologyManager().ontologies()
+            .flatMap(OWLOntology::annotationPropertiesInSignature));
     }
 }

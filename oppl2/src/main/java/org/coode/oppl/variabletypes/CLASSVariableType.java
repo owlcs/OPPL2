@@ -1,8 +1,9 @@
 package org.coode.oppl.variabletypes;
 
+import static org.semanticweb.owlapi.util.OWLAPIStreamUtils.asSet;
+
 import java.util.Collection;
 import java.util.EnumSet;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -65,11 +66,7 @@ public class CLASSVariableType extends AbstractVariableType<OWLClassExpression>
     @Override
     public Set<OWLClassExpression> getReferencedOWLObjects(
         Collection<? extends OWLOntology> ontologies) {
-        Set<OWLClassExpression> toReturn = new HashSet<>();
-        for (OWLOntology ontology : ontologies) {
-            toReturn.addAll(ontology.getClassesInSignature());
-        }
-        return toReturn;
+        return asSet(ontologies.stream().flatMap(OWLOntology::classesInSignature));
     }
 
     private static final OWLObjectVisitorEx<Boolean> MATCH = new OWLObjectVisitorEx<Boolean>() {

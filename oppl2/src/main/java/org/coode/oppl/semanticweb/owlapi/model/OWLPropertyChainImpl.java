@@ -1,10 +1,10 @@
 package org.coode.oppl.semanticweb.owlapi.model;
 
 import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+import static org.semanticweb.owlapi.util.OWLAPIStreamUtils.asSet;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -96,11 +96,7 @@ public class OWLPropertyChainImpl implements OWLPropertyChain {
 
     @Override
     public Set<OWLEntity> getSignature() {
-        Set<OWLEntity> toReturn = new HashSet<>();
-        for (OWLObjectPropertyExpression propertyExpression : delegate) {
-            toReturn.addAll(propertyExpression.getSignature());
-        }
-        return toReturn;
+        return asSet(delegate.stream().flatMap(OWLObjectPropertyExpression::signature));
     }
 
     @Override
@@ -140,11 +136,8 @@ public class OWLPropertyChainImpl implements OWLPropertyChain {
 
     @Override
     public Set<OWLObjectProperty> getObjectPropertiesInSignature() {
-        Set<OWLObjectProperty> toReturn = new HashSet<>();
-        for (OWLObjectPropertyExpression propertyExpression : delegate) {
-            toReturn.addAll(propertyExpression.getObjectPropertiesInSignature());
-        }
-        return toReturn;
+        return asSet(
+            delegate.stream().flatMap(OWLObjectPropertyExpression::objectPropertiesInSignature));
     }
 
     @Override

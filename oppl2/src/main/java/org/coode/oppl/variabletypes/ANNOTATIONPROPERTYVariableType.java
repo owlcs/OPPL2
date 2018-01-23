@@ -1,8 +1,9 @@
 package org.coode.oppl.variabletypes;
 
+import static org.semanticweb.owlapi.util.OWLAPIStreamUtils.asSet;
+
 import java.util.Collection;
 import java.util.EnumSet;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -30,11 +31,7 @@ public class ANNOTATIONPROPERTYVariableType extends AbstractVariableType<OWLAnno
     @Override
     public Set<OWLAnnotationProperty> getReferencedOWLObjects(
         Collection<? extends OWLOntology> ontologies) {
-        Set<OWLAnnotationProperty> toReturn = new HashSet<>();
-        for (OWLOntology ontology : ontologies) {
-            toReturn.addAll(ontology.getAnnotationPropertiesInSignature());
-        }
-        return toReturn;
+        return asSet(ontologies.stream().flatMap(OWLOntology::annotationPropertiesInSignature));
     }
 
     private static final OWLObjectVisitorEx<Boolean> MATCH = new OWLObjectVisitorEx<Boolean>() {

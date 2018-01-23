@@ -4,26 +4,18 @@ import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Stream;
 
 import org.coode.oppl.function.inline.InlineSet;
 import org.semanticweb.owlapi.model.AxiomType;
 import org.semanticweb.owlapi.model.OWLAnnotation;
-import org.semanticweb.owlapi.model.OWLAnnotationProperty;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLAxiomVisitor;
 import org.semanticweb.owlapi.model.OWLAxiomVisitorEx;
-import org.semanticweb.owlapi.model.OWLClass;
-import org.semanticweb.owlapi.model.OWLClassExpression;
-import org.semanticweb.owlapi.model.OWLDataProperty;
-import org.semanticweb.owlapi.model.OWLDatatype;
 import org.semanticweb.owlapi.model.OWLDifferentIndividualsAxiom;
 import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLIndividual;
-import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObject;
-import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLObjectVisitor;
 import org.semanticweb.owlapi.model.OWLObjectVisitorEx;
 import org.semanticweb.owlapi.model.OWLPairwiseVisitor;
@@ -65,10 +57,6 @@ public class OPPLOWLDifferentIndividualsAxiom extends AbstractInlineSetAxiom<OWL
     }
 
     // Delegate methods
-    @Override
-    public Set<OWLEntity> getSignature() {
-        return delegate.getSignature();
-    }
 
     @Override
     public boolean containsEntityInSignature(OWLEntity owlEntity) {
@@ -100,35 +88,12 @@ public class OPPLOWLDifferentIndividualsAxiom extends AbstractInlineSetAxiom<OWL
         return visitor.visit(this);
     }
 
-    @Override
-    public Set<OWLDataProperty> getDataPropertiesInSignature() {
-        return delegate.getDataPropertiesInSignature();
-    }
 
     @Override
     public Collection<OWLDifferentIndividualsAxiom> asPairwiseAxioms() {
         return delegate.asPairwiseAxioms();
     }
 
-    @Override
-    public Set<OWLObjectProperty> getObjectPropertiesInSignature() {
-        return delegate.getObjectPropertiesInSignature();
-    }
-
-    @Override
-    public Set<OWLNamedIndividual> getIndividualsInSignature() {
-        return delegate.getIndividualsInSignature();
-    }
-
-    @Override
-    public Set<OWLDatatype> getDatatypesInSignature() {
-        return delegate.getDatatypesInSignature();
-    }
-
-    @Override
-    public Set<OWLClassExpression> getNestedClassExpressions() {
-        return delegate.getNestedClassExpressions();
-    }
 
     @Override
     public void accept(OWLObjectVisitor visitor) {
@@ -150,24 +115,10 @@ public class OPPLOWLDifferentIndividualsAxiom extends AbstractInlineSetAxiom<OWL
         return delegate.getAxiomWithoutAnnotations();
     }
 
-    @Override
-    public Set<OWLClass> getClassesInSignature() {
-        return delegate.getClassesInSignature();
-    }
 
     @Override
     public boolean containsAnonymousIndividuals() {
         return delegate.containsAnonymousIndividuals();
-    }
-
-    @Override
-    public Set<OWLAnnotation> getAnnotations() {
-        return delegate.getAnnotations();
-    }
-
-    @Override
-    public Set<OWLAnnotation> getAnnotations(OWLAnnotationProperty annotationProperty) {
-        return delegate.getAnnotations(annotationProperty);
     }
 
     @Override
@@ -228,11 +179,6 @@ public class OPPLOWLDifferentIndividualsAxiom extends AbstractInlineSetAxiom<OWL
     @Override
     public String toString() {
         return delegate.toString();
-    }
-
-    @Override
-    public Set<OWLAnnotationProperty> getAnnotationPropertiesInSignature() {
-        return delegate.getAnnotationPropertiesInSignature();
     }
 
     @Override

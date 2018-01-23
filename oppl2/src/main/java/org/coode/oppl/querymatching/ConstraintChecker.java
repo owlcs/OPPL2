@@ -25,7 +25,6 @@ package org.coode.oppl.querymatching;
 import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 import org.coode.oppl.ConstraintVisitorEx;
@@ -39,7 +38,6 @@ import org.coode.oppl.function.ValueComputationParameters;
 import org.coode.oppl.log.Logging;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLObject;
-import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLRuntimeException;
 
 /**
@@ -104,13 +102,8 @@ public class ConstraintChecker implements ConstraintVisitorEx<Boolean> {
                 toReturn = !getParameters().getConstraintSystem().getReasoner()
                     .isEntailed(instantiatedAxiom);
             } else {
-                boolean found = false;
-                Iterator<OWLOntology> iterator = getParameters().getConstraintSystem()
-                    .getOntologyManager().getOntologies().iterator();
-                while (!found && iterator.hasNext()) {
-                    OWLOntology ontology = iterator.next();
-                    found = ontology.containsAxiom(instantiatedAxiom);
-                }
+                boolean found = getParameters().getConstraintSystem().getOntologyManager()
+                    .ontologies().anyMatch(o -> o.containsAxiom(instantiatedAxiom));
                 toReturn = !found;
             }
         } catch (OWLRuntimeException e) {

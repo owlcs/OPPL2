@@ -2625,11 +2625,6 @@ public class SymbolTable {
             OWLAnnotation annotation =
                 object.getOWLObject().accept(new OWLObjectVisitorEx<OWLAnnotation>() {
                     @Override
-                    public <T> OWLAnnotation doDefault(T object) {
-                        return null;
-                    }
-
-                    @Override
                     public OWLAnnotation visit(IRI i) {
                         return df.getOWLAnnotation(
                             (OWLAnnotationProperty) annotationPropertyNode.getOWLObject(), i);

@@ -23,6 +23,8 @@
 package org.coode.oppl.querymatching;
 
 import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+import static org.semanticweb.owlapi.util.OWLAPIStreamUtils.add;
+import static org.semanticweb.owlapi.util.OWLAPIStreamUtils.asList;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -34,6 +36,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.stream.Stream;
 
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.Variable;
@@ -65,11 +68,11 @@ public class AssertedTreeSearchSingleAxiomQuery extends AbstractAxiomQuery {
      * @param constraintSystem constraintSystem
      * @param runtimeExceptionHandler runtimeExceptionHandler
      */
-    public AssertedTreeSearchSingleAxiomQuery(Set<OWLOntology> ontologies,
+    public AssertedTreeSearchSingleAxiomQuery(Stream<OWLOntology> ontologies,
         ConstraintSystem constraintSystem, RuntimeExceptionHandler runtimeExceptionHandler) {
         super(runtimeExceptionHandler);
         this.constraintSystem = checkNotNull(constraintSystem, "constraintSystem");
-        this.ontologies.addAll(checkNotNull(ontologies, "ontologies"));
+        add(this.ontologies, checkNotNull(ontologies, "ontologies"));
     }
 
     @Override
@@ -95,7 +98,7 @@ public class AssertedTreeSearchSingleAxiomQuery extends AbstractAxiomQuery {
     private List<List<OPPLOWLAxiomSearchNode>> doMatch(OPPLOWLAxiomSearchNode start) {
         List<List<OPPLOWLAxiomSearchNode>> solutions = new ArrayList<>();
         for (OWLOntology ontology : ontologies) {
-            for (OWLAxiom targetAxiom : filterAxioms(start.getAxiom(), ontology.getAxioms())) {
+            for (OWLAxiom targetAxiom : filterAxioms(start.getAxiom(), ontology.axioms())) {
                 if (start.getAxiom().getAxiomType().equals(targetAxiom.getAxiomType())) {
                     solutions.addAll(matchTargetAxiom(start, targetAxiom));
                 }
@@ -160,39 +163,42 @@ public class AssertedTreeSearchSingleAxiomQuery extends AbstractAxiomQuery {
     }
 
     private Collection<? extends OWLAxiom> filterAxioms(OWLAxiom toMatchAxiom,
-        Collection<? extends OWLAxiom> axioms) {
+        Stream<? extends OWLAxiom> axioms) {
         Set<OWLAxiom> toReturn = new HashSet<>();
         VariableExtractor variableExtractor = new VariableExtractor(getConstraintSystem(), true);
         Set<Variable<?>> variables = variableExtractor.extractVariables(toMatchAxiom);
         Collection<? extends OWLObject> toMatchAllOWLObjects = extractOWLObjects(toMatchAxiom);
-        for (OWLAxiom candidate : axioms) {
-            // if (candidate.getAxiomType().equals(toMatchAxiom.getAxiomType()))
-            // {
-            Collection<? extends OWLObject> candidateAllOWLObjects = extractOWLObjects(candidate);
-            if (candidate.getAxiomType().equals(toMatchAxiom.getAxiomType())
-                && toMatchAllOWLObjects.containsAll(candidateAllOWLObjects)) {
+        axioms.forEach(candidate -> filterAxiom(toMatchAxiom, toReturn, variables,
+            toMatchAllOWLObjects, candidate));
+        return toReturn;
+    }
+
+    protected void filterAxiom(OWLAxiom toMatchAxiom, Set<OWLAxiom> toReturn,
+        Set<Variable<?>> variables, Collection<? extends OWLObject> toMatchAllOWLObjects,
+        OWLAxiom candidate) {
+        Collection<? extends OWLObject> candidateAllOWLObjects = extractOWLObjects(candidate);
+        if (candidate.getAxiomType().equals(toMatchAxiom.getAxiomType())
+            && toMatchAllOWLObjects.containsAll(candidateAllOWLObjects)) {
+            toReturn.add(candidate);
+        } else {
+            Set<OWLObject> difference = new HashSet<>(candidateAllOWLObjects);
+            difference.removeAll(toMatchAllOWLObjects);
+            Iterator<OWLObject> iterator = difference.iterator();
+            boolean found = false;
+            while (!found && iterator.hasNext()) {
+                OWLObject leftOutOWLObject = iterator.next();
+                Iterator<? extends Variable<?>> variableIterator = variables.iterator();
+                boolean compatible = false;
+                while (!compatible && variableIterator.hasNext()) {
+                    Variable<?> variable = variableIterator.next();
+                    compatible = variable.getType().isCompatibleWith(leftOutOWLObject);
+                }
+                found = !compatible;
+            }
+            if (!found) {
                 toReturn.add(candidate);
-            } else {
-                Set<OWLObject> difference = new HashSet<>(candidateAllOWLObjects);
-                difference.removeAll(toMatchAllOWLObjects);
-                Iterator<OWLObject> iterator = difference.iterator();
-                boolean found = false;
-                while (!found && iterator.hasNext()) {
-                    OWLObject leftOutOWLObject = iterator.next();
-                    Iterator<? extends Variable<?>> variableIterator = variables.iterator();
-                    boolean compatible = false;
-                    while (!compatible && variableIterator.hasNext()) {
-                        Variable<?> variable = variableIterator.next();
-                        compatible = variable.getType().isCompatibleWith(leftOutOWLObject);
-                    }
-                    found = !compatible;
-                }
-                if (!found) {
-                    toReturn.add(candidate);
-                }
             }
         }
-        return toReturn;
     }
 
     /**
@@ -200,11 +206,7 @@ public class AssertedTreeSearchSingleAxiomQuery extends AbstractAxiomQuery {
      * @return owl objects
      */
     private Collection<? extends OWLObject> extractOWLObjects(OWLAxiom axiom) {
-        Collection<? extends OWLObject> toReturn = cache.get(axiom);
-        if (toReturn == null) {
-            toReturn = OWLObjectExtractor.getAllOWLPrimitives(axiom);
-            cache.put(axiom, toReturn);
-        }
-        return toReturn;
+        return cache.computeIfAbsent(axiom,
+            ax -> asList(OWLObjectExtractor.getAllOWLPrimitives(ax)));
     }
 }

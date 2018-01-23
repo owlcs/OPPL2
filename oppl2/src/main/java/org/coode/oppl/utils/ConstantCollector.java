@@ -4,7 +4,6 @@ import java.util.Set;
 
 import org.semanticweb.owlapi.model.OWLAxiomVisitor;
 import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
-import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLClassExpressionVisitor;
 import org.semanticweb.owlapi.model.OWLDataPropertyAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLDisjointClassesAxiom;
@@ -43,16 +42,12 @@ public final class ConstantCollector implements OWLAxiomVisitor {
 
     @Override
     public void visit(OWLDisjointClassesAxiom axiom) {
-        for (OWLClassExpression description : axiom.getClassExpressions()) {
-            description.accept(constantExtractor);
-        }
+        axiom.classExpressions().forEach(c -> c.accept(constantExtractor));
     }
 
     @Override
     public void visit(OWLEquivalentClassesAxiom axiom) {
-        for (OWLClassExpression description : axiom.getClassExpressions()) {
-            description.accept(constantExtractor);
-        }
+        axiom.classExpressions().forEach(c -> c.accept(constantExtractor));
     }
 
     @Override

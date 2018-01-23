@@ -1,8 +1,9 @@
 package org.coode.oppl.variabletypes;
 
+import static org.semanticweb.owlapi.util.OWLAPIStreamUtils.asSet;
+
 import java.util.Collection;
 import java.util.EnumSet;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -48,11 +49,7 @@ public class DATAPROPERTYVariableType extends AbstractVariableType<OWLDataProper
     @Override
     public Set<OWLDataPropertyExpression> getReferencedOWLObjects(
         Collection<? extends OWLOntology> ontologies) {
-        Set<OWLDataPropertyExpression> toReturn = new HashSet<>();
-        for (OWLOntology ontology : ontologies) {
-            toReturn.addAll(ontology.getDataPropertiesInSignature());
-        }
-        return toReturn;
+        return asSet(ontologies.stream().flatMap(OWLOntology::dataPropertiesInSignature));
     }
 
     private static final OWLObjectVisitorEx<Boolean> MATCH = new OWLObjectVisitorEx<Boolean>() {

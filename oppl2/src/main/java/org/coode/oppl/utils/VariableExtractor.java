@@ -62,7 +62,6 @@ import org.semanticweb.owlapi.model.OWLAnnotationProperty;
 import org.semanticweb.owlapi.model.OWLAsymmetricObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
-import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLDataAllValuesFrom;
 import org.semanticweb.owlapi.model.OWLDataComplementOf;
 import org.semanticweb.owlapi.model.OWLDataExactCardinality;
@@ -73,7 +72,6 @@ import org.semanticweb.owlapi.model.OWLDataOneOf;
 import org.semanticweb.owlapi.model.OWLDataProperty;
 import org.semanticweb.owlapi.model.OWLDataPropertyAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLDataPropertyDomainAxiom;
-import org.semanticweb.owlapi.model.OWLDataPropertyExpression;
 import org.semanticweb.owlapi.model.OWLDataPropertyRangeAxiom;
 import org.semanticweb.owlapi.model.OWLDataSomeValuesFrom;
 import org.semanticweb.owlapi.model.OWLDatatypeRestriction;
@@ -88,7 +86,6 @@ import org.semanticweb.owlapi.model.OWLEquivalentDataPropertiesAxiom;
 import org.semanticweb.owlapi.model.OWLEquivalentObjectPropertiesAxiom;
 import org.semanticweb.owlapi.model.OWLFunctionalDataPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLFunctionalObjectPropertyAxiom;
-import org.semanticweb.owlapi.model.OWLIndividual;
 import org.semanticweb.owlapi.model.OWLInverseFunctionalObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLInverseObjectPropertiesAxiom;
 import org.semanticweb.owlapi.model.OWLIrreflexiveObjectPropertyAxiom;
@@ -110,7 +107,6 @@ import org.semanticweb.owlapi.model.OWLObjectOneOf;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLObjectPropertyAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLObjectPropertyDomainAxiom;
-import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
 import org.semanticweb.owlapi.model.OWLObjectPropertyRangeAxiom;
 import org.semanticweb.owlapi.model.OWLObjectSomeValuesFrom;
 import org.semanticweb.owlapi.model.OWLObjectUnionOf;
@@ -290,9 +286,7 @@ public class VariableExtractor {
             if (OPPLOWLDisjointClassesAxiom.class.isAssignableFrom(axiom.getClass())) {
                 ((OPPLOWLDisjointClassesAxiom) axiom).getInlineSet().accept(extractor);
             } else {
-                for (OWLClassExpression description : axiom.getClassExpressions()) {
-                    description.accept(this);
-                }
+                axiom.classExpressions().forEach(c -> c.accept(this));
             }
             return set;
         }
@@ -313,9 +307,7 @@ public class VariableExtractor {
 
         @Override
         public Set<Variable<?>> visit(OWLEquivalentObjectPropertiesAxiom axiom) {
-            for (OWLObjectPropertyExpression objectPropertyExpression : axiom.getProperties()) {
-                objectPropertyExpression.accept(this);
-            }
+            axiom.properties().forEach(c -> c.accept(this));
             return set;
         }
 
@@ -332,9 +324,7 @@ public class VariableExtractor {
             if (OPPLOWLDifferentIndividualsAxiom.class.isAssignableFrom(axiom.getClass())) {
                 return ((OPPLOWLDifferentIndividualsAxiom) axiom).getInlineSet().accept(extractor);
             }
-            for (OWLIndividual individual : axiom.getIndividuals()) {
-                individual.accept(this);
-            }
+            axiom.individuals().forEach(i -> i.accept(this));
             return set;
         }
 
@@ -344,9 +334,7 @@ public class VariableExtractor {
                 return ((OPPLOWLDisjointDataPropertiesAxiom) axiom).getInlineSet()
                     .accept(extractor);
             }
-            for (OWLDataPropertyExpression dataPropertyExpression : axiom.getProperties()) {
-                dataPropertyExpression.accept(this);
-            }
+            axiom.properties().forEach(c -> c.accept(this));
             return set;
         }
 
@@ -356,9 +344,7 @@ public class VariableExtractor {
                 return ((OPPLOWLDisjointObjectPropertiesAxiom) axiom).getInlineSet()
                     .accept(extractor);
             }
-            for (OWLObjectPropertyExpression objectPropertyExpression : axiom.getProperties()) {
-                objectPropertyExpression.accept(this);
-            }
+            axiom.properties().forEach(c -> c.accept(this));
             return set;
         }
 
@@ -391,9 +377,7 @@ public class VariableExtractor {
 
         @Override
         public Set<Variable<?>> visit(OWLDisjointUnionAxiom axiom) {
-            for (OWLClassExpression description : axiom.getClassExpressions()) {
-                description.accept(this);
-            }
+            axiom.classExpressions().forEach(c -> c.accept(this));
             return set;
         }
 
@@ -416,9 +400,7 @@ public class VariableExtractor {
 
         @Override
         public Set<Variable<?>> visit(OWLEquivalentDataPropertiesAxiom axiom) {
-            for (OWLDataPropertyExpression dataPropertyExpression : axiom.getProperties()) {
-                dataPropertyExpression.accept(this);
-            }
+            axiom.properties().forEach(c -> c.accept(this));
             return set;
         }
 
@@ -431,9 +413,7 @@ public class VariableExtractor {
 
         @Override
         public Set<Variable<?>> visit(OWLEquivalentClassesAxiom axiom) {
-            for (OWLClassExpression description : axiom.getClassExpressions()) {
-                description.accept(this);
-            }
+            axiom.classExpressions().forEach(c -> c.accept(this));
             return set;
         }
 
@@ -472,18 +452,14 @@ public class VariableExtractor {
             if (OPPLOWLSameIndividualAxiom.class.isAssignableFrom(axiom.getClass())) {
                 return ((OPPLOWLSameIndividualAxiom) axiom).getInlineSet().accept(extractor);
             }
-            for (OWLIndividual individual : axiom.getIndividuals()) {
-                individual.accept(this);
-            }
+            axiom.individuals().forEach(i -> i.accept(this));
             return set;
         }
 
         @Override
         public Set<Variable<?>> visit(OWLSubPropertyChainOfAxiom axiom) {
             axiom.getSuperProperty().accept(this);
-            for (OWLObjectPropertyExpression o : axiom.getPropertyChain()) {
-                o.accept(this);
-            }
+            axiom.getPropertyChain().forEach(o -> o.accept(this));
             return set;
         }
 
@@ -551,17 +527,13 @@ public class VariableExtractor {
 
         @Override
         public Set<Variable<?>> visit(OWLObjectIntersectionOf desc) {
-            for (OWLClassExpression description : desc.getOperands()) {
-                description.accept(this);
-            }
+            desc.operands().forEach(c -> c.accept(this));
             return set;
         }
 
         @Override
         public Set<Variable<?>> visit(OWLObjectUnionOf desc) {
-            for (OWLClassExpression description : desc.getOperands()) {
-                description.accept(this);
-            }
+            desc.operands().forEach(c -> c.accept(this));
             return set;
         }
 
@@ -586,7 +558,7 @@ public class VariableExtractor {
 
         @Override
         public Set<Variable<?>> visit(OWLObjectHasValue desc) {
-            desc.getValue().accept(this);
+            desc.getFiller().accept(this);
             desc.getProperty().accept(this);
             return set;
         }
@@ -619,9 +591,7 @@ public class VariableExtractor {
 
         @Override
         public Set<Variable<?>> visit(OWLObjectOneOf desc) {
-            for (OWLIndividual individual : desc.getIndividuals()) {
-                individual.accept(this);
-            }
+            desc.individuals().forEach(i -> i.accept(this));
             return set;
         }
 
@@ -642,7 +612,7 @@ public class VariableExtractor {
         @Override
         public Set<Variable<?>> visit(OWLDataHasValue desc) {
             desc.getProperty().accept(this);
-            desc.getValue().accept(this);
+            desc.getFiller().accept(this);
             return set;
         }
 
@@ -674,9 +644,7 @@ public class VariableExtractor {
 
         @Override
         public Set<Variable<?>> visit(OWLDataOneOf node) {
-            for (OWLLiteral constant : node.getValues()) {
-                constant.accept(this);
-            }
+            node.values().forEach(c -> c.accept(this));
             return set;
         }
 
