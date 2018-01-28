@@ -155,8 +155,8 @@ public class VariableExtractor {
 
                 @Override
                 public <O extends OWLObject> Set<Variable<?>> visitInlineSet(InlineSet<O> a) {
-                    for (Aggregandum<Collection<? extends O>> agg : a.getAggregandums()) {
-                        for (OPPLFunction<Collection<? extends O>> f : agg.getOPPLFunctions()) {
+                    for (Aggregandum<Collection<O>> agg : a.getAggregandums()) {
+                        for (OPPLFunction<Collection<O>> f : agg.getOPPLFunctions()) {
                             f.accept(this);
                         }
                     }

@@ -47,6 +47,37 @@ import org.semanticweb.owlapi.model.OWLOntology;
  */
 public class OWLAxiomSearchTree extends SearchTree<OWLAxiom> {
 
+    class AssignableFinder implements VariableVisitorEx<Set<? extends OWLObject>> {
+        @Override
+        public <O extends OWLObject> Set<? extends OWLObject> visit(InputVariable<O> v) {
+            return v.getType().accept(assignableValuesVisitor);
+        }
+
+        @Override
+        public <O extends OWLObject> Set<? extends OWLObject> visit(RegexpGeneratedVariable<O> v) {
+            Set<? extends OWLObject> result = v.getType().accept(assignableValuesVisitor);
+            Iterator<? extends OWLObject> iterator = result.iterator();
+            while (iterator.hasNext()) {
+                OWLObject owlObject = iterator.next();
+                ManchesterSyntaxRenderer renderer =
+                    getParameters().getConstraintSystem().getOPPLFactory()
+                        .getManchesterSyntaxRenderer(getParameters().getConstraintSystem());
+                owlObject.accept(renderer);
+                if (!v.getPatternGeneratingOPPLFunction().compute(getParameters())
+                    .matcher(renderer.toString()).matches()) {
+                    iterator.remove();
+                }
+            }
+            return result;
+        }
+
+        @Override
+        public <O extends OWLObject> Set<? extends OWLObject> visit(GeneratedVariable<O> v) {
+            return Collections.emptySet();
+        }
+    }
+
+    private final AssignableFinder finder = new AssignableFinder();
     private final ValueComputationParameters parameters;
 
     /**
@@ -173,43 +204,7 @@ public class OWLAxiomSearchTree extends SearchTree<OWLAxiom> {
         };
 
     private Collection<? extends OWLObject> getAssignableValues(Variable<?> variable) {
-        Set<OWLObject> toReturn = new HashSet<>();
-        VariableVisitorEx<Set<? extends OWLObject>> visitor =
-            new VariableVisitorEx<Set<? extends OWLObject>>() {
-
-                @Override
-                public <O extends OWLObject> Set<? extends OWLObject> visit(InputVariable<O> v) {
-                    return v.getType().accept(assignableValuesVisitor);
-                }
-
-                @Override
-                public <O extends OWLObject> Set<? extends OWLObject> visit(
-                    RegexpGeneratedVariable<O> v) {
-                    Set<? extends OWLObject> result = v.getType().accept(assignableValuesVisitor);
-                    Iterator<? extends OWLObject> iterator = result.iterator();
-                    while (iterator.hasNext()) {
-                        OWLObject owlObject = iterator.next();
-                        ManchesterSyntaxRenderer renderer = OWLAxiomSearchTree.this.getParameters()
-                            .getConstraintSystem().getOPPLFactory().getManchesterSyntaxRenderer(
-                                OWLAxiomSearchTree.this.getParameters().getConstraintSystem());
-                        owlObject.accept(renderer);
-                        if (!v.getPatternGeneratingOPPLFunction()
-                            .compute(OWLAxiomSearchTree.this.getParameters())
-                            .matcher(renderer.toString()).matches()) {
-                            iterator.remove();
-                        }
-                    }
-                    return result;
-                }
-
-                @Override
-                public <O extends OWLObject> Set<? extends OWLObject> visit(
-                    GeneratedVariable<O> v) {
-                    return Collections.emptySet();
-                }
-            };
-        toReturn.addAll(variable.accept(visitor));
-        return toReturn;
+        return variable.accept(finder);
     }
 
     protected Set<OWLObjectProperty> getObjectProperties() {

@@ -8,7 +8,6 @@ import static org.junit.Assert.fail;
 
 import java.net.URI;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.regex.PatternSyntaxException;
 
 import org.antlr.runtime.CharStream;
@@ -153,7 +152,7 @@ public class OPPLPartsTestCase {
         anotherBindingNode
             .addAssignment(new Assignment(constraintSystem.getVariable("?x"), constraintSystem
                 .getOntologyManager().getOWLDataFactory().getOWLClass(IRI.create("blah#Monica"))));
-        constraintSystem.setLeaves(new HashSet<>(Arrays.asList(bindingNode, anotherBindingNode)));
+        constraintSystem.setLeaves(Arrays.asList(bindingNode, anotherBindingNode));
         final ValueComputationParameters parameters = new SimpleValueComputationParameters(
             constraintSystem, BindingNode.createNewEmptyBindingNode(), handler);
         Logging.getParseTestLogging().info(opplFunction, constraintSystem);

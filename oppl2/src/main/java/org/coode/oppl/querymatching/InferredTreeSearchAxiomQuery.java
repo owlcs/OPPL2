@@ -26,7 +26,6 @@ import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -64,7 +63,7 @@ public class InferredTreeSearchAxiomQuery extends AbstractAxiomQuery {
     @Override
     protected Set<BindingNode> match(OWLAxiom axiom) {
         clearInstantions();
-        List<List<OPPLOWLAxiomSearchNode>> solutions = new ArrayList<>();
+        List<List<? extends OPPLOWLAxiomSearchNode>> solutions = new ArrayList<>();
         VariableExtractor variableExtractor = new VariableExtractor(getConstraintSystem(), false);
         Set<Variable<?>> extractedVariables = variableExtractor.extractVariables(axiom);
         SortedSet<Variable<?>> sortedVariables =
@@ -74,7 +73,7 @@ public class InferredTreeSearchAxiomQuery extends AbstractAxiomQuery {
         OPPLOWLAxiomSearchNode start =
             new OPPLOWLAxiomSearchNode(axiom, new BindingNode(sortedVariables));
         solutions.addAll(doMatch(start));
-        return extractLeaves(solutions);
+        return AssertedSolvabilityBasedAxiomQuery.extractLeaves(solutions);
     }
 
     private List<List<OPPLOWLAxiomSearchNode>> doMatch(OPPLOWLAxiomSearchNode start) {
@@ -83,16 +82,6 @@ public class InferredTreeSearchAxiomQuery extends AbstractAxiomQuery {
         List<List<OPPLOWLAxiomSearchNode>> solutions = new ArrayList<>();
         searchTree.exhaustiveSearchTree(start, solutions);
         return solutions;
-    }
-
-    private static Set<BindingNode> extractLeaves(List<List<OPPLOWLAxiomSearchNode>> solutions) {
-        Set<BindingNode> toReturn = new HashSet<>();
-        for (List<OPPLOWLAxiomSearchNode> path : solutions) {
-            OPPLOWLAxiomSearchNode searchLeaf = path.get(path.size() - 1);
-            BindingNode leaf = searchLeaf.getBinding();
-            toReturn.add(leaf);
-        }
-        return toReturn;
     }
 
     private void clearInstantions() {

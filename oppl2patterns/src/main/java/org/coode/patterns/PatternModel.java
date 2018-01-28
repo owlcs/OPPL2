@@ -521,7 +521,7 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
     public OWLObject getDefinitorialPortion(Collection<? extends BindingNode> bindingNodes,
         RuntimeExceptionHandler runtimeExceptionHandler) throws PatternException {
         DefinitorialExtractor extractor = createDefinitorialExtractor(getReturnVariable());
-        getConstraintSystem().setLeaves(new HashSet<>(bindingNodes));
+        getConstraintSystem().setLeaves(bindingNodes);
         for (BindingNode bindingNode : bindingNodes) {
             SimpleValueComputationParameters parameters = new SimpleValueComputationParameters(
                 getConstraintSystem(), bindingNode, runtimeExceptionHandler);
@@ -529,9 +529,7 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
                 new PartialOWLObjectInstantiator(parameters);
             ConstraintSystem newConstraintSystem =
                 getConstraintSystem().getOPPLFactory().createConstraintSystem();
-            for (Variable<?> v : bindingNode.getAssignedVariables()) {
-                newConstraintSystem.importVariable(v);
-            }
+            bindingNode.assignedVariables().forEach(newConstraintSystem::importVariable);
             VariableExtractor variableExtractor = new VariableExtractor(newConstraintSystem, false);
             for (OWLAxiomChange owlAxiomChange : getActions()) {
                 OWLObject instantiatedAxiom = owlAxiomChange.getAxiom().accept(instantiator);

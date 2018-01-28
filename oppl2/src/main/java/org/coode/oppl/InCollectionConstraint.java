@@ -27,19 +27,17 @@ import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 
 /**
- * Constraint that verifies whether a variable values are contained in a
- * collection
+ * Constraint that verifies whether a variable values are contained in a collection
  * 
  * @author Luigi Iannone
- * @param
- *        <P>
- *        type
+ * @param <P> type
  */
 public class InCollectionConstraint<P extends OWLObject> implements AbstractConstraint {
 
@@ -48,15 +46,12 @@ public class InCollectionConstraint<P extends OWLObject> implements AbstractCons
     private final ConstraintSystem constraintSystem;
 
     /**
-     * @param variable
-     *        variable
-     * @param collection
-     *        collection
-     * @param constraintSystem
-     *        constraintSystem
+     * @param variable variable
+     * @param collection collection
+     * @param constraintSystem constraintSystem
      */
-    public InCollectionConstraint(Variable<P> variable,
-        Collection<? extends P> collection, ConstraintSystem constraintSystem) {
+    public InCollectionConstraint(Variable<P> variable, Collection<? extends P> collection,
+        ConstraintSystem constraintSystem) {
         if (collection.isEmpty()) {
             throw new IllegalArgumentException("The collection of values cannot be empty");
         }
@@ -65,12 +60,12 @@ public class InCollectionConstraint<P extends OWLObject> implements AbstractCons
         this.constraintSystem = checkNotNull(constraintSystem, "constraintSystem");
         for (P p : collection) {
             if (!variable.getType().isCompatibleWith(p)) {
-                ManchesterSyntaxRenderer manchesterSyntaxRenderer = constraintSystem
-                    .getOPPLFactory().getManchesterSyntaxRenderer(constraintSystem);
+                ManchesterSyntaxRenderer manchesterSyntaxRenderer =
+                    constraintSystem.getOPPLFactory().getManchesterSyntaxRenderer(constraintSystem);
                 p.accept(manchesterSyntaxRenderer);
-                throw new IllegalArgumentException(String.format(
-                    "The value %s is incompatible with variable %s of type %s",
-                    manchesterSyntaxRenderer, variable, variable.getType()));
+                throw new IllegalArgumentException(
+                    String.format("The value %s is incompatible with variable %s of type %s",
+                        manchesterSyntaxRenderer, variable, variable.getType()));
             }
         }
     }
@@ -89,9 +84,18 @@ public class InCollectionConstraint<P extends OWLObject> implements AbstractCons
 
     /**
      * @return the collection
+     * @deprecated use the stream version
      */
+    @Deprecated
     public Set<P> getCollection() {
         return new HashSet<>(this.collection);
+    }
+
+    /**
+     * @return the collection
+     */
+    public Stream<P> collection() {
+        return collection.stream();
     }
 
     @Override
@@ -118,9 +122,8 @@ public class InCollectionConstraint<P extends OWLObject> implements AbstractCons
         boolean first = true;
         String comma;
         for (P p : this.collection) {
-            ManchesterSyntaxRenderer manchesterSyntaxRenderer = this
-                .getConstraintSystem().getOPPLFactory()
-                .getManchesterSyntaxRenderer(this.getConstraintSystem());
+            ManchesterSyntaxRenderer manchesterSyntaxRenderer = this.getConstraintSystem()
+                .getOPPLFactory().getManchesterSyntaxRenderer(this.getConstraintSystem());
             comma = !first ? ", " : "";
             first = false;
             buffer.append(comma);
@@ -142,8 +145,7 @@ public class InCollectionConstraint<P extends OWLObject> implements AbstractCons
             comma = !first ? ", " : "";
             first = false;
             buffer.append(comma);
-            ManchesterSyntaxRenderer renderer = new ManchesterSyntaxRenderer(
-                shortFormProvider);
+            ManchesterSyntaxRenderer renderer = new ManchesterSyntaxRenderer(shortFormProvider);
             p.accept(renderer);
             buffer.append(renderer.toString());
         }
@@ -162,8 +164,8 @@ public class InCollectionConstraint<P extends OWLObject> implements AbstractCons
             comma = !first ? ", " : "";
             first = false;
             buffer.append(comma);
-            ManchesterSyntaxRenderer renderer = cs.getOPPLFactory()
-                .getManchesterSyntaxRenderer(this.getConstraintSystem());
+            ManchesterSyntaxRenderer renderer =
+                cs.getOPPLFactory().getManchesterSyntaxRenderer(this.getConstraintSystem());
             p.accept(renderer);
             buffer.append(renderer.toString());
         }
@@ -184,18 +186,15 @@ public class InCollectionConstraint<P extends OWLObject> implements AbstractCons
     }
 
     /**
-     * @param variable
-     *        variable
-     * @param collection
-     *        collection
-     * @param constraintSystem
-     *        constraintSystem
-     * @param <T>
-     *        variable type
+     * @param variable variable
+     * @param collection collection
+     * @param constraintSystem constraintSystem
+     * @param <T> variable type
      * @return in collection constraint
      */
-    public static <T extends OWLObject> InCollectionConstraint<T> getInCollectionConstraint(Variable<T> variable,
-        Collection<? extends T> collection, ConstraintSystem constraintSystem) {
+    public static <T extends OWLObject> InCollectionConstraint<T> getInCollectionConstraint(
+        Variable<T> variable, Collection<? extends T> collection,
+        ConstraintSystem constraintSystem) {
         return new InCollectionConstraint<>(variable, collection, constraintSystem);
     }
 }

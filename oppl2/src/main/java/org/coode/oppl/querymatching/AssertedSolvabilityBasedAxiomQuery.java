@@ -24,6 +24,7 @@ package org.coode.oppl.querymatching;
 
 import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 import static org.semanticweb.owlapi.util.OWLAPIStreamUtils.asList;
+import static org.semanticweb.owlapi.util.OWLAPIStreamUtils.asSet;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -115,15 +116,13 @@ public class AssertedSolvabilityBasedAxiomQuery extends AbstractAxiomQuery {
         return solutions;
     }
 
-    private static Set<BindingNode> extractLeaves(
+    public static Set<BindingNode> extractLeaves(
         List<List<? extends OPPLOWLAxiomSearchNode>> solutions) {
-        Set<BindingNode> toReturn = new HashSet<>();
-        for (List<? extends OPPLOWLAxiomSearchNode> path : solutions) {
-            OPPLOWLAxiomSearchNode searchLeaf = path.get(path.size() - 1);
-            BindingNode leaf = searchLeaf.getBinding();
-            toReturn.add(leaf);
-        }
-        return toReturn;
+        return asSet(solutions.stream().map(AssertedSolvabilityBasedAxiomQuery::leafBinding));
+    }
+
+    protected static BindingNode leafBinding(List<? extends OPPLOWLAxiomSearchNode> path) {
+        return path.get(path.size() - 1).getBinding();
     }
 
     /**

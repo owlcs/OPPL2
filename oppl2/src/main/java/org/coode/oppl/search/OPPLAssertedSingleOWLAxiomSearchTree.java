@@ -2,11 +2,11 @@ package org.coode.oppl.search;
 
 import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 import static org.semanticweb.owlapi.util.OWLAPIStreamUtils.add;
+import static org.semanticweb.owlapi.util.OWLAPIStreamUtils.asSet;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -52,6 +52,26 @@ import org.semanticweb.owlapi.model.OWLRuntimeException;
  */
 public class OPPLAssertedSingleOWLAxiomSearchTree extends SearchTree<OPPLOWLAxiomSearchNode> {
 
+    class ScopeChecker extends AbstractVariableVisitorExAdapter<Boolean> {
+        private final OWLObject owlObject;
+
+        ScopeChecker(Boolean defaultValue, OWLObject owlObject) {
+            super(defaultValue);
+            this.owlObject = owlObject;
+        }
+
+        @Override
+        public <P extends OWLObject> Boolean visit(InputVariable<P> v) {
+            VariableScope<?> variableScope = v.getVariableScope();
+            try {
+                return Boolean.valueOf(variableScope == null || variableScope.check(owlObject));
+            } catch (OWLRuntimeException e) {
+                getRuntimeExceptionHandler().handleOWLRuntimeException(e);
+                return Boolean.FALSE;
+            }
+        }
+    }
+
     protected final ConstraintSystem constraintSystem;
     protected final RuntimeExceptionHandler runtimeExceptionHandler;
     protected final OWLAxiom targetAxiom;
@@ -85,8 +105,7 @@ public class OPPLAssertedSingleOWLAxiomSearchTree extends SearchTree<OPPLOWLAxio
             getConstraintSystem(), binding, getRuntimeExceptionHandler());
         if (!variables.isEmpty()) {
             Variable<?> variable = variables.iterator().next();
-            Collection<OWLObject> values = new HashSet<>(getAssignableValues(variable, parameters));
-            for (OWLObject value : values) {
+            for (OWLObject value : getAssignableValues(variable, parameters)) {
                 Assignment assignment = new Assignment(variable, value);
                 BindingNode childBinding = new BindingNode(binding);
                 childBinding.addAssignment(assignment);
@@ -150,34 +169,9 @@ public class OPPLAssertedSingleOWLAxiomSearchTree extends SearchTree<OPPLOWLAxio
 
     private Collection<? extends OWLObject> getAssignableValues(Variable<?> variable,
         ValueComputationParameters parameters) {
-        Set<OWLObject> toReturn = new HashSet<>();
-        toReturn.addAll(
-            variable.accept(new AssignableValueExtractor(assignableValuesVisitor, parameters)));
-        Iterator<OWLObject> iterator = toReturn.iterator();
-        while (iterator.hasNext()) {
-            final OWLObject owlObject = iterator.next();
-            AbstractVariableVisitorExAdapter<Boolean> variableVisitor =
-                new AbstractVariableVisitorExAdapter<Boolean>(Boolean.TRUE) {
-
-                    @Override
-                    public <P extends OWLObject> Boolean visit(InputVariable<P> v) {
-                        VariableScope<?> variableScope = v.getVariableScope();
-                        try {
-                            return Boolean
-                                .valueOf(variableScope == null || variableScope.check(owlObject));
-                        } catch (OWLRuntimeException e) {
-                            OPPLAssertedSingleOWLAxiomSearchTree.this.getRuntimeExceptionHandler()
-                                .handleOWLRuntimeException(e);
-                            return Boolean.FALSE;
-                        }
-                    }
-                };
-            boolean inScope = variable.accept(variableVisitor).booleanValue();
-            if (!inScope) {
-                iterator.remove();
-            }
-        }
-        return toReturn;
+        return asSet(variable
+            .accept(new AssignableValueExtractor(assignableValuesVisitor, parameters)).stream()
+            .filter(o -> variable.accept(new ScopeChecker(Boolean.TRUE, o)).booleanValue()));
     }
 
     private void initAssignableValues() {

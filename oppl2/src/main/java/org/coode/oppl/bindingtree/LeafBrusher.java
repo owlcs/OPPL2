@@ -24,11 +24,13 @@ package org.coode.oppl.bindingtree;
 
 import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import org.coode.oppl.Variable;
 import org.semanticweb.owlapi.model.OWLObject;
@@ -56,7 +58,7 @@ public class LeafBrusher implements BindingVisitor {
             nodes.add(bindingNode);
             boolean allLeaves = bindingNode.isLeaf();
             while (!allLeaves) {
-                for (BindingNode generatedChild : new HashSet<>(nodes)) {
+                for (BindingNode generatedChild : new ArrayList<>(nodes)) {
                     if (!generatedChild.isLeaf()) {
                         nodes.remove(generatedChild);
                         Set<BindingNode> generatedChildren = generateChildren(generatedChild);
@@ -86,9 +88,18 @@ public class LeafBrusher implements BindingVisitor {
 
     /**
      * @return the leaves
+     * @deprecated use the stream version
      */
+    @Deprecated
     public Set<BindingNode> getLeaves() {
         return new HashSet<>(leaves);
+    }
+
+    /**
+     * @return the leaves
+     */
+    public Stream<BindingNode> leaves() {
+        return leaves.stream();
     }
 
     private Set<BindingNode> generateChildren(BindingNode node) {

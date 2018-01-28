@@ -26,12 +26,14 @@ import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.InstantiatedOPPLScript;
@@ -87,7 +89,9 @@ public class InstantiatedPatternModel
     /**
      * @param variable variable
      * @return instantiations
+     * @deprecated use the stream version
      */
+    @Deprecated
     public Set<OWLObject> getInstantiations(Variable<?> variable) {
         // defensive copy; it also guarantees that no nulls are returned
         Set<OWLObject> toReturn = new HashSet<>();
@@ -95,6 +99,14 @@ public class InstantiatedPatternModel
             toReturn.addAll(instantiations.get(variable));
         }
         return toReturn;
+    }
+
+    /**
+     * @param variable variable
+     * @return instantiations
+     */
+    public Stream<OWLObject> instantiations(Variable<?> variable) {
+        return instantiations.getOrDefault(variable, Collections.emptySet()).stream();
     }
 
     /**
@@ -125,9 +137,6 @@ public class InstantiatedPatternModel
             .getConstraintSystem().getThisClassVariable().equals(variable)
             && getPatternModel().getConstraintSystem().getVariable(variable.getName()) != null) {
             Set<OWLObject> instantiation = getInstantiations(variable);
-            if (instantiation == null) {
-                instantiation = new HashSet<>();
-            }
             instantiation.add(value);
             instantiations.put(variable, instantiation);
         }

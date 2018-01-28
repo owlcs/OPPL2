@@ -12,15 +12,14 @@ import org.semanticweb.owlapi.model.OWLObject;
 
 /**
  * @author Luigi Iannone
- * @param <O>
- *        type
+ * @param <O> type
  */
 public abstract class DefaultOPPLSymbolVisitorEx<O> implements OPPLSymbolVisitorEx<O> {
 
     protected abstract O doDefault(Symbol symbol);
 
     @Override
-    public <P extends OWLObject, T extends VariableAttribute<Collection<? extends P>>> O visitCollectionVariableAttributeSymbol(
+    public <P extends OWLObject, T extends VariableAttribute<Collection<P>>> O visitCollectionVariableAttributeSymbol(
         CollectionVariableAttributeSymbol<P, T> collectionVariableAttributeSymbol) {
         return this.doDefault(collectionVariableAttributeSymbol);
     }
@@ -47,8 +46,7 @@ public abstract class DefaultOPPLSymbolVisitorEx<O> implements OPPLSymbolVisitor
     }
 
     @Override
-    public O visitCreateOnDemandIdentifier(
-        CreateOnDemandIdentifier createOnDemandIdentifier) {
+    public O visitCreateOnDemandIdentifier(CreateOnDemandIdentifier createOnDemandIdentifier) {
         return this.doDefault(createOnDemandIdentifier);
     }
 }

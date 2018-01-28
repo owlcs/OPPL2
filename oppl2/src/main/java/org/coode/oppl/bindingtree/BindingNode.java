@@ -23,8 +23,15 @@
 package org.coode.oppl.bindingtree;
 
 import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+import static org.semanticweb.owlapi.util.OWLAPIStreamUtils.asSet;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.Set;
+import java.util.stream.Stream;
 
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.Renderable;
@@ -62,8 +69,7 @@ public class BindingNode implements Renderable {
         }
 
         /**
-         * @param v
-         *        v
+         * @param v v
          * @return assignment
          */
         public OWLObject findAssignment(Variable<?> v) {
@@ -113,14 +119,12 @@ public class BindingNode implements Renderable {
 
     protected final Set<Assignment> assignments = new HashSet<>();
     protected final Set<Variable<?>> unassignedVariables = new LinkedHashSet<>();
-    protected final VariableInspector unassignedVariablesUpdater = new VariableInspector(
-        unassignedVariables);
+    protected final VariableInspector unassignedVariablesUpdater =
+        new VariableInspector(unassignedVariables);
 
     /**
-     * @param assignments
-     *        assignments
-     * @param unassignedVariables
-     *        unassignedVariables
+     * @param assignments assignments
+     * @param unassignedVariables unassignedVariables
      */
     public BindingNode(Collection<Assignment> assignments,
         Collection<? extends Variable<?>> unassignedVariables) {
@@ -129,8 +133,7 @@ public class BindingNode implements Renderable {
     }
 
     /**
-     * @param assignments
-     *        assignments
+     * @param assignments assignments
      */
     public BindingNode(Assignment... assignments) {
         for (Assignment a : assignments) {
@@ -139,24 +142,21 @@ public class BindingNode implements Renderable {
     }
 
     /**
-     * @param unassignedVariables
-     *        unassignedVariables
+     * @param unassignedVariables unassignedVariables
      */
     public BindingNode(Collection<? extends Variable<?>> unassignedVariables) {
         this.unassignedVariables.addAll(unassignedVariables);
     }
 
     /**
-     * @param assignment
-     *        assignment
+     * @param assignment assignment
      */
     public BindingNode(Assignment assignment) {
         assignments.add(assignment);
     }
 
     /**
-     * @param bindingNode
-     *        bindingNode
+     * @param bindingNode bindingNode
      */
     public BindingNode(BindingNode bindingNode) {
         this(bindingNode.assignments, bindingNode.unassignedVariables);
@@ -165,18 +165,15 @@ public class BindingNode implements Renderable {
     protected BindingNode() {}
 
     /**
-     * @param visitor
-     *        visitor
+     * @param visitor visitor
      */
     public void accept(BindingVisitor visitor) {
         visitor.visit(this);
     }
 
     /**
-     * @param visitor
-     *        visitor
-     * @param <O>
-     *        visitor return type
+     * @param visitor visitor
+     * @param <O> visitor return type
      * @return visitor value
      */
     public <O> O accept(BindingVisitorEx<O> visitor) {
@@ -198,8 +195,7 @@ public class BindingNode implements Renderable {
 
     @Override
     public String toString() {
-        return assignments + "\n"
-            + (unassignedVariables.isEmpty() ? "" : unassignedVariables);
+        return assignments + "\n" + (unassignedVariables.isEmpty() ? "" : unassignedVariables);
     }
 
     @Override
@@ -209,8 +205,9 @@ public class BindingNode implements Renderable {
         OWLEntityRenderer entityRenderer = cs.getOPPLFactory().getOWLEntityRenderer(cs);
         for (Assignment assignment : assignments) {
             OWLObject value = assignment.getAssignment();
-            String assignmentRendering = value instanceof OWLEntity ? entityRenderer
-                .render((OWLEntity) value) : value.toString();
+            String assignmentRendering =
+                value instanceof OWLEntity ? entityRenderer.render((OWLEntity) value)
+                    : value.toString();
             if (!first) {
                 b.append(", ");
             }
@@ -225,10 +222,8 @@ public class BindingNode implements Renderable {
     }
 
     /**
-     * @param variable
-     *        variable
-     * @param parameters
-     *        parameters
+     * @param variable variable
+     * @param parameters parameters
      * @return assignment
      */
     public OWLObject getAssignmentValue(Variable<?> variable,
@@ -237,15 +232,13 @@ public class BindingNode implements Renderable {
     }
 
     /**
-     * @param assignment
-     *        assignment
+     * @param assignment assignment
      */
     public void addAssignment(final Assignment assignment) {
         assignment.getAssignedVariable().accept(new VariableVisitor() {
 
             @Override
-            public <P extends OWLObject> void visit(
-                RegexpGeneratedVariable<P> regExpGenerated) {
+            public <P extends OWLObject> void visit(RegexpGeneratedVariable<P> regExpGenerated) {
                 assignments.add(assignment);
                 unassignedVariables.remove(assignment.getAssignedVariable());
             }
@@ -263,27 +256,26 @@ public class BindingNode implements Renderable {
 
     /**
      * @return assigned variables
+     * @deprecated use the stream version
      */
+    @Deprecated
     public Set<Variable<?>> getAssignedVariables() {
-        Set<Variable<?>> toReturn = new HashSet<>();
-        for (Assignment assignment : assignments) {
-            toReturn.add(assignment.getAssignedVariable());
-        }
-        return toReturn;
+        return asSet(assignments.stream().map(Assignment::getAssignedVariable));
     }
 
     /**
-     * @param v
-     *        v
+     * @return assigned variables
+     */
+    public Stream<Variable<?>> assignedVariables() {
+        return assignments.stream().map(Assignment::getAssignedVariable);
+    }
+
+    /**
+     * @param v v
      * @return true if v is an assigned variable
      */
     public boolean containsAssignedVariable(Variable<?> v) {
-        for (Assignment assignment : assignments) {
-            if (assignment.getAssignedVariable().equals(v)) {
-                return true;
-            }
-        }
-        return false;
+        return assignedVariables().anyMatch(v::equals);
     }
 
     /**
@@ -303,16 +295,14 @@ public class BindingNode implements Renderable {
     /**
      * Adds a variable to the set of the unassigned ones
      * 
-     * @param v
-     *        v
+     * @param v v
      */
     public void addUnassignedVariable(Variable<?> v) {
         v.accept(unassignedVariablesUpdater);
     }
 
     /**
-     * @return true if the Binding node has got no assigned variable nor to
-     *         assign variables
+     * @return true if the Binding node has got no assigned variable nor to assign variables
      */
     public boolean isEmpty() {
         return assignments.isEmpty() && unassignedVariables.isEmpty();
@@ -358,14 +348,11 @@ public class BindingNode implements Renderable {
     }
 
     /**
-     * Determines if this binding node assignments agree with those in the input
-     * binding node
+     * Determines if this binding node assignments agree with those in the input binding node
      * 
-     * @param bindingNode
-     *        The input BindingNode. Cannot be {@code null}.
+     * @param bindingNode The input BindingNode. Cannot be {@code null}.
      * @return {@code true} if this BindingNode agrees with the input one.
-     * @throws NullPointerException
-     *         if the input binding node is {@code null}.
+     * @throws NullPointerException if the input binding node is {@code null}.
      */
     public boolean agreesWith(BindingNode bindingNode) {
         checkNotNull(bindingNode, "bindingNode");

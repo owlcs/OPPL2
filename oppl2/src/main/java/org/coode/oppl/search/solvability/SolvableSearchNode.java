@@ -5,6 +5,7 @@ import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import org.coode.oppl.Variable;
 import org.coode.oppl.bindingtree.BindingNode;
@@ -20,17 +21,13 @@ public class SolvableSearchNode extends SolvabilitySearchNode {
     private final Variable<?> variable;
 
     /**
-     * @param variable
-     *        variable
-     * @param axiom
-     *        axiom
-     * @param bindingNode
-     *        bindingNode
-     * @param values
-     *        values
+     * @param variable variable
+     * @param axiom axiom
+     * @param bindingNode bindingNode
+     * @param values values
      */
-    public SolvableSearchNode(Variable<?> variable, OWLAxiom axiom,
-        BindingNode bindingNode, Collection<? extends OWLObject> values) {
+    public SolvableSearchNode(Variable<?> variable, OWLAxiom axiom, BindingNode bindingNode,
+        Collection<? extends OWLObject> values) {
         super(axiom, bindingNode);
         this.variable = checkNotNull(variable, "variable");
         this.values.addAll(checkNotNull(values, "values"));
@@ -48,9 +45,18 @@ public class SolvableSearchNode extends SolvabilitySearchNode {
 
     /**
      * @return the values
+     * @deprecated use the stream version
      */
+    @Deprecated
     public Set<OWLObject> getValues() {
         return new HashSet<>(values);
+    }
+
+    /**
+     * @return the values
+     */
+    public Stream<OWLObject> values() {
+        return values.stream();
     }
 
     /**

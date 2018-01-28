@@ -1,9 +1,15 @@
 package org.coode.parsers.oppl.testcase.ui;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Polygon;
+import java.awt.Rectangle;
+import java.awt.RenderingHints;
+import java.awt.Stroke;
 import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 
 import javax.swing.Icon;
@@ -12,22 +18,18 @@ import org.coode.parsers.oppl.testcase.OPPLTestCase;
 import org.coode.parsers.oppl.testcase.protege.OPPLTestCaseAnnotationContainer;
 import org.coode.protege.editor.core.ui.view.AbstractOWLActiveOntologyAction;
 import org.protege.editor.owl.OWLEditorKit;
-import org.protege.editor.owl.model.event.OWLModelManagerChangeEvent;
 import org.protege.editor.owl.model.event.OWLModelManagerListener;
-import org.semanticweb.owlapi.model.AddOntologyAnnotation;
+import org.semanticweb.owlapi.model.AnnotationChange;
 import org.semanticweb.owlapi.model.OWLOntology;
-import org.semanticweb.owlapi.model.OWLOntologyChange;
 import org.semanticweb.owlapi.model.OWLOntologyChangeListener;
-import org.semanticweb.owlapi.model.RemoveOntologyAnnotation;
-import org.semanticweb.owlapi.util.OWLOntologyChangeVisitorAdapter;
 
 /**
  * @author Luigi Iannone
  */
 abstract class AbstractAllOPPLTestCaseAction extends AbstractOWLActiveOntologyAction {
 
-    protected static final Stroke ICON_STROKE = new BasicStroke(2.0f,
-        BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
+    protected static final Stroke ICON_STROKE =
+        new BasicStroke(2.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
     protected final static Icon ICON = new Icon() {
 
         @Override
@@ -40,10 +42,11 @@ abstract class AbstractAllOPPLTestCaseAction extends AbstractOWLActiveOntologyAc
             ((Graphics2D) g).setStroke(ICON_STROKE);
             g.setColor(Color.GREEN);
             Rectangle bounds = new Rectangle(x, y, getIconWidth(), getIconHeight());
-            Polygon triangle = new Polygon(new int[] { (int) bounds.getMinX() + inset,
-                (int) bounds.getMinX() + inset, (int) bounds.getMaxX() - inset },
-                new int[] { (int) bounds.getMinY() + inset,
-                    (int) bounds.getMaxY() - inset, (int) bounds.getCenterY() },
+            Polygon triangle = new Polygon(
+                new int[] {(int) bounds.getMinX() + inset, (int) bounds.getMinX() + inset,
+                    (int) bounds.getMaxX() - inset},
+                new int[] {(int) bounds.getMinY() + inset, (int) bounds.getMaxY() - inset,
+                    (int) bounds.getCenterY()},
                 3);
             ((Graphics2D) g).draw(triangle);
             ((Graphics2D) g).fill(triangle);
@@ -67,10 +70,8 @@ abstract class AbstractAllOPPLTestCaseAction extends AbstractOWLActiveOntologyAc
     protected OWLModelManagerListener modelManagerListener;
 
     /**
-     * @param name
-     *        name
-     * @param owlEditorKit
-     *        owlEditorKit
+     * @param name name
+     * @param owlEditorKit owlEditorKit
      */
     public AbstractAllOPPLTestCaseAction(String name, OWLEditorKit owlEditorKit) {
         super(name, ICON, owlEditorKit);
@@ -79,57 +80,27 @@ abstract class AbstractAllOPPLTestCaseAction extends AbstractOWLActiveOntologyAc
     @Override
     protected void initialiseAction() {
         if (ontologyChangeListener == null) {
-            ontologyChangeListener = new OWLOntologyChangeListener() {
-
-                @Override
-                public void ontologiesChanged(List<? extends OWLOntologyChange> changes) {
-                    boolean found = false;
-                    Iterator<? extends OWLOntologyChange> iterator = changes.iterator();
-                    final Set<OWLOntologyChange> relevantChanges = new HashSet<>();
-                    while (!found && iterator.hasNext()) {
-                        OWLOntologyChange owlOntologyChange = iterator.next();
-                        owlOntologyChange.accept(new OWLOntologyChangeVisitorAdapter() {
-
-                            @Override
-                            public void visit(RemoveOntologyAnnotation change) {
-                                relevantChanges.add(change);
-                            }
-
-                            @Override
-                            public void visit(AddOntologyAnnotation change) {
-                                relevantChanges.add(change);
-                            }
-                        });
-                        // Have to do this as there is not visitor with return
-                        // value for
-                        // OWLOntologyChange!!
-                        found = !relevantChanges.isEmpty();
-                    }
-                    if (found) {
-                        opplTestCases.clear();
-                        AbstractAllOPPLTestCaseAction.this.refresh();
-                    }
+            ontologyChangeListener = changes -> {
+                if (changes.stream().anyMatch(c -> c instanceof AnnotationChange)) {
+                    opplTestCases.clear();
+                    AbstractAllOPPLTestCaseAction.this.refresh();
                 }
             };
         }
         getOWLEditorKit().getOWLModelManager().getOWLOntologyManager()
             .addOntologyChangeListener(ontologyChangeListener);
-        modelManagerListener = new OWLModelManagerListener() {
-
-            @Override
-            public void handleChange(OWLModelManagerChangeEvent event) {
-                // Force refresh
-                opplTestCases.clear();
-                AbstractAllOPPLTestCaseAction.this.refresh();
-            }
+        modelManagerListener = event -> {
+            // Force refresh
+            opplTestCases.clear();
+            AbstractAllOPPLTestCaseAction.this.refresh();
         };
         getOWLEditorKit().getOWLModelManager().addListener(modelManagerListener);
         refresh();
     }
 
     protected void refresh() {
-        OPPLTestCaseAnnotationContainer opplTestCaseAnnotationContainer = new OPPLTestCaseAnnotationContainer(
-            getOWLEditorKit());
+        OPPLTestCaseAnnotationContainer opplTestCaseAnnotationContainer =
+            new OPPLTestCaseAnnotationContainer(getOWLEditorKit());
         if (opplTestCases == null) {
             opplTestCases = new HashSet<>();
         }

@@ -24,9 +24,6 @@ package org.coode.oppl.querymatching;
 
 import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.coode.oppl.ConstraintVisitorEx;
 import org.coode.oppl.InCollectionConstraint;
 import org.coode.oppl.InequalityConstraint;
@@ -77,14 +74,10 @@ public class ConstraintChecker implements ConstraintVisitorEx<Boolean> {
 
     @Override
     public Boolean visit(InCollectionConstraint<? extends OWLObject> c) {
-        Set<? extends OWLObject> collection = c.getCollection();
         OWLObject assignedValue =
             getParameters().getBindingNode().getAssignmentValue(c.getVariable(), getParameters());
-        Set<OWLObject> instantiatedObjects = new HashSet<>(collection.size());
-        for (OWLObject owlObject : collection) {
-            instantiatedObjects.add(owlObject.accept(instantiator));
-        }
-        return Boolean.valueOf(instantiatedObjects.contains(assignedValue));
+        return Boolean.valueOf(
+            c.getCollection().stream().anyMatch(o -> assignedValue.equals(o.accept(instantiator))));
     }
 
     @Override

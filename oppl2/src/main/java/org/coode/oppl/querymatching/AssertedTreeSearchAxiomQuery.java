@@ -24,7 +24,14 @@ package org.coode.oppl.querymatching;
 
 import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.PartialOWLObjectInstantiator;
@@ -51,16 +58,12 @@ public class AssertedTreeSearchAxiomQuery extends AbstractAxiomQuery {
     private final Map<BindingNode, Set<OWLAxiom>> instantiations = new HashMap<>();
 
     /**
-     * @param ontologies
-     *        ontologies
-     * @param constraintSystem
-     *        constraintSystem
-     * @param runtimeExceptionHandler
-     *        runtimeExceptionHandler
+     * @param ontologies ontologies
+     * @param constraintSystem constraintSystem
+     * @param runtimeExceptionHandler runtimeExceptionHandler
      */
     public AssertedTreeSearchAxiomQuery(Set<OWLOntology> ontologies,
-        ConstraintSystem constraintSystem,
-        RuntimeExceptionHandler runtimeExceptionHandler) {
+        ConstraintSystem constraintSystem, RuntimeExceptionHandler runtimeExceptionHandler) {
         super(runtimeExceptionHandler);
         this.constraintSystem = checkNotNull(constraintSystem, "constraintSystem");
         this.ontologies.addAll(checkNotNull(ontologies, "ontologies"));
@@ -69,31 +72,26 @@ public class AssertedTreeSearchAxiomQuery extends AbstractAxiomQuery {
     @Override
     protected Set<BindingNode> match(OWLAxiom axiom) {
         clearInstantions();
-        OPPLAssertedOWLAxiomSearchTree searchTree = new OPPLAssertedOWLAxiomSearchTree(
-            getConstraintSystem(), getRuntimeExceptionHandler());
-        VariableExtractor variableExtractor = new VariableExtractor(
-            getConstraintSystem(), false);
+        OPPLAssertedOWLAxiomSearchTree searchTree =
+            new OPPLAssertedOWLAxiomSearchTree(getConstraintSystem(), getRuntimeExceptionHandler());
+        VariableExtractor variableExtractor = new VariableExtractor(getConstraintSystem(), false);
         Set<Variable<?>> extractedVariables = variableExtractor.extractVariables(axiom);
-        SortedSet<Variable<?>> sortedVariables = new TreeSet<>(
-            new PositionBasedVariableComparator(axiom, getConstraintSystem()
-                .getOntologyManager().getOWLDataFactory()));
+        SortedSet<Variable<?>> sortedVariables =
+            new TreeSet<>(new PositionBasedVariableComparator(axiom,
+                getConstraintSystem().getOntologyManager().getOWLDataFactory()));
         sortedVariables.addAll(extractedVariables);
         List<List<OPPLOWLAxiomSearchNode>> solutions = new ArrayList<>();
-        searchTree.exhaustiveSearchTree(new OPPLOWLAxiomSearchNode(axiom,
-            new BindingNode(sortedVariables)), solutions);
+        searchTree.exhaustiveSearchTree(
+            new OPPLOWLAxiomSearchNode(axiom, new BindingNode(sortedVariables)), solutions);
         for (List<OPPLOWLAxiomSearchNode> path : solutions) {
             OPPLOWLAxiomSearchNode searchLeaf = path.get(path.size() - 1);
             BindingNode leaf = searchLeaf.getBinding();
             ValueComputationParameters parameters = new SimpleValueComputationParameters(
                 getConstraintSystem(), leaf, getRuntimeExceptionHandler());
-            PartialOWLObjectInstantiator partialOWLObjectInstantiator = new PartialOWLObjectInstantiator(
-                parameters);
-            Set<OWLAxiom> leafInstantiations = instantiations.get(leaf);
-            if (leafInstantiations == null) {
-                leafInstantiations = new HashSet<>();
-            }
-            leafInstantiations.add((OWLAxiom) axiom.accept(partialOWLObjectInstantiator));
-            instantiations.put(leaf, leafInstantiations);
+            PartialOWLObjectInstantiator partialOWLObjectInstantiator =
+                new PartialOWLObjectInstantiator(parameters);
+            instantiations.computeIfAbsent(leaf, x -> new HashSet<>())
+                .add((OWLAxiom) axiom.accept(partialOWLObjectInstantiator));
         }
         return new HashSet<>(instantiations.keySet());
     }

@@ -311,7 +311,7 @@ public class OPPLQueryImpl implements OPPLQuery {
     public void execute(Collection<? extends BindingNode> leaves,
         RuntimeExceptionHandler runtimeExceptionHandler, ExecutionMonitor executionMonitor) {
         try {
-            constraintSystem.setLeaves(new HashSet<>(leaves));
+            constraintSystem.setLeaves(leaves);
             doExecute(runtimeExceptionHandler, false, executionMonitor);
             setDirty(false);
         } catch (OWLRuntimeException e) {

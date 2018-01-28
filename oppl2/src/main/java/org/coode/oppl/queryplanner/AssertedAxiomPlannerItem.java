@@ -1,6 +1,7 @@
 package org.coode.oppl.queryplanner;
 
 import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+import static org.semanticweb.owlapi.util.OWLAPIStreamUtils.asSet;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -65,7 +66,6 @@ public class AssertedAxiomPlannerItem extends AbstractQueryPlannerItem {
     private Set<BindingNode> updateBindingsAssertedAxiom(OWLAxiom ax,
         RuntimeExceptionHandler runtimeExceptionHandler) {
         assert ax != null;
-        Set<BindingNode> toReturn = new HashSet<>();
         int initialSize = getConstraintSystem().getLeaves() == null ? 0
             : getConstraintSystem().getLeaves().size();
         Logging.getQueryLogger().log("Initial size: ", Integer.valueOf(initialSize));
@@ -73,8 +73,7 @@ public class AssertedAxiomPlannerItem extends AbstractQueryPlannerItem {
             new AssertedSolvabilityBasedAxiomQuery(getConstraintSystem().getOntologyManager(),
                 getConstraintSystem(), runtimeExceptionHandler);
         ax.accept(query);
-        toReturn.addAll(query.getLeaves());
-        return toReturn;
+        return asSet(query.leaves());
     }
 
     @Override

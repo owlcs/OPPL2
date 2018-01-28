@@ -4,7 +4,6 @@ import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 import static org.semanticweb.owlapi.util.OWLAPIStreamUtils.asSet;
 
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Set;
 
 import org.coode.oppl.utils.OWLObjectExtractor;
@@ -41,11 +40,10 @@ public class SymbolBasedSimilarity implements SimilarityMeasure<OWLObject> {
         // If both collection are empty 0 the method wil return 0
         double toReturn = anObjectSymbols.isEmpty() && anotherObjectSymbols.isEmpty() ? 0 : 1;
         if (toReturn > 0) {
-            Set<OWLObject> intersection = new HashSet<>(anObjectSymbols);
-            intersection.retainAll(anotherObjectSymbols);
-            Set<OWLObject> union = new HashSet<>(anObjectSymbols);
-            union.addAll(anotherObjectSymbols);
-            toReturn = (double) intersection.size() / (double) union.size();
+            long intersection =
+                anObjectSymbols.stream().filter(anotherObjectSymbols::contains).count();
+            long union = anObjectSymbols.size() + anotherObjectSymbols.size() - intersection;
+            toReturn = (double) intersection / (double) union;
         }
         return toReturn;
     }

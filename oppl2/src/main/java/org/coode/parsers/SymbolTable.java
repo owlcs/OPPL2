@@ -1,6 +1,8 @@
 package org.coode.parsers;
 
 import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+import static org.semanticweb.owlapi.util.OWLAPIStreamUtils.add;
+import static org.semanticweb.owlapi.util.OWLAPIStreamUtils.asSet;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,6 +12,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import org.antlr.runtime.Token;
 import org.antlr.runtime.tree.CommonTree;
@@ -1860,9 +1863,8 @@ public class SymbolTable {
             reportIncompatibleSymbolType(anotherIndividual, expression);
         }
         if (rightKinds) {
-            toReturn = df.getOWLSameIndividualAxiom(
-                new HashSet<>(Arrays.asList((OWLIndividual) anIndividual.getOWLObject(),
-                    (OWLIndividual) anotherIndividual.getOWLObject())));
+            toReturn = df.getOWLSameIndividualAxiom((OWLIndividual) anIndividual.getOWLObject(),
+                (OWLIndividual) anotherIndividual.getOWLObject());
         }
         return toReturn;
     }
@@ -2236,12 +2238,7 @@ public class SymbolTable {
      * @throws NullPointerException if the input is {@code null}.
      */
     public Set<String> match(String prefix) {
-        Set<Symbol> matches = getGlobalScope().match(prefix);
-        Set<String> toReturn = new HashSet<>(matches.size());
-        for (Symbol symbol : matches) {
-            toReturn.add(symbol.getName());
-        }
-        return toReturn;
+        return asSet(getGlobalScope().match(prefix).stream().map(Symbol::getName));
     }
 
     /**
@@ -2315,9 +2312,7 @@ public class SymbolTable {
     public Set<String> getAllCompletions(Type... types) {
         Set<String> toReturn = new HashSet<>();
         for (Type type : types) {
-            for (Symbol symbol : getGlobalScope().getAllSymbols(type)) {
-                toReturn.add(symbol.getName());
-            }
+            add(toReturn, getGlobalScope().getAllSymbols(type).stream().map(Symbol::getName));
         }
         return toReturn;
     }
@@ -2360,9 +2355,22 @@ public class SymbolTable {
      * been used but are still valid ones.
      * 
      * @return a Set of Symbol elements.
+     * @deprecated use the stream verson
      */
+    @Deprecated
     public Set<Symbol> getDefinedSymbols() {
         return new HashSet<>(symbols.values());
+    }
+
+    /**
+     * Retrieves all the Symbos that have been stored in this Symbol table. Please notice that this
+     * may be a proper sub-set of all the possible symbols as there may be many more which have not
+     * been used but are still valid ones.
+     * 
+     * @return a stream of Symbol elements.
+     */
+    public Stream<Symbol> definedSymbols() {
+        return symbols.values().stream();
     }
 
     /** dispose */
@@ -2423,7 +2431,6 @@ public class SymbolTable {
         if (dataType.getEvalType() != OWLType.OWL_DATA_TYPE) {
             reportIncompatibleSymbolType(dataType, parentExpression);
         } else {
-            Set<OWLFacetRestriction> facetRestrictions = new HashSet<>(facets.length);
             boolean allFine = true;
             for (ManchesterOWLSyntaxTree facet : facets) {
                 if (facet == null || facet.getOWLObject() == null) {
@@ -2433,8 +2440,6 @@ public class SymbolTable {
                     || !(facet.getOWLObject() instanceof OWLFacetRestriction)) {
                     allFine = false;
                     reportIncompatibleSymbolType(facet, parentExpression);
-                } else {
-                    facetRestrictions.add((OWLFacetRestriction) facet.getOWLObject());
                 }
             }
             if (allFine) {

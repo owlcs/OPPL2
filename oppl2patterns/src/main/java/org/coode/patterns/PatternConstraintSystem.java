@@ -22,7 +22,13 @@
  */
 package org.coode.patterns;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
@@ -41,7 +47,14 @@ import org.coode.oppl.variabletypes.InputVariable;
 import org.coode.oppl.variabletypes.VariableFactory;
 import org.coode.oppl.variabletypes.VariableType;
 import org.coode.parsers.ErrorListener;
-import org.semanticweb.owlapi.model.*;
+import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLClassExpression;
+import org.semanticweb.owlapi.model.OWLLiteral;
+import org.semanticweb.owlapi.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.OWLRuntimeException;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 
 /**
@@ -57,15 +70,12 @@ public class PatternConstraintSystem extends ConstraintSystem {
     private final AbstractPatternModelFactory factory;
 
     /**
-     * @param cs
-     *        cs
-     * @param ontologyManager
-     *        ontologyManager
-     * @param f
-     *        f
+     * @param cs cs
+     * @param ontologyManager ontologyManager
+     * @param f f
      */
-    public PatternConstraintSystem(ConstraintSystem cs,
-        OWLOntologyManager ontologyManager, AbstractPatternModelFactory f) {
+    public PatternConstraintSystem(ConstraintSystem cs, OWLOntologyManager ontologyManager,
+        AbstractPatternModelFactory f) {
         super(cs.getOntology(), ontologyManager, f.getOPPLFactory());
         setReasoner(cs.getReasoner());
         constraintSystem = cs;
@@ -73,26 +83,20 @@ public class PatternConstraintSystem extends ConstraintSystem {
     }
 
     /**
-     * @param ontology
-     *        ontology
-     * @param ontologyManager
-     *        ontologyManager
-     * @param reasoner
-     *        reasoner
-     * @param f
-     *        f
+     * @param ontology ontology
+     * @param ontologyManager ontologyManager
+     * @param reasoner reasoner
+     * @param f f
      */
-    public PatternConstraintSystem(OWLOntology ontology,
-        OWLOntologyManager ontologyManager, OWLReasoner reasoner,
-        AbstractPatternModelFactory f) {
-        this(
-            new ConstraintSystem(ontology, ontologyManager, reasoner,
-                f.getOPPLFactory()), ontologyManager, f);
+    public PatternConstraintSystem(OWLOntology ontology, OWLOntologyManager ontologyManager,
+        OWLReasoner reasoner, AbstractPatternModelFactory f) {
+        this(new ConstraintSystem(ontology, ontologyManager, reasoner, f.getOPPLFactory()),
+            ontologyManager, f);
     }
 
     @Override
-    public <O extends OWLObject> InputVariable<O> createVariable(String name,
-        VariableType<O> type, VariableScope<?> variableScope) throws OPPLException {
+    public <O extends OWLObject> InputVariable<O> createVariable(String name, VariableType<O> type,
+        VariableScope<?> variableScope) throws OPPLException {
         return constraintSystem.createVariable(name, type, variableScope);
     }
 
@@ -100,8 +104,8 @@ public class PatternConstraintSystem extends ConstraintSystem {
      * @return variable for this class
      */
     public Variable<?> getThisClassVariable() {
-        Variable<OWLClassExpression> toReturn = VariableFactory.getCLASSVariable(
-            THIS_CLASS_VARIABLE_CONSTANT_SYMBOL, null);
+        Variable<OWLClassExpression> toReturn =
+            VariableFactory.getCLASSVariable(THIS_CLASS_VARIABLE_CONSTANT_SYMBOL, null);
         importVariable(toReturn);
         return toReturn;
     }
@@ -118,8 +122,7 @@ public class PatternConstraintSystem extends ConstraintSystem {
                 specialVariable = specialVariables.get(referenceName);
                 found = referenceName.equals(name)
                     || specialVariableRenderings.get(specialVariable.getName()) != null
-                        && specialVariableRenderings.get(specialVariable.getName())
-                            .equals(name);
+                        && specialVariableRenderings.get(specialVariable.getName()).equals(name);
             }
             if (found) {
                 variable = specialVariable;
@@ -162,8 +165,7 @@ public class PatternConstraintSystem extends ConstraintSystem {
     }
 
     /**
-     * @param s
-     *        s
+     * @param s s
      * @return resolved pattern constants
      */
     public String resolvePatternConstants(String s) {
@@ -171,21 +173,19 @@ public class PatternConstraintSystem extends ConstraintSystem {
         for (String specialVariableName : specialVariables.keySet()) {
             GeneratedVariable<?> variable = specialVariables.get(specialVariableName);
             if (variable != null) {
-                toReturn = toReturn.replaceAll("\\" + specialVariableName,
-                    variable.getName());
+                toReturn = toReturn.replaceAll("\\" + specialVariableName, variable.getName());
             }
         }
         return toReturn;
     }
 
     /**
-     * @param variable
-     *        variable
+     * @param variable variable
      * @return true if variable is this class variable
      */
     public boolean isThisClassVariable(Variable<?> variable) {
-        return variable.equals(specialVariables
-            .get(PatternConstraintSystem.THIS_CLASS_VARIABLE_CONSTANT_SYMBOL));
+        return variable.equals(
+            specialVariables.get(PatternConstraintSystem.THIS_CLASS_VARIABLE_CONSTANT_SYMBOL));
     }
 
     @Override
@@ -196,55 +196,42 @@ public class PatternConstraintSystem extends ConstraintSystem {
     }
 
     /**
-     * @param patternName
-     *        patternName
-     * @param visitedPatterns
-     *        visitedPatterns
-     * @param dependencies
-     *        dependencies
-     * @param errorListener
-     *        errorListener
-     * @param args
-     *        args
+     * @param patternName patternName
+     * @param visitedPatterns visitedPatterns
+     * @param dependencies dependencies
+     * @param errorListener errorListener
+     * @param args args
      * @return resolved pattern
-     * @throws PatternException
-     *         PatternException
+     * @throws PatternException PatternException
      */
-    public String resolvePattern(String patternName, Set<String> visitedPatterns,
-        List<PatternOPPLScript> dependencies, ErrorListener errorListener,
-        List<Object>... args) throws PatternException {
+    public String resolvePattern(String patternName, Collection<String> visitedPatterns,
+        List<PatternOPPLScript> dependencies, ErrorListener errorListener, List<Object>... args)
+        throws PatternException {
         Set<String> visited = new HashSet<>(visitedPatterns);
-        PatternReference patternReference = new PatternReference(patternName, this,
-            visited, errorListener, args);
+        PatternReference patternReference =
+            new PatternReference(patternName, this, visited, errorListener, args);
         dependencies.add(patternReference.getExtractedPattern());
-        VariableType<?> variableType = patternReference.getExtractedPattern()
-            .getReturnVariable().getType();
-        PatternReferenceGeneratedVariable<?> patternReferenceGeneratedVariable = PatternReferenceGeneratedVariable
-            .getPatternReferenceGeneratedVariable(patternReference.toString(),
-                variableType, patternReference);
+        VariableType<?> variableType =
+            patternReference.getExtractedPattern().getReturnVariable().getType();
+        PatternReferenceGeneratedVariable<?> patternReferenceGeneratedVariable =
+            PatternReferenceGeneratedVariable.getPatternReferenceGeneratedVariable(
+                patternReference.toString(), variableType, patternReference);
         importVariable(patternReferenceGeneratedVariable);
         return patternReferenceGeneratedVariable.getName();
     }
 
     /**
-     * @param patternName
-     *        patternName
-     * @param visitedPatterns
-     *        visitedPatterns
-     * @param dependencies
-     *        dependencies
-     * @param errorListener
-     *        errorListener
-     * @param args
-     *        args
+     * @param patternName patternName
+     * @param visitedPatterns visitedPatterns
+     * @param dependencies dependencies
+     * @param errorListener errorListener
+     * @param args args
      * @return instantiated pattern
-     * @throws PatternException
-     *         PatternException
+     * @throws PatternException PatternException
      */
     public InstantiatedPatternModel resolvePatternInstantiation(String patternName,
         Set<String> visitedPatterns, List<PatternOPPLScript> dependencies,
-        final ErrorListener errorListener, List<String>... args)
-            throws PatternException {
+        final ErrorListener errorListener, List<String>... args) throws PatternException {
         RuntimeExceptionHandler handler = new RuntimeExceptionHandler() {
 
             @Override
@@ -262,15 +249,15 @@ public class PatternConstraintSystem extends ConstraintSystem {
                 errorListener.reportThrowable(e, 0, 0, 0);
             }
         };
-        PatternReference patternReference = new PatternReference(patternName, this,
-            visitedPatterns, errorListener, args);
+        PatternReference patternReference =
+            new PatternReference(patternName, this, visitedPatterns, errorListener, args);
         dependencies.add(patternReference.getExtractedPattern());
         return patternReference.getInstantiation(handler);
     }
 
     @Override
-    public <O extends OWLObject> GeneratedVariable<O> createStringGeneratedVariable(
-        String name, VariableType<O> type, OPPLFunction<String> value) {
+    public <O extends OWLObject> GeneratedVariable<O> createStringGeneratedVariable(String name,
+        VariableType<O> type, OPPLFunction<String> value) {
         return constraintSystem.createStringGeneratedVariable(name, type, value);
     }
 
@@ -280,18 +267,14 @@ public class PatternConstraintSystem extends ConstraintSystem {
     }
 
     @Override
-    public GeneratedVariable<OWLClassExpression> createIntersectionGeneratedVariable(
-        String name,
-        VariableType<?> type,
-        Collection<? extends Aggregandum<Collection<? extends OWLClassExpression>>> operands) {
+    public GeneratedVariable<OWLClassExpression> createIntersectionGeneratedVariable(String name,
+        VariableType<?> type, Collection<Aggregandum<Collection<OWLClassExpression>>> operands) {
         return constraintSystem.createIntersectionGeneratedVariable(name, type, operands);
     }
 
     @Override
-    public GeneratedVariable<OWLClassExpression> createUnionGeneratedVariable(
-        String name,
-        VariableType<?> type,
-        Collection<? extends Aggregandum<Collection<? extends OWLClassExpression>>> operands) {
+    public GeneratedVariable<OWLClassExpression> createUnionGeneratedVariable(String name,
+        VariableType<?> type, Collection<Aggregandum<Collection<OWLClassExpression>>> operands) {
         return constraintSystem.createUnionGeneratedVariable(name, type, operands);
     }
 
@@ -314,9 +297,8 @@ public class PatternConstraintSystem extends ConstraintSystem {
     }
 
     @Override
-    public <O extends OWLObject> RegexpGeneratedVariable<? extends O> createRegexpGeneratedVariable(String name,
-        VariableType<O> type,
-        OPPLFunction<Pattern> patternGeneratingOPPLFunction) {
+    public <O extends OWLObject> RegexpGeneratedVariable<? extends O> createRegexpGeneratedVariable(
+        String name, VariableType<O> type, OPPLFunction<Pattern> patternGeneratingOPPLFunction) {
         return constraintSystem.createRegexpGeneratedVariable(name, type,
             patternGeneratingOPPLFunction);
     }
@@ -405,8 +387,8 @@ public class PatternConstraintSystem extends ConstraintSystem {
     }
 
     @Override
-    public <O extends OWLObject> GeneratedVariable<O> createExpressionGeneratedVariable(
-        String name, O expression) {
+    public <O extends OWLObject> GeneratedVariable<O> createExpressionGeneratedVariable(String name,
+        O expression) {
         return constraintSystem.createExpressionGeneratedVariable(name, expression);
     }
 }

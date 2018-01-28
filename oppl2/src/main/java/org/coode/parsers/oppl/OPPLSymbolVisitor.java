@@ -14,27 +14,21 @@ import org.semanticweb.owlapi.model.OWLObject;
 public interface OPPLSymbolVisitor extends SymbolVisitor {
 
     /**
-     * @param stringVariableAttributeSymbol
-     *        stringVariableAttributeSymbol
+     * @param stringVariableAttributeSymbol stringVariableAttributeSymbol
      */
     void visitStringVariableAttributeSymbol(
         StringVariableAttributeSymbol stringVariableAttributeSymbol);
 
     /**
-     * @param collectionVariableAttributeSymbol
-     *        collectionVariableAttributeSymbol
-     * @param
-     *        <P>
-     *        variable type
-     * @param <T>
-     *        attribute type
+     * @param collectionVariableAttributeSymbol collectionVariableAttributeSymbol
+     * @param <P> variable type
+     * @param <T> attribute type
      */
-    <P extends OWLObject, T extends VariableAttribute<Collection<? extends P>>> void visitCollectionVariableAttributeSymbol(
+    <P extends OWLObject, T extends VariableAttribute<Collection<P>>> void visitCollectionVariableAttributeSymbol(
         CollectionVariableAttributeSymbol<P, T> collectionVariableAttributeSymbol);
 
     /**
-     * @param createOnDemandIdentifier
-     *        createOnDemandIdentifier
+     * @param createOnDemandIdentifier createOnDemandIdentifier
      */
     void visitCreateOnDemandIdentifier(CreateOnDemandIdentifier createOnDemandIdentifier);
 }

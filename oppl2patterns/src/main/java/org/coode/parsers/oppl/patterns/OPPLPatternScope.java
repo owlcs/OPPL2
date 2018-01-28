@@ -2,7 +2,11 @@ package org.coode.parsers.oppl.patterns;
 
 import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 
 import org.coode.oppl.Variable;
 import org.coode.parsers.ErrorListener;
@@ -24,10 +28,8 @@ public class OPPLPatternScope implements Scope {
     private final OWLOntologyManager ontologyManager;
 
     /**
-     * @param scope
-     *        scope
-     * @param ontologyManager
-     *        ontologyManager
+     * @param scope scope
+     * @param ontologyManager ontologyManager
      */
     public OPPLPatternScope(Scope scope, OWLOntologyManager ontologyManager) {
         delegate = checkNotNull(scope, "scope");
@@ -78,49 +80,35 @@ public class OPPLPatternScope implements Scope {
     }
 
     /**
-     * @param reference
-     *        reference
-     * @param patternName
-     *        patternName
-     * @param constraintSystem
-     *        constraintSystem
-     * @param listener
-     *        listener
-     * @param args
-     *        args
+     * @param reference reference
+     * @param patternName patternName
+     * @param constraintSystem constraintSystem
+     * @param listener listener
+     * @param args args
      * @return variable
      */
-    public Variable<?> resolvePatternReference(OPPLSyntaxTree reference,
-        String patternName, PatternConstraintSystem constraintSystem,
-        ErrorListener listener, List<Object>... args) {
+    public Variable<?> resolvePatternReference(OPPLSyntaxTree reference, String patternName,
+        PatternConstraintSystem constraintSystem, ErrorListener listener, List<Object>... args) {
         return this.resolvePatternReference(reference, patternName, constraintSystem,
-            Collections.<String> emptySet(), listener, args);
+            Collections.<String>emptySet(), listener, args);
     }
 
     /**
-     * @param reference
-     *        reference
-     * @param patternName
-     *        patternName
-     * @param constraintSystem
-     *        constraintSystem
-     * @param visited
-     *        visited
-     * @param listener
-     *        listener
-     * @param args
-     *        args
+     * @param reference reference
+     * @param patternName patternName
+     * @param constraintSystem constraintSystem
+     * @param visited visited
+     * @param listener listener
+     * @param args args
      * @return variable
      */
-    public Variable<?> resolvePatternReference(OPPLSyntaxTree reference,
-        String patternName, PatternConstraintSystem constraintSystem,
-        Collection<? extends String> visited, ErrorListener listener,
-        List<Object>... args) {
+    public Variable<?> resolvePatternReference(OPPLSyntaxTree reference, String patternName,
+        PatternConstraintSystem constraintSystem, Collection<String> visited,
+        ErrorListener listener, List<Object>... args) {
         Variable<?> toReturn = null;
         try {
-            String resolvedPattern = constraintSystem.resolvePattern(patternName,
-                new HashSet<>(visited), new ArrayList<PatternOPPLScript>(),
-                listener, args);
+            String resolvedPattern = constraintSystem.resolvePattern(patternName, visited,
+                new ArrayList<PatternOPPLScript>(), listener, args);
             toReturn = constraintSystem.getVariable(resolvedPattern);
         } catch (PatternException e) {
             if (listener != null) {

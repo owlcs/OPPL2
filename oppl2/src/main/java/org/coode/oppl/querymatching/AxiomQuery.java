@@ -23,6 +23,7 @@
 package org.coode.oppl.querymatching;
 
 import java.util.Set;
+import java.util.stream.Stream;
 
 import org.coode.oppl.bindingtree.BindingNode;
 import org.semanticweb.owlapi.model.OWLAxiomVisitor;
@@ -36,6 +37,13 @@ public interface AxiomQuery extends OWLAxiomVisitor {
 
     /**
      * @return leaves
+     * @deprecated prefer the stream version
      */
+    @Deprecated
     Set<BindingNode> getLeaves();
+
+    /**
+     * @return leaves
+     */
+    Stream<BindingNode> leaves();
 }

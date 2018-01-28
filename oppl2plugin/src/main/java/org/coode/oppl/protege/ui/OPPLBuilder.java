@@ -369,15 +369,15 @@ public class OPPLBuilder extends JSplitPane
                         @Override
                         public <O extends OWLObject> Boolean visitInlineSet(
                             InlineSet<O> inlineSet) {
-                            Iterator<Aggregandum<Collection<? extends O>>> iterator =
+                            Iterator<Aggregandum<Collection<O>>> iterator =
                                 inlineSet.getAggregandums().iterator();
                             boolean found = false;
                             while (!found && iterator.hasNext()) {
-                                Aggregandum<Collection<? extends O>> aggregandum = iterator.next();
-                                Iterator<OPPLFunction<Collection<? extends O>>> it =
+                                Aggregandum<Collection<O>> aggregandum = iterator.next();
+                                Iterator<OPPLFunction<Collection<O>>> it =
                                     aggregandum.getOPPLFunctions().iterator();
                                 while (!found && it.hasNext()) {
-                                    OPPLFunction<Collection<? extends O>> opplFunction = it.next();
+                                    OPPLFunction<Collection<O>> opplFunction = it.next();
                                     found = opplFunction.accept(this).booleanValue();
                                 }
                             }
@@ -543,7 +543,7 @@ public class OPPLBuilder extends JSplitPane
         }
 
         private void purgePlainAxioms(Variable<?> v) {
-            Set<OWLAxiom> toRemove = new HashSet<>();
+            List<OWLAxiom> toRemove = new ArrayList<>();
             for (OWLAxiom axiom : plainQueryAxioms) {
                 Set<Variable<?>> axiomVariables = getConstraintSystem().getAxiomVariables(axiom);
                 if (axiomVariables.contains(v)) {
@@ -554,7 +554,7 @@ public class OPPLBuilder extends JSplitPane
         }
 
         private void purgeAssertedAxioms(Variable<?> v) {
-            Set<OWLAxiom> toRemove = new HashSet<>();
+            List<OWLAxiom> toRemove = new ArrayList<>();
             for (OWLAxiom axiom : assertedQueryAxioms) {
                 Set<Variable<?>> axiomVariables = getConstraintSystem().getAxiomVariables(axiom);
                 if (axiomVariables.contains(v)) {
@@ -568,7 +568,7 @@ public class OPPLBuilder extends JSplitPane
          * @param v v
          */
         private void purgeActions(Variable<?> v) {
-            Set<OWLAxiomChange> toRemove = new HashSet<>();
+            List<OWLAxiomChange> toRemove = new ArrayList<>();
             for (OWLAxiomChange action : actions) {
                 OWLAxiom axiom = action.getAxiom();
                 Set<Variable<?>> axiomVariables = getConstraintSystem().getAxiomVariables(axiom);

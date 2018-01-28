@@ -6,11 +6,11 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Stream;
 
 /**
  * @author Luigi Iannone
- * @param <O>
- *        type
+ * @param <O> type
  */
 public class Pair<O> {
 
@@ -18,10 +18,8 @@ public class Pair<O> {
     protected final O o2;
 
     /**
-     * @param anOWLObject
-     *        anOWLObject
-     * @param anotherOWLObject
-     *        anotherOWLObject
+     * @param anOWLObject anOWLObject
+     * @param anotherOWLObject anotherOWLObject
      */
     public Pair(O anOWLObject, O anotherOWLObject) {
         this.o1 = checkNotNull(anOWLObject, "anOWLObject");
@@ -34,9 +32,18 @@ public class Pair<O> {
 
     /**
      * @return members
+     * @deprecated use the stream version
      */
+    @Deprecated
     public Set<O> getMembers() {
         return new HashSet<>(Arrays.asList(o1, o2));
+    }
+
+    /**
+     * @return members
+     */
+    public Stream<O> members() {
+        return Stream.of(o1, o2);
     }
 
     @Override
@@ -59,15 +66,13 @@ public class Pair<O> {
             return false;
         }
         Pair<?> other = (Pair<?>) obj;
-        return o1.equals(other.o1) && o2.equals(other.o2) || o1.equals(other.o2)
-            && o2.equals(other.o1);
+        return o1.equals(other.o1) && o2.equals(other.o2)
+            || o1.equals(other.o2) && o2.equals(other.o1);
     }
 
     /**
-     * @param c
-     *        c
-     * @param <T>
-     *        type
+     * @param c c
+     * @param <T> type
      * @return all pairs
      */
     public static <T> Set<Pair<T>> getAllPossiblePairs(Collection<? extends T> c) {

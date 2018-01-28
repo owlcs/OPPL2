@@ -142,7 +142,7 @@ public class PatternExtractor implements OWLObjectVisitorEx<PatternOPPLScript>,
     }
 
     private static PatternReferenceResolver getPatternReferenceResolver(
-        final Collection<? extends String> done) {
+        Collection<? extends String> done) {
         return (reference, patternName, constraintSystem, symbolTable, args) -> symbolTable
             .resolvePattern(reference, patternName, constraintSystem, new HashSet<>(done), args);
     }

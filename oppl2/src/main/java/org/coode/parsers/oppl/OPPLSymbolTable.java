@@ -109,7 +109,7 @@ public class OPPLSymbolTable extends SymbolTable {
         }
 
         @Override
-        public <R extends OWLObject, S extends VariableAttribute<Collection<? extends R>>> T visitCollectionVariableAttributeSymbol(
+        public <R extends OWLObject, S extends VariableAttribute<Collection<R>>> T visitCollectionVariableAttributeSymbol(
             CollectionVariableAttributeSymbol<R, S> collectionVariableAttributeSymbol) {
             T toReturn = null;
             if (collectionVariableAttributeSymbol.getVariableAttribute().getVariable()
@@ -128,7 +128,7 @@ public class OPPLSymbolTable extends SymbolTable {
         }
     }
 
-    private static class CV<P extends OWLObject, O extends VariableAttribute<Collection<? extends P>>>
+    private static class CV<P extends OWLObject, O extends VariableAttribute<Collection<P>>>
         extends CollectionVisitor<CollectionVariableAttributeSymbol<P, O>> {
 
         CV(OPPLSymbolTable ost, VariableType<?> type, OPPLSyntaxTree attributeSyntaxTree) {
@@ -595,7 +595,7 @@ public class OPPLSymbolTable extends SymbolTable {
                 }
 
                 @Override
-                public <P extends OWLObject, T extends VariableAttribute<Collection<? extends P>>> VariableAttribute<String> visitCollectionVariableAttributeSymbol(
+                public <P extends OWLObject, T extends VariableAttribute<Collection<P>>> VariableAttribute<String> visitCollectionVariableAttributeSymbol(
                     CollectionVariableAttributeSymbol<P, T> collectionVariableAttributeSymbol) {
                     OPPLSymbolTable.this.reportIllegalToken(variableAttributeSyntaxTree,
                         "Invalid symbol or variable attribute");
@@ -623,7 +623,7 @@ public class OPPLSymbolTable extends SymbolTable {
      * @param <P> attribute type
      * @return collection variable
      */
-    public <P extends OWLObject, O extends VariableAttribute<Collection<? extends P>>> CollectionVariableAttributeSymbol<P, O> getCollectionVariableAttributeSymbol(
+    public <P extends OWLObject, O extends VariableAttribute<Collection<P>>> CollectionVariableAttributeSymbol<P, O> getCollectionVariableAttributeSymbol(
         final VariableType<?> type, final OPPLSyntaxTree attributeSyntaxTree) {
         Symbol symbol = retrieveSymbol(attributeSyntaxTree.getText());
         CollectionVariableAttributeSymbol<P, O> toReturn = null;
@@ -697,7 +697,7 @@ public class OPPLSymbolTable extends SymbolTable {
 
                 @Override
                 public OWLAxiom visitCLASSVariableType(CLASSVariableType classVariableType) {
-                    Collection<? extends Aggregandum<Collection<? extends OWLClassExpression>>> aggregandumCollection =
+                    Collection<? extends Aggregandum<Collection<OWLClassExpression>>> aggregandumCollection =
                         OPPLSymbolTable.this.getAggregandumCollection(classVariableType,
                             aggregandums, aggregdandumTrees, expression);
                     InlineSet<OWLClassExpression> inlineSet =
@@ -710,7 +710,7 @@ public class OPPLSymbolTable extends SymbolTable {
                 @Override
                 public OWLAxiom visitDATAPROPERTYVariableType(
                     DATAPROPERTYVariableType datapropertyVariableType) {
-                    Collection<? extends Aggregandum<Collection<? extends OWLDataPropertyExpression>>> aggregandumCollection =
+                    Collection<? extends Aggregandum<Collection<OWLDataPropertyExpression>>> aggregandumCollection =
                         OPPLSymbolTable.this.getAggregandumCollection(datapropertyVariableType,
                             aggregandums, aggregdandumTrees, expression);
                     InlineSet<OWLDataPropertyExpression> inlineSet =
@@ -723,7 +723,7 @@ public class OPPLSymbolTable extends SymbolTable {
                 @Override
                 public OWLAxiom visitOBJECTPROPERTYVariableType(
                     OBJECTPROPERTYVariableType objectpropertyVariableType) {
-                    Collection<? extends Aggregandum<Collection<? extends OWLObjectPropertyExpression>>> aggregandumCollection =
+                    Collection<? extends Aggregandum<Collection<OWLObjectPropertyExpression>>> aggregandumCollection =
                         OPPLSymbolTable.this.getAggregandumCollection(objectpropertyVariableType,
                             aggregandums, aggregdandumTrees, expression);
                     InlineSet<OWLObjectPropertyExpression> inlineSet =
@@ -749,10 +749,10 @@ public class OPPLSymbolTable extends SymbolTable {
      * @return aggregandum
      */
     @SuppressWarnings("unchecked")
-    public <O extends OWLObject> Collection<? extends Aggregandum<Collection<? extends O>>> getAggregandumCollection(
+    public <O extends OWLObject> Collection<Aggregandum<Collection<O>>> getAggregandumCollection(
         VariableType<O> variableType, Collection<? extends Aggregandum<?>> aggregandums,
         List<OPPLSyntaxTree> aggregandumsTrees, OPPLSyntaxTree parentExpression) {
-        List<Aggregandum<Collection<? extends O>>> toReturn = new ArrayList<>(aggregandums.size());
+        List<Aggregandum<Collection<O>>> toReturn = new ArrayList<>(aggregandums.size());
         boolean allFine = true;
         Iterator<? extends Aggregandum<?>> iterator = aggregandums.iterator();
         int i = 0;
@@ -760,7 +760,7 @@ public class OPPLSymbolTable extends SymbolTable {
             Aggregandum<?> aggregandum = iterator.next();
             allFine = aggregandum.isCompatible(variableType);
             if (allFine) {
-                toReturn.add((Aggregandum<Collection<? extends O>>) aggregandum);
+                toReturn.add((Aggregandum<Collection<O>>) aggregandum);
             } else {
                 OPPLSyntaxTree opplSyntaxTree = aggregandumsTrees.get(i);
                 reportIncompatibleSymbolType(opplSyntaxTree, opplSyntaxTree.getEvalType(),
@@ -828,7 +828,7 @@ public class OPPLSymbolTable extends SymbolTable {
         VariableType<?> aggregandumCollectionType =
             getAggregandumCollectionType(list, tokenList, opplSyntaxTree);
         if (aggregandumCollectionType == VariableTypeFactory.getINDIVIDUALVariableType()) {
-            Collection<? extends Aggregandum<Collection<? extends OWLIndividual>>> aggregandumCollection =
+            Collection<? extends Aggregandum<Collection<OWLIndividual>>> aggregandumCollection =
                 this.getAggregandumCollection(VariableTypeFactory.getINDIVIDUALVariableType(), list,
                     tokenList, opplSyntaxTree);
             InlineSet<OWLIndividual> individuals =
@@ -856,7 +856,7 @@ public class OPPLSymbolTable extends SymbolTable {
         VariableType<?> aggregandumCollectionType =
             getAggregandumCollectionType(list, tokenList, opplSyntaxTree);
         if (aggregandumCollectionType == VariableTypeFactory.getINDIVIDUALVariableType()) {
-            Collection<? extends Aggregandum<Collection<? extends OWLIndividual>>> aggregandumCollection =
+            Collection<? extends Aggregandum<Collection<OWLIndividual>>> aggregandumCollection =
                 this.getAggregandumCollection(VariableTypeFactory.getINDIVIDUALVariableType(), list,
                     tokenList, opplSyntaxTree);
             InlineSet<OWLIndividual> individuals =

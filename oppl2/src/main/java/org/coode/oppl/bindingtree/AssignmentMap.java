@@ -2,7 +2,13 @@ package org.coode.oppl.bindingtree;
 
 import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Stream;
 
 import org.coode.oppl.Variable;
 import org.semanticweb.owlapi.model.OWLObject;
@@ -20,8 +26,7 @@ public class AssignmentMap implements Map<Variable<?>, Set<OWLObject>> {
     /**
      * Copy constructor.
      * 
-     * @param assignmentMap
-     *        . Cannot be {@code null}.
+     * @param assignmentMap . Cannot be {@code null}.
      */
     public AssignmentMap(AssignmentMap assignmentMap) {
         checkNotNull(assignmentMap, "assignmentMap");
@@ -30,8 +35,7 @@ public class AssignmentMap implements Map<Variable<?>, Set<OWLObject>> {
     }
 
     /**
-     * @param bindingNodes
-     *        bindingNodes
+     * @param bindingNodes bindingNodes
      */
     public AssignmentMap(Collection<? extends BindingNode> bindingNodes) {
         if (bindingNodes == null || bindingNodes.isEmpty()) {
@@ -42,12 +46,7 @@ public class AssignmentMap implements Map<Variable<?>, Set<OWLObject>> {
             for (Assignment assignment : bindingNode.getAssignments()) {
                 Variable<?> assignedVariable = assignment.getAssignedVariable();
                 OWLObject assignedValue = assignment.getAssignment();
-                Set<OWLObject> previousAssignements = get(assignedVariable);
-                if (previousAssignements == null) {
-                    previousAssignements = new HashSet<>();
-                    put(assignedVariable, previousAssignements);
-                }
-                previousAssignements.add(assignedValue);
+                delegate.computeIfAbsent(assignedVariable, x -> new HashSet<>()).add(assignedValue);
             }
         }
     }
@@ -125,49 +124,70 @@ public class AssignmentMap implements Map<Variable<?>, Set<OWLObject>> {
     /**
      * The set of Variables in this AssignementMap
      * 
-     * @return a Set of Variable
+     * @return a collection of Variables, without duplicates
+     * @deprecated use the stream methods to save on defensive copies
      */
+    @Deprecated
     public Set<Variable<?>> getVariables() {
         return new HashSet<>(keySet());
     }
 
     /**
-     * @return the bindingNodes
+     * The Variables in this AssignementMap
+     * 
+     * @return a stream of Variables, without duplicates
      */
+    public Stream<Variable<?>> variables() {
+        return delegate.keySet().stream();
+    }
+
+    /**
+     * @return the bindingNodes, without duplicates
+     * @deprecated use the stream methods to save on defensive copies
+     */
+    @Deprecated
     public Set<BindingNode> getBindingNodes() {
         return new HashSet<>(bindingNodes);
     }
 
     /**
-     * @param anotherAssignmentMap
-     *        anotherAssignmentMap
+     * @return the bindingNodes, without duplicates
+     */
+    public Stream<BindingNode> bindingNodes() {
+        return bindingNodes.stream();
+    }
+
+    /**
+     * @param anotherAssignmentMap anotherAssignmentMap
      * @return true if disjoint
      */
     public boolean isDisjointWith(AssignmentMap anotherAssignmentMap) {
         checkNotNull(anotherAssignmentMap, "anotherAssignmentMap");
-        boolean found = false;
-        Iterator<Variable<?>> iterator = keySet().iterator();
-        while (!found && iterator.hasNext()) {
-            Variable<?> variable = iterator.next();
-            if (anotherAssignmentMap.keySet().contains(variable)) {
-                Set<OWLObject> set = new HashSet<>(get(variable));
-                set.retainAll(anotherAssignmentMap.get(variable));
-                found = !set.isEmpty();
-            }
-        }
-        return !found;
+        return delegate.entrySet().stream().noneMatch(
+            e -> anotherAssignmentMap.variableHasMatchingValues(e.getKey(), e.getValue()));
     }
 
     /**
-     * @param assignmentMaps
-     *        assignmentMaps
+     * @param v variable to test
+     * @param values values to match
+     * @return true if the variable has one of the input values in this assignment map
+     */
+    public boolean variableHasMatchingValues(Variable<?> v, Collection<OWLObject> values) {
+        Set<OWLObject> o = delegate.get(v);
+        if (o == null) {
+            return false;
+        }
+        return values.stream().anyMatch(o::contains);
+    }
+
+    /**
+     * @param assignmentMaps assignmentMaps
      * @return true if disjoint
      */
     public static boolean areDisjoint(Collection<? extends AssignmentMap> assignmentMaps) {
         checkNotNull(assignmentMaps, "assignmentMaps");
         if (assignmentMaps.isEmpty()) {
-            throw new IllegalArgumentException(
-                "The collection of AssignmentMap cannot be empty");
+            throw new IllegalArgumentException("The collection of AssignmentMap cannot be empty");
         }
         boolean found = false;
         Iterator<? extends AssignmentMap> iterator = assignmentMaps.iterator();

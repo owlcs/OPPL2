@@ -1,6 +1,7 @@
 package org.coode.oppl.queryplanner;
 
 import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+import static org.semanticweb.owlapi.util.OWLAPIStreamUtils.asSet;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -74,7 +75,6 @@ public class InferredAxiomQueryPlannerItem extends AbstractQueryPlannerItem {
     private Set<BindingNode> updateBindings(OWLAxiom ax,
         RuntimeExceptionHandler runtimeExceptionHandler) throws OWLRuntimeException {
         assert ax != null;
-        Set<BindingNode> toReturn = new HashSet<>();
         int initialSize = getConstraintSystem().getLeaves() == null ? 0
             : getConstraintSystem().getLeaves().size();
         Logging.getQueryLogger().fine("Initial size: ", Integer.valueOf(initialSize));
@@ -85,8 +85,7 @@ public class InferredAxiomQueryPlannerItem extends AbstractQueryPlannerItem {
                 runtimeExceptionHandler);
         Logging.getQueryTestLogging().fine("Used engine: ", query.getClass().getName());
         ax.accept(query);
-        toReturn.addAll(query.getLeaves());
-        return toReturn;
+        return asSet(query.leaves());
     }
 
     @Override

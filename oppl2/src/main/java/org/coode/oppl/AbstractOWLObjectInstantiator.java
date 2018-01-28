@@ -4,9 +4,7 @@ import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 import static org.semanticweb.owlapi.util.OWLAPIStreamUtils.asList;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.coode.oppl.datafactory.OPPLOWLDifferentIndividualsAxiom;
 import org.coode.oppl.datafactory.OPPLOWLDisjointClassesAxiom;
@@ -129,11 +127,14 @@ abstract class AbstractOWLObjectInstantiator implements OWLObjectVisitorEx<OWLOb
         return parameters;
     }
 
+    private <T extends OWLObject> T v(T t) {
+        return (T) t.accept(this);
+    }
+
     @Override
     public OWLAsymmetricObjectPropertyAxiom visit(OWLAsymmetricObjectPropertyAxiom axiom) {
         OWLObjectPropertyExpression property = axiom.getProperty();
-        return df.getOWLAsymmetricObjectPropertyAxiom(
-            (OWLObjectPropertyExpression) property.accept(this));
+        return df.getOWLAsymmetricObjectPropertyAxiom(v(property));
     }
 
     @Override
@@ -154,22 +155,20 @@ abstract class AbstractOWLObjectInstantiator implements OWLObjectVisitorEx<OWLOb
     public OWLObject visit(OWLClassAssertionAxiom axiom) {
         OWLClassExpression description = axiom.getClassExpression();
         OWLIndividual individual = axiom.getIndividual();
-        return df.getOWLClassAssertionAxiom((OWLClassExpression) description.accept(this),
-            (OWLIndividual) individual.accept(this));
+        return df.getOWLClassAssertionAxiom(v(description), v(individual));
     }
 
     @Override
     public OWLObject visit(OWLDataAllValuesFrom desc) {
         OWLDataRange filler = desc.getFiller();
         OWLDataPropertyExpression property = desc.getProperty();
-        return df.getOWLDataAllValuesFrom((OWLDataPropertyExpression) property.accept(this),
-            (OWLDataRange) filler.accept(this));
+        return df.getOWLDataAllValuesFrom(v(property), v(filler));
     }
 
     @Override
     public OWLObject visit(OWLDataComplementOf node) {
         OWLDataRange dataRange = node.getDataRange();
-        return df.getOWLDataComplementOf((OWLDataRange) dataRange.accept(this));
+        return df.getOWLDataComplementOf(v(dataRange));
     }
 
     @Override
@@ -177,8 +176,7 @@ abstract class AbstractOWLObjectInstantiator implements OWLObjectVisitorEx<OWLOb
         int cardinality = desc.getCardinality();
         OWLDataRange filler = desc.getFiller();
         OWLDataPropertyExpression property = desc.getProperty();
-        return df.getOWLDataExactCardinality(cardinality,
-            (OWLDataPropertyExpression) property.accept(this), (OWLDataRange) filler.accept(this));
+        return df.getOWLDataExactCardinality(cardinality, v(property), v(filler));
     }
 
     @Override
@@ -186,8 +184,7 @@ abstract class AbstractOWLObjectInstantiator implements OWLObjectVisitorEx<OWLOb
         int cardinality = desc.getCardinality();
         OWLDataRange filler = desc.getFiller();
         OWLDataPropertyExpression property = desc.getProperty();
-        return df.getOWLDataMaxCardinality(cardinality,
-            (OWLDataPropertyExpression) property.accept(this), (OWLDataRange) filler.accept(this));
+        return df.getOWLDataMaxCardinality(cardinality, v(property), v(filler));
     }
 
     @Override
@@ -195,15 +192,12 @@ abstract class AbstractOWLObjectInstantiator implements OWLObjectVisitorEx<OWLOb
         int cardinality = desc.getCardinality();
         OWLDataRange filler = desc.getFiller();
         OWLDataPropertyExpression property = desc.getProperty();
-        return df.getOWLDataMinCardinality(cardinality,
-            (OWLDataPropertyExpression) property.accept(this), (OWLDataRange) filler.accept(this));
+        return df.getOWLDataMinCardinality(cardinality, v(property), v(filler));
     }
 
     @Override
     public OWLObject visit(OWLDataOneOf node) {
-        Set<OWLLiteral> instantiatedValues = new HashSet<>();
-        node.values().forEach(c -> instantiatedValues.add((OWLLiteral) c.accept(this)));
-        return df.getOWLDataOneOf(instantiatedValues);
+        return df.getOWLDataOneOf(node.values().map(this::v));
     }
 
     @Override
@@ -224,25 +218,21 @@ abstract class AbstractOWLObjectInstantiator implements OWLObjectVisitorEx<OWLOb
         OWLIndividual subject = axiom.getSubject();
         OWLDataPropertyExpression property = axiom.getProperty();
         OWLLiteral object = axiom.getObject();
-        return df.getOWLDataPropertyAssertionAxiom(
-            (OWLDataPropertyExpression) property.accept(this), (OWLIndividual) subject.accept(this),
-            (OWLLiteral) object.accept(this));
+        return df.getOWLDataPropertyAssertionAxiom(v(property), v(subject), v(object));
     }
 
     @Override
     public OWLObject visit(OWLDataPropertyDomainAxiom axiom) {
         OWLClassExpression domain = axiom.getDomain();
         OWLDataPropertyExpression property = axiom.getProperty();
-        return df.getOWLDataPropertyDomainAxiom((OWLDataPropertyExpression) property.accept(this),
-            (OWLClassExpression) domain.accept(this));
+        return df.getOWLDataPropertyDomainAxiom(v(property), v(domain));
     }
 
     @Override
     public OWLObject visit(OWLDataPropertyRangeAxiom axiom) {
         OWLDataPropertyExpression property = axiom.getProperty();
         OWLDataRange range = axiom.getRange();
-        return df.getOWLDataPropertyRangeAxiom((OWLDataPropertyExpression) property.accept(this),
-            (OWLDataRange) range.accept(this));
+        return df.getOWLDataPropertyRangeAxiom(v(property), v(range));
     }
 
     @Override
@@ -255,16 +245,14 @@ abstract class AbstractOWLObjectInstantiator implements OWLObjectVisitorEx<OWLOb
     public OWLObject visit(OWLDataSomeValuesFrom desc) {
         OWLDataRange filler = desc.getFiller();
         OWLDataPropertyExpression property = desc.getProperty();
-        return df.getOWLDataSomeValuesFrom((OWLDataPropertyExpression) property.accept(this),
-            (OWLDataRange) filler.accept(this));
+        return df.getOWLDataSomeValuesFrom(v(property), v(filler));
     }
 
     @Override
     public OWLObject visit(OWLSubDataPropertyOfAxiom axiom) {
         OWLDataPropertyExpression subProperty = axiom.getSubProperty();
         OWLDataPropertyExpression superProperty = axiom.getSuperProperty();
-        return df.getOWLSubDataPropertyOfAxiom((OWLDataPropertyExpression) subProperty.accept(this),
-            (OWLDataPropertyExpression) superProperty.accept(this));
+        return df.getOWLSubDataPropertyOfAxiom(v(subProperty), v(superProperty));
     }
 
     @Override
@@ -275,8 +263,7 @@ abstract class AbstractOWLObjectInstantiator implements OWLObjectVisitorEx<OWLOb
     @Override
     public OWLObject visit(OWLDataHasValue desc) {
         OWLDataPropertyExpression property = desc.getProperty();
-        return df.getOWLDataHasValue((OWLDataPropertyExpression) property.accept(this),
-            (OWLLiteral) desc.getFiller().accept(this));
+        return df.getOWLDataHasValue(v(property), (OWLLiteral) desc.getFiller().accept(this));
     }
 
     @Override
@@ -286,16 +273,13 @@ abstract class AbstractOWLObjectInstantiator implements OWLObjectVisitorEx<OWLOb
 
     @Override
     public OWLObject visit(OWLDifferentIndividualsAxiom axiom) {
-        Set<OWLIndividual> instantiatedIndividuals = new HashSet<>();
         if (OPPLOWLDifferentIndividualsAxiom.class.isAssignableFrom(axiom.getClass())) {
             InlineSet<OWLIndividual> inlineSet =
                 ((OPPLOWLDifferentIndividualsAxiom) axiom).getInlineSet();
-            instantiatedIndividuals.addAll(inlineSet.compute(getParameters()));
-        } else {
-            axiom.individuals().map(i -> (OWLIndividual) i.accept(this))
-                .forEach(instantiatedIndividuals::add);
+            return df.getOWLDifferentIndividualsAxiom(inlineSet.compute(getParameters()));
         }
-        return df.getOWLDifferentIndividualsAxiom(instantiatedIndividuals);
+
+        return df.getOWLDifferentIndividualsAxiom(asList(axiom.individuals().map(this::v)));
     }
 
     @Override
@@ -304,8 +288,7 @@ abstract class AbstractOWLObjectInstantiator implements OWLObjectVisitorEx<OWLOb
             OPPLOWLDisjointClassesAxiom ax = (OPPLOWLDisjointClassesAxiom) axiom;
             return df.getOWLDisjointClassesAxiom(ax.getInlineSet().compute(getParameters()));
         }
-        return df.getOWLDisjointClassesAxiom(
-            axiom.classExpressions().map(c -> (OWLClassExpression) c.accept(this)));
+        return df.getOWLDisjointClassesAxiom(axiom.classExpressions().map(this::v));
     }
 
     @Override
@@ -314,8 +297,7 @@ abstract class AbstractOWLObjectInstantiator implements OWLObjectVisitorEx<OWLOb
             OPPLOWLDisjointDataPropertiesAxiom ax = (OPPLOWLDisjointDataPropertiesAxiom) axiom;
             return df.getOWLDisjointDataPropertiesAxiom(ax.getInlineSet().compute(getParameters()));
         }
-        return df.getOWLDisjointDataPropertiesAxiom(
-            asList(axiom.properties().map(c -> (OWLDataPropertyExpression) c.accept(this))));
+        return df.getOWLDisjointDataPropertiesAxiom(asList(axiom.properties().map(this::v)));
     }
 
     @Override
@@ -325,46 +307,40 @@ abstract class AbstractOWLObjectInstantiator implements OWLObjectVisitorEx<OWLOb
             return df
                 .getOWLDisjointObjectPropertiesAxiom(ax.getInlineSet().compute(getParameters()));
         }
-        return df.getOWLDisjointObjectPropertiesAxiom(
-            asList(axiom.properties().map(c -> (OWLObjectPropertyExpression) c.accept(this))));
+        return df.getOWLDisjointObjectPropertiesAxiom(asList(axiom.properties().map(this::v)));
     }
 
     @Override
     public OWLObject visit(OWLDisjointUnionAxiom axiom) {
         return df.getOWLDisjointUnionAxiom((OWLClass) axiom.getOWLClass().accept(this),
-            axiom.classExpressions().map(c -> (OWLClassExpression) c.accept(this)));
+            axiom.classExpressions().map(this::v));
     }
 
     @Override
     public OWLObject visit(OWLEquivalentClassesAxiom axiom) {
-        return df.getOWLEquivalentClassesAxiom(
-            axiom.classExpressions().map(c -> (OWLClassExpression) c.accept(this)));
+        return df.getOWLEquivalentClassesAxiom(axiom.classExpressions().map(this::v));
     }
 
     @Override
     public OWLObject visit(OWLEquivalentDataPropertiesAxiom axiom) {
-        return df.getOWLEquivalentDataPropertiesAxiom(
-            asList(axiom.properties().map(c -> (OWLDataProperty) c.accept(this))));
+        return df.getOWLEquivalentDataPropertiesAxiom(asList(axiom.properties().map(this::v)));
     }
 
     @Override
     public OWLObject visit(OWLEquivalentObjectPropertiesAxiom axiom) {
-        return df.getOWLEquivalentObjectPropertiesAxiom(
-            asList(axiom.properties().map(c -> (OWLObjectPropertyExpression) c.accept(this))));
+        return df.getOWLEquivalentObjectPropertiesAxiom(asList(axiom.properties().map(this::v)));
     }
 
     @Override
     public OWLObject visit(OWLFunctionalDataPropertyAxiom axiom) {
         OWLDataPropertyExpression property = axiom.getProperty();
-        return df
-            .getOWLFunctionalDataPropertyAxiom((OWLDataPropertyExpression) property.accept(this));
+        return df.getOWLFunctionalDataPropertyAxiom(v(property));
     }
 
     @Override
     public OWLObject visit(OWLFunctionalObjectPropertyAxiom axiom) {
         OWLObjectPropertyExpression property = axiom.getProperty();
-        return df.getOWLFunctionalObjectPropertyAxiom(
-            (OWLObjectPropertyExpression) property.accept(this));
+        return df.getOWLFunctionalObjectPropertyAxiom(v(property));
     }
 
     @Override
@@ -388,24 +364,20 @@ abstract class AbstractOWLObjectInstantiator implements OWLObjectVisitorEx<OWLOb
     @Override
     public OWLObject visit(OWLInverseFunctionalObjectPropertyAxiom axiom) {
         OWLObjectPropertyExpression property = axiom.getProperty();
-        return df.getOWLInverseFunctionalObjectPropertyAxiom(
-            (OWLObjectPropertyExpression) property.accept(this));
+        return df.getOWLInverseFunctionalObjectPropertyAxiom(v(property));
     }
 
     @Override
     public OWLObject visit(OWLInverseObjectPropertiesAxiom axiom) {
         OWLObjectPropertyExpression firstProperty = axiom.getFirstProperty();
         OWLObjectPropertyExpression secondProperty = axiom.getSecondProperty();
-        return df.getOWLInverseObjectPropertiesAxiom(
-            (OWLObjectPropertyExpression) firstProperty.accept(this),
-            (OWLObjectPropertyExpression) secondProperty.accept(this));
+        return df.getOWLInverseObjectPropertiesAxiom(v(firstProperty), v(secondProperty));
     }
 
     @Override
     public OWLObject visit(OWLIrreflexiveObjectPropertyAxiom axiom) {
         OWLObjectPropertyExpression property = axiom.getProperty();
-        return df.getOWLIrreflexiveObjectPropertyAxiom(
-            (OWLObjectPropertyExpression) property.accept(this));
+        return df.getOWLIrreflexiveObjectPropertyAxiom(v(property));
     }
 
     @Override
@@ -413,9 +385,7 @@ abstract class AbstractOWLObjectInstantiator implements OWLObjectVisitorEx<OWLOb
         OWLDataPropertyExpression property = axiom.getProperty();
         OWLIndividual subject = axiom.getSubject();
         OWLLiteral object = axiom.getObject();
-        return df.getOWLNegativeDataPropertyAssertionAxiom(
-            (OWLDataPropertyExpression) property.accept(this), (OWLIndividual) subject.accept(this),
-            (OWLLiteral) object.accept(this));
+        return df.getOWLNegativeDataPropertyAssertionAxiom(v(property), v(subject), v(object));
     }
 
     @Override
@@ -423,10 +393,9 @@ abstract class AbstractOWLObjectInstantiator implements OWLObjectVisitorEx<OWLOb
         OWLObjectPropertyExpression property = axiom.getProperty();
         OWLIndividual subject = axiom.getSubject();
         OWLIndividual object = axiom.getObject();
-        OWLIndividual instantiatedSubject = (OWLIndividual) subject.accept(this);
-        OWLObjectPropertyExpression instantiatedProperty =
-            (OWLObjectPropertyExpression) property.accept(this);
-        OWLIndividual instantiatedObject = (OWLIndividual) object.accept(this);
+        OWLIndividual instantiatedSubject = v(subject);
+        OWLObjectPropertyExpression instantiatedProperty = v(property);
+        OWLIndividual instantiatedObject = v(object);
         return df.getOWLNegativeObjectPropertyAssertionAxiom(instantiatedProperty,
             instantiatedSubject, instantiatedObject);
     }
@@ -435,14 +404,13 @@ abstract class AbstractOWLObjectInstantiator implements OWLObjectVisitorEx<OWLOb
     public OWLClassExpression visit(OWLObjectAllValuesFrom desc) {
         OWLClassExpression filler = desc.getFiller();
         OWLObjectPropertyExpression property = desc.getProperty();
-        return df.getOWLObjectAllValuesFrom((OWLObjectPropertyExpression) property.accept(this),
-            (OWLClassExpression) filler.accept(this));
+        return df.getOWLObjectAllValuesFrom(v(property), v(filler));
     }
 
     @Override
     public OWLClassExpression visit(OWLObjectComplementOf desc) {
         OWLClassExpression operand = desc.getOperand();
-        return df.getOWLObjectComplementOf((OWLClassExpression) operand.accept(this));
+        return df.getOWLObjectComplementOf(v(operand));
     }
 
     @Override
@@ -450,15 +418,12 @@ abstract class AbstractOWLObjectInstantiator implements OWLObjectVisitorEx<OWLOb
         int cardinality = desc.getCardinality();
         OWLClassExpression filler = desc.getFiller();
         OWLObjectPropertyExpression property = desc.getProperty();
-        return df.getOWLObjectExactCardinality(cardinality,
-            (OWLObjectPropertyExpression) property.accept(this),
-            (OWLClassExpression) filler.accept(this));
+        return df.getOWLObjectExactCardinality(cardinality, v(property), v(filler));
     }
 
     @Override
     public OWLClassExpression visit(OWLObjectIntersectionOf desc) {
-        return df.getOWLObjectIntersectionOf(
-            desc.operands().map(c -> (OWLClassExpression) c.accept(this)));
+        return df.getOWLObjectIntersectionOf(desc.operands().map(this::v));
     }
 
     @Override
@@ -466,9 +431,7 @@ abstract class AbstractOWLObjectInstantiator implements OWLObjectVisitorEx<OWLOb
         int cardinality = desc.getCardinality();
         OWLClassExpression filler = desc.getFiller();
         OWLObjectPropertyExpression property = desc.getProperty();
-        return df.getOWLObjectMaxCardinality(cardinality,
-            (OWLObjectPropertyExpression) property.accept(this),
-            (OWLClassExpression) filler.accept(this));
+        return df.getOWLObjectMaxCardinality(cardinality, v(property), v(filler));
     }
 
     @Override
@@ -476,14 +439,12 @@ abstract class AbstractOWLObjectInstantiator implements OWLObjectVisitorEx<OWLOb
         int cardinality = desc.getCardinality();
         OWLClassExpression filler = desc.getFiller();
         OWLObjectPropertyExpression property = desc.getProperty();
-        return df.getOWLObjectMinCardinality(cardinality,
-            (OWLObjectPropertyExpression) property.accept(this),
-            (OWLClassExpression) filler.accept(this));
+        return df.getOWLObjectMinCardinality(cardinality, v(property), v(filler));
     }
 
     @Override
     public OWLObject visit(OWLObjectOneOf desc) {
-        return df.getOWLObjectOneOf(desc.individuals().map(i -> (OWLIndividual) i.accept(this)));
+        return df.getOWLObjectOneOf(desc.individuals().map(this::v));
     }
 
     @Override
@@ -504,9 +465,7 @@ abstract class AbstractOWLObjectInstantiator implements OWLObjectVisitorEx<OWLOb
         OWLIndividual subject = axiom.getSubject();
         OWLObjectPropertyExpression property = axiom.getProperty();
         OWLIndividual object = axiom.getObject();
-        return df.getOWLObjectPropertyAssertionAxiom(
-            (OWLObjectPropertyExpression) property.accept(this),
-            (OWLIndividual) subject.accept(this), (OWLIndividual) object.accept(this));
+        return df.getOWLObjectPropertyAssertionAxiom(v(property), v(subject), v(object));
     }
 
     @Override
@@ -515,20 +474,16 @@ abstract class AbstractOWLObjectInstantiator implements OWLObjectVisitorEx<OWLOb
         List<OWLObjectPropertyExpression> instantiatedPropertyChain = new ArrayList<>();
         OWLObjectPropertyExpression superProperty = axiom.getSuperProperty();
         for (OWLObjectPropertyExpression objectPropertyExpression : propertyChain) {
-            instantiatedPropertyChain
-                .add((OWLObjectPropertyExpression) objectPropertyExpression.accept(this));
+            instantiatedPropertyChain.add(v(objectPropertyExpression));
         }
-        return df.getOWLSubPropertyChainOfAxiom(instantiatedPropertyChain,
-            (OWLObjectPropertyExpression) superProperty.accept(this));
+        return df.getOWLSubPropertyChainOfAxiom(instantiatedPropertyChain, v(superProperty));
     }
 
     @Override
     public OWLObject visit(OWLObjectPropertyDomainAxiom axiom) {
         OWLClassExpression domain = axiom.getDomain();
         OWLObjectPropertyExpression property = axiom.getProperty();
-        return df.getOWLObjectPropertyDomainAxiom(
-            (OWLObjectPropertyExpression) property.accept(this),
-            (OWLClassExpression) domain.accept(this));
+        return df.getOWLObjectPropertyDomainAxiom(v(property), v(domain));
     }
 
     @Override
@@ -537,52 +492,45 @@ abstract class AbstractOWLObjectInstantiator implements OWLObjectVisitorEx<OWLOb
         if (inverse.isAnonymous()) {
             return inverse.getNamedProperty();
         }
-        return df.getOWLObjectInverseOf((OWLObjectProperty) inverse.accept(this));
+        return df.getOWLObjectInverseOf(v(inverse).getNamedProperty());
     }
 
     @Override
     public OWLObject visit(OWLObjectPropertyRangeAxiom axiom) {
         OWLObjectPropertyExpression property = axiom.getProperty();
         OWLClassExpression range = axiom.getRange();
-        return df.getOWLObjectPropertyRangeAxiom(
-            (OWLObjectPropertyExpression) property.accept(this),
-            (OWLClassExpression) range.accept(this));
+        return df.getOWLObjectPropertyRangeAxiom(v(property), v(range));
     }
 
     @Override
     public OWLObject visit(OWLObjectHasSelf desc) {
         OWLObjectPropertyExpression property = desc.getProperty();
-        return df.getOWLObjectHasSelf((OWLObjectPropertyExpression) property.accept(this));
+        return df.getOWLObjectHasSelf(v(property));
     }
 
     @Override
     public OWLClassExpression visit(OWLObjectSomeValuesFrom desc) {
         OWLClassExpression filler = desc.getFiller();
         OWLObjectPropertyExpression property = desc.getProperty();
-        return df.getOWLObjectSomeValuesFrom((OWLObjectPropertyExpression) property.accept(this),
-            (OWLClassExpression) filler.accept(this));
+        return df.getOWLObjectSomeValuesFrom(v(property), v(filler));
     }
 
     @Override
     public OWLObject visit(OWLSubObjectPropertyOfAxiom axiom) {
         OWLObjectPropertyExpression subProperty = axiom.getSubProperty();
         OWLObjectPropertyExpression superProperty = axiom.getSuperProperty();
-        return df.getOWLSubObjectPropertyOfAxiom(
-            (OWLObjectPropertyExpression) subProperty.accept(this),
-            (OWLObjectPropertyExpression) superProperty.accept(this));
+        return df.getOWLSubObjectPropertyOfAxiom(v(subProperty), v(superProperty));
     }
 
     @Override
     public OWLClassExpression visit(OWLObjectUnionOf desc) {
-        return df
-            .getOWLObjectUnionOf(desc.operands().map(c -> (OWLClassExpression) c.accept(this)));
+        return df.getOWLObjectUnionOf(desc.operands().map(this::v));
     }
 
     @Override
     public OWLClassExpression visit(OWLObjectHasValue desc) {
         OWLObjectPropertyExpression property = desc.getProperty();
-        return df.getOWLObjectHasValue((OWLObjectPropertyExpression) property.accept(this),
-            (OWLIndividual) desc.getFiller().accept(this));
+        return df.getOWLObjectHasValue(v(property), (OWLIndividual) desc.getFiller().accept(this));
     }
 
     @Override
@@ -593,22 +541,17 @@ abstract class AbstractOWLObjectInstantiator implements OWLObjectVisitorEx<OWLOb
     @Override
     public OWLObject visit(OWLReflexiveObjectPropertyAxiom axiom) {
         OWLObjectPropertyExpression property = axiom.getProperty();
-        return df.getOWLReflexiveObjectPropertyAxiom(
-            (OWLObjectPropertyExpression) property.accept(this));
+        return df.getOWLReflexiveObjectPropertyAxiom(v(property));
     }
 
     @Override
     public OWLObject visit(OWLSameIndividualAxiom axiom) {
-        Set<OWLIndividual> instantiatedIndividuals = new HashSet<>();
         if (OPPLOWLSameIndividualAxiom.class.isAssignableFrom(axiom.getClass())) {
             InlineSet<OWLIndividual> inlineSet =
                 ((OPPLOWLSameIndividualAxiom) axiom).getInlineSet();
-            instantiatedIndividuals.addAll(inlineSet.compute(getParameters()));
-        } else {
-            axiom.individuals().map(i -> (OWLIndividual) i.accept(this))
-                .forEach(instantiatedIndividuals::add);
+            return df.getOWLSameIndividualAxiom(inlineSet.compute(getParameters()));
         }
-        return df.getOWLSameIndividualAxiom(instantiatedIndividuals);
+        return df.getOWLSameIndividualAxiom(asList(axiom.individuals().map(this::v)));
     }
 
     @Override
@@ -621,15 +564,13 @@ abstract class AbstractOWLObjectInstantiator implements OWLObjectVisitorEx<OWLOb
     @Override
     public OWLObject visit(OWLSymmetricObjectPropertyAxiom axiom) {
         OWLObjectPropertyExpression property = axiom.getProperty();
-        return df.getOWLSymmetricObjectPropertyAxiom(
-            (OWLObjectPropertyExpression) property.accept(this));
+        return df.getOWLSymmetricObjectPropertyAxiom(v(property));
     }
 
     @Override
     public OWLObject visit(OWLTransitiveObjectPropertyAxiom axiom) {
         OWLObjectPropertyExpression property = axiom.getProperty();
-        return df.getOWLTransitiveObjectPropertyAxiom(
-            (OWLObjectPropertyExpression) property.accept(this));
+        return df.getOWLTransitiveObjectPropertyAxiom(v(property));
     }
 
     @Override

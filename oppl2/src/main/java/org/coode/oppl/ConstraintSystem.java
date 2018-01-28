@@ -26,13 +26,16 @@ import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 import static org.coode.oppl.variabletypes.VariableFactory.getGeneratedVariable;
 import static org.coode.oppl.variabletypes.VariableTypeFactory.getCLASSVariableType;
 import static org.coode.oppl.variabletypes.VariableTypeFactory.getOBJECTPROPERTYTypeVariableType;
+import static org.semanticweb.owlapi.util.OWLAPIStreamUtils.asSet;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 import org.coode.oppl.bindingtree.Assignment;
 import org.coode.oppl.bindingtree.BindingNode;
@@ -143,28 +146,35 @@ public class ConstraintSystem {
             return irisMap.containsKey(variableURI);
         }
 
+        @Deprecated
         public Set<InputVariable<?>> getInputVariables() {
-            Set<InputVariable<?>> toReturn = new HashSet<>(map.values().size());
-            for (Variable<?> v : map.values()) {
-                if (VariableRecogniser.INPUT_VARIABLE_RECOGNISER.recognise(v)) {
-                    toReturn.add((InputVariable<?>) v);
-                }
-            }
-            return toReturn;
+            return asSet(inputVariables());
         }
 
+        public Stream<InputVariable<?>> inputVariables() {
+            return map.values().stream()
+                .filter(VariableRecogniser.INPUT_VARIABLE_RECOGNISER::recognise)
+                .map(c -> (InputVariable<?>) c);
+        }
+
+        @Deprecated
         public Set<Variable<?>> getAllVariables() {
-            return new HashSet<>(map.values());
+            return asSet(allVariables());
         }
 
+        public Stream<Variable<?>> allVariables() {
+            return map.values().stream();
+        }
+
+        @Deprecated
         public Set<GeneratedVariable<?>> getGeneratedVariables() {
-            Set<GeneratedVariable<?>> toReturn = new HashSet<>(map.values().size());
-            for (Variable<?> v : map.values()) {
-                if (VariableRecogniser.GENERATED_VARIABLE_RECOGNISER.recognise(v)) {
-                    toReturn.add((GeneratedVariable<?>) v);
-                }
-            }
-            return toReturn;
+            return asSet(generatedVariables());
+        }
+
+        public Stream<GeneratedVariable<?>> generatedVariables() {
+            return map.values().stream()
+                .filter(VariableRecogniser.GENERATED_VARIABLE_RECOGNISER::recognise)
+                .map(c -> (GeneratedVariable<?>) c);
         }
 
         public void remove(String name) {
@@ -311,8 +321,7 @@ public class ConstraintSystem {
      */
     public Set<Variable<?>> getAxiomVariables(OWLAxiom axiom) {
         VariableExtractor axiomVariableExtractor = new VariableExtractor(this, true);
-        Set<Variable<?>> axiomVariables = axiomVariableExtractor.extractVariables(axiom);
-        return new HashSet<>(axiomVariables);
+        return axiomVariableExtractor.extractVariables(axiom);
     }
 
     /**
@@ -353,21 +362,28 @@ public class ConstraintSystem {
      * @param v v
      * @param runtimeExceptionHandler runtimeExceptionHandler
      * @return variable bindings
+     * @deprecated use stream version
      */
+    @Deprecated
     public Set<OWLObject> getVariableBindings(Variable<?> v,
         RuntimeExceptionHandler runtimeExceptionHandler) {
-        Set<OWLObject> toReturn = new HashSet<>();
-        SimpleValueComputationParameters parameters = new SimpleValueComputationParameters(this,
-            BindingNode.getEmptyBindingNode(), runtimeExceptionHandler);
+        return asSet(variableBindings(v, runtimeExceptionHandler));
+    }
+
+    /**
+     * @param v v
+     * @param runtimeExceptionHandler runtimeExceptionHandler
+     * @return variable bindings
+     */
+    public Stream<OWLObject> variableBindings(Variable<?> v,
+        RuntimeExceptionHandler runtimeExceptionHandler) {
         if (leaves != null) {
-            for (BindingNode bindingNode : leaves) {
-                OWLObject assignmentValue = bindingNode.getAssignmentValue(v, parameters);
-                if (assignmentValue != null) {
-                    toReturn.add(assignmentValue);
-                }
-            }
+            SimpleValueComputationParameters parameters = new SimpleValueComputationParameters(this,
+                BindingNode.getEmptyBindingNode(), runtimeExceptionHandler);
+            return leaves.stream().map(b -> b.getAssignmentValue(v, parameters))
+                .filter(Objects::nonNull);
         }
-        return toReturn;
+        return Stream.empty();
     }
 
     /**
@@ -395,9 +411,18 @@ public class ConstraintSystem {
 
     /**
      * @return the leaves
+     * @deprecated use stream version
      */
+    @Deprecated
     public Set<BindingNode> getLeaves() {
         return leaves == null ? leaves : new HashSet<>(leaves);
+    }
+
+    /**
+     * @return the leaves
+     */
+    public Stream<BindingNode> leaves() {
+        return leaves == null ? Stream.empty() : leaves.stream();
     }
 
     /**
@@ -560,9 +585,9 @@ public class ConstraintSystem {
      */
     public GeneratedVariable<OWLClassExpression> createIntersectionGeneratedVariable(
         final String name, VariableType<?> type,
-        Collection<? extends Aggregandum<Collection<? extends OWLClassExpression>>> operands) {
+        Collection<Aggregandum<Collection<OWLClassExpression>>> operands) {
         OWLDataFactory df = getOntologyManager().getOWLDataFactory();
-        final Aggregation<OWLClassExpression, Collection<? extends OWLClassExpression>> and =
+        final Aggregation<OWLClassExpression, Collection<OWLClassExpression>> and =
             Aggregation.buildClassExpressionIntersection(operands, df);
         GeneratedVariable<OWLClassExpression> toReturn =
             type.accept(new VariableTypeVisitorEx<GeneratedVariable<OWLClassExpression>>() {
@@ -614,11 +639,9 @@ public class ConstraintSystem {
      * @return generated variable
      */
     public GeneratedVariable<OWLClassExpression> createUnionGeneratedVariable(final String name,
-        VariableType<?> type,
-        Collection<? extends Aggregandum<Collection<? extends OWLClassExpression>>> operands) {
-        final Aggregation<OWLClassExpression, Collection<? extends OWLClassExpression>> function =
-            Aggregation.buildClassExpressionUnion(operands,
-                getOntologyManager().getOWLDataFactory());
+        VariableType<?> type, Collection<Aggregandum<Collection<OWLClassExpression>>> operands) {
+        final Aggregation<OWLClassExpression, Collection<OWLClassExpression>> function = Aggregation
+            .buildClassExpressionUnion(operands, getOntologyManager().getOWLDataFactory());
         GeneratedVariable<OWLClassExpression> toReturn =
             type.accept(new VariableTypeVisitorEx<GeneratedVariable<OWLClassExpression>>() {
 

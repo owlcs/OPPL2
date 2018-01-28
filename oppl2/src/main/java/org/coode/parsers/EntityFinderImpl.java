@@ -147,36 +147,34 @@ public class EntityFinderImpl implements EntityFinder {
      */
     private <T extends OWLEntity> Set<T> doWildcardSearch(String _match, Class<T> type) {
         String match = _match;
-        Set<T> results = new HashSet<>();
         if (match.equals(WILDCARD)) {
-            results = this.getAllEntities(type);
-        } else {
-            SimpleWildCardMatcher matcher;
-            if (match.startsWith(WILDCARD)) {
-                if (match.length() > 1 && match.endsWith(WILDCARD)) {
-                    // Contains
-                    matcher = (rendering, s) -> rendering.indexOf(s) != -1;
-                    match = match.substring(1, match.length() - 1);
-                } else {
-                    // Ends with
-                    matcher = (rendering, s) -> rendering.indexOf(s) != -1;
-                    match = match.substring(1, match.length());
-                }
+            return this.getAllEntities(type);
+        }
+        Set<T> results = new HashSet<>();
+        SimpleWildCardMatcher matcher;
+        if (match.startsWith(WILDCARD)) {
+            if (match.length() > 1 && match.endsWith(WILDCARD)) {
+                // Contains
+                matcher = (rendering, s) -> rendering.indexOf(s) != -1;
+                match = match.substring(1, match.length() - 1);
             } else {
-                // Starts with
-                if (match.endsWith(WILDCARD) && match.length() > 1) {
-                    match = match.substring(0, match.length() - 1);
-                }
-                // @@TODO handle matches exactly?
-                matcher =
-                    (rendering, s) -> rendering.startsWith(s) || rendering.startsWith("'" + s);
+                // Ends with
+                matcher = (rendering, s) -> rendering.indexOf(s) != -1;
+                match = match.substring(1, match.length());
             }
-            if (match.trim().length() != 0) {
-                match = match.toLowerCase();
-                for (String rendering : this.getRenderings(type)) {
-                    if (rendering.length() > 0 && matcher.matches(rendering.toLowerCase(), match)) {
-                        results.add(this.getEntity(rendering, type));
-                    }
+        } else {
+            // Starts with
+            if (match.endsWith(WILDCARD) && match.length() > 1) {
+                match = match.substring(0, match.length() - 1);
+            }
+            // @@TODO handle matches exactly?
+            matcher = (rendering, s) -> rendering.startsWith(s) || rendering.startsWith("'" + s);
+        }
+        if (match.trim().length() != 0) {
+            match = match.toLowerCase();
+            for (String rendering : this.getRenderings(type)) {
+                if (rendering.length() > 0 && matcher.matches(rendering.toLowerCase(), match)) {
+                    results.add(this.getEntity(rendering, type));
                 }
             }
         }

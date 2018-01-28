@@ -11,15 +11,13 @@ import org.semanticweb.owlapi.model.OWLObject;
 
 /**
  * @author Luigi Iannone
- * @param <O>
- *        type
+ * @param <O> type
  */
-public class ValuesVariableAtttribute<O extends OWLObject> extends
-    VariableAttribute<Collection<? extends O>> {
+public class ValuesVariableAtttribute<O extends OWLObject>
+    extends VariableAttribute<Collection<O>> {
 
     /**
-     * @param variable
-     *        variable
+     * @param variable variable
      */
     public ValuesVariableAtttribute(Variable<O> variable) {
         super(variable, AttributeName.VALUES);
@@ -36,14 +34,13 @@ public class ValuesVariableAtttribute<O extends OWLObject> extends
     }
 
     @Override
-    public ValueComputation<Collection<? extends O>> getValueComputation(
+    public ValueComputation<Collection<O>> getValueComputation(
         final ValueComputationParameters parameters) {
-        ValueComputation<Collection<? extends O>> valueComputation = new ValueComputation<Collection<? extends O>>() {
+        return new ValueComputation<Collection<O>>() {
 
             @SuppressWarnings("unchecked")
             @Override
-            public Collection<? extends O> compute(
-                OPPLFunction<? extends Collection<? extends O>> opplFunction) {
+            public Collection<O> compute(OPPLFunction<? extends Collection<O>> opplFunction) {
                 ConstraintSystem constraintSystem = parameters.getConstraintSystem();
                 Set<BindingNode> leaves = constraintSystem.getLeaves();
                 Set<O> toReturn = null;
@@ -52,9 +49,8 @@ public class ValuesVariableAtttribute<O extends OWLObject> extends
                     for (BindingNode bindingNode : leaves) {
                         OWLObject assignmentValue = bindingNode.getAssignmentValue(
                             ValuesVariableAtttribute.this.getVariable(),
-                            new SimpleValueComputationParameters(parameters
-                                .getConstraintSystem(), bindingNode, parameters
-                                    .getRuntimeExceptionHandler()));
+                            new SimpleValueComputationParameters(parameters.getConstraintSystem(),
+                                bindingNode, parameters.getRuntimeExceptionHandler()));
                         if (assignmentValue != null) {
                             toReturn.add((O) assignmentValue);
                         }
@@ -63,18 +59,15 @@ public class ValuesVariableAtttribute<O extends OWLObject> extends
                 return toReturn;
             }
         };
-        return valueComputation;
     }
 
     /**
-     * @param v
-     *        v
-     * @param
-     *        <P>
-     *        atribute type
+     * @param v v
+     * @param <P> atribute type
      * @return new value variable attribute
      */
-    public static <P extends OWLObject> ValuesVariableAtttribute<P> getValuesVariableAtttribute(Variable<P> v) {
+    public static <P extends OWLObject> ValuesVariableAtttribute<P> getValuesVariableAtttribute(
+        Variable<P> v) {
         return new ValuesVariableAtttribute<>(v);
     }
 }

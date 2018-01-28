@@ -1,6 +1,7 @@
 package org.coode.oppl.function;
 
 import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+import static org.semanticweb.owlapi.util.OWLAPIStreamUtils.asSet;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -9,6 +10,7 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
+import java.util.stream.Stream;
 
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.function.inline.InlineSet;
@@ -48,13 +50,10 @@ public class Adapter {
      * @param <O> aggregate type
      * @return aggregandum set
      */
-    public static <O extends OWLObject> Set<Aggregandum<Collection<? extends O>>> buildOWLObjectCollectionAdapter(
+    public static <O extends OWLObject> Set<Aggregandum<Collection<O>>> buildOWLObjectCollectionAdapter(
         Collection<? extends O> collection) {
-        Set<Aggregandum<Collection<? extends O>>> toReturn = new HashSet<>();
-        for (O o : checkNotNull(collection, "collection")) {
-            toReturn.add(buildAggregandumOfCollection(o));
-        }
-        return toReturn;
+        checkNotNull(collection, "collection");
+        return asSet(collection.stream().map(Adapter::buildAggregandumOfCollection));
     }
 
     /**
@@ -69,6 +68,11 @@ public class Adapter {
             @Override
             public Set<OPPLFunction<I>> getOPPLFunctions() {
                 return Collections.<OPPLFunction<I>>singleton(singleton);
+            }
+
+            @Override
+            public Stream<OPPLFunction<I>> opplFunctions() {
+                return Stream.of(singleton);
             }
 
             @Override
@@ -93,44 +97,47 @@ public class Adapter {
      * @param <I> aggregate type
      * @return aggregandum of collection
      */
-    public static <I> Aggregandum<Collection<? extends I>> buildAggregandumOfCollection(
-        I singleton) {
+    public static <I> Aggregandum<Collection<I>> buildAggregandumOfCollection(I singleton) {
         checkNotNull(singleton, "singleton");
         final OPPLFunction<I> adapted = buildObjectAdater(singleton);
-        return new Aggregandum<Collection<? extends I>>() {
+        OPPLFunction<Collection<I>> s = new OPPLFunction<Collection<I>>() {
 
             @Override
-            public Set<OPPLFunction<Collection<? extends I>>> getOPPLFunctions() {
-                OPPLFunction<Collection<? extends I>> s =
-                    new OPPLFunction<Collection<? extends I>>() {
+            public Collection<I> compute(ValueComputationParameters params) {
+                I value = adapted.compute(params);
+                return Collections.singleton(value);
+            }
 
-                        @Override
-                        public Collection<? extends I> compute(ValueComputationParameters params) {
-                            I value = adapted.compute(params);
-                            return Collections.singleton(value);
-                        }
+            @Override
+            public <P> P accept(OPPLFunctionVisitorEx<P> visitor) {
+                return adapted.accept(visitor);
+            }
 
-                        @Override
-                        public <P> P accept(OPPLFunctionVisitorEx<P> visitor) {
-                            return adapted.accept(visitor);
-                        }
+            @Override
+            public void accept(OPPLFunctionVisitor visitor) {
+                adapted.accept(visitor);
+            }
 
-                        @Override
-                        public void accept(OPPLFunctionVisitor visitor) {
-                            adapted.accept(visitor);
-                        }
+            @Override
+            public String render(ConstraintSystem constraintSystem) {
+                return adapted.render(constraintSystem);
+            }
 
-                        @Override
-                        public String render(ConstraintSystem constraintSystem) {
-                            return adapted.render(constraintSystem);
-                        }
+            @Override
+            public String render(ShortFormProvider shortFormProvider) {
+                return adapted.render(shortFormProvider);
+            }
+        };
+        return new Aggregandum<Collection<I>>() {
 
-                        @Override
-                        public String render(ShortFormProvider shortFormProvider) {
-                            return adapted.render(shortFormProvider);
-                        }
-                    };
+            @Override
+            public Set<OPPLFunction<Collection<I>>> getOPPLFunctions() {
                 return Collections.singleton(s);
+            }
+
+            @Override
+            public Stream<OPPLFunction<Collection<I>>> opplFunctions() {
+                return Stream.of(s);
             }
 
             @Override
@@ -156,12 +163,17 @@ public class Adapter {
      * @return aggregandum of collection
      */
     public static <I> Aggregandum<I> buildAggregandumCollection(
-        final Collection<? extends OPPLFunction<I>> collection) {
+        final Collection<OPPLFunction<I>> collection) {
         return new Aggregandum<I>() {
 
             @Override
             public Set<OPPLFunction<I>> getOPPLFunctions() {
                 return new HashSet<>(collection);
+            }
+
+            @Override
+            public Stream<OPPLFunction<I>> opplFunctions() {
+                return collection.stream();
             }
 
             @Override
@@ -243,7 +255,7 @@ public class Adapter {
                 @Override
                 public <O extends OWLObject> Boolean visitInlineSet(InlineSet<O> inlineSet) {
                     boolean toReturn = true;
-                    for (Aggregandum<Collection<? extends O>> t : inlineSet.getAggregandums()) {
+                    for (Aggregandum<Collection<O>> t : inlineSet.getAggregandums()) {
                         toReturn |= Adapter.isCompatible(t, type);
                     }
                     return Boolean.valueOf(toReturn);

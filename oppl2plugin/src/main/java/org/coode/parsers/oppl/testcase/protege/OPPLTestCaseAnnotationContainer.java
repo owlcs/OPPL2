@@ -1,8 +1,8 @@
 package org.coode.parsers.oppl.testcase.protege;
 
 import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+import static org.semanticweb.owlapi.util.OWLAPIStreamUtils.asSet;
 
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -29,22 +29,19 @@ public class OPPLTestCaseAnnotationContainer implements AnnotationContainer {
     protected final OPPLTestCaseParser parser;
 
     /**
-     * @param owlEditorKit
-     *        owlEditorKit
+     * @param owlEditorKit owlEditorKit
      */
     public OPPLTestCaseAnnotationContainer(OWLEditorKit owlEditorKit) {
         this.owlEditorKit = checkNotNull(owlEditorKit, "owlEditorKit");
-        testCaseAnnotationProperty = Preferences
-            .getTestCaseAnnotationProperty(getOWLEditorKit().getOWLModelManager()
-                .getOWLDataFactory());
+        testCaseAnnotationProperty = Preferences.getTestCaseAnnotationProperty(
+            getOWLEditorKit().getOWLModelManager().getOWLDataFactory());
         ProtegeParserFactory parserFactory = new ProtegeParserFactory(getOWLEditorKit());
         parser = parserFactory.build(new SystemErrorEcho());
     }
 
     @Override
     public Set<OWLAnnotation> getAnnotations() {
-        OWLOntology activeOntology = getOWLEditorKit().getOWLModelManager()
-            .getActiveOntology();
+        OWLOntology activeOntology = getOWLEditorKit().getOWLModelManager().getActiveOntology();
         Set<OWLAnnotation> toReturn = activeOntology.getAnnotations();
         Iterator<OWLAnnotation> iterator = toReturn.iterator();
         while (iterator.hasNext()) {
@@ -58,8 +55,7 @@ public class OPPLTestCaseAnnotationContainer implements AnnotationContainer {
     }
 
     /**
-     * @param annotation
-     *        annotation
+     * @param annotation annotation
      * @return test case
      */
     public OPPLTestCase getOPPLTestCase(OWLAnnotation annotation) {
@@ -72,9 +68,8 @@ public class OPPLTestCaseAnnotationContainer implements AnnotationContainer {
                 public OPPLTestCase visit(OWLLiteral literal) {
                     String input = literal.getLiteral();
                     OPPLTestCase parsed = parser.parse(input,
-                        new ShowMessageRuntimeExceptionHandler(
-                            OPPLTestCaseAnnotationContainer.this
-                                .getOWLEditorKit().getOWLWorkspace()));
+                        new ShowMessageRuntimeExceptionHandler(OPPLTestCaseAnnotationContainer.this
+                            .getOWLEditorKit().getOWLWorkspace()));
                     return parsed;
                 }
             });
@@ -86,12 +81,7 @@ public class OPPLTestCaseAnnotationContainer implements AnnotationContainer {
      * @return test cases
      */
     public Set<OPPLTestCase> getOPPLTestCases() {
-        Set<OWLAnnotation> annotations = getAnnotations();
-        Set<OPPLTestCase> toReturn = new HashSet<>(annotations.size());
-        for (OWLAnnotation owlAnnotation : annotations) {
-            toReturn.add(getOPPLTestCase(owlAnnotation));
-        }
-        return toReturn;
+        return asSet(getAnnotations().stream().map(this::getOPPLTestCase));
     }
 
     /**

@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -65,6 +64,21 @@ import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
  */
 public abstract class AbstractSolvabilityOPPLOWLAxiomSearchTree
     extends SearchTree<SolvabilitySearchNode> {
+
+    class ScopeChecker extends AbstractVariableVisitorExAdapter<Boolean> {
+        private final OWLObject owlObject;
+
+        ScopeChecker(Boolean defaultValue, OWLObject owlObject) {
+            super(defaultValue);
+            this.owlObject = owlObject;
+        }
+
+        @Override
+        public <P extends OWLObject> Boolean visit(InputVariable<P> v) {
+            VariableScope<?> variableScope = v.getVariableScope();
+            return Boolean.valueOf(variableScope == null || variableScope.check(owlObject));
+        }
+    }
 
     /** test */
     private final class ConstantCollector implements OWLAxiomVisitor {
@@ -322,9 +336,7 @@ public abstract class AbstractSolvabilityOPPLOWLAxiomSearchTree
         ValueComputationParameters parameters = new SimpleValueComputationParameters(
             getConstraintSystem(), node.getBinding(), getRuntimeExceptionHandler());
         for (Variable<?> variable : variables) {
-            Set<OWLObject> values = new HashSet<>();
-            values.addAll(getAssignableValues(variable, parameters));
-            for (OWLObject value : values) {
+            for (OWLObject value : getAssignableValues(variable, parameters)) {
                 Assignment assignment = new Assignment(variable, value);
                 BindingNode childBinding = new BindingNode(binding);
                 childBinding.addAssignment(assignment);
@@ -343,31 +355,14 @@ public abstract class AbstractSolvabilityOPPLOWLAxiomSearchTree
 
     private Collection<? extends OWLObject> getAssignableValues(Variable<?> variable,
         ValueComputationParameters parameters) {
-        Set<OWLObject> toReturn = new HashSet<>();
-        toReturn.addAll(
-            variable.accept(new AssignableValueExtractor(assignableValuesVisitor, parameters)));
-        Iterator<OWLObject> iterator = toReturn.iterator();
-        while (iterator.hasNext()) {
-            final OWLObject owlObject = iterator.next();
-            try {
-                boolean inScope =
-                    variable.accept(new AbstractVariableVisitorExAdapter<Boolean>(Boolean.TRUE) {
-
-                        @Override
-                        public <P extends OWLObject> Boolean visit(InputVariable<P> v) {
-                            VariableScope<?> variableScope = v.getVariableScope();
-                            return Boolean
-                                .valueOf(variableScope == null || variableScope.check(owlObject));
-                        }
-                    }).booleanValue();
-                if (!inScope) {
-                    iterator.remove();
-                }
-            } catch (OWLRuntimeException e) {
-                getRuntimeExceptionHandler().handleOWLRuntimeException(e);
-            }
+        try {
+            return asSet(variable
+                .accept(new AssignableValueExtractor(assignableValuesVisitor, parameters)).stream()
+                .filter(o -> variable.accept(new ScopeChecker(Boolean.TRUE, o)).booleanValue()));
+        } catch (OWLRuntimeException e) {
+            getRuntimeExceptionHandler().handleOWLRuntimeException(e);
+            return Collections.emptyList();
         }
-        return toReturn;
     }
 
     private void initAssignableValues() {
@@ -423,14 +418,7 @@ public abstract class AbstractSolvabilityOPPLOWLAxiomSearchTree
     public boolean exhaustiveSearchTree(SolvabilitySearchNode start,
         List<List<SolvabilitySearchNode>> solutions) {
         initAssignableValues();
-        boolean found = super.exhaustiveSearchTree(start, solutions);
-        Set<BindingNode> newLeaves = new HashSet<>();
-        for (List<SolvabilitySearchNode> path : solutions) {
-            SolvabilitySearchNode leafSerachNode = path.get(path.size() - 1);
-            BindingNode newLeaf = leafSerachNode.getBinding();
-            newLeaves.add(newLeaf);
-        }
-        return found;
+        return super.exhaustiveSearchTree(start, solutions);
     }
 
     protected abstract AxiomSolvability getAxiomSolvability();

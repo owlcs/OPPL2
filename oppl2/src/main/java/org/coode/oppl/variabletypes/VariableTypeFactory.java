@@ -1,5 +1,14 @@
 package org.coode.oppl.variabletypes;
 
+import static org.coode.oppl.variabletypes.VariableTypeName.ANNOTATIONPROPERTY;
+import static org.coode.oppl.variabletypes.VariableTypeName.CLASS;
+import static org.coode.oppl.variabletypes.VariableTypeName.CONSTANT;
+import static org.coode.oppl.variabletypes.VariableTypeName.DATAPROPERTY;
+import static org.coode.oppl.variabletypes.VariableTypeName.INDIVIDUAL;
+import static org.coode.oppl.variabletypes.VariableTypeName.OBJECTPROPERTY;
+import static org.coode.oppl.variabletypes.VariableTypeName.getVariableTypeName;
+
+import java.util.Collections;
 import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.Set;
@@ -41,21 +50,19 @@ import org.semanticweb.owlapi.model.OWLObjectVisitorEx;
  */
 public class VariableTypeFactory {
 
-    private static final EnumMap<VariableTypeName, VariableType<?>> typesCache =
-        new EnumMap<>(VariableTypeName.class);
+    private static final EnumMap<VariableTypeName, VariableType<?>> typesCache = cache();
+    private static final Set<VariableType<?>> allTypes =
+        Collections.unmodifiableSet(new HashSet<>(typesCache.values()));
 
-    static {
-        typesCache.put(VariableTypeName.CLASS, new CLASSVariableType(VariableTypeName.CLASS));
-        typesCache.put(VariableTypeName.OBJECTPROPERTY,
-            new OBJECTPROPERTYVariableType(VariableTypeName.OBJECTPROPERTY));
-        typesCache.put(VariableTypeName.DATAPROPERTY,
-            new DATAPROPERTYVariableType(VariableTypeName.DATAPROPERTY));
-        typesCache.put(VariableTypeName.ANNOTATIONPROPERTY,
-            new ANNOTATIONPROPERTYVariableType(VariableTypeName.ANNOTATIONPROPERTY));
-        typesCache.put(VariableTypeName.INDIVIDUAL,
-            new INDIVIDUALVariableType(VariableTypeName.INDIVIDUAL));
-        typesCache.put(VariableTypeName.CONSTANT,
-            new CONSTANTVariableType(VariableTypeName.CONSTANT));
+    static EnumMap<VariableTypeName, VariableType<?>> cache() {
+        EnumMap<VariableTypeName, VariableType<?>> map = new EnumMap<>(VariableTypeName.class);
+        map.put(CLASS, new CLASSVariableType(CLASS));
+        map.put(OBJECTPROPERTY, new OBJECTPROPERTYVariableType(OBJECTPROPERTY));
+        map.put(DATAPROPERTY, new DATAPROPERTYVariableType(DATAPROPERTY));
+        map.put(ANNOTATIONPROPERTY, new ANNOTATIONPROPERTYVariableType(ANNOTATIONPROPERTY));
+        map.put(INDIVIDUAL, new INDIVIDUALVariableType(INDIVIDUAL));
+        map.put(CONSTANT, new CONSTANTVariableType(CONSTANT));
+        return map;
     }
 
     /**
@@ -64,10 +71,6 @@ public class VariableTypeFactory {
      */
     public static VariableType<?> getVariableType(OWLObject owlObject) {
         return owlObject.accept(new OWLObjectVisitorEx<VariableType<?>>() {
-            @Override
-            public <T> VariableType<?> doDefault(T object) {
-                return null;
-            }
 
             @Override
             public VariableType<OWLClassExpression> visit(OWLClass ce) {
@@ -201,7 +204,7 @@ public class VariableTypeFactory {
      */
     @SuppressWarnings("unchecked")
     public static VariableType<OWLClassExpression> getCLASSVariableType() {
-        return (VariableType<OWLClassExpression>) getVariableType(VariableTypeName.CLASS);
+        return (VariableType<OWLClassExpression>) getVariableType(CLASS);
     }
 
     /**
@@ -209,8 +212,7 @@ public class VariableTypeFactory {
      */
     @SuppressWarnings("unchecked")
     public static VariableType<OWLObjectPropertyExpression> getOBJECTPROPERTYTypeVariableType() {
-        return (VariableType<OWLObjectPropertyExpression>) getVariableType(
-            VariableTypeName.OBJECTPROPERTY);
+        return (VariableType<OWLObjectPropertyExpression>) getVariableType(OBJECTPROPERTY);
     }
 
     /**
@@ -218,8 +220,7 @@ public class VariableTypeFactory {
      */
     @SuppressWarnings("unchecked")
     public static VariableType<OWLDataPropertyExpression> getDATAPROPERTYVariableType() {
-        return (VariableType<OWLDataPropertyExpression>) getVariableType(
-            VariableTypeName.DATAPROPERTY);
+        return (VariableType<OWLDataPropertyExpression>) getVariableType(DATAPROPERTY);
     }
 
     /**
@@ -227,8 +228,7 @@ public class VariableTypeFactory {
      */
     @SuppressWarnings("unchecked")
     public static VariableType<OWLAnnotationProperty> getANNOTATIONPROPERTYVariableType() {
-        return (VariableType<OWLAnnotationProperty>) getVariableType(
-            VariableTypeName.ANNOTATIONPROPERTY);
+        return (VariableType<OWLAnnotationProperty>) getVariableType(ANNOTATIONPROPERTY);
     }
 
     /**
@@ -236,7 +236,7 @@ public class VariableTypeFactory {
      */
     @SuppressWarnings("unchecked")
     public static VariableType<OWLIndividual> getINDIVIDUALVariableType() {
-        return (VariableType<OWLIndividual>) getVariableType(VariableTypeName.INDIVIDUAL);
+        return (VariableType<OWLIndividual>) getVariableType(INDIVIDUAL);
     }
 
     /**
@@ -244,7 +244,7 @@ public class VariableTypeFactory {
      */
     @SuppressWarnings("unchecked")
     public static VariableType<OWLLiteral> getCONSTANTVariableType() {
-        return (VariableType<OWLLiteral>) getVariableType(VariableTypeName.CONSTANT);
+        return (VariableType<OWLLiteral>) getVariableType(CONSTANT);
     }
 
     /**
@@ -260,20 +260,13 @@ public class VariableTypeFactory {
      * @return variable type
      */
     public static VariableType<?> getVariableType(String variableTypeName) {
-        return getVariableType(VariableTypeName.getVariableTypeName(variableTypeName));
+        return getVariableType(getVariableTypeName(variableTypeName));
     }
 
     /**
      * @return set of variable type
      */
     public static Set<VariableType<?>> getAllVariableTypes() {
-        Set<VariableType<?>> toReturn = new HashSet<>();
-        toReturn.add(getANNOTATIONPROPERTYVariableType());
-        toReturn.add(getCONSTANTVariableType());
-        toReturn.add(getDATAPROPERTYVariableType());
-        toReturn.add(getOBJECTPROPERTYTypeVariableType());
-        toReturn.add(getCLASSVariableType());
-        toReturn.add(getINDIVIDUALVariableType());
-        return toReturn;
+        return allTypes;
     }
 }

@@ -140,7 +140,7 @@ public class OPPLFunctionTest {
         OWLClass d = dataFactory.getOWLClass(IRI.create("blah#d"));
         BindingNode anotherBindingNode =
             new BindingNode(new Assignment(x, c), new Assignment(y, d));
-        constraintSystem.setLeaves(new HashSet<>(Arrays.asList(aBindingNode, anotherBindingNode)));
+        constraintSystem.setLeaves(Arrays.asList(aBindingNode, anotherBindingNode));
         ValueComputationParameters parameters =
             new SimpleValueComputationParameters(constraintSystem, bindingNode, HANDLER);
         Collection<? extends OWLClassExpression> values =
@@ -163,7 +163,7 @@ public class OPPLFunctionTest {
         OWLClass b = manager.getOWLDataFactory().getOWLClass(IRI.create("blah#b"));
         BindingNode aBindingNode = new BindingNode(new Assignment(x, a));
         BindingNode anotherBindingNode = new BindingNode(new Assignment(x, b));
-        constraintSystem.setLeaves(new HashSet<>(Arrays.asList(aBindingNode, anotherBindingNode)));
+        constraintSystem.setLeaves(Arrays.asList(aBindingNode, anotherBindingNode));
         ValueComputationParameters parameters =
             new SimpleValueComputationParameters(constraintSystem, bindingNode, HANDLER);
         Collection<? extends OWLClassExpression> values =
@@ -236,7 +236,7 @@ public class OPPLFunctionTest {
         ConstraintSystem constraintSystem = factory.createConstraintSystem();
         OWLClassExpression a = manager.getOWLDataFactory().getOWLClass(IRI.create("blah#monica"));
         OWLClass b = manager.getOWLDataFactory().getOWLClass(IRI.create("blah#luigi"));
-        Aggregation<OWLClassExpression, Collection<? extends OWLClassExpression>> classExpressionIntersection =
+        Aggregation<OWLClassExpression, Collection<OWLClassExpression>> classExpressionIntersection =
             Aggregation.buildClassExpressionIntersection(
                 Adapter.buildOWLObjectCollectionAdapter(Arrays.asList(a, b)),
                 manager.getOWLDataFactory());
@@ -250,7 +250,7 @@ public class OPPLFunctionTest {
             constraintSystem.createVariable("?x", VariableTypeFactory.getCLASSVariableType(), null);
         BindingNode aBindingNode = new BindingNode(new Assignment(x, a));
         BindingNode anotherBindingNode = new BindingNode(new Assignment(x, b));
-        constraintSystem.setLeaves(new HashSet<>(Arrays.asList(aBindingNode, anotherBindingNode)));
+        constraintSystem.setLeaves(Arrays.asList(aBindingNode, anotherBindingNode));
         ValuesVariableAtttribute<OWLClassExpression> valuesVariableAtttribute =
             new ValuesVariableAtttribute<>(x);
         Collection<? extends OWLClassExpression> values =
@@ -278,7 +278,7 @@ public class OPPLFunctionTest {
         ConstraintSystem constraintSystem = factory.createConstraintSystem();
         OWLClassExpression a = manager.getOWLDataFactory().getOWLClass(IRI.create("blah#monica"));
         OWLClass b = manager.getOWLDataFactory().getOWLClass(IRI.create("blah#luigi"));
-        Aggregation<OWLClassExpression, Collection<? extends OWLClassExpression>> classExpressionIntersection =
+        Aggregation<OWLClassExpression, Collection<OWLClassExpression>> classExpressionIntersection =
             Aggregation.buildClassExpressionUnion(
                 Adapter.buildOWLObjectCollectionAdapter(Arrays.asList(a, b)),
                 manager.getOWLDataFactory());
@@ -357,10 +357,10 @@ public class OPPLFunctionTest {
         BindingNode anotherBindingNode = BindingNode.createNewEmptyBindingNode();
         anotherBindingNode
             .addAssignment(new Assignment(x, dataFactory.getOWLClass(IRI.create("Blah#Monica"))));
-        constraintSystem.setLeaves(new HashSet<>(Arrays.asList(aBindingNode, anotherBindingNode)));
+        constraintSystem.setLeaves(Arrays.asList(aBindingNode, anotherBindingNode));
         ValuesVariableAtttribute<OWLClassExpression> valuesVariableAtttribute =
             ValuesVariableAtttribute.getValuesVariableAtttribute(x);
-        Aggregandum<Collection<? extends OWLClassExpression>> aggregandum =
+        Aggregandum<Collection<OWLClassExpression>> aggregandum =
             Adapter.buildAggregandumCollection(Collections.singleton(valuesVariableAtttribute));
         OWLAxiom axiom = dataFactory
             .getOWLDisjointClassesAxiom(new InlineSet<>(VariableTypeFactory.getCLASSVariableType(),

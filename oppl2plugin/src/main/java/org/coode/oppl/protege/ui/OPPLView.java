@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Stream;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoundedRangeModel;
@@ -178,9 +179,18 @@ public final class OPPLView extends AbstractOWLViewComponent
 
         /**
          * @return the bindingNodes
+         * @deprecated use stream version
          */
+        @Deprecated
         public Set<BindingNode> getBindingNodes() {
             return new HashSet<>(bindingNodes);
+        }
+
+        /**
+         * @return the bindingNodes
+         */
+        public Stream<BindingNode> bindingNodes() {
+            return bindingNodes.stream();
         }
     }
 
@@ -486,7 +496,7 @@ public final class OPPLView extends AbstractOWLViewComponent
                 InstantiationTableModel instantiationTableModel =
                     (InstantiationTableModel) bindingTable.getModel();
                 int[] selectedRows = bindingTable.getSelectedRows();
-                Set<BindingNode> bindingNodes = new HashSet<>(selectedRows.length);
+                List<BindingNode> bindingNodes = new ArrayList<>();
                 for (int i : selectedRows) {
                     bindingNodes.add(instantiationTableModel.getLeaves().get(i));
                 }

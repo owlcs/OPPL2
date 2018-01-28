@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import org.coode.oppl.bindingtree.BindingNode;
 import org.semanticweb.owlapi.model.OWLAxiom;
@@ -71,8 +72,17 @@ public class MultipleAxiomSolvability implements AxiomSolvability {
 
     /**
      * @return the delegates
+     * @deprecated use stream version
      */
+    @Deprecated
     public Set<AxiomSolvability> getDelegates() {
         return new HashSet<>(delegates);
+    }
+
+    /**
+     * @return the delegates
+     */
+    public Stream<AxiomSolvability> delegates() {
+        return delegates.stream();
     }
 }

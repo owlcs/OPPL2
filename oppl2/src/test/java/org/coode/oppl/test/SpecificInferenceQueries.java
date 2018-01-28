@@ -145,14 +145,10 @@ public class SpecificInferenceQueries {
             for (Variable<?> variable : assignedVariables) {
                 String name = variable.getName();
                 if (name.compareTo(xVariableName) == 0 || name.compareTo(yVariableName) == 0) {
-                    Set<OWLObject> set = assignments.get(name);
-                    if (set == null) {
-                        set = new HashSet<>();
-                        assignments.put(name, set);
-                    }
-                    set.add(bindingNode.getAssignmentValue(variable,
-                        new SimpleValueComputationParameters(opplScript.getConstraintSystem(),
-                            bindingNode, HANDLER)));
+                    assignments.computeIfAbsent(name, x -> new HashSet<>())
+                        .add(bindingNode.getAssignmentValue(variable,
+                            new SimpleValueComputationParameters(opplScript.getConstraintSystem(),
+                                bindingNode, HANDLER)));
                 }
             }
         }

@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 import org.coode.oppl.Variable;
 import org.coode.oppl.bindingtree.BindingNode;
@@ -299,9 +300,18 @@ public class LocalityChecker {
 
     /**
      * @return the entities
+     * @deprecated use the stream version
      */
+    @Deprecated
     public Set<OWLEntity> getEntities() {
         return new HashSet<>(entities);
+    }
+
+    /**
+     * @return the entities
+     */
+    public Stream<OWLEntity> entities() {
+        return entities.stream();
     }
 
     /**
@@ -315,22 +325,14 @@ public class LocalityChecker {
      * @return sigma minus
      */
     public Set<OWLEntity> getSigmaMinus() {
-        Set<OWLEntity> externalSigmaValues = new HashSet<>();
-        for (SigmaPlusSigmaMinus s : sigmaValues.values()) {
-            externalSigmaValues.add(s.getMinus());
-        }
-        return externalSigmaValues;
+        return asSet(sigmaValues.values().stream().map(SigmaPlusSigmaMinus::getMinus));
     }
 
     /**
      * @return sigma plus
      */
     public Set<OWLEntity> getSigmaPlus() {
-        Set<OWLEntity> externalSigmaValues = new HashSet<>();
-        for (SigmaPlusSigmaMinus s : sigmaValues.values()) {
-            externalSigmaValues.add(s.getPlus());
-        }
-        return externalSigmaValues;
+        return asSet(sigmaValues.values().stream().map(SigmaPlusSigmaMinus::getPlus));
     }
 
     /**

@@ -1,10 +1,9 @@
 package org.coode.oppl.queryplanner;
 
 import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+import static org.semanticweb.owlapi.util.OWLAPIStreamUtils.asSet;
 
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 import org.coode.oppl.AbstractConstraint;
@@ -36,22 +35,13 @@ public class ConstraintQueryPlannerItem extends AbstractQueryPlannerItem {
     @Override
     public Set<BindingNode> match(Collection<? extends BindingNode> currentLeaves,
         ExecutionMonitor executionMonitor, RuntimeExceptionHandler runtimeExceptionHandler) {
-        Set<BindingNode> toReturn = new HashSet<>(currentLeaves.size());
-        Iterator<? extends BindingNode> it = currentLeaves.iterator();
-        BindingNode leaf;
-        while (!executionMonitor.isCancelled() && it.hasNext()) {
-            leaf = it.next();
-            boolean holdingLeaf =
-                checkConstraint(leaf, getConstraint(), runtimeExceptionHandler).booleanValue();
-            if (!holdingLeaf) {
-                it.remove();
-            }
-        }
+        Set<BindingNode> toReturn = asSet(
+            currentLeaves.stream().filter(leaf -> !executionMonitor.isCancelled()
+                && checkConstraint(leaf, getConstraint(), runtimeExceptionHandler).booleanValue()),
+            BindingNode.class);
         if (executionMonitor.isCancelled()) {
-            toReturn = null;
-        }
-        if (toReturn != null) {
-            toReturn.addAll(currentLeaves);
+            // XXX should return empty?
+            return null;
         }
         return toReturn;
     }
