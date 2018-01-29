@@ -94,8 +94,7 @@ public class OPPLScriptImpl implements OPPLScript {
 
     @Override
     public List<InputVariable<?>> getInputVariables() {
-        List<InputVariable<?>> toReturn = new ArrayList<>(
-            variables.size());
+        List<InputVariable<?>> toReturn = new ArrayList<>(variables.size());
         for (Variable<?> v : variables) {
             if (VariableRecogniser.INPUT_VARIABLE_RECOGNISER.recognise(v)) {
                 toReturn.add((InputVariable<?>) v);
@@ -147,7 +146,7 @@ public class OPPLScriptImpl implements OPPLScript {
 
     @Override
     public String toString() {
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         boolean first = true;
         for (Variable<?> v : variables) {
             String commaString = first ? "" : ", ";
@@ -162,13 +161,13 @@ public class OPPLScriptImpl implements OPPLScript {
         if (query != null) {
             buffer.append(opplQuery.toString());
         }
-        if (getActions().size() > 0) {
+        if (!getActions().isEmpty()) {
             buffer.append(" BEGIN ");
             first = true;
             for (OWLAxiomChange action : getActions()) {
                 String commaString = first ? "" : ", ";
-                ManchesterSyntaxRenderer renderer = factory
-                    .getManchesterSyntaxRenderer(constraintSystem);
+                ManchesterSyntaxRenderer renderer =
+                    factory.getManchesterSyntaxRenderer(constraintSystem);
                 String actionString = action.isAddAxiom() ? "ADD " : "REMOVE ";
                 first = false;
                 buffer.append(commaString);
@@ -193,7 +192,7 @@ public class OPPLScriptImpl implements OPPLScript {
 
     @Override
     public String render(ShortFormProvider shortFormProvider) {
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         boolean first = true;
         for (Variable<?> v : variables) {
             String commaString = first ? "" : ", ";
@@ -208,13 +207,12 @@ public class OPPLScriptImpl implements OPPLScript {
         if (query != null) {
             buffer.append(opplQuery.render(shortFormProvider));
         }
-        if (getActions().size() > 0) {
+        if (!getActions().isEmpty()) {
             buffer.append(" BEGIN ");
             first = true;
             for (OWLAxiomChange action : getActions()) {
                 String commaString = first ? "" : ", ";
-                ManchesterSyntaxRenderer renderer = new ManchesterSyntaxRenderer(
-                    shortFormProvider);
+                ManchesterSyntaxRenderer renderer = new ManchesterSyntaxRenderer(shortFormProvider);
                 String actionString = action.isAddAxiom() ? "ADD " : "REMOVE ";
                 first = false;
                 buffer.append(commaString);

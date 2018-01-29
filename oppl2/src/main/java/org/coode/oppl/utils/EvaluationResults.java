@@ -8,7 +8,6 @@ import java.util.List;
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.OPPLScript;
 import org.coode.oppl.bindingtree.Assignment;
-import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.semanticweb.owlapi.model.AddAxiom;
 import org.semanticweb.owlapi.model.AddImport;
@@ -111,17 +110,10 @@ public class EvaluationResults {
         StringBuilder out = new StringBuilder();
         out.append(String.format("Script: %s \n Bindings ", getOpplScript()));
         ConstraintSystem cs = getOpplScript().getConstraintSystem();
-        if (cs.getLeaves() != null) {
-            out.append(String.format(" count %d \n", Integer.valueOf(cs.getLeaves().size())));
-            for (BindingNode bindingNode : cs.getLeaves()) {
-                for (Assignment assignment : bindingNode.getAssignments()) {
-                    ManchesterSyntaxRenderer renderer =
-                        cs.getOPPLFactory().getManchesterSyntaxRenderer(cs);
-                    assignment.getAssignment().accept(renderer);
-                    out.append(
-                        String.format("%s = %s\n", assignment.getAssignedVariable(), renderer));
-                }
-            }
+        if (cs.leavesCount() > 0) {
+            out.append(String.format(" count %d \n", Integer.valueOf(cs.leavesCount())));
+            cs.leaves().forEach(b -> b.getAssignments().forEach(a -> out
+                .append(String.format("%s = %s\n", a.getAssignedVariable(), render(cs, a)))));
             out.append("\n");
         } else {
             out.append(" (none) \n");
@@ -133,5 +125,11 @@ public class EvaluationResults {
             }
         }
         return out.toString();
+    }
+
+    protected ManchesterSyntaxRenderer render(ConstraintSystem cs, Assignment assignment) {
+        ManchesterSyntaxRenderer renderer = cs.getOPPLFactory().getManchesterSyntaxRenderer(cs);
+        assignment.getAssignment().accept(renderer);
+        return renderer;
     }
 }

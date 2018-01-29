@@ -184,12 +184,6 @@ public class BindingNode implements Renderable {
      * @return true if leaf
      */
     public boolean isLeaf() {
-        // boolean found = false;
-        // Iterator<Variable> it = this.unassignedVariables.iterator();
-        // while (!found && it.hasNext()) {
-        // found = !it.next().getPossibleBindings().isEmpty();
-        // }
-        // return this.unassignedVariables.isEmpty() || !found;
         return unassignedVariables.isEmpty();
     }
 

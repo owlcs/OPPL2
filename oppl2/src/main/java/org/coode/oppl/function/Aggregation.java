@@ -5,9 +5,10 @@ import static org.semanticweb.owlapi.util.OWLAPIStreamUtils.asList;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.coode.oppl.ConstraintSystem;
 import org.semanticweb.owlapi.model.OWLClassExpression;
@@ -38,10 +39,19 @@ public abstract class Aggregation<O, I> extends AbstractOPPLFunction<O> implemen
 
     /**
      * @return the toAggreagte
+     * @deprecated use the stream version
      */
+    @Deprecated
     public List<Aggregandum<I>> getToAggregate() {
         // Defensive copy
         return new ArrayList<>(this.toAggregate);
+    }
+
+    /**
+     * @return the toAggreagte
+     */
+    public Stream<Aggregandum<I>> toAggregate() {
+        return this.toAggregate.stream();
     }
 
     @Override
@@ -98,50 +108,16 @@ public abstract class Aggregation<O, I> extends AbstractOPPLFunction<O> implemen
      */
     protected String renderAggregation(ConstraintSystem constraintSystem, String prefix,
         String openDelimiter, String separator, String closedDelimiter) {
-        Iterator<Aggregandum<I>> i = toAggregate.iterator();
-        StringBuilder sb = new StringBuilder();
-        sb.append(String.format("%s%s", prefix, openDelimiter));
-        while (i.hasNext()) {
-            Aggregandum<? extends I> aggregation = i.next();
-            Iterator<? extends OPPLFunction<?>> iterator =
-                aggregation.getOPPLFunctions().iterator();
-            while (iterator.hasNext()) {
-                OPPLFunction<?> opplFunction = iterator.next();
-                sb.append(opplFunction.render(constraintSystem));
-                if (iterator.hasNext()) {
-                    sb.append(separator);
-                }
-            }
-            if (i.hasNext()) {
-                sb.append(separator);
-            }
-        }
-        sb.append(closedDelimiter);
-        return sb.toString();
+        return toAggregate.stream().flatMap(Aggregandum::opplFunctions)
+            .map(f -> f.render(constraintSystem))
+            .collect(Collectors.joining(separator, prefix + openDelimiter, closedDelimiter));
     }
 
     protected String renderAggregation(ShortFormProvider shortFormProvider, String prefix,
         String openDelimiter, String separator, String closedDelimiter) {
-        Iterator<Aggregandum<I>> i = this.toAggregate.iterator();
-        StringBuilder sb = new StringBuilder();
-        sb.append(String.format("%s%s", prefix, openDelimiter));
-        while (i.hasNext()) {
-            Aggregandum<? extends I> aggregation = i.next();
-            Iterator<? extends OPPLFunction<?>> iterator =
-                aggregation.getOPPLFunctions().iterator();
-            while (iterator.hasNext()) {
-                OPPLFunction<?> opplFunction = iterator.next();
-                sb.append(opplFunction.render(shortFormProvider));
-                if (iterator.hasNext()) {
-                    sb.append(separator);
-                }
-            }
-            if (i.hasNext()) {
-                sb.append(separator);
-            }
-        }
-        sb.append(closedDelimiter);
-        return sb.toString();
+        return toAggregate.stream().flatMap(Aggregandum::opplFunctions)
+            .map(f -> f.render(shortFormProvider))
+            .collect(Collectors.joining(separator, prefix + openDelimiter, closedDelimiter));
     }
 }
 
@@ -154,13 +130,8 @@ class StringConcatAggregation extends Aggregation<String, String> {
 
     @Override
     protected String aggregate(ValueComputationParameters params) {
-        StringBuilder out = new StringBuilder();
-        for (Aggregandum<? extends String> aggregandum : toAggregate) {
-            for (OPPLFunction<? extends String> value : aggregandum.getOPPLFunctions()) {
-                out.append(value.compute(params));
-            }
-        }
-        return out.toString();
+        return toAggregate.stream().flatMap(Aggregandum::opplFunctions).map(v -> v.compute(params))
+            .collect(Collectors.joining());
     }
 
     @Override

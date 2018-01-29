@@ -7,10 +7,8 @@ import java.awt.Dimension;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -302,6 +300,77 @@ public class OPPLBuilder extends JSplitPane
 
         private final class SpecializedConstraintVisitor implements ConstraintVisitorEx<Boolean> {
 
+            class VariableFinder implements OPPLFunctionVisitorEx<Boolean> {
+                @Override
+                public <O, I> Boolean visitAggregation(Aggregation<O, I> aggregation) {
+                    return Boolean
+                        .valueOf(aggregation.toAggregate().flatMap(Aggregandum::opplFunctions)
+                            .anyMatch(f -> f.accept(this).booleanValue()));
+                }
+
+                @Override
+                public Boolean visitToLowerCaseStringManipulationOPPLFunction(
+                    ToLowerCaseStringManipulationOPPLFunction f) {
+                    return f.accept(this);
+                }
+
+                @Override
+                public Boolean visitToUpperCaseStringManipulationOPPLFunction(
+                    ToUpperCaseStringManipulationOPPLFunction f) {
+                    return f.accept(this);
+                }
+
+                @Override
+                public <O extends OWLObject> Boolean visitInlineSet(InlineSet<O> inlineSet) {
+                    return Boolean
+                        .valueOf(inlineSet.aggregandums().flatMap(Aggregandum::opplFunctions)
+                            .anyMatch(f -> f.accept(this).booleanValue()));
+                }
+
+                @Override
+                public <O> Boolean visitConstant(Constant<O> constant) {
+                    return Boolean.valueOf(constant.getValue().equals(v));
+                }
+
+                @Override
+                public <P extends OWLObject> Boolean visitGenericOPPLFunction(
+                    OPPLFunction<P> opplFunction) {
+                    return Boolean.FALSE;
+                }
+
+                @Override
+                public <O, I extends OPPLFunction<?>> Boolean visitCreate(Create<I, O> create) {
+                    return create.getInput().accept(this);
+                }
+
+                @Override
+                public <O extends OWLObject> Boolean visitExpression(Expression<O> expression) {
+                    return expression.getExpression().accept(variableDetector);
+                }
+
+                @Override
+                public <O extends OWLObject> Boolean visitGroupVariableAttribute(
+                    GroupVariableAttribute<O> a) {
+                    return Boolean.valueOf(a.getVariable().equals(v));
+                }
+
+                @Override
+                public Boolean visitIRIVariableAttribute(IRIVariableAttribute a) {
+                    return Boolean.valueOf(a.getVariable().equals(v));
+                }
+
+                @Override
+                public Boolean visitRenderingVariableAttribute(RenderingVariableAttribute r) {
+                    return Boolean.valueOf(r.getVariable().equals(v));
+                }
+
+                @Override
+                public <O extends OWLObject> Boolean visitValuesVariableAtttribute(
+                    ValuesVariableAtttribute<O> r) {
+                    return Boolean.valueOf(r.getVariable().equals(v));
+                }
+            }
+
             protected final Variable<?> v;
             protected final NamedVariableDetector variableDetector;
 
@@ -319,129 +388,22 @@ public class OPPLBuilder extends JSplitPane
             public Boolean visit(InCollectionConstraint<? extends OWLObject> c) {
                 boolean toReturn = c.getVariable().equals(v);
                 if (!toReturn) {
-                    Collection<? extends OWLObject> collection = c.getCollection();
-                    Iterator<? extends OWLObject> it = collection.iterator();
-                    boolean detected = false;
-                    while (!detected && it.hasNext()) {
-                        OWLObject object = it.next();
-                        detected = object.accept(variableDetector).booleanValue();
-                    }
-                    toReturn = detected;
+                    toReturn =
+                        c.collection().anyMatch(o -> o.accept(variableDetector).booleanValue());
                 }
                 return Boolean.valueOf(toReturn);
             }
 
             @Override
             public Boolean visit(RegExpConstraint c) {
-                boolean toReturn = c.getVariable().equals(v);
-                if (!toReturn) {
-                    c.getExpression().accept(new OPPLFunctionVisitorEx<Boolean>() {
-
-                        @Override
-                        public <O, I> Boolean visitAggregation(Aggregation<O, I> aggregation) {
-                            Iterator<Aggregandum<I>> iterator =
-                                aggregation.getToAggregate().iterator();
-                            boolean found = false;
-                            while (!found && iterator.hasNext()) {
-                                Aggregandum<I> aggregandum = iterator.next();
-                                Iterator<OPPLFunction<I>> it =
-                                    aggregandum.getOPPLFunctions().iterator();
-                                while (!found && it.hasNext()) {
-                                    OPPLFunction<I> opplFunction = it.next();
-                                    found = opplFunction.accept(this).booleanValue();
-                                }
-                            }
-                            return Boolean.valueOf(found);
-                        }
-
-                        @Override
-                        public Boolean visitToLowerCaseStringManipulationOPPLFunction(
-                            ToLowerCaseStringManipulationOPPLFunction toLowerCaseStringManipulationOPPLFunction) {
-                            return toLowerCaseStringManipulationOPPLFunction.accept(this);
-                        }
-
-                        @Override
-                        public Boolean visitToUpperCaseStringManipulationOPPLFunction(
-                            ToUpperCaseStringManipulationOPPLFunction upperCaseStringManipulationOPPLFunction) {
-                            return upperCaseStringManipulationOPPLFunction.accept(this);
-                        }
-
-                        @Override
-                        public <O extends OWLObject> Boolean visitInlineSet(
-                            InlineSet<O> inlineSet) {
-                            Iterator<Aggregandum<Collection<O>>> iterator =
-                                inlineSet.getAggregandums().iterator();
-                            boolean found = false;
-                            while (!found && iterator.hasNext()) {
-                                Aggregandum<Collection<O>> aggregandum = iterator.next();
-                                Iterator<OPPLFunction<Collection<O>>> it =
-                                    aggregandum.getOPPLFunctions().iterator();
-                                while (!found && it.hasNext()) {
-                                    OPPLFunction<Collection<O>> opplFunction = it.next();
-                                    found = opplFunction.accept(this).booleanValue();
-                                }
-                            }
-                            return Boolean.valueOf(found);
-                        }
-
-                        @Override
-                        public <O> Boolean visitConstant(Constant<O> constant) {
-                            return Boolean.valueOf(constant.getValue().equals(v));
-                        }
-
-                        @Override
-                        public <P extends OWLObject> Boolean visitGenericOPPLFunction(
-                            OPPLFunction<P> opplFunction) {
-                            return Boolean.FALSE;
-                        }
-
-                        @Override
-                        public <O, I extends OPPLFunction<?>> Boolean visitCreate(
-                            Create<I, O> create) {
-                            return create.getInput().accept(this);
-                        }
-
-                        @Override
-                        public <O extends OWLObject> Boolean visitExpression(
-                            Expression<O> expression) {
-                            return expression.getExpression().accept(variableDetector);
-                        }
-
-                        @Override
-                        public <O extends OWLObject> Boolean visitGroupVariableAttribute(
-                            GroupVariableAttribute<O> groupVariableAttribute) {
-                            return Boolean.valueOf(groupVariableAttribute.getVariable().equals(v));
-                        }
-
-                        @Override
-                        public Boolean visitIRIVariableAttribute(
-                            IRIVariableAttribute iriVariableAttribute) {
-                            return Boolean.valueOf(iriVariableAttribute.getVariable().equals(v));
-                        }
-
-                        @Override
-                        public Boolean visitRenderingVariableAttribute(
-                            RenderingVariableAttribute renderingVariableAttribute) {
-                            return Boolean
-                                .valueOf(renderingVariableAttribute.getVariable().equals(v));
-                        }
-
-                        @Override
-                        public <O extends OWLObject> Boolean visitValuesVariableAtttribute(
-                            ValuesVariableAtttribute<O> valuesVariableAtttribute) {
-                            return Boolean
-                                .valueOf(valuesVariableAtttribute.getVariable().equals(v));
-                        }
-                    });
-                }
-                return Boolean.valueOf(toReturn);
+                return Boolean.valueOf(c.getVariable().equals(v)
+                    || c.getExpression().accept(new VariableFinder()).booleanValue());
             }
 
             @Override
             public Boolean visit(InequalityConstraint c) {
-                boolean accept = c.getExpression()
-                    .accept(new NamedVariableDetector(v, getConstraintSystem())).booleanValue();
-                return Boolean.valueOf(c.getVariable().equals(v) || accept);
+                return Boolean.valueOf(c.getVariable().equals(v) || c.getExpression()
+                    .accept(new NamedVariableDetector(v, getConstraintSystem())).booleanValue());
             }
         }
 

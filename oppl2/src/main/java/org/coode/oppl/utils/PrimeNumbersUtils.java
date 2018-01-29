@@ -97,10 +97,7 @@ public class PrimeNumbersUtils {
             }
             a_to_power = modularExponent32(a_to_power, 2, n);
         }
-        if (a_to_power == n - 1) {
-            return true;
-        }
-        return false;
+        return a_to_power == n - 1;
     }
 
     private static int modularExponent32(int base, int power, int modulus) {
@@ -123,11 +120,9 @@ public class PrimeNumbersUtils {
             return false;
         } else if (n == 2) {
             return true;
-        } else if (millerRabinPass32(2, n) && (n <= 7 || millerRabinPass32(7, n))
-            && (n <= 61 || millerRabinPass32(61, n))) {
-            return true;
         } else {
-            return false;
+            return millerRabinPass32(2, n) && (n <= 7 || millerRabinPass32(7, n))
+                && (n <= 61 || millerRabinPass32(61, n));
         }
     }
 }

@@ -22,10 +22,9 @@ public class OWLObjectFinder {
     public static List<List<Integer>> findAll(OWLObject key, OWLObject container) {
         checkNotNull(key, "key");
         checkNotNull(container, "container");
-        List<List<Integer>> toReturn = key.equals(container)
+        return key.equals(container)
             ? Collections.singletonList(Collections.singletonList(Integer.valueOf(0)))
             : findAll(key, container, Collections.<Integer>emptyList());
-        return toReturn;
     }
 
     private static List<List<Integer>> findAll(OWLObject key, OWLObject container,

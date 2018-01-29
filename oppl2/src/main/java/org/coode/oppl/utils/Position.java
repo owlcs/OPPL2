@@ -13,9 +13,9 @@ import org.semanticweb.owlapi.model.OWLObject;
 public class Position {
 
     /** empty position */
-    public final static List<Integer> EMPTY_POSITION =
+    public static final List<Integer> EMPTY_POSITION =
         Collections.singletonList(Integer.valueOf(-1));
-    private final static OWLObjectDecomposer DECOMPOSER = new OWLObjectDecomposer();
+    private static final OWLObjectDecomposer DECOMPOSER = new OWLObjectDecomposer();
 
     /**
      * @param owlObject owlObject

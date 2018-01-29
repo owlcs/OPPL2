@@ -1,8 +1,15 @@
 package org.coode.oppl.protege.ui;
 
 import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+import static org.semanticweb.owlapi.util.OWLAPIStreamUtils.add;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
@@ -28,28 +35,24 @@ public class InstantiationTableModel implements TableModel {
         @Override
         public int compare(BindingNode aBindingNode, BindingNode anotherBindingNode) {
             int toReturn = 0;
-            Set<Variable<?>> assignedVariables = aBindingNode.getAssignedVariables();
-            Iterator<Variable<?>> iterator = assignedVariables.iterator();
-            ValueComputationParameters parameters = new SimpleValueComputationParameters(
-                opplScript.getConstraintSystem(), BindingNode.getEmptyBindingNode(),
-                getRuntimeExceptionHandler());
+            Iterator<Variable<?>> iterator = aBindingNode.assignedVariables().iterator();
+            ValueComputationParameters parameters =
+                new SimpleValueComputationParameters(opplScript.getConstraintSystem(),
+                    BindingNode.getEmptyBindingNode(), getRuntimeExceptionHandler());
             while (toReturn == 0 && iterator.hasNext()) {
                 Variable<?> variable = iterator.next();
                 OWLObject aValue = aBindingNode.getAssignmentValue(variable, parameters);
-                OWLObject anotherValue = anotherBindingNode.getAssignmentValue(variable,
-                    parameters);
-                toReturn = getOWLEditorKit()
-                    .getModelManager()
-                    .getRendering(aValue)
-                    .compareTo(
-                        getOWLEditorKit().getModelManager().getRendering(
-                            anotherValue));
+                OWLObject anotherValue =
+                    anotherBindingNode.getAssignmentValue(variable, parameters);
+                toReturn = getOWLEditorKit().getModelManager().getRendering(aValue)
+                    .compareTo(getOWLEditorKit().getModelManager().getRendering(anotherValue));
             }
             return toReturn;
         }
     }
 
-    private static final NoOPPLScriptTableModel NO_OPPL_SCRIPT_TABLE_MODEL = new NoOPPLScriptTableModel();
+    private static final NoOPPLScriptTableModel NO_OPPL_SCRIPT_TABLE_MODEL =
+        new NoOPPLScriptTableModel();
     private final Set<TableModelListener> listeners = new HashSet<>();
     private final List<BindingNode> leaves = new ArrayList<>();
     private final RuntimeExceptionHandler runtimeExceptionHandler;
@@ -101,21 +104,16 @@ public class InstantiationTableModel implements TableModel {
     }
 
     /**
-     * @param opplScript
-     *        opplScript
-     * @param owlEditorKit
-     *        owlEditorKit
+     * @param opplScript opplScript
+     * @param owlEditorKit owlEditorKit
      */
     public InstantiationTableModel(OPPLScript opplScript, OWLEditorKit owlEditorKit) {
         this.opplScript = checkNotNull(opplScript, "opplScript");
         this.owlEditorKit = checkNotNull(owlEditorKit, "owlEditorKit");
-        runtimeExceptionHandler = new ShowMessageRuntimeExceptionHandler(
-            getOWLEditorKit().getOWLWorkspace());
-        Set<BindingNode> scriptLeaves = getOPPLScript().getConstraintSystem().getLeaves();
-        if (scriptLeaves != null) {
-            leaves.addAll(scriptLeaves);
-            Collections.sort(leaves, new LeavesComparator());
-        }
+        runtimeExceptionHandler =
+            new ShowMessageRuntimeExceptionHandler(getOWLEditorKit().getOWLWorkspace());
+        add(leaves, getOPPLScript().getConstraintSystem().leaves());
+        Collections.sort(leaves, new LeavesComparator());
     }
 
     @Override
@@ -137,15 +135,9 @@ public class InstantiationTableModel implements TableModel {
 
     @Override
     public String getColumnName(int columnIndex) {
-        List<Variable<?>> sortedVariables = new ArrayList<>(getOPPLScript()
-            .getVariables());
-        Collections.sort(sortedVariables, new Comparator<Variable<?>>() {
-
-            @Override
-            public int compare(Variable<?> variable, Variable<?> anotherVariable) {
-                return variable.getName().compareTo(anotherVariable.getName());
-            }
-        });
+        List<Variable<?>> sortedVariables = new ArrayList<>(getOPPLScript().getVariables());
+        Collections.sort(sortedVariables,
+            (variable, anotherVariable) -> variable.getName().compareTo(anotherVariable.getName()));
         return sortedVariables.get(columnIndex).getName();
     }
 
@@ -158,15 +150,9 @@ public class InstantiationTableModel implements TableModel {
     public Object getValueAt(int rowIndex, int columnIndex) {
         Object toReturn = null;
         BindingNode leaf = getLeaves().get(rowIndex);
-        List<Variable<?>> sortedVariables = new ArrayList<>(getOPPLScript()
-            .getVariables());
-        Collections.sort(sortedVariables, new Comparator<Variable<?>>() {
-
-            @Override
-            public int compare(Variable<?> variable, Variable<?> anotherVariable) {
-                return variable.getName().compareTo(anotherVariable.getName());
-            }
-        });
+        List<Variable<?>> sortedVariables = new ArrayList<>(getOPPLScript().getVariables());
+        Collections.sort(sortedVariables,
+            (variable, anotherVariable) -> variable.getName().compareTo(anotherVariable.getName()));
         ValueComputationParameters parameters = new SimpleValueComputationParameters(
             opplScript.getConstraintSystem(), leaf, getRuntimeExceptionHandler());
         Variable<?> variable = sortedVariables.get(columnIndex);

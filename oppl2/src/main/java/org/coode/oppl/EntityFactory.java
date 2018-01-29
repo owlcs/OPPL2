@@ -76,7 +76,7 @@ public class EntityFactory implements org.coode.oppl.entity.OWLEntityFactory {
     }
 
     /** characters which will be removed from labels */
-    private static final char[] forbiddenCharacters = new char[] {'\'', '>', '<', '`', '"'};
+    private static final String[] forbiddenCharacters = new String[] {"\'", ">", "<", "`", "\""};
 
     /**
      * @param label label
@@ -85,8 +85,8 @@ public class EntityFactory implements org.coode.oppl.entity.OWLEntityFactory {
      */
     private static String buildLabelString(String label) {
         String toReturn = label.trim();
-        for (char c : forbiddenCharacters) {
-            toReturn = toReturn.replace(c + "", "");
+        for (String c : forbiddenCharacters) {
+            toReturn = toReturn.replace(c, "");
         }
         return toReturn;
     }

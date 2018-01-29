@@ -1,6 +1,7 @@
 package org.coode.oppl.search.solvability.test;
 
 import static org.junit.Assert.assertTrue;
+import static org.semanticweb.owlapi.util.OWLAPIStreamUtils.asSet;
 
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.OPPLFactory;
@@ -48,7 +49,7 @@ public class TestAssertedSolvabilityBasedAxiomQuery {
                 HANDLER);
         axiom.accept(assertedTreeSearchSingleAxiomQuery);
         newConstraintSystem.setLeaves(assertedTreeSearchSingleAxiomQuery.getLeaves());
-        assertTrue(constraintSystem.getLeaves().equals(newConstraintSystem.getLeaves()));
+        assertTrue(asSet(constraintSystem.leaves()).equals(asSet(newConstraintSystem.leaves())));
     }
 
     @Test
@@ -78,6 +79,6 @@ public class TestAssertedSolvabilityBasedAxiomQuery {
                 HANDLER);
         axiom.accept(assertedTreeSearchSingleAxiomQuery);
         newConstraintSystem.setLeaves(assertedTreeSearchSingleAxiomQuery.getLeaves());
-        assertTrue(constraintSystem.getLeaves().equals(newConstraintSystem.getLeaves()));
+        assertTrue(asSet(constraintSystem.leaves()).equals(asSet(newConstraintSystem.leaves())));
     }
 }

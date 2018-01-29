@@ -26,7 +26,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Stream;
 
-import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.oppl.function.SimpleValueComputationParameters;
 import org.semanticweb.owlapi.model.AddAxiom;
@@ -54,9 +53,8 @@ public class ActionFactory {
         ConstraintSystem cs, OWLOntology ontology,
         RuntimeExceptionHandler runtimeExcpetionHandler) {
         Set<OWLAxiomChange> toReturn = new HashSet<>();
-        Set<BindingNode> leaves = cs.getLeaves();
-        if (leaves != null) {
-            for (BindingNode bindingNode : leaves) {
+        if (cs.leavesCount() > 0) {
+            cs.leaves().forEach(bindingNode -> {
                 SimpleValueComputationParameters parameters =
                     new SimpleValueComputationParameters(cs, bindingNode, runtimeExcpetionHandler);
                 PartialOWLObjectInstantiator instatiator =
@@ -72,7 +70,7 @@ public class ActionFactory {
                     default:
                         break;
                 }
-            }
+            });
         } else if (cs.getAxiomVariables(axiom).isEmpty()) {
             switch (actionType) {
                 case ADD:

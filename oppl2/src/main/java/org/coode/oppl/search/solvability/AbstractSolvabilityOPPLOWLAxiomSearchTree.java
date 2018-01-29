@@ -65,6 +65,44 @@ import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 public abstract class AbstractSolvabilityOPPLOWLAxiomSearchTree
     extends SearchTree<SolvabilitySearchNode> {
 
+    class AcceptabilityVisitor implements VariableVisitorEx<Boolean> {
+        private final OWLObject value;
+        private final BindingNode binding;
+
+        AcceptabilityVisitor(OWLObject value, BindingNode binding) {
+            this.value = value;
+            this.binding = binding;
+        }
+
+        @Override
+        public <O extends OWLObject> Boolean visit(InputVariable<O> v) {
+            try {
+                return Boolean
+                    .valueOf(v.getVariableScope() == null || v.getVariableScope().check(value));
+            } catch (OWLRuntimeException e) {
+                getRuntimeExceptionHandler().handleOWLRuntimeException(e);
+                return Boolean.FALSE;
+            }
+        }
+
+        @Override
+        public <O extends OWLObject> Boolean visit(GeneratedVariable<O> v) {
+            return Boolean.FALSE;
+        }
+
+        @Override
+        public <O extends OWLObject> Boolean visit(RegexpGeneratedVariable<O> regExpGenerated) {
+            ManchesterSyntaxRenderer renderer = getConstraintSystem().getOPPLFactory()
+                .getManchesterSyntaxRenderer(getConstraintSystem());
+            value.accept(renderer);
+            Matcher matcher = regExpGenerated.getPatternGeneratingOPPLFunction()
+                .compute(new SimpleValueComputationParameters(getConstraintSystem(), binding,
+                    getRuntimeExceptionHandler()))
+                .matcher(renderer.toString());
+            return Boolean.valueOf(matcher.matches());
+        }
+    }
+
     class ScopeChecker extends AbstractVariableVisitorExAdapter<Boolean> {
         private final OWLObject owlObject;
 
@@ -239,72 +277,30 @@ public abstract class AbstractSolvabilityOPPLOWLAxiomSearchTree
             @Override
             public List<SolvabilitySearchNode> visitSolvableSearchNode(
                 SolvableSearchNode solvableSearchNode) {
-                List<SolvabilitySearchNode> toReturn =
-                    new ArrayList<>(solvableSearchNode.getValues().size());
                 Variable<?> variable = solvableSearchNode.getVariable();
                 final BindingNode binding = solvableSearchNode.getBinding();
-                for (final OWLObject value : solvableSearchNode.getValues()) {
-                    // Need to check it is fine to assign, as regexp
-                    // variables might not like the value.
-                    boolean accepatble = variable.accept(new VariableVisitorEx<Boolean>() {
+                // Need to check it is fine to assign, as regexp
+                // variables might not like the value.
+                return asList(solvableSearchNode.values()
+                    .filter(
+                        v -> variable.accept(new AcceptabilityVisitor(v, binding)).booleanValue())
+                    .map(v -> findAcceptable(solvableSearchNode, variable, binding, v)));
+            }
 
-                        @Override
-                        public <O extends OWLObject> Boolean visit(InputVariable<O> v) {
-                            try {
-                                return Boolean.valueOf(v.getVariableScope() == null
-                                    || v.getVariableScope().check(value));
-                            } catch (OWLRuntimeException e) {
-                                AbstractSolvabilityOPPLOWLAxiomSearchTree.this
-                                    .getRuntimeExceptionHandler().handleOWLRuntimeException(e);
-                                return Boolean.FALSE;
-                            }
-                        }
-
-                        @Override
-                        public <O extends OWLObject> Boolean visit(GeneratedVariable<O> v) {
-                            return Boolean.FALSE;
-                        }
-
-                        @Override
-                        public <O extends OWLObject> Boolean visit(
-                            RegexpGeneratedVariable<O> regExpGenerated) {
-                            ManchesterSyntaxRenderer renderer =
-                                AbstractSolvabilityOPPLOWLAxiomSearchTree.this.getConstraintSystem()
-                                    .getOPPLFactory().getManchesterSyntaxRenderer(
-                                        AbstractSolvabilityOPPLOWLAxiomSearchTree.this
-                                            .getConstraintSystem());
-                            value.accept(renderer);
-                            Matcher matcher = regExpGenerated.getPatternGeneratingOPPLFunction()
-                                .compute(new SimpleValueComputationParameters(
-                                    AbstractSolvabilityOPPLOWLAxiomSearchTree.this
-                                        .getConstraintSystem(),
-                                    binding,
-                                    AbstractSolvabilityOPPLOWLAxiomSearchTree.this
-                                        .getRuntimeExceptionHandler()))
-                                .matcher(renderer.toString());
-                            return Boolean.valueOf(matcher.matches());
-                        }
-                    }).booleanValue();
-                    if (accepatble) {
-                        Assignment assignment = new Assignment(variable, value);
-                        BindingNode childBinding = new BindingNode(binding);
-                        childBinding.addAssignment(assignment);
-                        ValueComputationParameters parameters =
-                            new SimpleValueComputationParameters(
-                                AbstractSolvabilityOPPLOWLAxiomSearchTree.this
-                                    .getConstraintSystem(),
-                                childBinding, AbstractSolvabilityOPPLOWLAxiomSearchTree.this
-                                    .getRuntimeExceptionHandler());
-                        PartialOWLObjectInstantiator instantiator =
-                            new PartialOWLObjectInstantiator(parameters);
-                        OWLAxiom instantiatedAxiom =
-                            (OWLAxiom) solvableSearchNode.getAxiom().accept(instantiator);
-                        SolvedSearchNode child =
-                            new SolvedSearchNode(instantiatedAxiom, childBinding);
-                        toReturn.add(child);
-                    }
-                }
-                return toReturn;
+            protected SolvedSearchNode findAcceptable(SolvableSearchNode solvableSearchNode,
+                Variable<?> variable, final BindingNode binding, final OWLObject value) {
+                Assignment assignment = new Assignment(variable, value);
+                BindingNode childBinding = new BindingNode(binding);
+                childBinding.addAssignment(assignment);
+                ValueComputationParameters parameters = new SimpleValueComputationParameters(
+                    AbstractSolvabilityOPPLOWLAxiomSearchTree.this.getConstraintSystem(),
+                    childBinding,
+                    AbstractSolvabilityOPPLOWLAxiomSearchTree.this.getRuntimeExceptionHandler());
+                PartialOWLObjectInstantiator instantiator =
+                    new PartialOWLObjectInstantiator(parameters);
+                OWLAxiom instantiatedAxiom =
+                    (OWLAxiom) solvableSearchNode.getAxiom().accept(instantiator);
+                return new SolvedSearchNode(instantiatedAxiom, childBinding);
             }
 
             @Override

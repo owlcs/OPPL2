@@ -126,7 +126,7 @@ public class OPPLQueryImpl implements OPPLQuery {
 
     @Override
     public String toString() {
-        StringBuffer buffer = new StringBuffer("SELECT ");
+        StringBuilder buffer = new StringBuilder("SELECT ");
         int i = 0;
         for (OWLAxiom axiom : assertedAxioms) {
             ManchesterSyntaxRenderer renderer =
@@ -152,7 +152,7 @@ public class OPPLQueryImpl implements OPPLQuery {
             buffer.append('\n');
             i++;
         }
-        if (constraints.size() > 0) {
+        if (!constraints.isEmpty()) {
             buffer.append(" WHERE ");
             i = 0;
             for (AbstractConstraint c : constraints) {
@@ -169,7 +169,7 @@ public class OPPLQueryImpl implements OPPLQuery {
 
     @Override
     public String render(ShortFormProvider shortFormProvider) {
-        StringBuffer buffer = new StringBuffer("SELECT ");
+        StringBuilder buffer = new StringBuilder("SELECT ");
         int i = 0;
         for (OWLAxiom axiom : assertedAxioms) {
             ManchesterSyntaxRenderer renderer = new ManchesterSyntaxRenderer(shortFormProvider);
@@ -193,7 +193,7 @@ public class OPPLQueryImpl implements OPPLQuery {
             buffer.append('\n');
             i++;
         }
-        if (constraints.size() > 0) {
+        if (!constraints.isEmpty()) {
             buffer.append(" WHERE ");
             i = 0;
             for (AbstractConstraint c : constraints) {
@@ -215,7 +215,7 @@ public class OPPLQueryImpl implements OPPLQuery {
 
     @Override
     public String render() {
-        StringBuffer buffer = new StringBuffer("SELECT ");
+        StringBuilder buffer = new StringBuilder("SELECT ");
         int i = 0;
         for (OWLAxiom axiom : assertedAxioms) {
             ManchesterSyntaxRenderer renderer =
@@ -241,7 +241,7 @@ public class OPPLQueryImpl implements OPPLQuery {
             buffer.append('\n');
             i++;
         }
-        if (constraints.size() > 0) {
+        if (!constraints.isEmpty()) {
             buffer.append("\nWHERE ");
             i = 0;
             for (AbstractConstraint c : constraints) {
@@ -431,14 +431,11 @@ public class OPPLQueryImpl implements OPPLQuery {
 
                 @Override
                 public Boolean visit(InCollectionConstraint<? extends OWLObject> icc) {
-                    for (OWLObject owlObject : icc.getCollection()) {
-                        OWLObject instantiated = owlObject.accept(instantiator);
-                        if (!variableExtractor.extractVariables(instantiated).isEmpty()) {
-                            return Boolean.TRUE;
-                        }
-                    }
-                    return Boolean.valueOf(
-                        bindingNode.getAssignmentValue(icc.getVariable(), parameters) == null);
+                    boolean nonEmptyInstantiation =
+                        icc.collection().map(o -> o.accept(instantiator))
+                            .map(variableExtractor::extractVariables).anyMatch(x -> !x.isEmpty());
+                    return Boolean.valueOf(nonEmptyInstantiation
+                        || bindingNode.getAssignmentValue(icc.getVariable(), parameters) == null);
                 }
 
                 @Override

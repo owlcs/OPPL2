@@ -215,7 +215,7 @@ public class LocalityChecker {
         for (InputVariable<?> v : inputVariables) {
             Set<OWLObject> values = new HashSet<>();
             toReturn.put(v, values);
-            if (instantiatedPatternModel.getInstantiations(v).size() == 0) {
+            if (instantiatedPatternModel.instantiations(v).count() == 0) {
                 // no instantiations
                 Set<? extends OWLObject> referencedValues =
                     v.getType().getReferencedOWLObjects(Arrays.asList(o));
@@ -237,7 +237,7 @@ public class LocalityChecker {
         Map<Variable<?>, SigmaPlusSigmaMinus> toReturn = new HashMap<>();
         List<InputVariable<?>> inputVariables = instantiatedPatternModel.getInputVariables();
         for (Variable<?> v : inputVariables) {
-            if (instantiatedPatternModel.getInstantiations(v).size() == 0) {
+            if (instantiatedPatternModel.instantiations(v).count() == 0) {
                 SigmaPlusSigmaMinus values = new SigmaPlusSigmaMinus(
                     v.getType().accept(plusBuilder), v.getType().accept(minusBuilder));
                 if (values.getPlus() != null && values.getMinus() != null) {

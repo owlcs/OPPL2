@@ -1,17 +1,12 @@
 package org.coode.oppl.test;
 
 import static org.coode.oppl.testontologies.TestOntologies.sequentialUnion;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-
-import java.util.Set;
 
 import org.coode.oppl.ChangeExtractor;
 import org.coode.oppl.OPPLParser;
 import org.coode.oppl.OPPLScript;
 import org.coode.oppl.ParserFactory;
-import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.exceptions.QuickFailRuntimeExceptionHandler;
 import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.parsers.common.QuickFailErrorListener;
@@ -51,9 +46,7 @@ public class TestUserQueries {
         OPPLScript opplScript = parser.parse(string);
         ChangeExtractor changeExtractor = new ChangeExtractor(HANDLER, true);
         changeExtractor.visit(opplScript);
-        Set<BindingNode> leaves = opplScript.getConstraintSystem().getLeaves();
-        assertTrue(leaves != null);
-        assertFalse(leaves.isEmpty());
+        assertTrue(opplScript.getConstraintSystem().leavesCount() > 0);
     }
 
     @Test
@@ -82,9 +75,7 @@ public class TestUserQueries {
         OPPLScript opplScript = parser.parse(string);
         ChangeExtractor changeExtractor = new ChangeExtractor(HANDLER, true);
         changeExtractor.visit(opplScript);
-        Set<BindingNode> leaves = opplScript.getConstraintSystem().getLeaves();
-        assertTrue(leaves != null);
-        assertFalse(leaves.isEmpty());
+        assertTrue(opplScript.getConstraintSystem().leavesCount() > 0);
     }
 
     @Test
@@ -113,9 +104,7 @@ public class TestUserQueries {
         OPPLScript opplScript = parser.parse(string);
         ChangeExtractor changeExtractor = new ChangeExtractor(HANDLER, true);
         changeExtractor.visit(opplScript);
-        Set<BindingNode> leaves = opplScript.getConstraintSystem().getLeaves();
-        assertTrue(leaves != null);
-        assertFalse(leaves.isEmpty());
+        assertTrue(opplScript.getConstraintSystem().leavesCount() > 0);
     }
 
     @Test
@@ -134,9 +123,7 @@ public class TestUserQueries {
         OPPLScript opplScript = parser.parse(string);
         ChangeExtractor changeExtractor = new ChangeExtractor(HANDLER, true);
         changeExtractor.visit(opplScript);
-        Set<BindingNode> leaves = opplScript.getConstraintSystem().getLeaves();
-        assertTrue(leaves != null);
-        assertFalse(leaves.isEmpty());
+        assertTrue(opplScript.getConstraintSystem().leavesCount() > 0);
     }
 
     @Test
@@ -156,9 +143,7 @@ public class TestUserQueries {
         OPPLScript opplScript = parser.parse(string);
         ChangeExtractor changeExtractor = new ChangeExtractor(HANDLER, true);
         changeExtractor.visit(opplScript);
-        Set<BindingNode> leaves = opplScript.getConstraintSystem().getLeaves();
-        assertTrue(leaves != null);
-        assertFalse(leaves.isEmpty());
+        assertTrue(opplScript.getConstraintSystem().leavesCount() > 0);
     }
 
     @Test
@@ -180,9 +165,7 @@ public class TestUserQueries {
         OPPLScript opplScript = parser.parse(string);
         ChangeExtractor changeExtractor = new ChangeExtractor(HANDLER, true);
         changeExtractor.visit(opplScript);
-        Set<BindingNode> leaves = opplScript.getConstraintSystem().getLeaves();
-        assertTrue(leaves != null);
-        assertFalse(leaves.isEmpty());
+        assertTrue(opplScript.getConstraintSystem().leavesCount() > 0);
     }
 
     @Test
@@ -203,9 +186,7 @@ public class TestUserQueries {
         OPPLScript opplScript = parser.parse(string);
         ChangeExtractor changeExtractor = new ChangeExtractor(HANDLER, true);
         changeExtractor.visit(opplScript);
-        Set<BindingNode> leaves = opplScript.getConstraintSystem().getLeaves();
-        assertTrue(leaves != null);
-        assertFalse(leaves.isEmpty());
+        assertTrue(opplScript.getConstraintSystem().leavesCount() > 0);
     }
 
     @Test
@@ -221,8 +202,6 @@ public class TestUserQueries {
         OPPLScript opplScript = parser.parse(string);
         ChangeExtractor changeExtractor = new ChangeExtractor(HANDLER, true);
         changeExtractor.visit(opplScript);
-        Set<BindingNode> leaves = opplScript.getConstraintSystem().getLeaves();
-        assertNotNull(leaves);
-        assertFalse(leaves.isEmpty());
+        assertTrue(opplScript.getConstraintSystem().leavesCount() > 0);
     }
 }

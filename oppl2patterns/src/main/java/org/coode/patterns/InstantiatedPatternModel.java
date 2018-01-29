@@ -302,8 +302,7 @@ public class InstantiatedPatternModel
         BindingNode rootBindingNode = new BindingNode(toAssign);
         LeafBrusher leafBrusher = new LeafBrusher(bindings);
         rootBindingNode.accept(leafBrusher);
-        Set<BindingNode> leaves = leafBrusher.getLeaves();
-        return leaves;
+        return leafBrusher.getLeaves();
     }
 
     @Override

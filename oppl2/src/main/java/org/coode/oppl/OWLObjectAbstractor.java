@@ -120,7 +120,7 @@ public class OWLObjectAbstractor implements OWLObjectVisitorEx<OWLObject> {
      */
     public OWLObjectAbstractor(Collection<? extends Variable<?>> variables,
         ValueComputationParameters parameters) {
-        this(variables, parameters, parameters.getConstraintSystem().getLeaves());
+        this(variables, parameters, asList(parameters.getConstraintSystem().leaves()));
     }
 
     /**

@@ -1,5 +1,7 @@
 package org.coode.patterns.protege.ui;
 
+import static org.semanticweb.owlapi.util.OWLAPIStreamUtils.asSet;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -56,12 +58,11 @@ public class LocalityCheckResultTableModel implements TableModel {
     }
 
     /**
-     * @param checker
-     *        checker
+     * @param checker checker
      */
     public LocalityCheckResultTableModel(LocalityChecker checker) {
-        List<InputVariable<?>> toAssign = new ArrayList<>(checker
-            .getInstantiatedPatternModel().getInputVariables());
+        List<InputVariable<?>> toAssign =
+            new ArrayList<>(checker.getInstantiatedPatternModel().getInputVariables());
         List<Boolean> bindingsLocality = checker.getExploredNodesLocality();
         List<BindingNode> bindings = checker.getExploredNodes();
         dataArray = new String[bindings.size() + 1][toAssign.size() + 1];
@@ -69,15 +70,15 @@ public class LocalityCheckResultTableModel implements TableModel {
         for (int i = 0; i < toAssign.size(); i++) {
             dataArray[0][i + 1] = toAssign.get(i).getName();
         }
-        Set<OWLEntity> sigmaMinus = checker.getEntities();
+        Set<OWLEntity> sigmaMinus = asSet(checker.entities());
         sigmaMinus.addAll(checker.getSigmaPlus());
         if (bindings.size() == bindingsLocality.size()) {
             for (int i = 0; i < bindings.size(); i++) {
                 setValueAt(bindingsLocality.get(i), i, 0);
                 BindingNode node = bindings.get(i);
                 ValueComputationParameters parameters = new SimpleValueComputationParameters(
-                    checker.getInstantiatedPatternModel().getConstraintSystem(),
-                    node, checker.getHandler());
+                    checker.getInstantiatedPatternModel().getConstraintSystem(), node,
+                    checker.getHandler());
                 for (int j = 0; j < toAssign.size(); j++) {
                     Variable<?> v = toAssign.get(j);
                     if (sigmaMinus.contains(node.getAssignmentValue(v, parameters))) {

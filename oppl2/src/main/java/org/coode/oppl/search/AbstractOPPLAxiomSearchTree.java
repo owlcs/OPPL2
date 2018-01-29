@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.PartialOWLObjectInstantiator;
@@ -223,40 +224,34 @@ public abstract class AbstractOPPLAxiomSearchTree extends SearchTree<OPPLOWLAxio
     public boolean exhaustiveSearchTree(OPPLOWLAxiomSearchNode start,
         List<List<OPPLOWLAxiomSearchNode>> solutions) {
         initAssignableValues();
-        Set<BindingNode> existingLeaves = getConstraintSystem().getLeaves();
-        boolean found = false;
-        if (existingLeaves != null) {
+        if (getConstraintSystem().leavesCount() > 0) {
+            AtomicBoolean found = new AtomicBoolean(false);
             Logging.getQueryTestLogging().fine("Existing leaves count: ",
-                Integer.valueOf(existingLeaves.size()));
-            int leafIndex = 1;
-            for (BindingNode bindingNode : existingLeaves) {
-                Logging.getQueryTestLogging().fine("Exhaustive search on leaf: ",
-                    Integer.valueOf(leafIndex), " out of ", Integer.valueOf(existingLeaves.size()));
-                leafIndex++;
-                ValueComputationParameters parameters = new SimpleValueComputationParameters(
-                    getConstraintSystem(), bindingNode, getRuntimeExceptionHandler());
-                PartialOWLObjectInstantiator partialObjectInstantiator =
-                    new PartialOWLObjectInstantiator(parameters);
-                OWLAxiom newStartAxiom =
-                    (OWLAxiom) start.getAxiom().accept(partialObjectInstantiator);
-                VariableExtractor variableExtractor =
-                    new VariableExtractor(getConstraintSystem(), false);
-                BindingNode newBindingNode = new BindingNode(bindingNode.getAssignments(),
-                    variableExtractor.extractVariables(newStartAxiom));
-                OPPLOWLAxiomSearchNode newStart =
-                    new OPPLOWLAxiomSearchNode(newStartAxiom, newBindingNode);
-                List<List<OPPLOWLAxiomSearchNode>> bindingNodeSolutions = new ArrayList<>();
-                boolean bindingNodeSearch =
-                    super.exhaustiveSearchTree(newStart, bindingNodeSolutions);
-                found = found || bindingNodeSearch;
-                if (bindingNodeSearch) {
-                    solutions.addAll(bindingNodeSolutions);
-                }
-            }
-        } else {
-            found = super.exhaustiveSearchTree(start, solutions);
+                Integer.valueOf(getConstraintSystem().leavesCount()));
+            getConstraintSystem().leaves().forEach(bindingNode -> found.compareAndSet(false,
+                nextElement(start, solutions, bindingNode)));
+            return found.get();
         }
-        return found;
+        return super.exhaustiveSearchTree(start, solutions);
+    }
+
+    protected boolean nextElement(OPPLOWLAxiomSearchNode start,
+        List<List<OPPLOWLAxiomSearchNode>> solutions, BindingNode bindingNode) {
+        ValueComputationParameters parameters = new SimpleValueComputationParameters(
+            getConstraintSystem(), bindingNode, getRuntimeExceptionHandler());
+        PartialOWLObjectInstantiator partialObjectInstantiator =
+            new PartialOWLObjectInstantiator(parameters);
+        OWLAxiom newStartAxiom = (OWLAxiom) start.getAxiom().accept(partialObjectInstantiator);
+        VariableExtractor variableExtractor = new VariableExtractor(getConstraintSystem(), false);
+        BindingNode newBindingNode = new BindingNode(bindingNode.getAssignments(),
+            variableExtractor.extractVariables(newStartAxiom));
+        OPPLOWLAxiomSearchNode newStart = new OPPLOWLAxiomSearchNode(newStartAxiom, newBindingNode);
+        List<List<OPPLOWLAxiomSearchNode>> bindingNodeSolutions = new ArrayList<>();
+        boolean bindingNodeSearch = super.exhaustiveSearchTree(newStart, bindingNodeSolutions);
+        if (bindingNodeSearch) {
+            solutions.addAll(bindingNodeSolutions);
+        }
+        return bindingNodeSearch;
     }
 
     /**

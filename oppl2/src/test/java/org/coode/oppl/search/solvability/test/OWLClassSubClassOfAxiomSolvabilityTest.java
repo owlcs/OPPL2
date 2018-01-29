@@ -162,7 +162,7 @@ public class OWLClassSubClassOfAxiomSolvabilityTest {
 
             @Override
             public void visitSolvableSearchNode(SolvableSearchNode solvableSearchNode) {
-                assertTrue(solvableSearchNode.getValues().size() == 2);
+                assertTrue(solvableSearchNode.values().count() == 2L);
             }
         });
     }

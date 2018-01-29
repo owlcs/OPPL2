@@ -57,7 +57,7 @@ import org.semanticweb.owlapi.vocab.OWLFacet;
  */
 public class SymbolTable {
 
-    private static abstract class OWLTypeOnlyVisitor implements TypeVisitorEx<Boolean> {
+    private abstract static class OWLTypeOnlyVisitor implements TypeVisitorEx<Boolean> {
 
         public OWLTypeOnlyVisitor() {}
 
@@ -72,7 +72,7 @@ public class SymbolTable {
         }
     }
 
-    private static abstract class OWLAxiomTypeOnlyVisitor implements TypeVisitorEx<Boolean> {
+    private abstract static class OWLAxiomTypeOnlyVisitor implements TypeVisitorEx<Boolean> {
 
         public OWLAxiomTypeOnlyVisitor() {}
 
@@ -321,7 +321,7 @@ public class SymbolTable {
         for (ManchesterOWLSyntaxTree conjunct : conjuncts) {
             if (conjunct.getEvalType() == null
                 || !isNAryDescriptionCompatible(rest, conjunct.getEvalType())) {
-                allFine = allFine && false;
+                allFine = false;
                 reportIncompatibleSymbolType(conjunct, expression);
             } else {
                 rest = rest == null ? conjunct.getEvalType() : rest;
@@ -1650,7 +1650,7 @@ public class SymbolTable {
         for (ManchesterOWLSyntaxTree disjunct : disjuncts) {
             if (disjunct.getEvalType() == null
                 || !isNAryDescriptionCompatible(rest, disjunct.getEvalType())) {
-                allFine = allFine && false;
+                allFine = false;
                 reportIncompatibleSymbolType(disjunct, expression);
             } else {
                 rest = rest == null ? disjunct.getEvalType() : rest;

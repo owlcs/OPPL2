@@ -136,7 +136,7 @@ public class InCollectionConstraint<P extends OWLObject> implements AbstractCons
 
     @Override
     public String render(ShortFormProvider shortFormProvider) {
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         buffer.append(this.variable.getName());
         buffer.append(" IN {");
         boolean first = true;
@@ -155,7 +155,7 @@ public class InCollectionConstraint<P extends OWLObject> implements AbstractCons
 
     @Override
     public String render(ConstraintSystem cs) {
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         buffer.append(this.variable.getName());
         buffer.append(" IN {");
         boolean first = true;

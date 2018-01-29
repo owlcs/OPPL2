@@ -29,6 +29,7 @@ import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
@@ -45,7 +46,6 @@ import org.protege.editor.core.ui.util.InputVerificationStatusChangedListener;
 import org.protege.editor.core.ui.util.VerifyingOptionPane;
 import org.protege.editor.owl.OWLEditorKit;
 import org.protege.editor.owl.model.inference.NoOpReasoner;
-import org.semanticweb.owlapi.model.OWLObject;
 
 /**
  * @author Luigi Iannone
@@ -80,16 +80,9 @@ public class VariableListItem implements MListItem, OPPLMacroStatusChange {
 
     @Override
     public String getTooltip() {
-        StringBuilder toReturnBuilder = new StringBuilder(variable.getName());
-        boolean first = true;
-        toReturnBuilder.append(" = ");
-        for (OWLObject value : getConstraintSystem().getVariableBindings(variable,
-            getRuntimeExceptionHandler())) {
-            String rendering = first ? owlEditorKit.getModelManager().getRendering(value)
-                : ", " + owlEditorKit.getModelManager().getRendering(value);
-            toReturnBuilder.append(rendering);
-        }
-        return toReturnBuilder.toString();
+        return getConstraintSystem().variableBindings(variable, getRuntimeExceptionHandler())
+            .map(owlEditorKit.getModelManager()::getRendering)
+            .collect(Collectors.joining(", ", variable.getName() + " = ", ""));
     }
 
     @Override

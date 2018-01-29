@@ -14,8 +14,8 @@ public class Logging {
     static {
         try {
             String logFileName = System.getProperty(LOG_FILE_PRPERTY_NAME);
-            InputStream in = logFileName == null ? null : Logging.class.getClassLoader()
-                .getResourceAsStream(logFileName);
+            InputStream in = logFileName == null ? null
+                : Logging.class.getClassLoader().getResourceAsStream(logFileName);
             if (in == null) {
                 in = Logging.class.getResourceAsStream("/oppl-logging.properties");
             }
@@ -23,9 +23,7 @@ public class Logging {
                 LogManager.getLogManager().readConfiguration(in);
                 in.close();
             }
-        } catch (SecurityException e) {
-            System.out.println("No local log configuration file found");
-        } catch (IOException e) {
+        } catch (SecurityException | IOException e) {
             System.out.println("No local log configuration file found");
         }
     }

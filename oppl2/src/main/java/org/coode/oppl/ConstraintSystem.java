@@ -122,7 +122,7 @@ public class ConstraintSystem {
 
     private static final RightKindVisitor rightKindVisitor = new RightKindVisitor();
 
-    private final static class VariableSet {
+    private static final class VariableSet {
 
         private final Map<String, Variable<?>> map = new HashMap<>();
         private final Map<IRI, Variable<?>> irisMap = new HashMap<>();
@@ -423,6 +423,13 @@ public class ConstraintSystem {
      */
     public Stream<BindingNode> leaves() {
         return leaves == null ? Stream.empty() : leaves.stream();
+    }
+
+    /**
+     * @return the leaves' count
+     */
+    public int leavesCount() {
+        return leaves == null ? 0 : leaves.size();
     }
 
     /**

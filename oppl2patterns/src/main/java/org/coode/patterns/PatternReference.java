@@ -23,6 +23,7 @@
 package org.coode.patterns;
 
 import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+import static org.semanticweb.owlapi.util.OWLAPIStreamUtils.asList;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -81,6 +82,119 @@ import org.semanticweb.owlapi.util.ShortFormProvider;
  * @param <O> type
  */
 public class PatternReference<O extends OWLObject> implements OPPLFunction<O> {
+
+    class RenderVisitor implements OPPLFunctionVisitor {
+        private final ValueComputationParameters parameters;
+        private final Set<OWLObject> set;
+        private final InputVariable<?> variable;
+
+        RenderVisitor(ValueComputationParameters parameters, Set<OWLObject> set,
+            InputVariable<?> variable) {
+            this.parameters = parameters;
+            this.set = set;
+            this.variable = variable;
+        }
+
+        @Override
+        public <P extends OWLObject> void visitValuesVariableAtttribute(
+            ValuesVariableAtttribute<P> valuesVariableAtttribute) {
+            if (this.variable.getType() == valuesVariableAtttribute.getVariable().getType()) {
+                Collection<? extends P> computedValues =
+                    valuesVariableAtttribute.compute(this.parameters);
+                this.set.addAll(computedValues);
+            } else {
+                PatternReference.this.runtimeExceptionHandler
+                    .handleException(new IncompatibleArgumentException(valuesVariableAtttribute
+                        .render(PatternReference.this.getConstraintSystem()), this.variable));
+            }
+        }
+
+        @Override
+        public void visitRenderingVariableAttribute(
+            RenderingVariableAttribute renderingVariableAttribute) {
+            PatternReference.this.runtimeExceptionHandler
+                .handleException(new IncompatibleArgumentException(
+                    renderingVariableAttribute.render(PatternReference.this.getConstraintSystem()),
+                    this.variable));
+        }
+
+        @Override
+        public void visitIRIVariableAttribute(IRIVariableAttribute iriVariableAttribute) {
+            PatternReference.this.runtimeExceptionHandler
+                .handleException(new IncompatibleArgumentException(
+                    iriVariableAttribute.render(PatternReference.this.getConstraintSystem()),
+                    this.variable));
+        }
+
+        @Override
+        public <P extends OWLObject> void visitGroupVariableAttribute(
+            GroupVariableAttribute<P> groupVariableAttribute) {
+            PatternReference.this.runtimeExceptionHandler
+                .handleException(new IncompatibleArgumentException(
+                    groupVariableAttribute.render(PatternReference.this.getConstraintSystem()),
+                    this.variable));
+        }
+
+        @Override
+        public <P extends OWLObject> void visitGenericOPPLFunction(OPPLFunction<P> opplFunction) {
+            PatternReference.this.runtimeExceptionHandler
+                .handleException(new IncompatibleArgumentException(
+                    opplFunction.render(PatternReference.this.getConstraintSystem()),
+                    this.variable));
+        }
+
+        @Override
+        public <P extends OWLObject> void visitExpression(Expression<P> expression) {
+            PatternReference.this.runtimeExceptionHandler
+                .handleException(new IncompatibleArgumentException(
+                    expression.render(PatternReference.this.getConstraintSystem()), this.variable));
+        }
+
+        @Override
+        public <P, I extends OPPLFunction<?>> void visitCreate(Create<I, P> create) {
+            PatternReference.this.runtimeExceptionHandler
+                .handleException(new IncompatibleArgumentException(
+                    create.render(PatternReference.this.getConstraintSystem()), this.variable));
+        }
+
+        @Override
+        public void visitToLowerCaseStringManipulationOPPLFunction(
+            ToLowerCaseStringManipulationOPPLFunction toLowerCaseStringManipulationOPPLFunction) {
+            PatternReference.this.runtimeExceptionHandler.handleException(
+                new IncompatibleArgumentException(toLowerCaseStringManipulationOPPLFunction
+                    .render(PatternReference.this.getConstraintSystem()), this.variable));
+        }
+
+        @Override
+        public void visitToUpperCaseStringManipulationOPPLFunction(
+            ToUpperCaseStringManipulationOPPLFunction upperCaseStringManipulationOPPLFunction) {
+            PatternReference.this.runtimeExceptionHandler.handleException(
+                new IncompatibleArgumentException(upperCaseStringManipulationOPPLFunction
+                    .render(PatternReference.this.getConstraintSystem()), this.variable));
+        }
+
+        @Override
+        public <P> void visitConstant(Constant<P> constant) {
+            PatternReference.this.runtimeExceptionHandler
+                .handleException(new IncompatibleArgumentException(
+                    constant.render(PatternReference.this.getConstraintSystem()), this.variable));
+        }
+
+        @Override
+        public <P, I> void visitAggregation(Aggregation<P, I> aggregation) {
+            PatternReference.this.runtimeExceptionHandler
+                .handleException(new IncompatibleArgumentException(
+                    aggregation.render(PatternReference.this.getConstraintSystem()),
+                    this.variable));
+        }
+
+        @Override
+        public <K extends OWLObject> void visitInlineSet(InlineSet<K> inlineSet) {
+            PatternReference.this.runtimeExceptionHandler
+                .handleException(new IncompatibleArgumentException(
+                    inlineSet.render(PatternReference.this.getConstraintSystem()), this.variable));
+        }
+    }
 
     private String patternName;
     private final PatternConstraintSystem patternConstraintSystem;
@@ -255,13 +369,8 @@ public class PatternReference<O extends OWLObject> implements OPPLFunction<O> {
         LeafBrusher leafBrusher = new LeafBrusher(bindings);
         BindingNode root = new BindingNode(bindings.keySet());
         root.accept(leafBrusher);
-        final Set<BindingNode> leaves = leafBrusher.getLeaves();
-        List<OWLObject> toReturn = new ArrayList<>(leaves.size());
-        for (BindingNode bindingNode : leaves) {
-            toReturn.add(this.getExtractedPattern().getDefinitorialPortion(
-                Collections.singleton(bindingNode), this.runtimeExceptionHandler));
-        }
-        return toReturn;
+        return asList(leafBrusher.leaves().map(b -> this.getExtractedPattern()
+            .getDefinitorialPortion(Collections.singleton(b), this.runtimeExceptionHandler)));
     }
 
     /**
@@ -321,138 +430,11 @@ public class PatternReference<O extends OWLObject> implements OPPLFunction<O> {
                         }
                     }));
                 } else if (object instanceof Aggregandum<?>) {
-                    Set<?> opplFunctions = ((Aggregandum<?>) object).getOPPLFunctions();
                     final ValueComputationParameters parameters =
                         new SimpleValueComputationParameters(this.getConstraintSystem(),
                             BindingNode.createNewEmptyBindingNode(), this.runtimeExceptionHandler);
-                    for (Object o : opplFunctions) {
-                        ((OPPLFunction<?>) o).accept(new OPPLFunctionVisitor() {
-
-                            @Override
-                            public <P extends OWLObject> void visitValuesVariableAtttribute(
-                                ValuesVariableAtttribute<P> valuesVariableAtttribute) {
-                                if (variable.getType() == valuesVariableAtttribute.getVariable()
-                                    .getType()) {
-                                    Collection<? extends P> computedValues =
-                                        valuesVariableAtttribute.compute(parameters);
-                                    set.addAll(computedValues);
-                                } else {
-                                    PatternReference.this.runtimeExceptionHandler
-                                        .handleException(new IncompatibleArgumentException(
-                                            valuesVariableAtttribute.render(
-                                                PatternReference.this.getConstraintSystem()),
-                                            variable));
-                                }
-                            }
-
-                            @Override
-                            public void visitRenderingVariableAttribute(
-                                RenderingVariableAttribute renderingVariableAttribute) {
-                                PatternReference.this.runtimeExceptionHandler
-                                    .handleException(new IncompatibleArgumentException(
-                                        renderingVariableAttribute
-                                            .render(PatternReference.this.getConstraintSystem()),
-                                        variable));
-                            }
-
-                            @Override
-                            public void visitIRIVariableAttribute(
-                                IRIVariableAttribute iriVariableAttribute) {
-                                PatternReference.this.runtimeExceptionHandler
-                                    .handleException(new IncompatibleArgumentException(
-                                        iriVariableAttribute
-                                            .render(PatternReference.this.getConstraintSystem()),
-                                        variable));
-                            }
-
-                            @Override
-                            public <P extends OWLObject> void visitGroupVariableAttribute(
-                                GroupVariableAttribute<P> groupVariableAttribute) {
-                                PatternReference.this.runtimeExceptionHandler
-                                    .handleException(new IncompatibleArgumentException(
-                                        groupVariableAttribute
-                                            .render(PatternReference.this.getConstraintSystem()),
-                                        variable));
-                            }
-
-                            @Override
-                            public <P extends OWLObject> void visitGenericOPPLFunction(
-                                OPPLFunction<P> opplFunction) {
-                                PatternReference.this.runtimeExceptionHandler
-                                    .handleException(new IncompatibleArgumentException(
-                                        opplFunction
-                                            .render(PatternReference.this.getConstraintSystem()),
-                                        variable));
-                            }
-
-                            @Override
-                            public <P extends OWLObject> void visitExpression(
-                                Expression<P> expression) {
-                                PatternReference.this.runtimeExceptionHandler
-                                    .handleException(new IncompatibleArgumentException(
-                                        expression
-                                            .render(PatternReference.this.getConstraintSystem()),
-                                        variable));
-                            }
-
-                            @Override
-                            public <P, I extends OPPLFunction<?>> void visitCreate(
-                                Create<I, P> create) {
-                                PatternReference.this.runtimeExceptionHandler
-                                    .handleException(new IncompatibleArgumentException(
-                                        create.render(PatternReference.this.getConstraintSystem()),
-                                        variable));
-                            }
-
-                            @Override
-                            public void visitToLowerCaseStringManipulationOPPLFunction(
-                                ToLowerCaseStringManipulationOPPLFunction toLowerCaseStringManipulationOPPLFunction) {
-                                PatternReference.this.runtimeExceptionHandler
-                                    .handleException(new IncompatibleArgumentException(
-                                        toLowerCaseStringManipulationOPPLFunction
-                                            .render(PatternReference.this.getConstraintSystem()),
-                                        variable));
-                            }
-
-                            @Override
-                            public void visitToUpperCaseStringManipulationOPPLFunction(
-                                ToUpperCaseStringManipulationOPPLFunction upperCaseStringManipulationOPPLFunction) {
-                                PatternReference.this.runtimeExceptionHandler
-                                    .handleException(new IncompatibleArgumentException(
-                                        upperCaseStringManipulationOPPLFunction
-                                            .render(PatternReference.this.getConstraintSystem()),
-                                        variable));
-                            }
-
-                            @Override
-                            public <P> void visitConstant(Constant<P> constant) {
-                                PatternReference.this.runtimeExceptionHandler
-                                    .handleException(new IncompatibleArgumentException(
-                                        constant
-                                            .render(PatternReference.this.getConstraintSystem()),
-                                        variable));
-                            }
-
-                            @Override
-                            public <P, I> void visitAggregation(Aggregation<P, I> aggregation) {
-                                PatternReference.this.runtimeExceptionHandler
-                                    .handleException(new IncompatibleArgumentException(
-                                        aggregation
-                                            .render(PatternReference.this.getConstraintSystem()),
-                                        variable));
-                            }
-
-                            @Override
-                            public <K extends OWLObject> void visitInlineSet(
-                                InlineSet<K> inlineSet) {
-                                PatternReference.this.runtimeExceptionHandler
-                                    .handleException(new IncompatibleArgumentException(
-                                        inlineSet
-                                            .render(PatternReference.this.getConstraintSystem()),
-                                        variable));
-                            }
-                        });
-                    }
+                    ((Aggregandum<?>) object).opplFunctions().forEach(o -> ((OPPLFunction<?>) o)
+                        .accept(new RenderVisitor(parameters, set, variable)));
                 }
             }
         }
@@ -625,7 +607,7 @@ public class PatternReference<O extends OWLObject> implements OPPLFunction<O> {
             BindingNode root =
                 new BindingNode(params.getBindingNode().getAssignments(), bindingsMap.keySet());
             root.accept(leafBrusher);
-            Set<BindingNode> leaves = leafBrusher.getLeaves();
+            List<BindingNode> leaves = asList(leafBrusher.leaves());
             return (O) this.getExtractedPattern().getDefinitorialPortion(leaves,
                 this.runtimeExceptionHandler);
         } catch (PatternException e) {

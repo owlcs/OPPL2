@@ -66,8 +66,7 @@ public class AssertedAxiomPlannerItem extends AbstractQueryPlannerItem {
     private Set<BindingNode> updateBindingsAssertedAxiom(OWLAxiom ax,
         RuntimeExceptionHandler runtimeExceptionHandler) {
         assert ax != null;
-        int initialSize = getConstraintSystem().getLeaves() == null ? 0
-            : getConstraintSystem().getLeaves().size();
+        int initialSize = getConstraintSystem().leavesCount();
         Logging.getQueryLogger().log("Initial size: ", Integer.valueOf(initialSize));
         AxiomQuery query =
             new AssertedSolvabilityBasedAxiomQuery(getConstraintSystem().getOntologyManager(),

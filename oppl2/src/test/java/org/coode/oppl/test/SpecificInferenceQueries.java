@@ -20,8 +20,6 @@ import org.coode.oppl.OPPLParser;
 import org.coode.oppl.OPPLScript;
 import org.coode.oppl.ParserFactory;
 import org.coode.oppl.PartialOWLObjectInstantiator;
-import org.coode.oppl.Variable;
-import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.exceptions.QuickFailRuntimeExceptionHandler;
 import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.oppl.function.SimpleValueComputationParameters;
@@ -136,13 +134,10 @@ public class SpecificInferenceQueries {
         ChangeExtractor changeExtractor = new ChangeExtractor(HANDLER, false);
         List<OWLAxiomChange> extractedChanges = changeExtractor.visit(opplScript);
         assertTrue(extractedChanges.size() == 2);
-        Set<BindingNode> leaves = opplScript.getConstraintSystem().getLeaves();
-        assertNotNull(leaves);
-        assertTrue(leaves.size() == 2);
+        assertTrue(opplScript.getConstraintSystem().leavesCount() == 2);
         Map<String, Set<OWLObject>> assignments = new HashMap<>();
-        for (BindingNode bindingNode : leaves) {
-            Set<Variable<?>> assignedVariables = bindingNode.getAssignedVariables();
-            for (Variable<?> variable : assignedVariables) {
+        opplScript.getConstraintSystem().leaves()
+            .forEach(bindingNode -> bindingNode.assignedVariables().forEach(variable -> {
                 String name = variable.getName();
                 if (name.compareTo(xVariableName) == 0 || name.compareTo(yVariableName) == 0) {
                     assignments.computeIfAbsent(name, x -> new HashSet<>())
@@ -150,8 +145,8 @@ public class SpecificInferenceQueries {
                             new SimpleValueComputationParameters(opplScript.getConstraintSystem(),
                                 bindingNode, HANDLER)));
                 }
-            }
-        }
+            }));
+
         Set<OWLObject> xValues = assignments.get(xVariableName);
         assertNotNull(xValues);
         assertTrue(xValues.size() == 2);
@@ -190,20 +185,17 @@ public class SpecificInferenceQueries {
 
     private static Set<OWLAxiom> getOPPLScriptInstantiatedAxioms(OPPLScript opplScript) {
         Set<OWLAxiom> toReturn = new HashSet<>();
-        Set<BindingNode> leaves = opplScript.getConstraintSystem().getLeaves();
-        if (leaves != null) {
-            for (BindingNode bindingNode : leaves) {
-                List<OWLAxiom> queryAxioms = opplScript.getQuery().getAssertedAxioms();
-                queryAxioms.addAll(opplScript.getQuery().getAxioms());
-                ValueComputationParameters parameters = new SimpleValueComputationParameters(
-                    opplScript.getConstraintSystem(), bindingNode, HANDLER);
-                PartialOWLObjectInstantiator partialOWLObjectInstantiator =
-                    new PartialOWLObjectInstantiator(parameters);
-                for (OWLAxiom axiom : queryAxioms) {
-                    toReturn.add((OWLAxiom) axiom.accept(partialOWLObjectInstantiator));
-                }
+        opplScript.getConstraintSystem().leaves().forEach(bindingNode -> {
+            List<OWLAxiom> queryAxioms = opplScript.getQuery().getAssertedAxioms();
+            queryAxioms.addAll(opplScript.getQuery().getAxioms());
+            ValueComputationParameters parameters = new SimpleValueComputationParameters(
+                opplScript.getConstraintSystem(), bindingNode, HANDLER);
+            PartialOWLObjectInstantiator partialOWLObjectInstantiator =
+                new PartialOWLObjectInstantiator(parameters);
+            for (OWLAxiom axiom : queryAxioms) {
+                toReturn.add((OWLAxiom) axiom.accept(partialOWLObjectInstantiator));
             }
-        }
+        });
         return toReturn;
     }
 }

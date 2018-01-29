@@ -49,34 +49,31 @@ public class TokenSync {
         }
 
         private void parse() {
-            try {
-                File file = new File(getPath());
-                BufferedReader reader = new BufferedReader(new FileReader(file));
+            try (FileReader in = new FileReader(new File(getPath()));
+                BufferedReader reader = new BufferedReader(in)) {
                 String line = null;
                 map.clear();
                 inverseMap.clear();
                 max = 0;
-                try {
-                    while ((line = reader.readLine()) != null) {
-                        Pattern pattern = Pattern.compile("(.*)=(.*)", Pattern.DOTALL);
-                        Matcher matcher = pattern.matcher(line);
-                        boolean matches = matcher.matches();
-                        if (matches) {
-                            final String tokenName = matcher.group(1);
-                            final int type = Integer.parseInt(matcher.group(2));
-                            map.put(Integer.valueOf(type), tokenName);
-                            inverseMap.put(tokenName, Integer.valueOf(type));
-                            max = Math.max(max, type);
-                        }
+                while ((line = reader.readLine()) != null) {
+                    Pattern pattern = Pattern.compile("(.*)=(.*)", Pattern.DOTALL);
+                    Matcher matcher = pattern.matcher(line);
+                    boolean matches = matcher.matches();
+                    if (matches) {
+                        final String tokenName = matcher.group(1);
+                        final int type = Integer.parseInt(matcher.group(2));
+                        map.put(Integer.valueOf(type), tokenName);
+                        inverseMap.put(tokenName, Integer.valueOf(type));
+                        max = Math.max(max, type);
                     }
-                    reader.close();
-                } catch (IOException e) {
-                    Logger.getLogger(this.getClass().getName()).log(Level.WARNING,
-                        "Could not read line " + e.getMessage());
                 }
+                reader.close();
             } catch (FileNotFoundException e) {
                 Logger.getLogger(this.getClass().getName()).log(Level.SEVERE,
                     "The File could not be open " + e.getMessage());
+            } catch (IOException e) {
+                Logger.getLogger(this.getClass().getName()).log(Level.WARNING,
+                    "Could not read line " + e.getMessage());
             }
         }
 
@@ -85,12 +82,12 @@ public class TokenSync {
         }
 
         protected void write(String outPath) throws FileNotFoundException {
-            PrintWriter writer = new PrintWriter(new File(outPath));
-            Set<Integer> keySet = new TreeSet<>(map.keySet());
-            for (Integer type : keySet) {
-                writer.println(map.get(type) + "=" + type);
+            try (PrintWriter writer = new PrintWriter(new File(outPath))) {
+                Set<Integer> keySet = new TreeSet<>(map.keySet());
+                for (Integer type : keySet) {
+                    writer.println(map.get(type) + "=" + type);
+                }
             }
-            writer.close();
         }
 
         public Set<Integer> getKeys() {

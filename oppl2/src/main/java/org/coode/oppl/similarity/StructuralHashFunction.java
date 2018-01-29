@@ -97,12 +97,12 @@ import org.semanticweb.owlapi.model.SWRLRule;
  */
 public class StructuralHashFunction implements HashFunction, OWLObjectVisitorEx<Integer> {
 
-    private final static Map<AxiomType<?>, Integer> axiomTypeHashCodes = new HashMap<>();
-    private final static Map<IRI, Integer> iriHashCodes = new HashMap<>();
-    private final static Map<OWLEntity, Integer> entityHashCodes = new HashMap<>();
-    private final static EnumMap<OWLConstruct, Integer> constructHashCodes =
+    private static final Map<AxiomType<?>, Integer> axiomTypeHashCodes = new HashMap<>();
+    private static final Map<IRI, Integer> iriHashCodes = new HashMap<>();
+    private static final Map<OWLEntity, Integer> entityHashCodes = new HashMap<>();
+    private static final EnumMap<OWLConstruct, Integer> constructHashCodes =
         new EnumMap<>(OWLConstruct.class);
-    private final static Map<Integer, Integer> integerHashCodes = new HashMap<>();
+    private static final Map<Integer, Integer> integerHashCodes = new HashMap<>();
     private static int maxPrime = 1;
     private static final Integer ONE = Integer.valueOf(1);
 

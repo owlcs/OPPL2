@@ -1,6 +1,8 @@
 package org.coode.oppl.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -12,7 +14,6 @@ import org.coode.oppl.OPPLParser;
 import org.coode.oppl.OPPLScript;
 import org.coode.oppl.ParserFactory;
 import org.coode.oppl.PartialOWLObjectInstantiator;
-import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.exceptions.QuickFailRuntimeExceptionHandler;
 import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.oppl.function.SimpleValueComputationParameters;
@@ -55,24 +56,21 @@ public abstract class AbstractTestCase {
             }
             Set<OWLAxiom> matches = new HashSet<>();
             StringWriter resultWriter = new StringWriter();
-            if (script.getConstraintSystem().getLeaves() != null
-                && !script.getConstraintSystem().getLeaves().isEmpty()) {
-                for (BindingNode bindingNode : script.getConstraintSystem().getLeaves()) {
-                    ValueComputationParameters parameters = new SimpleValueComputationParameters(
-                        script.getConstraintSystem(), bindingNode, HANDLER);
-                    PartialOWLObjectInstantiator partialOWLObjectInstantiator = new PartialOWLObjectInstantiator(
-                        parameters);
-                    for (OWLAxiom owlAxiom : queryAxioms) {
-                        OWLAxiom match = (OWLAxiom) owlAxiom
-                            .accept(partialOWLObjectInstantiator);
-                        matches.add(match);
-                        resultWriter.append(match.toString());
-                        resultWriter.append("\n");
-                    }
+            script.getConstraintSystem().leaves().forEach(b -> {
+                ValueComputationParameters parameters =
+                    new SimpleValueComputationParameters(script.getConstraintSystem(), b, HANDLER);
+                PartialOWLObjectInstantiator partialOWLObjectInstantiator =
+                    new PartialOWLObjectInstantiator(parameters);
+                for (OWLAxiom owlAxiom : queryAxioms) {
+                    OWLAxiom match = (OWLAxiom) owlAxiom.accept(partialOWLObjectInstantiator);
+                    matches.add(match);
+                    resultWriter.append(match.toString());
+                    resultWriter.append("\n");
                 }
-            }
-            assertEquals("Query " + script.toString() + "\n" + resultWriter.toString(),
-                expected, matches.size());
+            });
+
+            assertEquals("Query " + script.toString() + "\n" + resultWriter.toString(), expected,
+                matches.size());
         } catch (Exception e) {
             log(e);
         }
@@ -122,8 +120,9 @@ public abstract class AbstractTestCase {
 
     protected OPPLScript parse(String script, OWLOntology ontology, OWLReasoner reasoner) {
         try {
-            OPPLParser parser = new ParserFactory(ontology.getOWLOntologyManager(),
-                ontology, reasoner).build(errorListener);
+            OPPLParser parser =
+                new ParserFactory(ontology.getOWLOntologyManager(), ontology, reasoner)
+                    .build(errorListener);
             return parser.parse(script);
         } catch (Exception e) {
             if (longStackTrace) {
@@ -175,9 +174,7 @@ public abstract class AbstractTestCase {
                 } catch (NumberFormatException e) {
                     fail(
                         "ExhaustingTestCase.checkProperStackTrace() Could not parse a column number to verify the correctness of the stack trace:\nExpected error type: "
-                            + expected
-                            + "\nExpected error column: "
-                            + expectedIndex
+                            + expected + "\nExpected error column: " + expectedIndex
                             + "\n actual stacktrace: " + stackTrace);
                 }
             } else {
@@ -187,11 +184,10 @@ public abstract class AbstractTestCase {
                     "ExhaustingTestCase.testParseDoubleVariableDeclaration() No column info checked; stack trace correct unless a column number was expected.");
             }
         } else {
-            fail("ExhaustingTestCase The stack trace does not correspond to the expected one! \nExpected error type: "
-                + expected
-                + "\nExpected error column: "
-                + expectedIndex
-                + "\n actual stacktrace: " + stackTrace);
+            fail(
+                "ExhaustingTestCase The stack trace does not correspond to the expected one! \nExpected error type: "
+                    + expected + "\nExpected error column: " + expectedIndex
+                    + "\n actual stacktrace: " + stackTrace);
         }
     }
 

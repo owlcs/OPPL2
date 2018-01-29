@@ -1,24 +1,30 @@
 package org.coode.oppl.queryplanner;
 
+import static org.semanticweb.owlapi.util.OWLAPIStreamUtils.add;
+
 import java.util.HashSet;
 import java.util.Set;
 
-import org.coode.oppl.*;
+import org.coode.oppl.ConstraintVisitor;
+import org.coode.oppl.InCollectionConstraint;
+import org.coode.oppl.InequalityConstraint;
+import org.coode.oppl.NAFConstraint;
+import org.coode.oppl.RegExpConstraint;
+import org.coode.oppl.Variable;
 import org.coode.oppl.utils.VariableExtractor;
 import org.semanticweb.owlapi.model.OWLObject;
 
 /**
  * @author Luigi Iannone
  */
-public class QueryItemVariableExtractor implements
-    QueryPlannerVisitorEx<Set<Variable<?>>> {
+public class QueryItemVariableExtractor implements QueryPlannerVisitorEx<Set<Variable<?>>> {
 
     @Override
     public Set<Variable<?>> visitConstraintQueryPlannerItem(
         ConstraintQueryPlannerItem constraintQueryPlannerItem) {
         final Set<Variable<?>> toReturn = new HashSet<>();
-        final VariableExtractor variableExtractor = new VariableExtractor(
-            constraintQueryPlannerItem.getConstraintSystem(), false);
+        final VariableExtractor variableExtractor =
+            new VariableExtractor(constraintQueryPlannerItem.getConstraintSystem(), false);
         constraintQueryPlannerItem.getConstraint().accept(new ConstraintVisitor() {
 
             @Override
@@ -28,12 +34,10 @@ public class QueryItemVariableExtractor implements
             }
 
             @Override
-            public void visitInCollectionConstraint(
-                InCollectionConstraint<? extends OWLObject> c) {
+            public void visitInCollectionConstraint(InCollectionConstraint<? extends OWLObject> c) {
                 toReturn.add(c.getVariable());
-                for (OWLObject object : c.getCollection()) {
-                    toReturn.addAll(variableExtractor.extractVariables(object));
-                }
+                add(toReturn,
+                    c.collection().flatMap(v -> variableExtractor.extractVariables(v).stream()));
             }
 
             @Override
@@ -44,8 +48,7 @@ public class QueryItemVariableExtractor implements
 
             @Override
             public void visit(NAFConstraint nafConstraint) {
-                toReturn.addAll(variableExtractor.extractVariables(nafConstraint
-                    .getAxiom()));
+                toReturn.addAll(variableExtractor.extractVariables(nafConstraint.getAxiom()));
             }
         });
         return toReturn;
@@ -54,17 +57,16 @@ public class QueryItemVariableExtractor implements
     @Override
     public Set<Variable<?>> visitAssertedAxiomPlannerItem(
         AssertedAxiomPlannerItem assertedAxiomPlannerItem) {
-        VariableExtractor variableExtractor = new VariableExtractor(
-            assertedAxiomPlannerItem.getConstraintSystem(), false);
+        VariableExtractor variableExtractor =
+            new VariableExtractor(assertedAxiomPlannerItem.getConstraintSystem(), false);
         return variableExtractor.extractVariables(assertedAxiomPlannerItem.getAxiom());
     }
 
     @Override
     public Set<Variable<?>> visitInferredAxiomQueryPlannerItem(
         InferredAxiomQueryPlannerItem inferredAxiomQueryPlannerItem) {
-        VariableExtractor variableExtractor = new VariableExtractor(
-            inferredAxiomQueryPlannerItem.getConstraintSystem(), false);
-        return variableExtractor.extractVariables(inferredAxiomQueryPlannerItem
-            .getAxiom());
+        VariableExtractor variableExtractor =
+            new VariableExtractor(inferredAxiomQueryPlannerItem.getConstraintSystem(), false);
+        return variableExtractor.extractVariables(inferredAxiomQueryPlannerItem.getAxiom());
     }
 }

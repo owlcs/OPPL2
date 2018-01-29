@@ -37,8 +37,7 @@ public class OWLEntityRenderingCacheImpl implements OWLEntityRenderingCache {
     protected Map<OWLEntity, String> entityRenderingMap = new HashMap<>();
     protected final OWLOntologyManager manager;
     protected final OWLEntityRenderer entityRenderer;
-    protected OWLOntologyChangeListener listener =
-        changes -> OWLEntityRenderingCacheImpl.this.processChanges(changes);
+    protected OWLOntologyChangeListener listener = OWLEntityRenderingCacheImpl.this::processChanges;
 
     /**
      * @param manager manager

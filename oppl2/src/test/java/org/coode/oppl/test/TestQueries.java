@@ -4,6 +4,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.semanticweb.owlapi.util.OWLAPIStreamUtils.asList;
+import static org.semanticweb.owlapi.util.OWLAPIStreamUtils.asSet;
 
 import java.io.StringWriter;
 import java.util.ArrayList;
@@ -35,7 +36,6 @@ import org.coode.oppl.exceptions.QuickFailRuntimeExceptionHandler;
 import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.oppl.function.SimpleValueComputationParameters;
 import org.coode.oppl.function.ValueComputationParameters;
-import org.coode.oppl.log.Logging;
 import org.coode.oppl.utils.VariableDetector;
 import org.coode.oppl.utils.VariableExtractor;
 import org.coode.oppl.variabletypes.ANNOTATIONPROPERTYVariableType;
@@ -144,23 +144,20 @@ public class TestQueries {
         BindingNode root = new BindingNode(new HashSet<Variable<?>>(inputVariables));
         LeafBrusher leafBrusher = new LeafBrusher(bindings);
         root.accept(leafBrusher);
-        Set<BindingNode> leaves = leafBrusher.getLeaves();
         OPPLQuery query = opplScript.getQuery();
         if (query != null) {
             List<OWLAxiom> axioms = query.getAssertedAxioms();
             axioms.addAll(query.getAxioms());
-            if (leaves != null) {
-                for (BindingNode bindingNode : leaves) {
-                    ValueComputationParameters parameters = new SimpleValueComputationParameters(
-                        opplScript.getConstraintSystem(), bindingNode, HANDLER);
-                    PartialOWLObjectInstantiator partialOWLObjectInstantiator =
-                        new PartialOWLObjectInstantiator(parameters);
-                    for (OWLAxiom owlAxiom : axioms) {
-                        o.getOWLOntologyManager().addAxiom(o,
-                            (OWLAxiom) owlAxiom.accept(partialOWLObjectInstantiator));
-                    }
+            leafBrusher.leaves().forEach(bindingNode -> {
+                ValueComputationParameters parameters = new SimpleValueComputationParameters(
+                    opplScript.getConstraintSystem(), bindingNode, HANDLER);
+                PartialOWLObjectInstantiator partialOWLObjectInstantiator =
+                    new PartialOWLObjectInstantiator(parameters);
+                for (OWLAxiom owlAxiom : axioms) {
+                    o.getOWLOntologyManager().addAxiom(o,
+                        (OWLAxiom) owlAxiom.accept(partialOWLObjectInstantiator));
                 }
-            }
+            });
         }
     }
 
@@ -516,22 +513,20 @@ public class TestQueries {
     private static Set<OWLAxiom> getOPPLScriptResults(final OPPLScript opplScript) {
         ChangeExtractor changeExtractor = new ChangeExtractor(HANDLER, true);
         changeExtractor.visit(opplScript);
-        Set<BindingNode> checkLeaves = opplScript.getConstraintSystem().getLeaves();
+        Set<BindingNode> checkLeaves = asSet(opplScript.getConstraintSystem().leaves());
         final Set<OWLAxiom> correctResults = new HashSet<>();
         Set<OWLAxiom> queryAxioms = new HashSet<>();
         if (opplScript.getQuery() != null) {
             queryAxioms.addAll(opplScript.getQuery().getAssertedAxioms());
             queryAxioms.addAll(opplScript.getQuery().getAxioms());
         }
-        if (checkLeaves != null) {
-            for (BindingNode bindingNode : checkLeaves) {
-                ValueComputationParameters parameters = new SimpleValueComputationParameters(
-                    opplScript.getConstraintSystem(), bindingNode, HANDLER);
-                PartialOWLObjectInstantiator partialOWLObjectInstantiator =
-                    new PartialOWLObjectInstantiator(parameters);
-                for (OWLAxiom owlAxiom : queryAxioms) {
-                    correctResults.add((OWLAxiom) owlAxiom.accept(partialOWLObjectInstantiator));
-                }
+        for (BindingNode bindingNode : checkLeaves) {
+            ValueComputationParameters parameters = new SimpleValueComputationParameters(
+                opplScript.getConstraintSystem(), bindingNode, HANDLER);
+            PartialOWLObjectInstantiator partialOWLObjectInstantiator =
+                new PartialOWLObjectInstantiator(parameters);
+            for (OWLAxiom owlAxiom : queryAxioms) {
+                correctResults.add((OWLAxiom) owlAxiom.accept(partialOWLObjectInstantiator));
             }
         }
         return correctResults;
@@ -648,9 +643,7 @@ public class TestQueries {
         OPPLScript opplScript = parseScript(opplString, testOntology);
         Set<OWLAxiom> results = getOPPLScriptResults(opplScript);
         assertTrue(results.size() == 1);
-        assertTrue(opplScript.getConstraintSystem().getLeaves().size() == 2);
-        Logging.getQueryTestLogging().info(" Leaves ",
-            opplScript.getConstraintSystem().getLeaves());
+        assertTrue(opplScript.getConstraintSystem().leavesCount() == 2);
     }
 
     @Test
@@ -666,9 +659,7 @@ public class TestQueries {
         OPPLScript opplScript = parseScript(opplString, testOntology);
         Set<OWLAxiom> results = getOPPLScriptResults(opplScript);
         assertTrue(results.size() == 1);
-        assertTrue(opplScript.getConstraintSystem().getLeaves().size() == 2);
-        Logging.getQueryTestLogging().info(" Leaves ",
-            opplScript.getConstraintSystem().getLeaves());
+        assertTrue(opplScript.getConstraintSystem().leavesCount() == 2);
     }
 
     @Test
@@ -684,9 +675,7 @@ public class TestQueries {
         OPPLScript opplScript = parseScript(opplString, testOntology);
         Set<OWLAxiom> results = getOPPLScriptResults(opplScript);
         assertTrue(results.size() == 1);
-        assertTrue(opplScript.getConstraintSystem().getLeaves().size() == 2);
-        Logging.getQueryTestLogging().info(" Leaves ",
-            opplScript.getConstraintSystem().getLeaves());
+        assertTrue(opplScript.getConstraintSystem().leavesCount() == 2);
     }
 
     @Test
@@ -702,9 +691,7 @@ public class TestQueries {
         OPPLScript opplScript = parseScript(opplString, testOntology);
         Set<OWLAxiom> results = getOPPLScriptResults(opplScript);
         assertTrue(results.size() == 1);
-        assertTrue(opplScript.getConstraintSystem().getLeaves().size() == 2);
-        Logging.getQueryTestLogging().info(" Leaves ",
-            opplScript.getConstraintSystem().getLeaves());
+        assertTrue(opplScript.getConstraintSystem().leavesCount() == 2);
     }
 
     @Test
@@ -718,9 +705,7 @@ public class TestQueries {
         OPPLScript opplScript = parseScript(opplString, testOntology);
         Set<OWLAxiom> results = getOPPLScriptResults(opplScript);
         assertTrue(results.size() == 1);
-        assertTrue(opplScript.getConstraintSystem().getLeaves().size() == 2);
-        Logging.getQueryTestLogging().info(" Leaves ",
-            opplScript.getConstraintSystem().getLeaves());
+        assertTrue(opplScript.getConstraintSystem().leavesCount() == 2);
     }
 
     @Test
@@ -734,9 +719,7 @@ public class TestQueries {
         OPPLScript opplScript = parseScript(opplString, testOntology);
         Set<OWLAxiom> results = getOPPLScriptResults(opplScript);
         assertTrue(results.size() == 1);
-        assertTrue(opplScript.getConstraintSystem().getLeaves().size() == 2);
-        Logging.getQueryTestLogging().info(" Leaves ",
-            opplScript.getConstraintSystem().getLeaves());
+        assertTrue(opplScript.getConstraintSystem().leavesCount() == 2);
     }
 
     @Test
@@ -753,9 +736,7 @@ public class TestQueries {
         OPPLScript opplScript = parseScript(opplString, testOntology);
         Set<OWLAxiom> results = getOPPLScriptResults(opplScript);
         assertTrue(results.size() == 1);
-        assertTrue(opplScript.getConstraintSystem().getLeaves().size() == 2);
-        Logging.getQueryTestLogging().info(" Leaves ",
-            opplScript.getConstraintSystem().getLeaves());
+        assertTrue(opplScript.getConstraintSystem().leavesCount() == 2);
     }
 
     @Test
@@ -771,9 +752,7 @@ public class TestQueries {
         OPPLScript opplScript = parseScript(opplString, testOntology);
         Set<OWLAxiom> results = getOPPLScriptResults(opplScript);
         assertTrue(results.size() == 1);
-        assertTrue(opplScript.getConstraintSystem().getLeaves().size() == 2);
-        Logging.getQueryTestLogging().info(" Leaves ",
-            opplScript.getConstraintSystem().getLeaves());
+        assertTrue(opplScript.getConstraintSystem().leavesCount() == 2);
     }
 
     @Test
@@ -788,9 +767,6 @@ public class TestQueries {
         OPPLScript opplScript = parseScript(opplString, testOntology);
         Set<OWLAxiom> results = getOPPLScriptResults(opplScript);
         assertTrue(results.size() == 1);
-        assertTrue("Expected 2 Actual " + opplScript.getConstraintSystem().getLeaves().size(),
-            opplScript.getConstraintSystem().getLeaves().size() == 2);
-        Logging.getQueryTestLogging().info(" Leaves ",
-            opplScript.getConstraintSystem().getLeaves());
+        assertTrue(opplScript.getConstraintSystem().leavesCount() == 2);
     }
 }

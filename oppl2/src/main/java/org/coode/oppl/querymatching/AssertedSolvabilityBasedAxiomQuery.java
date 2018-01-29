@@ -116,6 +116,10 @@ public class AssertedSolvabilityBasedAxiomQuery extends AbstractAxiomQuery {
         return solutions;
     }
 
+    /**
+     * @param solutions solutions to process
+     * @return extracted leaves
+     */
     public static Set<BindingNode> extractLeaves(
         List<List<? extends OPPLOWLAxiomSearchNode>> solutions) {
         return asSet(solutions.stream().map(AssertedSolvabilityBasedAxiomQuery::leafBinding));

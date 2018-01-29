@@ -76,8 +76,8 @@ public class ConstraintChecker implements ConstraintVisitorEx<Boolean> {
     public Boolean visit(InCollectionConstraint<? extends OWLObject> c) {
         OWLObject assignedValue =
             getParameters().getBindingNode().getAssignmentValue(c.getVariable(), getParameters());
-        return Boolean.valueOf(
-            c.getCollection().stream().anyMatch(o -> assignedValue.equals(o.accept(instantiator))));
+        return Boolean
+            .valueOf(c.collection().anyMatch(o -> assignedValue.equals(o.accept(instantiator))));
     }
 
     @Override

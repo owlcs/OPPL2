@@ -6,7 +6,19 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Point;
 import java.awt.Window;
-import java.awt.event.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.HierarchyEvent;
+import java.awt.event.HierarchyListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -54,8 +66,7 @@ public final class AutoCompleter {
         @Override
         public void keyReleased(KeyEvent e) {
             if (e.getKeyCode() != KeyEvent.VK_UP && e.getKeyCode() != KeyEvent.VK_DOWN) {
-                if (popupWindow.isVisible()
-                    && !lastTextUpdate.equals(textComponent.getText())) {
+                if (popupWindow.isVisible() && !lastTextUpdate.equals(textComponent.getText())) {
                     lastTextUpdate = textComponent.getText();
                     AutoCompleter.this.updatePopup(AutoCompleter.this.getMatches());
                 }
@@ -190,8 +201,8 @@ public final class AutoCompleter {
 
     protected void createPopupWindow() {
         JScrollPane sp = new JScrollPane(popupList);
-        popupWindow = new JWindow((Window) SwingUtilities.getAncestorOfClass(
-            Window.class, textComponent));
+        popupWindow =
+            new JWindow((Window) SwingUtilities.getAncestorOfClass(Window.class, textComponent));
         // popupWindow.setAlwaysOnTop(true); // this doesn't appear to work with
         // certain Windows/java combinations
         popupWindow.getContentPane().setLayout(new BorderLayout());
@@ -247,9 +258,7 @@ public final class AutoCompleter {
                     p = textComponent.modelToView(wordIndex).getLocation();
                 }
                 SwingUtilities.convertPointToScreen(p, textComponent);
-                p.y = p.y
-                    + textComponent.getFontMetrics(textComponent.getFont())
-                        .getHeight();
+                p.y = p.y + textComponent.getFontMetrics(textComponent.getFont()).getHeight();
                 popupWindow.setLocation(p);
             } catch (BadLocationException e) {
                 e.printStackTrace();
@@ -316,9 +325,9 @@ public final class AutoCompleter {
             String expression = textComponent.getDocument().getText(0, caretPos);
             int escapeEnd = -1;
             do {
-                int escapeStart = expression.indexOf("'", escapeEnd + 1);
+                int escapeStart = expression.indexOf('\'', escapeEnd + 1);
                 if (escapeStart != -1) {
-                    escapeEnd = expression.indexOf("'", escapeStart + 1);
+                    escapeEnd = expression.indexOf('\'', escapeStart + 1);
                     if (escapeEnd == -1) {
                         return escapeStart;
                     }
@@ -337,8 +346,7 @@ public final class AutoCompleter {
             int caretPos = Math.max(0, getEffectiveCaretPosition() - 1);
             if (caretPos > 0) {
                 for (int index = caretPos; index > -1; index--) {
-                    if (wordDelimeters.contains(textComponent.getDocument().getText(
-                        index, 1))) {
+                    if (wordDelimeters.contains(textComponent.getDocument().getText(index, 1))) {
                         return index + 1;
                     }
                     if (index == 0) {

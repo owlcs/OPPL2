@@ -1,11 +1,13 @@
 package org.coode.oppl.function.inline;
 
 import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+import static org.semanticweb.owlapi.util.OWLAPIStreamUtils.asSet;
 
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.coode.oppl.ConstraintSystem;
@@ -122,41 +124,20 @@ public final class InlineSet<O extends OWLObject> implements Set<O>, OPPLFunctio
 
     @Override
     public Set<O> compute(ValueComputationParameters params) {
-        Set<O> toReturn = new HashSet<>();
-        for (Aggregandum<Collection<O>> aggregandum : this.aggregandums) {
-            Set<OPPLFunction<Collection<O>>> opplFunctions = aggregandum.getOPPLFunctions();
-            for (OPPLFunction<Collection<O>> opplFunction : opplFunctions) {
-                Collection<? extends O> value = opplFunction.compute(params);
-                toReturn.addAll(value);
-            }
-        }
-        return toReturn;
+        return asSet(this.aggregandums.stream().flatMap(Aggregandum::opplFunctions)
+            .flatMap(f -> f.compute(params).stream()));
     }
 
     @Override
     public String render(ConstraintSystem constraintSystem) {
-        StringBuilder out = new StringBuilder("set(");
-        Iterator<Aggregandum<Collection<O>>> aggregandumIterator = this.aggregandums.iterator();
-        while (aggregandumIterator.hasNext()) {
-            Aggregandum<Collection<O>> aggregandum = aggregandumIterator.next();
-            String comma = aggregandumIterator.hasNext() ? ", " : "";
-            out.append(aggregandum.render(constraintSystem)).append(comma);
-        }
-        out.append(")");
-        return out.toString();
+        return aggregandums.stream().map(a -> a.render(constraintSystem))
+            .collect(Collectors.joining(" : ", "set(", ")"));
     }
 
     @Override
     public String render(ShortFormProvider shortFormProvider) {
-        StringBuilder out = new StringBuilder("set(");
-        Iterator<Aggregandum<Collection<O>>> aggregandumIterator = this.aggregandums.iterator();
-        while (aggregandumIterator.hasNext()) {
-            Aggregandum<Collection<O>> aggregandum = aggregandumIterator.next();
-            String comma = aggregandumIterator.hasNext() ? ", " : "";
-            out.append(aggregandum.render(shortFormProvider)).append(comma);
-        }
-        out.append(")");
-        return out.toString();
+        return aggregandums.stream().map(a -> a.render(shortFormProvider))
+            .collect(Collectors.joining(" : ", "set(", ")"));
     }
 
     /**

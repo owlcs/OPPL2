@@ -24,7 +24,6 @@ package org.coode.oppl.utils;
 
 import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -145,21 +144,15 @@ public class VariableExtractor {
 
                 @Override
                 public <O, I> Set<Variable<?>> visitAggregation(Aggregation<O, I> a) {
-                    for (Aggregandum<I> agg : a.getToAggregate()) {
-                        for (OPPLFunction<? extends I> opplFunction : agg.getOPPLFunctions()) {
-                            opplFunction.accept(this);
-                        }
-                    }
+                    a.toAggregate().flatMap(Aggregandum::opplFunctions)
+                        .forEach(f -> f.accept(this));
                     return set;
                 }
 
                 @Override
                 public <O extends OWLObject> Set<Variable<?>> visitInlineSet(InlineSet<O> a) {
-                    for (Aggregandum<Collection<O>> agg : a.getAggregandums()) {
-                        for (OPPLFunction<Collection<O>> f : agg.getOPPLFunctions()) {
-                            f.accept(this);
-                        }
-                    }
+                    a.aggregandums().flatMap(Aggregandum::opplFunctions)
+                        .forEach(f -> f.accept(this));
                     return set;
                 }
 

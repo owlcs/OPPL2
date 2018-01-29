@@ -684,13 +684,8 @@ public class PatternInstantiationEditor extends AbstractOWLObjectEditor<Instanti
             variableList.addListSelectionListener(this);
             if (instantantiatedPatternModel2CopyFrom != null) {
                 for (Variable<?> inputVariable : inputVariables) {
-                    Set<OWLObject> instantiations =
-                        instantantiatedPatternModel2CopyFrom.getInstantiations(inputVariable);
-                    if (instantiations != null) {
-                        for (OWLObject object : instantiations) {
-                            instantiatedPatternModel.instantiate(inputVariable, object);
-                        }
-                    }
+                    instantantiatedPatternModel2CopyFrom.instantiations(inputVariable)
+                        .forEach(o -> instantiatedPatternModel.instantiate(inputVariable, o));
                 }
                 instantantiatedPatternModel2CopyFrom = null;
             }
@@ -777,19 +772,15 @@ public class PatternInstantiationEditor extends AbstractOWLObjectEditor<Instanti
             Variable<?> variable = item.getVariable();
             valueList = new VariableValuesMList(variable);
             valueList.getModel().addListDataListener(this);
-            Set<OWLObject> instantiations = instantiatedPatternModel.getInstantiations(variable);
-            if (instantiations != null) {
-                for (OWLObject object : instantiations) {
-                    valueList.getDefaultModel()
-                        .addElement(new VariableValueListItem(variable, object) {
+            instantiatedPatternModel.instantiations(variable).forEach(
+                o -> valueList.getDefaultModel().addElement(new VariableValueListItem(variable, o) {
 
-                            @Override
-                            public String getTooltip() {
-                                return getVariable().toString();
-                            }
-                        });
-                }
-            }
+                    @Override
+                    public String getTooltip() {
+                        return getVariable().toString();
+                    }
+                }));
+
             valuePane = ComponentFactory.createScrollPane(valueList);
         }
         instantiationPanel.add(variablePane, JSplitPane.LEFT);
