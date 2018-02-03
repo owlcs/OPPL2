@@ -23,6 +23,7 @@
 package org.coode.oppl.bindingtree;
 
 import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+import static org.semanticweb.owlapi.util.OWLAPIStreamUtils.add;
 import static org.semanticweb.owlapi.util.OWLAPIStreamUtils.asSet;
 
 import java.util.ArrayList;
@@ -127,9 +128,9 @@ public class BindingNode implements Renderable {
      * @param unassignedVariables unassignedVariables
      */
     public BindingNode(Collection<Assignment> assignments,
-        Collection<? extends Variable<?>> unassignedVariables) {
+        Stream<? extends Variable<?>> unassignedVariables) {
         this.assignments.addAll(assignments);
-        this.unassignedVariables.addAll(unassignedVariables);
+        add(this.unassignedVariables, unassignedVariables);
     }
 
     /**
@@ -159,7 +160,7 @@ public class BindingNode implements Renderable {
      * @param bindingNode bindingNode
      */
     public BindingNode(BindingNode bindingNode) {
-        this(bindingNode.assignments, bindingNode.unassignedVariables);
+        this(bindingNode.assignments, bindingNode.unassignedVariables.stream());
     }
 
     protected BindingNode() {}

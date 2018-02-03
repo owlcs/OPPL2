@@ -122,7 +122,7 @@ public class OWLAxiomSearchTree extends SearchTree<OWLAxiom> {
             for (OWLObject value : values) {
                 Assignment assignment = new Assignment(variable, value);
                 BindingNode bindingNode =
-                    new BindingNode(Collections.singleton(assignment), variables);
+                    new BindingNode(Collections.singleton(assignment), variables.stream());
                 SimpleValueComputationParameters par =
                     new SimpleValueComputationParameters(getParameters().getConstraintSystem(),
                         bindingNode, getParameters().getRuntimeExceptionHandler());

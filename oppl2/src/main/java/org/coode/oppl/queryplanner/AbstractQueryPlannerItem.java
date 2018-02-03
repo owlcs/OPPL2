@@ -5,6 +5,7 @@ import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.Variable;
@@ -20,8 +21,7 @@ public abstract class AbstractQueryPlannerItem implements QueryPlannerItem {
     private final ConstraintSystem constraintSystem;
 
     /**
-     * @param constraintSystem
-     *        constraintSystem
+     * @param constraintSystem constraintSystem
      */
     public AbstractQueryPlannerItem(ConstraintSystem constraintSystem) {
         this.constraintSystem = checkNotNull(constraintSystem, "constraintSystem");
@@ -33,9 +33,9 @@ public abstract class AbstractQueryPlannerItem implements QueryPlannerItem {
         for (BindingNode bindingNode : newLeaves) {
             Set<Assignment> newAssignment = new HashSet<>(leaf.getAssignments());
             newAssignment.addAll(bindingNode.getAssignments());
-            Set<Variable<?>> newUnassigendVariables = new HashSet<>(
-                leaf.getUnassignedVariables());
-            newUnassigendVariables.addAll(bindingNode.getUnassignedVariables());
+            Stream<Variable<?>> newUnassigendVariables =
+                Stream.concat(leaf.getUnassignedVariables().stream(),
+                    bindingNode.getUnassignedVariables().stream());
             toReturn.add(new BindingNode(newAssignment, newUnassigendVariables));
         }
         return toReturn;

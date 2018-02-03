@@ -161,6 +161,26 @@ public final class InlineSet<O extends OWLObject> implements Set<O>, OPPLFunctio
         return new InlineSet<>(variableType, set, dataFactory, constraintSystem);
     }
 
+    /**
+     * @param dataFactory dataFactory
+     * @param constraintSystem constraintSystem
+     * @param variableType variableType
+     * @param components components
+     * @param objects objects
+     * @param <P> set type
+     * @return inline set
+     */
+    public static <P extends OWLObject> InlineSet<P> buildInlineSet(OWLDataFactory dataFactory,
+        ConstraintSystem constraintSystem, VariableType<P> variableType,
+        Collection<? extends InlineSet<P>> components, Collection<P> objects) {
+        Set<Aggregandum<Collection<P>>> set = new HashSet<>();
+        components.forEach(s -> OWLAPIStreamUtils.add(set, s.aggregandums()));
+        for (P p : objects) {
+            set.add(Adapter.buildAggregandumOfCollection(p));
+        }
+        return new InlineSet<>(variableType, set, dataFactory, constraintSystem);
+    }
+
     // Delegate methods
     @Override
     public boolean add(O o) {

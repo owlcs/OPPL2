@@ -604,8 +604,8 @@ public class PatternReference<O extends OWLObject> implements OPPLFunction<O> {
         try {
             Map<Variable<?>, Set<OWLObject>> bindingsMap = this.getBindingsMap();
             LeafBrusher leafBrusher = new LeafBrusher(bindingsMap);
-            BindingNode root =
-                new BindingNode(params.getBindingNode().getAssignments(), bindingsMap.keySet());
+            BindingNode root = new BindingNode(params.getBindingNode().getAssignments(),
+                bindingsMap.keySet().stream());
             root.accept(leafBrusher);
             List<BindingNode> leaves = asList(leafBrusher.leaves());
             return (O) this.getExtractedPattern().getDefinitorialPortion(leaves,

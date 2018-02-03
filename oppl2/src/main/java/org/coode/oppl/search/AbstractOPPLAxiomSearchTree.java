@@ -244,7 +244,7 @@ public abstract class AbstractOPPLAxiomSearchTree extends SearchTree<OPPLOWLAxio
         OWLAxiom newStartAxiom = (OWLAxiom) start.getAxiom().accept(partialObjectInstantiator);
         VariableExtractor variableExtractor = new VariableExtractor(getConstraintSystem(), false);
         BindingNode newBindingNode = new BindingNode(bindingNode.getAssignments(),
-            variableExtractor.extractVariables(newStartAxiom));
+            variableExtractor.extractVariables(newStartAxiom).stream());
         OPPLOWLAxiomSearchNode newStart = new OPPLOWLAxiomSearchNode(newStartAxiom, newBindingNode);
         List<List<OPPLOWLAxiomSearchNode>> bindingNodeSolutions = new ArrayList<>();
         boolean bindingNodeSearch = super.exhaustiveSearchTree(newStart, bindingNodeSolutions);

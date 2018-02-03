@@ -116,7 +116,7 @@ public class LeafBrusher implements BindingVisitor {
                     if (!(owlObject instanceof OWLOntology)) {
                         Assignment extraAssignment = new Assignment(variable, owlObject);
                         BindingNode newNode =
-                            new BindingNode(node.getAssignments(), unassignedVariables);
+                            new BindingNode(node.getAssignments(), unassignedVariables.stream());
                         newNode.addAssignment(extraAssignment);
                         toReturn.add(newNode);
                     }

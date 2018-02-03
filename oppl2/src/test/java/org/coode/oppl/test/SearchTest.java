@@ -132,7 +132,7 @@ public class SearchTest {
                     for (OWLObject assignedValue : assignedValues) {
                         Assignment assignment = new Assignment(variable, assignedValue);
                         BindingNode bindingNode =
-                            new BindingNode(Collections.singleton(assignment), variables);
+                            new BindingNode(Collections.singleton(assignment), variables.stream());
                         ValueComputationParameters parameters =
                             new SimpleValueComputationParameters(constraintSystem, bindingNode,
                                 HANDLER);

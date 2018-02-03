@@ -1,6 +1,7 @@
 package org.coode.patterns.locality;
 
 import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+import static org.semanticweb.owlapi.util.OWLAPIStreamUtils.asSet;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -142,10 +143,11 @@ public class LocalityCheckerLeafBrusher implements BindingVisitor {
         Set<Variable<?>> unassignedVariables = node.getUnassignedVariables();
         for (Variable<?> variable : unassignedVariables) {
             for (OWLObject owlObject : variableBindings.get(variable)) {
-                Set<Variable<?>> childUnassignedVariables = new HashSet<>(unassignedVariables);
-                childUnassignedVariables.remove(variable);
-                Set<Assignment> childAssignements = new HashSet<>(node.getAssignments());
-                childAssignements.add(new Assignment(variable, owlObject));
+                Stream<Variable<?>> childUnassignedVariables =
+                    unassignedVariables.stream().filter(o -> !o.equals(variable));
+                Set<Assignment> childAssignements =
+                    asSet(Stream.concat(node.getAssignments().stream(),
+                        Stream.of(new Assignment(variable, owlObject))));
                 BindingNode newNode = new BindingNode(childAssignements, childUnassignedVariables);
                 toReturn.add(newNode);
             }
